@@ -108,6 +108,11 @@ static func label(text: String, size := 26, color := Color.WHITE, outline := 8) 
 
 ## Fait apparaître un contrôle avec un rebond élastique.
 static func pop_in(c: Control, delay := 0.0, from := 0.3) -> void:
+	if not c.is_inside_tree():
+		await c.tree_entered
+		await c.get_tree().process_frame
+		if not is_instance_valid(c):
+			return
 	c.pivot_offset = c.size / 2
 	c.scale = Vector2(from, from)
 	c.modulate.a = 0.0
@@ -118,6 +123,11 @@ static func pop_in(c: Control, delay := 0.0, from := 0.3) -> void:
 	tw.parallel().tween_property(c, "scale", Vector2.ONE, 0.55).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
 
 static func slide_in(c: Control, offset: Vector2, delay := 0.0, dur := 0.45) -> void:
+	if not c.is_inside_tree():
+		await c.tree_entered
+		await c.get_tree().process_frame
+		if not is_instance_valid(c):
+			return
 	var target = c.position
 	c.position = target + offset
 	var tw = c.create_tween()
@@ -125,6 +135,11 @@ static func slide_in(c: Control, offset: Vector2, delay := 0.0, dur := 0.45) -> 
 	tw.tween_property(c, "position", target, dur).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 
 static func pulse(c: Control, amount := 1.06, period := 1.4) -> void:
+	if not c.is_inside_tree():
+		await c.tree_entered
+		await c.get_tree().process_frame
+		if not is_instance_valid(c):
+			return
 	c.pivot_offset = c.size / 2
 	var tw = c.create_tween().set_loops()
 	tw.tween_property(c, "scale", Vector2(amount, amount), period / 2).set_trans(Tween.TRANS_SINE)

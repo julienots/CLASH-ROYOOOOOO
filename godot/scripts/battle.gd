@@ -266,7 +266,7 @@ func _spawn(card_id: String, team: int, px: float, pz: float, delay := 1.0) -> E
 	e.heavy = c.get("heavy", false)
 	e.seed = randf() * 10.0
 	e.facing = PI if team == 0 else 0.0
-	e.base_scale = 1.15 if e.heavy else 1.3
+	e.base_scale = 1.2 if RealModels.has(card_id) else (1.15 if e.heavy else 1.3)
 	var m = Models.build(card_id, team)
 	m.rotation.y = e.facing
 	e.setup_model(m)
@@ -465,8 +465,15 @@ func _kill(e: Entity) -> void:
 	fx.burst(e.position_vec(0.6), Data.TEAM_GLOW[e.team], 10, 3.0, 0.45, 0.5)
 	fx.burst(e.position_vec(0.5), Color(1, 1, 1, 0.8), 8, 2.0, 0.8, 0.6, 1.0, false, 1.0, true)
 	var tw = create_tween()
-	tw.tween_property(e, "scale", e.scale * Vector3(1.3, 0.4, 1.3), 0.08)
-	tw.tween_property(e, "scale", Vector3.ZERO, 0.15).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+	if e.model.has_meta("real") and e.attack != "kamikaze":
+		# vraie animation de mort, puis l'unité s'enfonce dans le sol
+		e.set_overlay(null)
+		var t = RealModels.death(e.model)
+		tw.tween_interval(t + 0.3)
+		tw.tween_property(e, "position:y", -1.5, 0.5).set_ease(Tween.EASE_IN)
+	else:
+		tw.tween_property(e, "scale", e.scale * Vector3(1.3, 0.4, 1.3), 0.08)
+		tw.tween_property(e, "scale", Vector3.ZERO, 0.15).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
 	tw.tween_callback(func(): e.ring.queue_free(); e.queue_free())
 	var c: Dictionary = Data.CARDS[e.card_id]
 	if c.has("on_death"):
@@ -631,7 +638,7 @@ func _update_entity(e: Entity, dt: float) -> void:
 		e.facing = atan2(t.x - e.x, t.z - e.z)
 		if e.cooldown <= 0.0:
 			e.cooldown = e.hit_speed
-			e.windup = 0.05 if e.attack == "kamikaze" else (0.4 if e.heavy else 0.28)
+			e.windup = 0.05 if e.attack == "kamikaze" else (0.45 if e.heavy else (0.34 if e.model.has_meta("real") else 0.28))
 			e.play_attack()
 	elif e.kind == "unit":
 		var m = _move_target(e, t.x, t.z)
@@ -1228,7 +1235,7 @@ func _update_drag(gp: Vector2) -> void:
 	if cursor_model == null and c.type != "spell":
 		cursor_model = Models.build(id, 0)
 		cursor_model.rotation.y = PI
-		cursor_model.scale = Vector3.ONE * 1.3
+		cursor_model.scale = Vector3.ONE * (1.0 if RealModels.has(id) else 1.3)
 		if c.get("flying", false):
 			cursor_model.position.y = 2.6
 		_ghostify(cursor_model)
@@ -1236,11 +1243,8 @@ func _update_drag(gp: Vector2) -> void:
 
 func _ghostify(n: Node) -> void:
 	for c in n.get_children():
-		if c is MeshInstance3D:
-			var m: StandardMaterial3D = c.material_override.duplicate()
-			m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
-			m.albedo_color.a = 0.55
-			c.material_override = m
+		if c is GeometryInstance3D:
+			c.transparency = 0.45
 			c.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 		_ghostify(c)
 

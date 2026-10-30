@@ -114,6 +114,8 @@ static func humanoid(o: Dictionary) -> Node3D:
 	return root
 
 static func build(id: String, team: int) -> Node3D:
+	if RealModels.has(id):
+		return RealModels.build(id, team)
 	var r: Node3D
 	match id:
 		"blade": r = _blade(team)
@@ -361,7 +363,6 @@ static func _meteor() -> Node3D:
 		var a = i * 0.9
 		var c = mi(box(0.3, 0.08, 0.08), glow(Color("ff5a00"), 4.0), Vector3(cos(a) * 0.72, sin(a * 1.7) * 0.4, sin(a) * 0.72), rk)
 		c.rotation.y = -a
-	mi(sphere(0.95), mat(Color("ff7a1a"), 0.0, 0.5, 2.0, 0.35), Vector3.ZERO, r).cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	return r
 
 static func _frost() -> Node3D:
@@ -441,11 +442,20 @@ static func tower(team: int, core: bool) -> Node3D:
 			var a = i / 8.0 * TAU
 			mi(box(0.35, 0.4, 0.35), stone, Vector3(cos(a) * 1.2, 3.1, sin(a) * 1.2), g)
 		mi(box(0.6, 0.85, 0.1), wood, Vector3(0, 0.85, 1.25 * front), g)
-		var guard = humanoid({"skin": Color("f0c4a0"), "cloth": Data.TEAM_COLORS[team], "scale": 0.7})
-		guard.position = Vector3(0, 2.85, 0)
+		var guard = RealModels.guard(team, false)
+		guard.position = Vector3(0, 2.92, 0)
 		g.add_child(guard)
-		mi(box(0.9, 0.08, 0.1), wood, Vector3(0, 0.55, 0.45), guard.get_meta("rig").body)
 		g.set_meta("guard", guard)
+		var ban = RealModels.prop("banner_patternA_blue" if team == 0 else "banner_patternA_red")
+		ban.position = Vector3(0, 1.0, 1.32 * front)
+		ban.rotation.y = 0.0 if team == 0 else PI
+		ban.scale = Vector3.ONE * 0.55
+		g.add_child(ban)
+		for sx in [-1.0, 1.0]:
+			var tc = RealModels.prop("torch_lit")
+			tc.position = Vector3(sx * 1.0, 1.9, 0.75 * front)
+			tc.scale = Vector3.ONE * 0.6
+			g.add_child(tc)
 		mi(cyl(0.04, 0.04, 1.3, 6), wood, Vector3(0.9, 3.6, -0.6), g)
 		g.set_meta("flag", mi(box(0.02, 0.45, 0.6), trim, Vector3(0.9, 3.95, -0.3), g))
 		g.set_meta("crystal", mi(gem(0.25), glow(Data.TEAM_GLOW[team]), Vector3(-0.9, 3.7, -0.6), g))
@@ -463,22 +473,29 @@ static func tower(team: int, core: bool) -> Node3D:
 		var crystal = mi(gem(0.75), glow(Data.TEAM_GLOW[team], 2.0), Vector3(0, 4.6, 0), g)
 		crystal.scale = Vector3(1, 1.6, 1)
 		g.set_meta("crystal", crystal)
-		var guard = humanoid({"skin": Color("f0c4a0"), "cloth": Data.TEAM_COLORS[team], "scale": 0.85})
-		var crown = mi(cone(0.3, 0.45, 5), gold, Vector3(0, 0.6, 0), guard.get_meta("rig").head)
-		crown.name = "Crown"
-		guard.position = Vector3(0.9, 3.1, 0.9 * front)
+		var guard = RealModels.guard(team, true)
+		guard.position = Vector3(0, 3.1, 1.15 * front)
 		g.add_child(guard)
 		g.set_meta("guard", guard)
+		for sx in [-1.0, 1.0]:
+			var ban = RealModels.prop("banner_shield_blue" if team == 0 else "banner_shield_red")
+			ban.position = Vector3(sx * 0.95, 0.9, 1.62 * front)
+			ban.rotation.y = 0.0 if team == 0 else PI
+			ban.scale = Vector3.ONE * 0.6
+			g.add_child(ban)
+		for sx in [-1.0, 1.0]:
+			var br = RealModels.prop("barrel_large")
+			br.position = Vector3(sx * 2.3, 0, 1.2 * front)
+			br.scale = Vector3.ONE * 0.6
+			g.add_child(br)
 	_set_shadows(g)
 	return g
 
 static func rubble() -> Node3D:
 	var g = Node3D.new()
-	var s = mat(Color("6d675d"), 0.0, 0.95)
-	for i in 9:
-		var r = randf_range(0.25, 0.7)
-		var o = mi(rock(r), s, Vector3(randf_range(-1.1, 1.1), r * 0.5, randf_range(-1.1, 1.1)), g)
-		o.rotation = Vector3(randf() * 3, randf() * 3, 0)
+	var real = RealModels.prop("rubble_large")
+	real.scale = Vector3.ONE * 0.6
+	g.add_child(real)
 	return g
 
 # ---------- Arène sur île flottante ----------
@@ -571,8 +588,18 @@ static func arena(isl: Dictionary) -> Node3D:
 			_tree(g, Vector3(-9 + i * 3.6 + rng.randf(), 0, sz * rng.randf_range(17.4, 18.4)), 0.9, isl)
 	for sx in [-8.6, 8.6]:
 		for sz in [-1.8, 1.8]:
-			mi(cyl(0.08, 0.1, 1.1, 6), mat(Color("4a2f1f")), Vector3(sx, 0.55, sz), g)
-			mi(sphere(0.16, 8), glow(Color("ffa21f"), 4.0), Vector3(sx, 1.2, sz), g)
+			var tc = RealModels.prop("torch_lit")
+			tc.position = Vector3(sx, 0.7, sz)
+			tc.scale = Vector3.ONE * 0.9
+			g.add_child(tc)
+	var deco = [["barrel_small_stack", -10.4, -8.0], ["crates_stacked", 10.4, -6.0], ["keg_decorated", -10.3, 6.5], ["barrel_large", 10.3, 8.5],
+		["crates_stacked", -10.5, 13.0], ["sword_shield", 10.6, 0.0], ["barrel_small_stack", 10.4, -13.0], ["sword_shield", -10.6, 0.0]]
+	for d in deco:
+		var pr = RealModels.prop(d[0])
+		pr.position = Vector3(d[1], 0, d[2])
+		pr.rotation.y = randf() * TAU
+		pr.scale = Vector3.ONE * 0.8
+		g.add_child(pr)
 	_set_shadows(g)
 	ground.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	water.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF

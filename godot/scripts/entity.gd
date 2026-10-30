@@ -87,8 +87,11 @@ func position_vec(h := 0.0) -> Vector3:
 	return Vector3(x, y + h, z)
 
 ## Animation de chargement d'attaque (anticipation) puis frappe.
+var attack_started := false
+
 func play_attack() -> void:
 	attack_anim = 1.0
+	attack_started = true
 
 ## Réaction visuelle à un coup : flash blanc + écrasement élastique.
 func on_hit(big: bool) -> void:
@@ -121,8 +124,13 @@ func visual_update(dt: float, now: float) -> void:
 			var g: Node3D = model.get_meta("guard")
 			var a = atan2(target.x - x, target.z - z) - model.rotation.y
 			g.rotation.y = lerp_angle(g.rotation.y, a, min(1.0, dt * 8.0))
-			if attack_anim > 0.0:
-				Models.animate(g, now, false, sin((1.0 - attack_anim) * PI), 0.0)
+		if model.has_meta("guard") and attack_started:
+			var g2: Node3D = model.get_meta("guard")
+			var gap: AnimationPlayer = g2.get_meta("ap")
+			var gcfg: Dictionary = g2.get_meta("cfg")
+			gap.play(gcfg.attack, 0.05, 1.6)
+			gap.queue(gcfg.idle)
+		attack_started = false
 		attack_anim = max(0.0, attack_anim - dt * 4.0)
 		hit_pulse = max(0.0, hit_pulse - dt)
 		var s = 1.0 + hit_pulse * 0.4
@@ -156,7 +164,14 @@ func visual_update(dt: float, now: float) -> void:
 		var p = 1.0 - attack_anim
 		atk = -0.35 * sin(p / 0.35 * PI) if p < 0.35 else sin((p - 0.35) / 0.65 * PI) * 1.2
 	var mv = moving and frozen <= 0.0 and deploy <= 0.0
-	Models.animate(model, now if frozen <= 0.0 else 0.0, mv, atk, seed)
+	if model.has_meta("real"):
+		RealModels.update(model, mv, frozen > 0.0, attack_started, hit_speed, deploy > 0.0, speed)
+		attack_started = false
+		var rig: Node3D = model.find_child("Spark", true, false)
+		if rig:
+			rig.scale = Vector3.ONE * randf_range(0.6, 1.5)
+	else:
+		Models.animate(model, now if frozen <= 0.0 else 0.0, mv, atk, seed)
 	hit_pulse = max(0.0, hit_pulse - dt)
 	var hp_s = 1.0 + hit_pulse * 1.2
 	var sc = base_scale * hp_s

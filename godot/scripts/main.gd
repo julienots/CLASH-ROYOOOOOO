@@ -2,10 +2,10 @@ extends Node
 ## Clash of Things — SuperEssence Studio. Écrans, menus, transitions et rendu des cartes.
 
 const ENEMY_NAMES := ["Kraken_Lord", "Mira la Rusée", "ToxicPanda", "Sir Boulon", "LunaFlash", "Gromak", "NeoVortex", "Pixelion", "Zéphyr77", "La Taupe"]
-const TIPS := ["Place le Golem de Basalte derrière ta Tour Cœur pour accumuler de l'essence.",
+const TIPS := ["Place le Colosse Barbare derrière ta Tour Cœur pour accumuler de l'essence.",
 	"La Nova de Givre stoppe net une poussée ennemie.",
 	"Le Totem Arcanique attire les unités qui visent les bâtiments.",
-	"Les Archères Sylvaines touchent le Chevaucheur de Drake.",
+	"Les Arbalétrières touchent le Chevaucheur de Drake.",
 	"La première frappe de la Lame Spectrale inflige le double de dégâts."]
 const CHESTS := [
 	{"id": "wood", "name": "Coffre de Bois", "price": 0, "gold": [60, 120], "gems": [0, 2], "tint": Color("a0642a")},
@@ -144,8 +144,8 @@ func _render_cards(bar: ProgressBar) -> void:
 	cam.fov = 30
 	vp.add_child(cam)
 	cam.current = true
-	var framing = {"golem": [6.4, 1.5, 1.2], "storm": [6.0, 1.6, 1.2], "drake": [5.4, 0.2, 1.0], "totem": [5.4, 1.3, 0.4],
-		"meteor": [4.2, 0.0, 0.3], "frost": [3.8, 0.6, 0.3], "swarm": [2.8, 0.2, 0.6], "sapper": [3.2, 0.75, 0.5], "pyro": [4.0, 1.0, 0.4]}
+	var framing = {"drake": [5.4, 0.2, 1.0], "totem": [5.4, 1.3, 0.4],
+		"meteor": [4.2, 0.0, 0.3], "frost": [3.8, 0.6, 0.3], "swarm": [2.6, 0.45, 0.4], "sapper": [3.4, 0.75, 0.5], "pyro": [4.0, 0.85, 0.4], "storm": [6.4, 1.3, 0.8], "golem": [6.6, 1.3, 0.8]}
 	var ids = Data.playable()
 	var n = 0
 	for id in ids:
@@ -162,6 +162,7 @@ func _render_cards(bar: ProgressBar) -> void:
 				model.add_child(b)
 		model.rotation.y = 0.5
 		vp.add_child(model)
+		_pose_card_model(model)
 		var f: Array = framing.get(id, [3.6, 0.85, 0.4])
 		cam.position = Vector3(0, f[1] + f[2] + 0.3, f[0])
 		cam.look_at(Vector3(0, f[1], 0))
@@ -173,6 +174,13 @@ func _render_cards(bar: ProgressBar) -> void:
 		n += 1
 		bar.value = 90.0 * n / ids.size()
 	vp.queue_free()
+
+func _pose_card_model(n: Node) -> void:
+	if n.has_meta("real"):
+		RealModels.pose(n)
+	for c in n.get_children():
+		if c is Node3D:
+			_pose_card_model(c)
 
 func _compose_card(art: Image, c: Dictionary) -> Image:
 	var W = art.get_width()
@@ -252,13 +260,16 @@ func _build_menu_world() -> void:
 		if team:
 			c.rotation.y = PI
 		menu_pivot.add_child(c)
-	var heroes = ["shield", "pyro", "golem", "archers", "drake"]
+	var heroes = [["archers", "Cheer"], ["pyro", "Spellcasting"], ["golem", "Cheer"], ["shield", "Cheer"], ["blade", "Cheer"]]
 	for i in heroes.size():
-		var m = Models.build(heroes[i], 0)
-		m.position = Vector3((i - 2) * 2.6, 2.6 if heroes[i] == "drake" else 0.0, 3.5 + abs(i - 2) * 0.8)
-		m.scale = Vector3.ONE * (1.4 if heroes[i] == "golem" else 1.8)
-		m.set_meta("seed", i * 1.7)
+		var m = Models.build(heroes[i][0], 0)
+		m.position = Vector3((i - 2) * 2.6, 0.0, 3.5 + abs(i - 2) * 0.8)
+		m.scale = Vector3.ONE * (1.3 if heroes[i][0] == "golem" else 1.7)
 		menu_pivot.add_child(m)
+		var ap: AnimationPlayer = m.get_meta("ap")
+		ap.get_animation(heroes[i][1]).loop_mode = Animation.LOOP_LINEAR
+		ap.play(heroes[i][1])
+		ap.seek(i * 0.37, true)
 	menu_pivot.scale = Vector3.ONE * 0.75
 	var cam = Camera3D.new()
 	cam.fov = 42
