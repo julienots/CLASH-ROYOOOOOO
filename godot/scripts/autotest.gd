@@ -11,8 +11,36 @@ func run(m: Node, dir: String) -> void:
 	DirAccess.make_dir_recursive_absolute(out)
 	await _wait(1.0)
 	await _shot("0_title")
-	await _wait(5.0)
+	while not main.booted:
+		await _wait(0.3)
+	await _wait(1.5)
 	await _shot("1_home")
+	if OS.get_environment("SHOT_SEQ") == "chest":
+		main._buy_chest(main.CHESTS[0])
+		await _wait(2.4)
+		print("STEP chest done")
+		if OS.get_environment("PRESS_OK") != "":
+			for b in main.root.find_children("*", "Button", true, false):
+				if b.text == "OK":
+					b.pressed.emit()
+			await _wait(1.0)
+			print("STEP ok pressed")
+		main.tab = "clan"
+		main._show_menu()
+		print("STEP menu shown")
+		await _wait(1.5)
+		print("STEP waited")
+		await _shot("seq")
+		get_tree().quit()
+		return
+	if OS.get_environment("SHOT_ONLY") != "":
+		main.tab = OS.get_environment("SHOT_ONLY")
+		main.clan_sub = OS.get_environment("CLAN_SUB") if OS.get_environment("CLAN_SUB") != "" else "clan"
+		main._show_menu()
+		await _wait(1.5)
+		await _shot("only_" + main.tab)
+		get_tree().quit()
+		return
 	main.tab = "cards"
 	main._show_menu()
 	await _wait(1.2)
@@ -27,6 +55,31 @@ func run(m: Node, dir: String) -> void:
 	main._buy_chest(main.CHESTS[0])
 	await _wait(2.4)
 	await _shot("5_chest")
+	for bt in main.root.find_children("*", "Button", true, false):
+		if bt.text == "OK":
+			bt.pressed.emit()
+	await _wait(0.8)
+	main.tab = "clan"
+	main._show_menu()
+	await _wait(1.0)
+	await _shot("5b_clan")
+	main.tab = "events"
+	main._show_menu()
+	await _wait(1.0)
+	await _shot("5c_events")
+	main.tab = "battle"
+	Data.save.chests = [{"type": "gold", "state": "locked", "end": 0}, {"type": "wood", "state": "ready", "end": 0}, null, null]
+	Data.save.crown_progress = 7
+	main._show_menu()
+	await _wait(1.5)
+	await _shot("5d_home")
+	main._quests_popup()
+	await _wait(1.0)
+	await _shot("5e_quests")
+	main._show_menu()
+	main._profile_popup()
+	await _wait(1.0)
+	await _shot("5f_profile")
 	main.tab = "battle"
 	main._build_menu_world()
 	main._show_menu()
@@ -46,11 +99,20 @@ func run(m: Node, dir: String) -> void:
 	await _wait(0.4)
 	await _shot("8_deploy")
 	b.essence[0] = 10.0
-	b.deploy(0, "storm", 5.0, 4.0)
+	b.deploy(0, "champion", 5.0, 4.0)
 	b.deploy(0, "drake", -4.0, 3.0)
-	b.deploy(0, "archers", 3.0, 6.0)
+	b.essence[0] = 10.0
+	b.deploy(0, "necro", 3.0, 6.0)
+	b.deploy(0, "catapult", 0.0, 7.0)
+	b.essence[1] = 10.0
+	b.deploy(1, "warriors", 5.0, -4.0)
+	b.deploy(1, "berserker", -5.0, -5.0)
 	await _wait(9.0)
 	await _shot("9_fight")
+	b.essence[0] = 10.0
+	b.deploy(0, "arrows", 5.0, -4.0)
+	b.essence[0] = 10.0
+	b.deploy(0, "rage", -4.0, 1.0)
 	b.essence[0] = 10.0
 	b.deploy(0, "meteor", 5.5, -10.5)
 	await _wait(1.05)

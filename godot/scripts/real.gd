@@ -21,6 +21,20 @@ const UNITS := {
 		"move": "Running_C", "attack": "1H_Melee_Attack_Stab", "pose": ["Idle_Combat", 0.3]},
 	"storm": {"file": "Skeleton_Mage", "scale": 1.0, "attach_r": "Skeleton_Staff", "spawn": "Spawn_Ground_Skeletons",
 		"move": "Walking_D_Skeletons", "attack": "Spellcast_Shoot", "pose": ["Spellcast_Raise", 0.5]},
+	"champion": {"file": "Knight", "scale": 0.7, "show": ["2H_Sword"], "hide": ["Knight_Cape"],
+		"move": "Walking_A", "attack": "2H_Melee_Attack_Spin", "pose": ["2H_Melee_Attack_Spin", 0.45]},
+	"berserker": {"file": "Barbarian", "scale": 0.66, "show": ["1H_Axe", "1H_Axe_Offhand"], "hide": ["Barbarian_Hat"],
+		"move": "Running_A", "attack": "Dualwield_Melee_Attack_Chop", "pose": ["Dualwield_Melee_Attack_Chop", 0.3]},
+	"healer": {"file": "Mage", "scale": 0.6, "show": ["1H_Wand", "Spellbook_open"],
+		"move": "Walking_A", "attack": "Spellcast_Shoot", "pose": ["Spellcasting", 0.4], "special": "Spellcast_Raise"},
+	"knives": {"file": "Rogue_Hooded", "scale": 0.58, "show": ["Throwable"],
+		"move": "Running_B", "attack": "Throw", "pose": ["Throw", 0.32]},
+	"warriors": {"file": "Skeleton_Warrior", "scale": 0.5, "attach_r": "Skeleton_Axe", "attach_l": "Skeleton_Shield_Large_A", "spawn": "Spawn_Ground_Skeletons",
+		"move": "Walking_D_Skeletons", "attack": "1H_Melee_Attack_Chop", "pose": ["Idle_Combat", 0.3]},
+	"necro": {"file": "Skeleton_Mage", "scale": 0.66, "attach_r": "Skeleton_Staff", "spawn": "Spawn_Ground_Skeletons",
+		"move": "Walking_D_Skeletons", "attack": "Spellcast_Shoot", "pose": ["Spellcast_Summon", 0.45], "special": "Spellcast_Summon"},
+	"minion": {"file": "Skeleton_Minion", "scale": 0.4, "attach_r": "Skeleton_Blade", "spawn": "Spawn_Ground_Skeletons",
+		"move": "Running_C", "attack": "1H_Melee_Attack_Stab", "pose": ["Idle_Combat", 0.3]},
 	"sapper": {"file": "Skeleton_Rogue", "scale": 0.55, "back": "keg_decorated", "spawn": "Spawn_Ground_Skeletons",
 		"move": "Running_B", "attack": "Throw", "pose": ["Running_B", 0.3]},
 }
@@ -67,6 +81,11 @@ static func build(id: String, team: int) -> Node3D:
 		ba.bone_name = "handslot.r"
 		skel.add_child(ba)
 		ba.add_child(scene(DIR + "weapons/" + cfg.attach_r + ".gltf").instantiate())
+	if cfg.has("attach_l"):
+		var bl = BoneAttachment3D.new()
+		bl.bone_name = "handslot.l"
+		skel.add_child(bl)
+		bl.add_child(scene(DIR + "weapons/" + cfg.attach_l + ".gltf").instantiate())
 	if cfg.has("back"):
 		var ba := BoneAttachment3D.new()
 		ba.bone_name = "chest"
@@ -166,6 +185,8 @@ static func update(model: Node3D, moving: bool, frozen: bool, attack_started: bo
 		return
 	if ap.current_animation == cfg.attack and ap.is_playing():
 		return
+	if model.get_meta("busy_until", 0) > Time.get_ticks_msec():
+		return
 	if moving:
 		ap.speed_scale = clampf(speed / 1.2, 0.8, 1.8)
 		if ap.current_animation != cfg.move:
@@ -175,6 +196,19 @@ static func update(model: Node3D, moving: bool, frozen: bool, attack_started: bo
 		var idle: String = "Idle_Combat" if ap.has_animation("Idle_Combat") else "Idle"
 		if ap.current_animation != idle:
 			ap.play(idle, 0.2)
+
+## Animation ponctuelle (soin, invocation…).
+static func play_once(model: Node3D, anim: String) -> void:
+	var ap: AnimationPlayer = model.get_meta("ap")
+	if ap.has_animation(anim):
+		ap.speed_scale = 1.4
+		ap.play(anim, 0.08)
+		model.set_meta("busy_until", Time.get_ticks_msec() + int(ap.get_animation(anim).length / 1.4 * 1000))
+
+static func hex(name: String) -> Node3D:
+	var n: Node3D = scene(DIR + "hex/" + name + ".gltf").instantiate()
+	_shadows(n)
+	return n
 
 static func death(model: Node3D) -> float:
 	var ap: AnimationPlayer = model.get_meta("ap")

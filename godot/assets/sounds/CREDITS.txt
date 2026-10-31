@@ -1,0 +1,3 @@
+Sons de combat, fanfares et musiques : générés par tools/make_audio.py (synthèse originale).
+Sons k_* et ambience.ogg : Kenney (kenney.nl), licence CC0, via les Starter Kits Godot de KenneyNL.
+Sons ui_* : uisfx (github.com/romainsimon/uisfx), licence MIT (voir LICENSE_UISFX_MIT.txt).

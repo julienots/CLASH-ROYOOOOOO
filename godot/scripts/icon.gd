@@ -77,6 +77,11 @@ func _draw() -> void:
 				draw_line(o + (Vector2(0.5, 0.5) + Vector2(cos(a), sin(a)) * 0.2) * s, o + (Vector2(0.5, 0.5) + Vector2(cos(a), sin(a)) * 0.38) * s, Color("b8c4d8"), s * 0.11)
 			draw_circle(o + Vector2(0.5, 0.5) * s, s * 0.26, Color("b8c4d8"))
 			draw_circle(o + Vector2(0.5, 0.5) * s, s * 0.1, ink)
+		"shield":
+			var col = tint if tint != Color.WHITE else Color("6a2fc4")
+			_poly(PackedVector2Array([Vector2(0.15, 0.12), Vector2(0.85, 0.12), Vector2(0.85, 0.5), Vector2(0.5, 0.92), Vector2(0.15, 0.5)]), s, o, col, ink, 0.07)
+			_poly(PackedVector2Array([Vector2(0.5, 0.2), Vector2(0.75, 0.2), Vector2(0.75, 0.5), Vector2(0.5, 0.8)]), s, o, col.lightened(0.25), ink, 0.0)
+			_poly(PackedVector2Array([Vector2(0.38, 0.32), Vector2(0.62, 0.32), Vector2(0.62, 0.48), Vector2(0.5, 0.62), Vector2(0.38, 0.48)]), s, o, Color("ffc928"), ink, 0.04)
 		"lock":
 			draw_arc(o + Vector2(0.5, 0.42) * s, s * 0.2, PI, TAU, 12, ink, s * 0.1)
 			_poly(PackedVector2Array([Vector2(0.2, 0.42), Vector2(0.8, 0.42), Vector2(0.8, 0.9), Vector2(0.2, 0.9)]), s, o, Color("ffc928"), ink, 0.06)

@@ -66,6 +66,12 @@ var cursor: Node3D
 var cursor_disc: MeshInstance3D
 var cursor_model: Node3D
 var drag = {}
+var mode: Dictionary = {}
+var arena_node: Node3D
+var emote_bubbles = [null, null]
+var ai_emote_cd = 0.0
+var tower_hit_cd = 0.0
+var stats = {"deployed": 0, "spells": 0, "towers": 0}
 
 func setup(p: Dictionary) -> void:
 	deck = p.deck
@@ -73,6 +79,9 @@ func setup(p: Dictionary) -> void:
 	island = p.island
 	enemy_name = p.enemy_name
 	levels = p.levels
+	mode = p.get("mode", Data.MODES[0])
+	time_left = mode.time
+	essence = [mode.start, mode.start]
 
 func _ready() -> void:
 	_build_world()
@@ -92,15 +101,7 @@ func _ready() -> void:
 # ================= Monde =================
 func _build_world() -> void:
 	var env = WorldEnvironment.new()
-	var e = Environment.new()
-	e.background_mode = Environment.BG_COLOR
-	e.background_color = island.sky
-	e.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-	e.ambient_light_color = Color(0.85, 0.9, 1.0)
-	e.ambient_light_energy = 0.45
-	e.tonemap_mode = Environment.TONE_MAPPER_FILMIC
-	e.tonemap_exposure = 0.95
-	env.environment = e
+	env.environment = Models.sky_environment(island)
 	add_child(env)
 	var sun = DirectionalLight3D.new()
 	sun.light_color = Color("fff1d6")
@@ -116,7 +117,8 @@ func _build_world() -> void:
 	fill.light_energy = 0.35
 	fill.rotation = Vector3(deg_to_rad(-30), deg_to_rad(150), 0)
 	add_child(fill)
-	add_child(Models.arena(island))
+	arena_node = Models.arena(island)
+	add_child(arena_node)
 	fx = FX.new()
 	add_child(fx)
 	cam = Camera3D.new()
@@ -160,6 +162,9 @@ func _fit_camera() -> void:
 		cam.look_at(look)
 	cam_base = cam.position
 	cam_look = look
+	var eb = hud.get_node_or_null("EmoteButton")
+	if eb:
+		eb.position = Vector2(14, vp.y - hand_panel.size.y - 92)
 
 func _intro() -> void:
 	# la caméra plonge du ciel vers l'arène
@@ -175,6 +180,7 @@ func _intro() -> void:
 	var tw2 = create_tween().set_parallel()
 	tw2.tween_property(hand_panel, "position:y", hand_panel.position.y - 400, 0.6).set_delay(0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tw2.tween_property(top_bar, "position:y", top_bar.position.y + 200, 0.5).set_delay(0.4).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	Sfx.music("")
 	await get_tree().create_timer(1.3).timeout
 	for t in ["3", "2", "1"]:
 		_show_banner(t, 150, Color.WHITE, 0.6)
@@ -182,6 +188,8 @@ func _intro() -> void:
 		await get_tree().create_timer(0.65).timeout
 	_show_banner("COMBAT !", 110, UI.GOLD, 1.2)
 	Sfx.play("go")
+	Sfx.music("battle")
+	Sfx.set_ambience(true)
 	_shake(0.3)
 	started = true
 
@@ -302,6 +310,10 @@ func _spawn(card_id: String, team: int, px: float, pz: float, delay := 1.0) -> E
 		e.shadow_blob = blob
 	add_child(e)
 	entities.append(e)
+	e.min_range = c.get("min_range", 0.0)
+	e.summon_t = c.get("summon_every", 0.0) * 0.6
+	if RealModels.has(card_id) and RealModels.UNITS[card_id].has("spawn") and delay > 0.3:
+		Sfx.play("rattle")
 	if delay > 0.3:
 		var land = delay * 0.45
 		get_tree().create_timer(land).timeout.connect(func():
@@ -319,6 +331,11 @@ func deploy(team: int, card_id: String, px: float, pz: float) -> void:
 	var c: Dictionary = Data.CARDS[card_id]
 	essence[team] -= c.cost
 	fx.float_text(Vector3(px, 2.6, pz), c.name, Color("ff9a9a") if team == 1 else Color.WHITE, 46, 1.0, 1.4)
+	if team == 0:
+		if c.type == "spell":
+			stats.spells += 1
+		else:
+			stats.deployed += c.get("count", 1)
 	if c.type == "spell":
 		_cast_spell(team, card_id, px, pz)
 		return
@@ -354,9 +371,43 @@ func _cast_spell(team: int, card_id: String, px: float, pz: float) -> void:
 		var pt = create_tween().set_loops(4)
 		pt.tween_property(wm, "albedo_color:a", 0.55, 0.12)
 		pt.tween_property(wm, "albedo_color:a", 0.2, 0.12)
-		Sfx.play("fire", 0.7)
+		Sfx.play("meteor")
 		pending.append({"t": c.delay, "total": c.delay, "node": rock, "warn": warn, "from": from, "to": Vector3(px, 0.6, pz),
 			"done": _meteor_impact.bind(team, px, pz, c, dmg)})
+	elif card_id == "arrows":
+		Sfx.play("arrow", 0.8)
+		var vol = Node3D.new()
+		add_child(vol)
+		for i in 26:
+			var holder = Models.build("arrows", team)
+			var a = holder.get_child(0)
+			holder.remove_child(a)
+			holder.queue_free()
+			vol.add_child(a)
+			var start = Vector3(px + randf_range(-c.radius, c.radius) - 3.0, 12.0 + randf() * 4.0, pz + randf_range(-c.radius, c.radius) * 0.8 - 2.0)
+			var end = Vector3(start.x + 3.0, 0.3, start.z + 2.0)
+			a.position = start
+			a.rotation = Vector3(0.25, 0, -0.35)
+			var tw = create_tween()
+			tw.tween_interval(randf() * 0.25)
+			tw.tween_property(a, "position", end, c.delay).set_ease(Tween.EASE_IN)
+		pending.append({"t": c.delay + 0.2, "total": c.delay + 0.2, "node": vol, "warn": _warn_circle(px, pz, c.radius, Color(1, 0.9, 0.3, 0.3)), "from": Vector3.ZERO, "to": Vector3.ZERO, "static": true,
+			"done": _arrows_impact.bind(team, px, pz, c, dmg)})
+	elif card_id == "rage":
+		Sfx.play("levelup", 0.8)
+		fx.ring(Vector3(px, 0, pz), c.radius, Color("d24bff"), 0.6, 0.35)
+		fx.burst(Vector3(px, 0.5, pz), Color("e07bff"), 40, 5.0, 0.7, 0.9, -1.0)
+		var pot = Models.build("rage", team)
+		pot.position = Vector3(px, 4.0, pz)
+		add_child(pot)
+		var tw = create_tween()
+		tw.tween_property(pot, "position:y", 0.3, 0.3).set_ease(Tween.EASE_IN)
+		tw.tween_property(pot, "scale", Vector3(2.5, 0.1, 2.5), 0.12)
+		tw.tween_callback(pot.queue_free)
+		for e in entities:
+			if e.alive and e.team == team and e.kind == "unit" and Vector2(e.x - px, e.z - pz).length() <= c.radius:
+				e.rage_t = c.rage
+				fx.float_text(e.position_vec(2.2), "RAGE !", Color("e07bff"), 40)
 	elif card_id == "frost":
 		Sfx.play("freeze")
 		_area_damage(team, px, pz, c.radius, dmg, c.tower_mult, true, c.freeze)
@@ -381,7 +432,32 @@ func _meteor_impact(team: int, px: float, pz: float, c: Dictionary, dmg: float) 
 	_crater(px, pz, c.radius)
 	_shake(0.8)
 	hitstop = 0.06
-	Sfx.play("boom")
+	Sfx.play("big_boom")
+
+func _warn_circle(px: float, pz: float, r: float, col: Color) -> MeshInstance3D:
+	var warn = MeshInstance3D.new()
+	var cm = CylinderMesh.new()
+	cm.top_radius = r
+	cm.bottom_radius = r
+	cm.height = 0.02
+	warn.mesh = cm
+	var wm = StandardMaterial3D.new()
+	wm.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	wm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	wm.albedo_color = col
+	warn.material_override = wm
+	warn.position = Vector3(px, 0.07, pz)
+	add_child(warn)
+	return warn
+
+func _arrows_impact(team: int, px: float, pz: float, c: Dictionary, dmg: float) -> void:
+	_area_damage(team, px, pz, c.radius, dmg, c.tower_mult, true)
+	fx.dust(Vector3(px, 0, pz), 24, 2.2)
+	for i in 12:
+		fx.burst(Vector3(px + randf_range(-c.radius, c.radius), 0.3, pz + randf_range(-c.radius, c.radius) * 0.8), Color("fff3c4"), 3, 2.0, 0.3, 0.3)
+	Sfx.play("arrow_hit", 0.8)
+	Sfx.play("stab", 0.7)
+	_shake(0.2)
 
 func _crater(px: float, pz: float, r: float) -> void:
 	var o = MeshInstance3D.new()
@@ -434,6 +510,9 @@ func _damage(e: Entity, amount: float, big := false) -> void:
 			amount = 0.0
 	e.hp -= amount
 	e.on_hit(big or amount > 200.0)
+	if e.kind == "tower" and amount > 0.0 and tower_hit_cd <= 0.0:
+		tower_hit_cd = 0.18
+		Sfx.play("tower_hit")
 	if amount >= 1.0 and (e.kind == "tower" or amount >= 100.0):
 		var h = 4.2 if e.kind == "tower" else 2.0
 		fx.float_text(Vector3(e.x + randf_range(-0.4, 0.4), h, e.z), str(int(amount)), Color("fff3c4") if e.team == 1 else Color("ffb3b3"), 52 if amount >= 300 else 40, 1.0, 0.7)
@@ -459,6 +538,7 @@ func _kill(e: Entity) -> void:
 		_destroy_tower(e)
 		return
 	e.ring.visible = false
+	Sfx.play("death")
 	if e.shadow_blob:
 		e.shadow_blob.queue_free()
 	fx.soul(e.position_vec(), e.team)
@@ -486,6 +566,10 @@ func _kill(e: Entity) -> void:
 
 func _destroy_tower(e: Entity) -> void:
 	var other = 1 - e.team
+	if other == 0:
+		stats.towers += 1
+	else:
+		_ai_emote(["Ha ha !", "Trop facile !", "Pas mal !"][randi() % 3])
 	hitstop = 0.12
 	_shake(1.2)
 	Sfx.play("tower_down")
@@ -521,6 +605,8 @@ func _destroy_tower(e: Entity) -> void:
 			if t.kind == "tower" and t.core and t.team == e.team and t.alive and not t.active:
 				_wake_core(t)
 		_show_banner("Tour détruite !" if other == 0 else "Tour perdue !", 70, UI.GOLD if other == 0 else Color("ff8a8a"), 1.6)
+		if mode.get("sudden", false):
+			_finish(other)
 	_fly_crown(e, other)
 
 func _fly_crown(e: Entity, to_team: int) -> void:
@@ -568,6 +654,8 @@ func _find_target(e: Entity) -> Entity:
 		if not _can_target(e, o):
 			continue
 		var d = _dist(e, o) - o.radius
+		if e.min_range > 0.0 and d < e.min_range:
+			continue
 		if e.targets != "buildings" and not o.is_building and d > sight:
 			continue
 		if e.kind != "unit" and d > e.attack_range + e.radius:
@@ -615,7 +703,31 @@ func _update_entity(e: Entity, dt: float) -> void:
 			return
 	if e.kind == "tower" and not e.active:
 		return
-	e.cooldown -= dt
+	if e.rage_t > 0.0:
+		e.rage_t -= dt
+		if randf() < 0.25:
+			fx.burst(e.position_vec(0.3), Color("d24bff"), 1, 1.0, 0.5, 0.5, 2.0)
+	if e.kind == "unit":
+		var c: Dictionary = Data.CARDS[e.card_id]
+		if c.get("enrage", false) and not e.enraged and e.hp < e.max_hp * 0.5:
+			e.enraged = true
+			e.speed *= 1.3
+			fx.float_text(e.position_vec(2.4), "FURIE !", Color("ff4a3a"), 48)
+			fx.burst(e.position_vec(1.0), Color("ff3a2a"), 20, 4.0, 0.6, 0.5)
+			Sfx.play("streak")
+		if e.enraged and randf() < 0.2:
+			fx.burst(e.position_vec(1.2), Color("ff5a3a"), 1, 1.0, 0.4, 0.4, 2.0)
+		if c.has("heal"):
+			e.heal_t -= dt
+			if e.heal_t <= 0.0:
+				e.heal_t = 2.0
+				_heal_pulse(e, c)
+		if c.has("summon"):
+			e.summon_t -= dt
+			if e.summon_t <= 0.0:
+				e.summon_t = c.summon_every
+				_summon(e, c)
+	e.cooldown -= dt * e.atk_mult()
 	e.retarget -= dt
 	var t = e.target
 	var lost = t == null or not is_instance_valid(t) or not t.alive
@@ -638,16 +750,44 @@ func _update_entity(e: Entity, dt: float) -> void:
 		e.facing = atan2(t.x - e.x, t.z - e.z)
 		if e.cooldown <= 0.0:
 			e.cooldown = e.hit_speed
+			if e.kind == "building" and e.model.has_meta("building"):
+				var bm: Node3D = e.model.get_meta("building")
+				var rt = create_tween()
+				rt.tween_property(bm, "scale", Vector3(1.4, 1.1, 1.4), 0.08)
+				rt.tween_property(bm, "scale", Vector3.ONE * 1.25, 0.3).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
 			e.windup = 0.05 if e.attack == "kamikaze" else (0.45 if e.heavy else (0.34 if e.model.has_meta("real") else 0.28))
 			e.play_attack()
 	elif e.kind == "unit":
 		var m = _move_target(e, t.x, t.z)
 		var dir = Vector2(m.x - e.x, m.y - e.z)
 		var l = maxf(dir.length(), 0.001)
-		e.x += dir.x / l * e.speed * dt
-		e.z += dir.y / l * e.speed * dt
+		e.x += dir.x / l * e.speed * e.spd_mult() * dt
+		e.z += dir.y / l * e.speed * e.spd_mult() * dt
 		e.facing = atan2(dir.x, dir.y)
 		e.moving = true
+
+func _heal_pulse(e: Entity, c: Dictionary) -> void:
+	var healed = false
+	for o in entities:
+		if o.alive and o.team == e.team and o.kind == "unit" and o != e and o.hp < o.max_hp and _dist(e, o) <= c.heal_radius:
+			var amount = minf(c.heal * _mult(e.team, e.card_id), o.max_hp - o.hp)
+			o.hp += amount
+			healed = true
+			fx.float_text(o.position_vec(2.0), "+%d" % int(amount), Color("7cf27a"), 38)
+			fx.burst(o.position_vec(0.8), Color("7cf27a"), 6, 2.0, 0.4, 0.5, -2.0)
+	if healed:
+		fx.ring(e.position_vec(), c.heal_radius, Color("7cf27a"), 0.5, 0.2)
+		RealModels.play_once(e.model, "Spellcast_Raise")
+		Sfx.play("beam", 1.6)
+
+func _summon(e: Entity, c: Dictionary) -> void:
+	RealModels.play_once(e.model, "Spellcast_Summon")
+	fx.ring(e.position_vec(), 2.0, Color("9b5cff"), 0.5, 0.3)
+	Sfx.play("rattle")
+	for i in c.summon_count:
+		var a = randf() * TAU
+		var m = _spawn(c.summon, e.team, e.x + cos(a) * 1.0, e.z + sin(a) * 1.0, 0.6)
+		fx.burst(m.position_vec(0.2), Color("9b5cff"), 10, 2.5, 0.5, 0.5)
 
 func _strike(e: Entity, t: Entity) -> void:
 	var dmg = e.dmg
@@ -659,6 +799,13 @@ func _strike(e: Entity, t: Entity) -> void:
 		fx.float_text(t.position_vec(2.6), "CRITIQUE !", Color("63f5ff"), 44)
 	match e.attack:
 		"melee":
+			if e.splash > 0.0:
+				_area_damage(e.team, e.x, e.z, e.splash + e.radius, dmg, 1.0, false)
+				fx.ring(e.position_vec(), e.splash + e.radius, Color(1, 0.95, 0.75), 0.3, 0.2)
+				fx.burst(e.position_vec(0.8), Color("fff3c4"), 14, 5.0, 0.4, 0.3, 0.0)
+				Sfx.play("hit", 1.3)
+				Sfx.play("sword", 0.9)
+				return
 			_damage(t, dmg)
 			fx.burst(t.position_vec(0.8), Color("fff3c4"), 8, 3.0, 0.35, 0.3)
 			fx.flash(t.position_vec(0.9), Color(1, 1, 0.8), 1.2, 0.12)
@@ -667,14 +814,14 @@ func _strike(e: Entity, t: Entity) -> void:
 				fx.ring(t.position_vec(), 2.0, Color(1, 0.8, 0.5), 0.35)
 				_shake(0.25)
 				Sfx.play("hit", 0.6)
-			elif e.card_id == "shard":
-				Sfx.play("hit")
-			elif e.card_id == "swarm":
-				Sfx.play("hit", 1.8)
+			elif e.card_id in ["shard", "berserker"]:
+				Sfx.play("hit", 1.2)
+			elif e.card_id in ["swarm", "minion"]:
+				Sfx.play("stab")
 			else:
 				Sfx.play("sword")
 		"arrow":
-			var h = 3.4 if e.kind == "tower" and not e.core else (4.2 if e.core else 1.1)
+			var h = (e.model.get_meta("top", 3.4) - 0.6) if e.kind == "tower" and not e.core else (2.6 if e.core else 1.1)
 			_projectile("arrow", e, t, Vector3(e.x, h, e.z), 18.0, dmg, 0.0)
 			Sfx.play("arrow")
 		"fireball":
@@ -684,6 +831,19 @@ func _strike(e: Entity, t: Entity) -> void:
 			var start = e.position_vec(0.5) + Vector3(sin(e.facing), 0, cos(e.facing)) * 1.2
 			_projectile("breath", e, t, start, 12.0, dmg, e.splash)
 			Sfx.play("fire", 1.3)
+		"knife":
+			for k in 3:
+				_projectile("knife", e, t, e.position_vec(1.2) + Vector3(randf_range(-0.2, 0.2), k * 0.1, 0), 20.0 + k, dmg / 3.0, 0.0)
+			Sfx.play("swipe", 1.5)
+		"arcane":
+			_projectile("arcane", e, t, e.position_vec(1.5), 13.0, dmg, 0.0)
+			Sfx.play("beam", 1.3)
+		"shadow":
+			_projectile("shadow", e, t, e.position_vec(1.8), 11.0, dmg, 0.0)
+			Sfx.play("zap", 1.6)
+		"boulder":
+			_projectile("boulder", e, t, e.position_vec(3.0), 9.0, dmg, e.splash)
+			Sfx.play("hit", 0.6)
 		"beam":
 			_damage(t, dmg)
 			fx.beam(e.position_vec(2.4), t.position_vec(0.8 if t.kind != "tower" else 2.5), team_glow)
@@ -731,6 +891,15 @@ func _projectile(type: String, from_e: Entity, t: Entity, pos: Vector3, spd: flo
 		var tip = Models.mi(Models.cone(0.07, 0.18, 5), Models.mat(Color("dddddd"), 0.6), Vector3(0, 0, 0.45), n)
 		tip.rotation.x = PI / 2
 		Models.mi(Models.box(0.12, 0.02, 0.15), Models.mat(Data.TEAM_COLORS[from_e.team]), Vector3(0, 0, -0.35), n)
+	elif type == "knife":
+		var k = Models.mi(Models.box(0.05, 0.02, 0.4), Models.mat(Color("dfe6ee"), 0.8, 0.2), Vector3.ZERO, n)
+		k.rotation.y = randf()
+	elif type in ["arcane", "shadow"]:
+		var col = Color("b56bff") if type == "arcane" else Color("5a1f8a")
+		Models.mi(Models.sphere(0.2, 10), Models.glow(col.lightened(0.4), 4.0), Vector3.ZERO, n)
+		Models.mi(Models.sphere(0.32, 10), Models.mat(col, 0.0, 0.5, 2.5, 0.45), Vector3.ZERO, n)
+	elif type == "boulder":
+		Models.mi(Models.rock(0.45), Models.mat(Color("7a7368"), 0.0, 0.9), Vector3.ZERO, n)
 	else:
 		var r = 0.32 if type == "fire" else 0.24
 		Models.mi(Models.sphere(r, 10), Models.glow(Color("ffd24a"), 4.0), Vector3.ZERO, n)
@@ -759,21 +928,32 @@ func _update_projectiles(dt: float) -> void:
 				fx.ring(p.dest, p.splash, Color("ff8a1f"), 0.35)
 				if p.type == "fire":
 					Sfx.play("boom", 1.4)
+				elif p.type == "boulder":
+					Sfx.play("boom", 0.9)
+					fx.debris(p.dest, Color("7a7368"), 10, 6.0)
+					fx.dust(p.dest, 12, 1.4)
+					_shake(0.2)
 			elif is_instance_valid(t) and t.alive:
 				_damage(t, p.dmg)
-				fx.burst(p.dest, Color.WHITE, 4, 2.0, 0.3, 0.25)
+				fx.burst(p.dest, Color.WHITE if p.type in ["arrow", "knife"] else Color("c58bff"), 4, 2.0, 0.3, 0.25)
+				if p.type == "arrow":
+					Sfx.play("arrow_hit")
 			continue
 		p.pos += d / l * step
 		var total: float = max(0.01, (p.dest - p.start).length())
 		var k: float = clamp(1.0 - l / total, 0.0, 1.0)
-		var arc = sin(k * PI) * min(2.0, total * 0.15) if p.type == "arrow" else 0.0
+		var arc = sin(k * PI) * (min(2.0, total * 0.15) if p.type == "arrow" else (total * 0.35 if p.type == "boulder" else 0.0))
 		var prev = node.position
 		node.position = p.pos + Vector3(0, arc, 0)
 		if node.position.distance_to(prev) > 0.001:
 			node.look_at(node.position + (node.position - prev), Vector3.UP)
 			node.rotate_object_local(Vector3.UP, PI)
-		if p.type != "arrow" and randf() < 0.9:
+		if p.type in ["fire", "breath"] and randf() < 0.9:
 			fx.burst(node.position, Color("ff6a00"), 2, 0.5, 0.7, 0.3, 0.0)
+		elif p.type in ["arcane", "shadow"] and randf() < 0.7:
+			fx.burst(node.position, Color("b56bff") if p.type == "arcane" else Color("6a2fa0"), 1, 0.3, 0.5, 0.3, 0.0)
+		elif p.type == "boulder":
+			node.rotation.x += dt * 8.0
 
 func _separate() -> void:
 	var list = entities.filter(func(e): return e.alive)
@@ -831,7 +1011,7 @@ func _ai_update(dt: float) -> void:
 	ai_think -= dt
 	if ai_think > 0.0:
 		return
-	ai_think = randf_range(0.6, 1.4)
+	ai_think = randf_range(1.6, 2.8) if mode.get("easy", false) else randf_range(0.6, 1.4)
 	var P: Dictionary = players[1]
 	var ess: float = essence[1]
 	var threats = entities.filter(func(e): return e.alive and e.team == 0 and e.kind == "unit" and e.z < 3.0)
@@ -913,18 +1093,22 @@ func _process(dt: float) -> void:
 			off = Vector3(randf_range(-1, 1), randf_range(-1, 1), 0) * shake * 0.6
 			shake = max(0.0, shake - dt * 2.5)
 		cam.position = cam_base + off
+	Models.animate_clouds(arena_node, dt)
 	_update_hud(dt)
 	overlay.queue_redraw()
 
 func _sim(dt: float) -> void:
 	time_left -= dt
-	var rate = ESSENCE_RATE * (2.0 if overtime or time_left <= 60.0 else 1.0)
+	var rate = ESSENCE_RATE * mode.essence * (2.0 if overtime or time_left <= 60.0 else 1.0)
+	tower_hit_cd -= dt
+	ai_emote_cd -= dt
 	for t in [0, 1]:
 		essence[t] = minf(10.0, essence[t] + rate * dt)
 	if time_left <= 60.0 and not double_shown and not overtime:
 		double_shown = true
 		_show_banner("Essence x2 !", 80, Color("f2a5ff"), 1.6)
-		Sfx.play("crown")
+		Sfx.play("unlock")
+		Sfx.music("final")
 	if time_left <= 0.0:
 		if not overtime and crowns[0] == crowns[1]:
 			overtime = true
@@ -945,10 +1129,11 @@ func _sim(dt: float) -> void:
 		p.t -= dt
 		var k: float = 1.0 - maxf(0.0, p.t) / p.total
 		var node: Node3D = p.node
-		node.position = p.from.lerp(p.to, k * k)
-		node.rotation.x += dt * 5.0
-		node.rotation.z += dt * 3.0
-		fx.burst(node.position, Color("ff6a00"), 2, 1.0, 1.4, 0.4, 0.0)
+		if not p.get("static", false):
+			node.position = p.from.lerp(p.to, k * k)
+			node.rotation.x += dt * 5.0
+			node.rotation.z += dt * 3.0
+			fx.burst(node.position, Color("ff6a00"), 2, 1.0, 1.4, 0.4, 0.0)
 		if p.t <= 0.0:
 			node.queue_free()
 			p.warn.queue_free()
@@ -970,6 +1155,10 @@ func _finish(winner: int) -> void:
 		return
 	over = true
 	_hide_placement()
+	Sfx.music("")
+	Sfx.set_ambience(false)
+	if winner == 1:
+		_ai_emote("GG !")
 	var tw = create_tween()
 	tw.tween_property(hand_panel, "position:y", hand_panel.position.y + 500, 0.5).set_delay(0.8).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
 	if winner >= 0:
@@ -1113,6 +1302,7 @@ func _build_hud() -> void:
 	ghost.visible = false
 	hud.add_child(ghost)
 	_refresh_hand(true)
+	_build_emotes()
 
 func _make_slot(i: int) -> Control:
 	var slot = Control.new()
@@ -1433,7 +1623,7 @@ func _draw_overlay() -> void:
 		if not is_instance_valid(e) or not e.alive:
 			continue
 		if e.kind == "tower":
-			var p = cam.unproject_position(Vector3(e.x, 5.8 if e.core else 4.6, e.z))
+			var p = cam.unproject_position(Vector3(e.x, e.model.get_meta("top", 4.6) + (2.6 if e.core else 0.4), e.z))
 			var w = 120.0 if e.core else 96.0
 			_bar(Vector2(p.x - w / 2, p.y), w, 16, e.hp / e.max_hp, e.team, true)
 			var txt = str(int(ceil(e.hp)))
@@ -1462,3 +1652,82 @@ func _bar(pos: Vector2, w: float, h: float, k: float, team: int, big: bool) -> v
 		overlay.draw_style_box(fg, Rect2(pos, Vector2(w * clampf(k, 0, 1), h)))
 		if big:
 			overlay.draw_rect(Rect2(pos + Vector2(2, 2), Vector2(max(0, w * k - 4), h * 0.3)), Color(1, 1, 1, 0.3))
+
+
+# ================= Émotes =================
+const EMOTES = ["Bien joué !", "Merci !", "Oups !", "Grrr !", "Ha ha !", "Wouah !"]
+
+func _build_emotes() -> void:
+	var btn = Button.new()
+	btn.text = "..."
+	btn.add_theme_font_size_override("font_size", 34)
+	var st = UI.panel(Color(1, 1, 1, 0.92), 40)
+	st.set_content_margin_all(6)
+	btn.add_theme_stylebox_override("normal", st)
+	btn.add_theme_stylebox_override("hover", st)
+	btn.add_theme_stylebox_override("pressed", st)
+	btn.add_theme_color_override("font_color", UI.INK)
+	btn.add_theme_constant_override("outline_size", 0)
+	btn.custom_minimum_size = Vector2(76, 76)
+	btn.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_LEFT)
+	hud.add_child(btn)
+	btn.name = "EmoteButton"
+	btn.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	var menu = VBoxContainer.new()
+	menu.visible = false
+	menu.add_theme_constant_override("separation", 8)
+	hud.add_child(menu)
+	for t in EMOTES:
+		var b = UI.button(t, Color.WHITE, 24)
+		b.add_theme_color_override("font_color", UI.INK)
+		b.add_theme_constant_override("outline_size", 0)
+		b.pressed.connect(func():
+			menu.visible = false
+			_emote(0, t))
+		menu.add_child(b)
+	btn.pressed.connect(func():
+		Sfx.play("open")
+		menu.visible = not menu.visible
+		menu.reset_size()
+		menu.position = btn.position + Vector2(0, -menu.size.y - 10)
+		if menu.visible:
+			UI.pop_in(menu, 0.0, 0.6))
+
+func _ai_emote(text: String) -> void:
+	if ai_emote_cd > 0.0 or over and text != "GG !":
+		return
+	ai_emote_cd = 6.0
+	get_tree().create_timer(randf_range(0.4, 1.0)).timeout.connect(func(): if is_instance_valid(self): _emote(1, text))
+
+## Bulle d'émote au-dessus de la Tour Cœur, avec rebond.
+func _emote(team: int, text: String) -> void:
+	if emote_bubbles[team] and is_instance_valid(emote_bubbles[team]):
+		emote_bubbles[team].queue_free()
+	var p = PanelContainer.new()
+	var st = UI.panel(Color.WHITE, 24)
+	st.border_color = Data.TEAM_COLORS[team]
+	st.set_border_width_all(5)
+	p.add_theme_stylebox_override("panel", st)
+	var l = UI.label(text, 34, UI.INK, 0)
+	p.add_child(l)
+	hud.add_child(p)
+	emote_bubbles[team] = p
+	Sfx.play("notify")
+	var tz = 13.6 if team == 0 else -13.6
+	await get_tree().process_frame
+	if not is_instance_valid(p):
+		return
+	var sp = cam.unproject_position(Vector3(0, 6.5, tz))
+	p.position = sp - Vector2(p.size.x / 2, p.size.y)
+	p.pivot_offset = Vector2(p.size.x / 2, p.size.y)
+	p.scale = Vector2(0.2, 0.2)
+	var tw = p.create_tween()
+	tw.tween_property(p, "scale", Vector2.ONE, 0.35).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tw.tween_property(p, "rotation", 0.06, 0.15)
+	tw.tween_property(p, "rotation", -0.06, 0.15)
+	tw.tween_property(p, "rotation", 0.0, 0.1)
+	tw.tween_interval(1.6)
+	tw.tween_property(p, "modulate:a", 0.0, 0.3)
+	tw.tween_callback(p.queue_free)
+	if team == 0 and randf() < 0.5:
+		_ai_emote(["Grrr !", "Ha ha !", "Merci !"][randi() % 3])

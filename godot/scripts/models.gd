@@ -118,17 +118,11 @@ static func build(id: String, team: int) -> Node3D:
 		return RealModels.build(id, team)
 	var r: Node3D
 	match id:
-		"blade": r = _blade(team)
-		"archers": r = _archer(team)
-		"pyro": r = _pyro(team)
-		"swarm": r = _beetle(team)
-		"golem": r = _golem(team, false)
-		"shard": r = _golem(team, true)
-		"storm": r = _storm(team)
-		"shield": r = _knight(team)
-		"sapper": r = _sapper(team)
 		"drake": r = _drake(team)
 		"totem": r = _totem(team)
+		"catapult": r = _catapult(team)
+		"arrows": r = _arrows()
+		"rage": r = _rage()
 		"meteor": r = _meteor()
 		"frost": r = _frost()
 		_: r = Node3D.new()
@@ -141,239 +135,93 @@ static func _set_shadows(n: Node) -> void:
 			c.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
 		_set_shadows(c)
 
-static func _blade(team: int) -> Node3D:
-	var r = humanoid({"skin": Color("9fd8ff"), "cloth": Color("2b2440"), "pants": Color("1d1830"), "boots": Color("15121f"), "eye_glow": Color("7ff6ff")})
-	var rig: Dictionary = r.get_meta("rig")
-	rig.face.material_override = mat(Color("0c0f1c"))
-	var hood = mi(sphere(0.38), mat(Color("2b2440")), Vector3(0, 0.16, -0.05), rig.head)
-	hood.scale = Vector3(1.05, 1.08, 1.0)
-	var tip = mi(cone(0.3, 0.35), mat(Color("2b2440")), Vector3(0, 0.5, -0.15), rig.head)
-	tip.rotation.x = -0.6
-	mi(cyl(0.33, 0.36, 0.12, 16), team_mat(team), Vector3(0, 1.05, 0), rig.body)
-	var cape = mi(box(0.55, 0.7, 0.05), team_mat(team), Vector3(0, 0.75, -0.32), rig.body)
-	cape.rotation.x = 0.15
-	var sword = pivot(rig.armR, Vector3(0, -0.45, 0.05))
-	mi(box(0.07, 0.95, 0.16), glow(Color("63f5ff"), 2.5), Vector3(0, 0.5, 0), sword)
-	mi(box(0.3, 0.06, 0.08), mat(Color("8a8fa8"), 0.8, 0.3), Vector3(0, 0.02, 0), sword)
-	sword.rotation.x = PI / 2.3
-	rig["weapon"] = sword
-	rig["cape"] = cape
-	return r
+## Modèle créé dans Blender (tools/blender/make_models.py), matériaux « Team » recolorés.
+static func blend(name: String, team := 0) -> Node3D:
+	var n: Node3D = RealModels.scene("res://assets/models/blender/" + name + ".glb").instantiate()
+	recolor(n, {"Team": Color(1, 1, 1).lerp(Data.TEAM_COLORS[team], 0.85), "TeamGlow": Data.TEAM_GLOW[team]})
+	_set_shadows(n)
+	return n
 
-static func _archer(team: int) -> Node3D:
-	var r = humanoid({"skin": Color("f6cfae"), "cloth": Color("2f7d3a"), "pants": Color("4a3524"), "boots": Color("3a2516")})
-	var rig: Dictionary = r.get_meta("rig")
-	var hair = mi(sphere(0.36), mat(Color("f1d36b")), Vector3(0, 0.2, -0.05), rig.head)
-	hair.scale = Vector3(1.02, 0.9, 1.05)
-	var e1 = mi(cone(0.07, 0.3, 6), mat(Color("f6cfae")), Vector3(-0.34, 0.12, 0), rig.head)
-	e1.rotation.z = 1.2
-	var e2 = mi(cone(0.07, 0.3, 6), mat(Color("f6cfae")), Vector3(0.34, 0.12, 0), rig.head)
-	e2.rotation.z = -1.2
-	var tail = mi(cone(0.2, 0.55), mat(Color("f1d36b")), Vector3(0, -0.05, -0.32), rig.head)
-	tail.rotation.x = 2.7
-	mi(box(0.62, 0.12, 0.6), team_mat(team), Vector3(0, 1.07, 0), rig.body)
-	var bow = pivot(rig.armL, Vector3(0, -0.45, 0.1))
-	var arc = TorusMesh.new()
-	arc.inner_radius = 0.42
-	arc.outer_radius = 0.48
-	var bm = mi(arc, mat(Color("8b5a2b")), Vector3.ZERO, bow)
-	bm.scale = Vector3(1, 1, 0.4)
-	bm.rotation.x = PI / 2
-	bow.rotation.x = PI / 2
-	var q = mi(cyl(0.1, 0.09, 0.5, 10), mat(Color("6b3f1f")), Vector3(0.15, 0.85, -0.33), rig.body)
-	q.rotation.z = 0.3
-	rig["weapon"] = bow
-	return r
-
-static func _pyro(team: int) -> Node3D:
-	var r = humanoid({"skin": Color("e9b48f"), "cloth": Color("b32d1a"), "pants": Color("b32d1a"), "boots": Color("2a1a12")})
-	var rig: Dictionary = r.get_meta("rig")
-	mi(cone(0.48, 0.8, 18), mat(Color("9c2414")), Vector3(0, 0.42, 0), rig.body)
-	rig.legL.visible = false
-	rig.legR.visible = false
-	var hat = mi(cone(0.42, 0.75, 18), mat(Color("5a1810")), Vector3(0, 0.68, 0), rig.head)
-	hat.rotation.z = 0.15
-	mi(cyl(0.55, 0.55, 0.05, 20), mat(Color("5a1810")), Vector3(0, 0.36, 0), rig.head)
-	mi(cyl(0.43, 0.43, 0.08, 20), team_mat(team), Vector3(0, 0.42, 0), rig.head)
-	var beard = mi(cone(0.2, 0.45, 10), mat(Color("dddddd")), Vector3(0, -0.15, 0.22), rig.head)
-	beard.rotation.x = PI
-	var staff = pivot(rig.armR, Vector3(0, -0.45, 0))
-	mi(cyl(0.04, 0.04, 1.6, 8), mat(Color("5b3a1e")), Vector3(0, 0.3, 0), staff)
-	rig["orb"] = mi(sphere(0.16), glow(Color("ff8a1f"), 3.0), Vector3(0, 1.15, 0), staff)
-	rig["weapon"] = staff
-	return r
-
-static func _beetle(team: int) -> Node3D:
-	var r = Node3D.new()
-	var body = Node3D.new()
-	r.add_child(body)
-	var shell = mi(sphere(0.28), mat(Data.TEAM_COLORS[team], 0.6, 0.25), Vector3(0, 0.25, 0), body)
-	shell.scale = Vector3(1, 0.7, 1.3)
-	mi(sphere(0.16, 12), mat(Color("1a1a1a"), 0.4, 0.3), Vector3(0, 0.22, 0.32), body)
-	var horn = mi(cone(0.05, 0.25, 6), mat(Color("ffd34d"), 0.7, 0.3), Vector3(0, 0.32, 0.48), body)
-	horn.rotation.x = 1.1
-	mi(sphere(0.04, 6), glow(Color("fff176")), Vector3(-0.07, 0.27, 0.45), body)
-	mi(sphere(0.04, 6), glow(Color("fff176")), Vector3(0.07, 0.27, 0.45), body)
-	var legs = []
-	for i in 3:
-		for sx in [-1, 1]:
-			var l = mi(cyl(0.02, 0.02, 0.28, 4), mat(Color("111111")), Vector3(sx * 0.24, 0.12, -0.15 + i * 0.15), body)
-			l.rotation.z = sx * 0.9
-			legs.append(l)
-	r.set_meta("rig", {"body": body, "legs": legs})
-	return r
-
-static func _golem(team: int, small: bool) -> Node3D:
-	var r = Node3D.new()
-	var body = Node3D.new()
-	r.add_child(body)
-	var stone = mat(Color("4a4a52"), 0.0, 0.9)
-	var lava = glow(Color("ff6a00"), 3.0)
-	var core = mi(rock(0.85), stone, Vector3(0, 1.55, 0), body)
-	core.scale = Vector3(1.15, 1.1, 0.9)
-	mi(gem(0.28), lava, Vector3(0, 1.6, 0.7), body)
-	var head = pivot(body, Vector3(0, 2.35, 0.15))
-	mi(rock(0.42), stone, Vector3.ZERO, head)
-	mi(box(0.5, 0.07, 0.1), lava, Vector3(0, 0.05, 0.36), head)
-	mi(box(0.9, 0.18, 0.18), team_mat(team), Vector3(0, 2.05, 0.35), body)
-	var armL = pivot(body, Vector3(-1.05, 2.0, 0))
-	var armR = pivot(body, Vector3(1.05, 2.0, 0))
-	for a in [armL, armR]:
-		mi(rock(0.4), stone, Vector3(0, -0.35, 0), a)
-		mi(rock(0.5), stone, Vector3(0, -1.0, 0.05), a)
-		mi(box(0.12, 0.3, 0.12), lava, Vector3(0, -0.7, 0.3), a)
-	var legL = pivot(body, Vector3(-0.45, 0.85, 0))
-	var legR = pivot(body, Vector3(0.45, 0.85, 0))
-	for l in [legL, legR]:
-		mi(rock(0.42), stone, Vector3(0, -0.45, 0), l)
-	if small:
-		body.scale = Vector3.ONE * 0.45
-	r.set_meta("rig", {"body": body, "legL": legL, "legR": legR, "armL": armL, "armR": armR, "head": head, "heavy": true})
-	return r
-
-static func _storm(team: int) -> Node3D:
-	var r = humanoid({"skin": Color("7c8aa8"), "cloth": Color("5d6a85"), "metal": 0.75, "pants": Color("3c4458"), "boots": Color("2a3040"), "eye_glow": Color("8fe9ff"), "scale": 1.75})
-	var rig: Dictionary = r.get_meta("rig")
-	rig.torso.scale = Vector3(1.35, 1, 1.2)
-	mi(sphere(0.17), glow(Color("59d8ff"), 3.5), Vector3(0, 0.85, 0.33), rig.body)
-	var steel = mat(Color("8c9ab8"), 0.8, 0.25)
-	for sx in [-0.5, 0.5]:
-		var p = mi(sphere(0.2), steel, Vector3(sx, 1.08, 0), rig.body)
-		p.scale = Vector3(1.3, 0.8, 1.2)
-	var helm = mi(sphere(0.37), steel, Vector3(0, 0.17, 0), rig.head)
-	helm.scale = Vector3(1, 0.85, 1)
-	for sx in [-1, 1]:
-		var h = mi(cone(0.07, 0.4, 8), team_mat(team), Vector3(sx * 0.3, 0.45, 0), rig.head)
-		h.rotation.z = -sx * 0.5
-	var ham = pivot(rig.armR, Vector3(0, -0.45, 0))
-	mi(cyl(0.04, 0.04, 1.0, 8), mat(Color("3a2a1a")), Vector3(0, 0.3, 0), ham)
-	mi(box(0.45, 0.28, 0.28), mat(Color("9aa7c2"), 0.9, 0.2), Vector3(0, 0.8, 0), ham)
-	mi(box(0.47, 0.06, 0.3), glow(Color("59d8ff"), 3.0), Vector3(0, 0.8, 0), ham)
-	ham.rotation.x = 0.4
-	rig["weapon"] = ham
-	return r
-
-static func _knight(team: int) -> Node3D:
-	var steel = mat(Color("c3c9d6"), 0.85, 0.25)
-	var gold = mat(Color("d4a52a"), 0.8, 0.3)
-	var r = humanoid({"skin": Color("f0c4a0"), "cloth": Color("c3c9d6"), "metal": 0.85, "pants": Color("6d7385"), "boots": Color("6d7385")})
-	var rig: Dictionary = r.get_meta("rig")
-	var helm = mi(sphere(0.37), steel, Vector3(0, 0.14, -0.02), rig.head)
-	helm.scale = Vector3(1, 1.05, 1)
-	mi(box(0.5, 0.06, 0.06), mat(Color("222222")), Vector3(0, 0.15, 0.34), rig.head)
-	mi(box(0.08, 0.35, 0.45), team_mat(team), Vector3(0, 0.55, -0.05), rig.head)
-	var sw = pivot(rig.armR, Vector3(0, -0.45, 0.05))
-	mi(box(0.07, 0.8, 0.12), steel, Vector3(0, 0.45, 0), sw)
-	mi(box(0.28, 0.06, 0.1), gold, Vector3(0, 0.05, 0), sw)
-	sw.rotation.x = PI / 2.4
-	var sh = pivot(rig.armL, Vector3(-0.08, -0.35, 0.18))
-	var disc = mi(cyl(0.38, 0.38, 0.07, 20), team_mat(team), Vector3.ZERO, sh)
-	disc.rotation.x = PI / 2
-	mi(sphere(0.1, 10), gold, Vector3(0, 0, 0.05), sh)
-	rig["weapon"] = sw
-	rig["shield_mesh"] = sh
-	return r
-
-static func _sapper(team: int) -> Node3D:
-	var r = humanoid({"skin": Color("8fd16a"), "cloth": Color("6b4a2b"), "pants": Color("4a3420"), "boots": Color("2c1d10"), "scale": 0.85})
-	var rig: Dictionary = r.get_meta("rig")
-	for sx in [-1, 1]:
-		var e = mi(cone(0.08, 0.35, 6), mat(Color("8fd16a")), Vector3(sx * 0.38, 0.18, 0), rig.head)
-		e.rotation.z = -sx * 1.3
-	mi(cyl(0.34, 0.34, 0.12, 16), team_mat(team), Vector3(0, 0.42, 0), rig.head)
-	mi(box(0.45, 0.12, 0.08), mat(Color("332211")), Vector3(0, 0.22, 0.3), rig.head)
-	var barrel = pivot(rig.body, Vector3(0, 1.0, -0.42))
-	mi(cyl(0.3, 0.3, 0.6, 14), mat(Color("8b5a2b")), Vector3.ZERO, barrel)
-	mi(cyl(0.31, 0.31, 0.06, 14), mat(Color("333333"), 0.7), Vector3(0, 0.2, 0), barrel)
-	mi(cyl(0.31, 0.31, 0.06, 14), mat(Color("333333"), 0.7), Vector3(0, -0.2, 0), barrel)
-	mi(cyl(0.02, 0.02, 0.25, 4), mat(Color("222222")), Vector3(0, 0.42, 0), barrel)
-	rig["spark"] = mi(sphere(0.07, 8), glow(Color("ffd23f"), 5.0), Vector3(0, 0.56, 0), barrel)
-	return r
+static var _recolor_cache = {}
+static func recolor(n: Node, colors: Dictionary) -> void:
+	for c in n.get_children():
+		if c is MeshInstance3D and c.mesh:
+			for si in c.mesh.get_surface_count():
+				var m = c.mesh.surface_get_material(si)
+				if m is BaseMaterial3D and colors.has(m.resource_name):
+					var key = "%d|%s" % [m.get_instance_id(), colors[m.resource_name].to_html()]
+					if not _recolor_cache.has(key):
+						var d = m.duplicate()
+						d.albedo_color = colors[m.resource_name]
+						if d.emission_enabled:
+							d.emission = colors[m.resource_name]
+						_recolor_cache[key] = d
+					c.set_surface_override_material(si, _recolor_cache[key])
+		recolor(c, colors)
 
 static func _drake(team: int) -> Node3D:
-	var r = Node3D.new()
-	var body = Node3D.new()
-	r.add_child(body)
-	var scale_m = mat(Color("3e9b5a"), 0.0, 0.45)
-	var t = mi(sphere(0.55), scale_m, Vector3.ZERO, body)
-	t.scale = Vector3(0.9, 0.8, 1.5)
-	var belly = mi(sphere(0.45), mat(Color("e6c27a")), Vector3(0, -0.18, 0.1), body)
-	belly.scale = Vector3(0.8, 0.6, 1.3)
-	var neck = mi(cyl(0.18, 0.26, 0.7, 10), scale_m, Vector3(0, 0.35, 0.75), body)
-	neck.rotation.x = 0.8
-	var head = pivot(body, Vector3(0, 0.62, 1.1))
-	mi(box(0.38, 0.3, 0.6), scale_m, Vector3(0, 0, 0.1), head)
-	for sx in [-1, 1]:
-		var h = mi(cone(0.06, 0.3, 6), mat(Color("eeeeee")), Vector3(sx * 0.12, 0.25, -0.1), head)
-		h.rotation.x = -0.6
-		mi(sphere(0.05, 6), glow(Color("ffd23f"), 3.0), Vector3(sx * 0.15, 0.08, 0.3), head)
-	var tail = mi(cone(0.2, 1.3, 10), scale_m, Vector3(0, -0.05, -1.25), body)
-	tail.rotation.x = -PI / 2
-	var wingL = pivot(body, Vector3(-0.35, 0.25, 0.1))
-	var wingR = pivot(body, Vector3(0.35, 0.25, 0.1))
-	var wm = mat(Data.TEAM_COLORS[team])
-	var wl = mi(box(1.5, 0.04, 0.8), wm, Vector3(-0.75, 0, -0.1), wingL)
-	wl.rotation.y = -0.2
-	var wr = mi(box(1.5, 0.04, 0.8), wm, Vector3(0.75, 0, -0.1), wingR)
-	wr.rotation.y = 0.2
-	var rider = humanoid({"skin": Color("f0c4a0"), "cloth": Data.TEAM_COLORS[team], "scale": 0.5})
-	rider.position = Vector3(0, 0.3, 0.1)
-	body.add_child(rider)
-	r.set_meta("rig", {"body": body, "wingL": wingL, "wingR": wingR, "head": head, "flying": true})
-	return r
+	var holder = Node3D.new()
+	var dragon = blend("dragon", team)
+	dragon.scale = Vector3.ONE * 0.75
+	holder.add_child(dragon)
+	var ap: AnimationPlayer = dragon.find_child("AnimationPlayer", false, false)
+	# cavalier KayKit assis sur la selle
+	var seat: Node3D = dragon.find_child("Seat", true, false)
+	var rider: Node3D = RealModels.scene(RealModels.DIR + "characters/Knight.glb").instantiate()
+	rider.scale = Vector3.ONE * 0.42
+	rider.position = Vector3(0, -0.35, 0)
+	var skel: Skeleton3D = rider.find_child("Skeleton3D", true, false)
+	for c in skel.get_children():
+		if c is BoneAttachment3D:
+			c.visible = String(c.name) in ["1H_Sword", "Knight_Helmet", "Knight_Cape"]
+	RealModels._tint(rider, team)
+	(seat if seat else dragon).add_child(rider)
+	var rap: AnimationPlayer = rider.find_child("AnimationPlayer", true, false)
+	rap.get_animation("Sit_Chair_Idle").loop_mode = Animation.LOOP_LINEAR
+	rap.play("Sit_Chair_Idle")
+	for a in ["Idle", "Fly"]:
+		ap.get_animation(a).loop_mode = Animation.LOOP_LINEAR
+	ap.play("Fly")
+	holder.set_meta("ap", ap)
+	holder.set_meta("cfg", {"move": "Fly", "attack": "Attack", "pose": ["Attack", 0.45]})
+	holder.set_meta("real", true)
+	return holder
 
 static func _totem(team: int) -> Node3D:
-	var r = Node3D.new()
-	var stone = mat(Color("8a8f9c"), 0.0, 0.85)
-	mi(cyl(0.85, 1.0, 0.35, 8), stone, Vector3(0, 0.17, 0), r)
-	mi(cyl(0.45, 0.6, 1.6, 6), stone, Vector3(0, 1.1, 0), r)
-	mi(cyl(0.62, 0.62, 0.12, 6), team_mat(team), Vector3(0, 1.4, 0), r)
-	for i in 3:
-		var rune = mi(box(0.12, 0.3, 0.05), glow(Data.TEAM_GLOW[team]), Vector3(sin(i * 2.1) * 0.5, 0.95, cos(i * 2.1) * 0.5), r)
-		rune.rotation.y = i * 2.1
-	var crystal = mi(gem(0.38), glow(Data.TEAM_GLOW[team], 2.5), Vector3(0, 2.4, 0), r)
-	crystal.scale = Vector3(1, 1.5, 1)
-	r.set_meta("rig", {"body": r, "crystal": crystal})
+	var r = blend("totem", team)
+	r.scale = Vector3.ONE * 0.85
+	var ap: AnimationPlayer = r.find_child("AnimationPlayer", true, false)
+	if ap:
+		ap.get_animation("Idle").loop_mode = Animation.LOOP_LINEAR
+		ap.play("Idle")
 	return r
+
+static func _catapult(team: int) -> Node3D:
+	var r = Node3D.new()
+	var b = RealModels.hex("building_tower_catapult_" + ("blue" if team == 0 else "red"))
+	b.scale = Vector3.ONE * 1.25
+	b.rotation.y = PI if team == 0 else 0.0
+	r.add_child(b)
+	r.set_meta("building", b)
+	return r
+
+static func _arrows() -> Node3D:
+	var r = Node3D.new()
+	for i in 9:
+		var a = blend("arrow")
+		a.position = Vector3(randf_range(-0.6, 0.6), randf_range(0.0, 0.9), randf_range(-0.4, 0.4))
+		a.rotation = Vector3(randf_range(-0.25, 0.25), randf() * TAU, randf_range(-0.25, 0.25))
+		r.add_child(a)
+	return r
+
+static func _rage() -> Node3D:
+	return blend("potion")
 
 static func _meteor() -> Node3D:
-	var r = Node3D.new()
-	var rk = mi(rock(0.8), mat(Color("3a2a22"), 0.0, 0.9), Vector3.ZERO, r)
-	for i in 7:
-		var a = i * 0.9
-		var c = mi(box(0.3, 0.08, 0.08), glow(Color("ff5a00"), 4.0), Vector3(cos(a) * 0.72, sin(a * 1.7) * 0.4, sin(a) * 0.72), rk)
-		c.rotation.y = -a
-	return r
+	return blend("meteor")
 
 static func _frost() -> Node3D:
-	var r = Node3D.new()
-	var ice = mat(Color("aeeaff"), 0.2, 0.1, 0.8, 0.9)
-	for i in 7:
-		var c = mi(gem(0.3), ice, Vector3((i - 3) * 0.15, 0.3, cos(i) * 0.15), r)
-		c.scale = Vector3(0.6, 2.0 + (i % 3) * 0.6, 0.6)
-		c.rotation = Vector3(sin(i * 1.3) * 0.4, 0, (i - 3) * 0.35)
-	mi(sphere(0.25), glow(Color.WHITE, 3.0), Vector3(0, 0.2, 0), r)
-	return r
+	return blend("frost")
 
 # ---------- Animation procédurale ----------
 static func animate(model: Node3D, t: float, moving: bool, attack: float, seed: float) -> void:
@@ -422,72 +270,72 @@ static func animate(model: Node3D, t: float, moving: bool, attack: float, seed: 
 		rig.spark.scale = Vector3.ONE * randf_range(0.6, 1.5)
 
 # ---------- Tours ----------
+static func aabb_of(n: Node, t := Transform3D()) -> AABB:
+	var r = AABB()
+	var tt = t * (n.transform if n is Node3D else Transform3D())
+	if n is MeshInstance3D:
+		r = tt * n.get_aabb()
+	for c in n.get_children():
+		var a = aabb_of(c, tt)
+		if a.size != Vector3.ZERO:
+			r = a if r.size == Vector3.ZERO else r.merge(a)
+	return r
+
 static func tower(team: int, core: bool) -> Node3D:
 	var g = Node3D.new()
-	var stone = mat(Color("b9b2a5"), 0.0, 0.8)
-	var dark = mat(Color("8c8579"), 0.0, 0.85)
-	var wood = mat(Color("7a4a26"))
-	var trim = team_mat(team)
-	var gold = mat(Color("f4c542"), 0.7, 0.3)
+	var color = "blue" if team == 0 else "red"
 	var front = 1.0 if team == 0 else -1.0
 	if not core:
-		mi(cyl(1.35, 1.55, 0.45, 10), dark, Vector3(0, 0.22, 0), g)
-		mi(cyl(1.15, 1.3, 2.2, 12), stone, Vector3(0, 1.55, 0), g)
-		for i in 10:
-			var a = i / 10.0 * TAU
-			var b = mi(box(0.35, 0.22, 0.12), dark, Vector3(cos(a) * 1.25, 0.9 + (i % 2) * 0.7, sin(a) * 1.25), g)
-			b.rotation.y = -a + PI / 2
-		mi(cyl(1.4, 1.2, 0.3, 12), trim, Vector3(0, 2.75, 0), g)
-		for i in 8:
-			var a = i / 8.0 * TAU
-			mi(box(0.35, 0.4, 0.35), stone, Vector3(cos(a) * 1.2, 3.1, sin(a) * 1.2), g)
-		mi(box(0.6, 0.85, 0.1), wood, Vector3(0, 0.85, 1.25 * front), g)
+		var b = RealModels.hex("building_tower_base_" + color)
+		b.scale = Vector3.ONE * 2.3
+		b.rotation.y = 0.0 if team == 0 else PI
+		g.add_child(b)
+		var top = aabb_of(b).end.y
 		var guard = RealModels.guard(team, false)
-		guard.position = Vector3(0, 2.92, 0)
+		guard.position = Vector3(0, top - 0.25, 0)
 		g.add_child(guard)
 		g.set_meta("guard", guard)
-		var ban = RealModels.prop("banner_patternA_blue" if team == 0 else "banner_patternA_red")
-		ban.position = Vector3(0, 1.0, 1.32 * front)
-		ban.rotation.y = 0.0 if team == 0 else PI
-		ban.scale = Vector3.ONE * 0.55
-		g.add_child(ban)
+		var flag = RealModels.hex("flag_" + color)
+		flag.scale = Vector3.ONE * 4.0
+		flag.position = Vector3(0.75, top - 0.3, -0.55 * front)
+		g.add_child(flag)
+		g.set_meta("flag", flag)
 		for sx in [-1.0, 1.0]:
 			var tc = RealModels.prop("torch_lit")
-			tc.position = Vector3(sx * 1.0, 1.9, 0.75 * front)
-			tc.scale = Vector3.ONE * 0.6
+			tc.position = Vector3(sx * 1.25, 0.0, 0.9 * front)
+			tc.scale = Vector3.ONE * 0.75
 			g.add_child(tc)
-		mi(cyl(0.04, 0.04, 1.3, 6), wood, Vector3(0.9, 3.6, -0.6), g)
-		g.set_meta("flag", mi(box(0.02, 0.45, 0.6), trim, Vector3(0.9, 3.95, -0.3), g))
-		g.set_meta("crystal", mi(gem(0.25), glow(Data.TEAM_GLOW[team]), Vector3(-0.9, 3.7, -0.6), g))
+		var ban = RealModels.prop("banner_patternA_blue" if team == 0 else "banner_patternA_red")
+		ban.position = Vector3(0, 1.3, 1.05 * front)
+		ban.rotation.y = 0.0 if team == 0 else PI
+		ban.scale = Vector3.ONE * 0.6
+		g.add_child(ban)
+		g.set_meta("top", top + 1.4)
 	else:
-		mi(box(3.6, 0.5, 3.6), dark, Vector3(0, 0.25, 0), g)
-		mi(box(3.1, 2.4, 3.1), stone, Vector3(0, 1.7, 0), g)
-		mi(box(3.4, 0.3, 3.4), trim, Vector3(0, 2.95, 0), g)
-		for sx in [-1, 1]:
-			for sz in [-1, 1]:
-				mi(cyl(0.5, 0.55, 3.6, 10), stone, Vector3(sx * 1.5, 1.8, sz * 1.5), g)
-				mi(cone(0.65, 0.9, 10), trim, Vector3(sx * 1.5, 4.05, sz * 1.5), g)
-				mi(sphere(0.12, 8), gold, Vector3(sx * 1.5, 4.55, sz * 1.5), g)
-		mi(box(0.9, 1.3, 0.12), wood, Vector3(0, 1.0, 1.58 * front), g)
-		mi(cyl(0.6, 0.9, 0.5, 8), gold, Vector3(0, 3.35, 0), g)
-		var crystal = mi(gem(0.75), glow(Data.TEAM_GLOW[team], 2.0), Vector3(0, 4.6, 0), g)
-		crystal.scale = Vector3(1, 1.6, 1)
-		g.set_meta("crystal", crystal)
+		var c = RealModels.hex("building_castle_" + color)
+		c.scale = Vector3.ONE * 1.55
+		c.rotation.y = 0.0 if team == 0 else PI
+		g.add_child(c)
+		mi(cyl(0.75, 0.9, 1.6, 12), mat(Color("9e978b"), 0.0, 0.85), Vector3(0, 0.8, 2.05 * front), g)
+		mi(cyl(0.85, 0.85, 0.18, 12), team_mat(team), Vector3(0, 1.62, 2.05 * front), g)
 		var guard = RealModels.guard(team, true)
-		guard.position = Vector3(0, 3.1, 1.15 * front)
+		guard.position = Vector3(0, 1.7, 2.05 * front)
 		g.add_child(guard)
 		g.set_meta("guard", guard)
 		for sx in [-1.0, 1.0]:
 			var ban = RealModels.prop("banner_shield_blue" if team == 0 else "banner_shield_red")
-			ban.position = Vector3(sx * 0.95, 0.9, 1.62 * front)
+			ban.position = Vector3(sx * 1.25, 0.9, 1.75 * front)
 			ban.rotation.y = 0.0 if team == 0 else PI
 			ban.scale = Vector3.ONE * 0.6
 			g.add_child(ban)
-		for sx in [-1.0, 1.0]:
 			var br = RealModels.prop("barrel_large")
-			br.position = Vector3(sx * 2.3, 0, 1.2 * front)
+			br.position = Vector3(sx * 2.2, 0, 1.3 * front)
 			br.scale = Vector3.ONE * 0.6
 			g.add_child(br)
+		var crystal = mi(gem(0.45), glow(Data.TEAM_GLOW[team], 2.0), Vector3(0, aabb_of(c).end.y + 0.9, 0), g)
+		crystal.scale = Vector3(1, 1.6, 1)
+		g.set_meta("crystal", crystal)
+		g.set_meta("top", 3.4)
 	_set_shadows(g)
 	return g
 
@@ -499,61 +347,28 @@ static func rubble() -> Node3D:
 	return g
 
 # ---------- Arène sur île flottante ----------
-static func ground_texture(isl: Dictionary) -> ImageTexture:
-	var W = 18
-	var H = 32
-	var px = 24
-	var img = Image.create(W * px, H * px, false, Image.FORMAT_RGBA8)
-	for i in W:
-		for j in H:
-			img.fill_rect(Rect2i(i * px, j * px, px, px), isl.grass if (i + j) % 2 else isl.grass2)
-	var rng = RandomNumberGenerator.new()
-	rng.seed = 7
-	for k in 3000:
-		var x = rng.randi_range(0, W * px - 2)
-		var y = rng.randi_range(0, H * px - 2)
-		var c: Color = img.get_pixel(x, y)
-		img.fill_rect(Rect2i(x, y, 2, 2), c.darkened(0.06) if rng.randf() < 0.5 else c.lightened(0.06))
-	var tile: Color = isl.tile
-	var paths = [[-6.25, -12, -4.75, 12], [4.75, -12, 6.25, 12], [-5.5, 11.2, 5.5, 12.4], [-5.5, -12.4, 5.5, -11.2]]
-	for p in paths:
-		var x0 = int((p[0] + 9) * px)
-		var z0 = int((p[1] + 16) * px)
-		var x1 = int((p[2] + 9) * px)
-		var z1 = int((p[3] + 16) * px)
-		img.fill_rect(Rect2i(x0, z0, x1 - x0, z1 - z0), tile.darkened(0.15))
-		var step = int(px * 0.75)
-		var yy = z0
-		while yy < z1:
-			var xx = x0
-			while xx < x1:
-				img.fill_rect(Rect2i(xx + 1, yy + 1, min(step, x1 - xx) - 2, min(step, z1 - yy) - 2), tile)
-				xx += step
-			yy += step
-	img.generate_mipmaps()
-	return ImageTexture.create_from_image(img)
-
 static func arena(isl: Dictionary) -> Node3D:
 	var g = Node3D.new()
 	var ground = MeshInstance3D.new()
 	var pm = PlaneMesh.new()
 	pm.size = Vector2(18, 32)
 	ground.mesh = pm
-	var gm = StandardMaterial3D.new()
-	gm.albedo_texture = ground_texture(isl)
-	gm.roughness = 0.95
-	gm.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+	var gm = ShaderMaterial.new()
+	gm.shader = load("res://scripts/ground.gdshader")
+	gm.set_shader_parameter("grass_a", isl.grass)
+	gm.set_shader_parameter("grass_b", isl.grass2)
+	gm.set_shader_parameter("tile", isl.tile)
 	ground.material_override = gm
+	ground.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	g.add_child(ground)
-	var cliff = mat(isl.cliff, 0.0, 0.95)
-	var base = mi(cyl(15, 7, 10, 10), cliff, Vector3(0, -5.3, 0), g)
-	base.scale = Vector3(1, 1, 1.75)
-	mi(box(24, 0.6, 38), mat(isl.grass, 0.0, 1.0), Vector3(0, -0.32, 0), g)
+	# socle de l'île flottante (modèle Blender) recoloré selon l'île
+	var island_model = blend("island")
+	recolor(island_model, {"Rock": isl.cliff, "RockDark": Color(isl.cliff).darkened(0.3), "Grass": isl.grass2})
+	for m in island_model.find_children("*", "GeometryInstance3D", true, false):
+		m.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	g.add_child(island_model)
 	var rng = RandomNumberGenerator.new()
 	rng.seed = 3
-	for i in 14:
-		var rk = mi(rock(rng.randf_range(1.0, 2.5)), cliff, Vector3(rng.randf_range(-11, 11), rng.randf_range(-10, -2), rng.randf_range(-20, 20)), g)
-		rk.rotation = Vector3(rng.randf() * 3, rng.randf() * 3, 0)
 	# rivière animée
 	var water = MeshInstance3D.new()
 	var wp = PlaneMesh.new()
@@ -564,52 +379,122 @@ static func arena(isl: Dictionary) -> Node3D:
 	wm.set_shader_parameter("base_color", isl.water)
 	water.material_override = wm
 	water.position.y = -0.08
+	water.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
 	g.add_child(water)
+	for wx in [-8.0, -3.0, 2.5, 8.0]:
+		var lily = RealModels.hex("waterlily_A")
+		lily.position = Vector3(wx + rng.randf_range(-0.6, 0.6), -0.05, rng.randf_range(-0.6, 0.6))
+		lily.scale = Vector3.ONE * 1.4
+		g.add_child(lily)
 	var bank = mat(Color("a8865a"), 0.0, 0.9)
 	mi(box(18, 0.25, 0.25), bank, Vector3(0, -0.02, 1.25), g)
 	mi(box(18, 0.25, 0.25), bank, Vector3(0, -0.02, -1.25), g)
 	for bx in [-5.5, 5.5]:
 		for i in 7:
-			mi(box(2.4, 0.18, 0.42), mat(Color("9a6233")), Vector3(bx, 0.08, -1.35 + i * 0.45), g)
+			mi(box(2.4, 0.18, 0.42), mat(Color("9a6233") if i % 2 else Color("8a5629")), Vector3(bx, 0.08, -1.35 + i * 0.45), g)
 		for sx in [-1.25, 1.25]:
 			mi(box(0.12, 0.5, 3.1), mat(Color("6b3f1f")), Vector3(bx + sx, 0.4, 0), g)
-	var wall = mat(Color("c9bfae"), 0.0, 0.85)
+			for sz in [-1.45, 0.0, 1.45]:
+				mi(cyl(0.11, 0.11, 0.8, 8), mat(Color("5a341a")), Vector3(bx + sx, 0.3, sz), g)
+	# murets en pierre
+	var wall = mat(Color("cfc6b5"), 0.0, 0.85)
+	var cap = mat(Color("b3aa98"), 0.0, 0.85)
 	for sx in [-9.3, 9.3]:
 		mi(box(0.6, 0.7, 32.6), wall, Vector3(sx, 0.35, 0), g)
+		mi(box(0.75, 0.12, 32.8), cap, Vector3(sx, 0.74, 0), g)
 		for z in range(-15, 16, 3):
-			mi(box(0.8, 0.9, 0.8), wall, Vector3(sx, 0.45, z), g)
+			mi(box(0.85, 1.0, 0.85), wall, Vector3(sx, 0.5, z), g)
+			mi(box(0.95, 0.12, 0.95), cap, Vector3(sx, 1.03, z), g)
 	for sz in [-16.3, 16.3]:
 		mi(box(19.2, 0.7, 0.6), wall, Vector3(0, 0.35, sz), g)
-	for i in 18:
+		mi(box(19.3, 0.12, 0.75), cap, Vector3(0, 0.74, sz), g)
+	# forêts, rochers et montagnes autour de l'arène
+	var trees = ["trees_A_large", "trees_B_large", "trees_A_medium", "trees_B_medium", "tree_single_A", "tree_single_B"]
+	for i in 26:
 		var side = 1 if i % 2 else -1
-		_tree(g, Vector3(side * rng.randf_range(10.6, 12.4), 0, -16 + i / 18.0 * 32 + rng.randf()), rng.randf_range(0.8, 1.3), isl)
+		var t = RealModels.hex(trees[rng.randi() % trees.size()])
+		t.position = Vector3(side * rng.randf_range(10.6, 13.5), 0, -17 + i / 26.0 * 34 + rng.randf())
+		t.scale = Vector3.ONE * rng.randf_range(1.6, 2.2)
+		t.rotation.y = rng.randf() * TAU
+		g.add_child(t)
 	for sz in [-1, 1]:
-		for i in 6:
-			_tree(g, Vector3(-9 + i * 3.6 + rng.randf(), 0, sz * rng.randf_range(17.4, 18.4)), 0.9, isl)
+		for i in 7:
+			var t = RealModels.hex(trees[rng.randi() % trees.size()])
+			t.position = Vector3(-10.5 + i * 3.5 + rng.randf(), 0, sz * rng.randf_range(17.4, 19.2))
+			t.scale = Vector3.ONE * rng.randf_range(1.6, 2.0)
+			t.rotation.y = rng.randf() * TAU
+			g.add_child(t)
+	var mounts = ["mountain_A_grass_trees", "mountain_B_grass_trees", "mountain_C_grass", "hills_A_trees", "hills_B_trees"]
+	for p in [Vector3(-13.5, 0, -14), Vector3(13.5, 0, -12), Vector3(-14, 0, 9), Vector3(14, 0, 13), Vector3(-12.5, 0, 20), Vector3(12.5, 0, -21)]:
+		var m = RealModels.hex(mounts[rng.randi() % mounts.size()])
+		m.position = p
+		m.scale = Vector3.ONE * rng.randf_range(2.6, 3.4)
+		m.rotation.y = rng.randf() * TAU
+		g.add_child(m)
+	for i in 10:
+		var r = RealModels.hex("rock_single_" + ["A", "B", "C", "D"][rng.randi() % 4])
+		r.position = Vector3((1 if i % 2 else -1) * rng.randf_range(9.8, 10.4), 0, rng.randf_range(-15, 15))
+		r.scale = Vector3.ONE * rng.randf_range(2.5, 4.0)
+		g.add_child(r)
+	# torches et accessoires de camp
 	for sx in [-8.6, 8.6]:
 		for sz in [-1.8, 1.8]:
 			var tc = RealModels.prop("torch_lit")
 			tc.position = Vector3(sx, 0.7, sz)
 			tc.scale = Vector3.ONE * 0.9
 			g.add_child(tc)
-	var deco = [["barrel_small_stack", -10.4, -8.0], ["crates_stacked", 10.4, -6.0], ["keg_decorated", -10.3, 6.5], ["barrel_large", 10.3, 8.5],
-		["crates_stacked", -10.5, 13.0], ["sword_shield", 10.6, 0.0], ["barrel_small_stack", 10.4, -13.0], ["sword_shield", -10.6, 0.0]]
+	var deco = [["tent", -11.2, -4.0, 3.5], ["weaponrack", 10.6, 4.0, 3.0], ["target", -10.6, 4.5, 3.0], ["wheelbarrow", 10.8, -3.5, 3.0],
+		["barrel_small_stack", -10.4, -8.0, 0.8], ["crates_stacked", 10.4, -7.0, 0.8], ["keg_decorated", -10.3, 7.5, 0.8], ["sack", 10.5, 9.0, 3.5],
+		["bucket_arrows", -10.5, 12.5, 3.5], ["tent", 11.2, 12.0, 3.5]]
 	for d in deco:
-		var pr = RealModels.prop(d[0])
+		var pr = RealModels.hex(d[0]) if ResourceLoader.exists(RealModels.DIR + "hex/" + d[0] + ".gltf") else RealModels.prop(d[0])
 		pr.position = Vector3(d[1], 0, d[2])
-		pr.rotation.y = randf() * TAU
-		pr.scale = Vector3.ONE * 0.8
+		pr.rotation.y = rng.randf() * TAU
+		pr.scale = Vector3.ONE * d[3]
 		g.add_child(pr)
-	_set_shadows(g)
-	ground.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-	water.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+	# nuages qui flottent autour et sous l'île
+	var clouds = Node3D.new()
+	clouds.name = "Clouds"
+	for i in 14:
+		var c = RealModels.hex("cloud_big" if i % 2 else "cloud_small")
+		var ang = i / 14.0 * TAU
+		c.position = Vector3(cos(ang) * rng.randf_range(20, 28), rng.randf_range(-9, -2), sin(ang) * rng.randf_range(26, 34))
+		c.scale = Vector3.ONE * rng.randf_range(2.5, 4.5)
+		c.set_meta("speed", rng.randf_range(0.2, 0.5))
+		for m in c.find_children("*", "GeometryInstance3D", true, false):
+			m.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+		clouds.add_child(c)
+	g.add_child(clouds)
+	g.set_meta("clouds", clouds)
 	return g
 
-static func _tree(parent: Node3D, pos: Vector3, s: float, isl: Dictionary) -> void:
-	var t = Node3D.new()
-	t.position = pos
-	t.scale = Vector3.ONE * s
-	mi(cyl(0.18, 0.25, 1.2, 8), mat(Color("6b4423")), Vector3(0, 0.6, 0), t)
-	mi(rock(0.9), mat(isl.leaf, 0.0, 0.8), Vector3(0, 1.7, 0), t)
-	mi(rock(0.65), mat(isl.leaf.lightened(0.1), 0.0, 0.8), Vector3(0.3, 2.3, 0.1), t)
-	parent.add_child(t)
+static func animate_clouds(arena_node: Node3D, dt: float) -> void:
+	if not arena_node or not arena_node.has_meta("clouds"):
+		return
+	for c in arena_node.get_meta("clouds").get_children():
+		c.position.x += c.get_meta("speed") * dt
+		if c.position.x > 32:
+			c.position.x = -32
+
+static func sky_environment(isl: Dictionary) -> Environment:
+	var e = Environment.new()
+	var sky = Sky.new()
+	var sm = ProceduralSkyMaterial.new()
+	sm.sky_top_color = Color(isl.sky).darkened(0.25)
+	sm.sky_horizon_color = Color(isl.sky).lightened(0.35)
+	sm.ground_horizon_color = Color(isl.sky).lightened(0.3)
+	sm.ground_bottom_color = Color(isl.sky).darkened(0.1)
+	sm.sun_angle_max = 20.0
+	sky.sky_material = sm
+	e.background_mode = Environment.BG_SKY
+	e.sky = sky
+	e.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	e.ambient_light_color = Color(0.85, 0.9, 1.0)
+	e.ambient_light_energy = 0.5
+	e.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+	e.tonemap_exposure = 1.0
+	e.fog_enabled = false
+	e.fog_light_color = Color(isl.sky).lightened(0.4)
+	e.fog_density = 0.004
+	e.fog_sky_affect = 0.0
+	return e

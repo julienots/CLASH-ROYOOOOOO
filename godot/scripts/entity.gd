@@ -43,6 +43,17 @@ var facing = 0.0
 var attack_anim = 0.0
 var hit_pulse = 0.0
 var base_scale = 1.0
+var rage_t = 0.0
+var enraged = false
+var summon_t = 0.0
+var heal_t = 0.0
+var min_range = 0.0
+
+func spd_mult() -> float:
+	return 1.4 if rage_t > 0.0 else 1.0
+
+func atk_mult() -> float:
+	return (1.4 if rage_t > 0.0 else 1.0) * (2.0 if enraged else 1.0)
 
 var model: Node3D
 var ring: MeshInstance3D
