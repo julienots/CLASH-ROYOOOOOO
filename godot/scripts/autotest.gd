@@ -16,8 +16,14 @@ func run(m: Node, dir: String) -> void:
 	await _wait(1.5)
 	await _shot("1_home")
 	if OS.get_environment("SHOT_SEQ") == "chest":
-		main._buy_chest(main.CHESTS[0])
-		await _wait(2.4)
+		Data.save.gems = 500
+		main._buy_chest(main.CHESTS[2])
+		await _wait(1.3)
+		_tap()
+		await _wait(1.5)
+		for i in 6:
+			_tap()
+			await _wait(0.7)
 		print("STEP chest done")
 		if OS.get_environment("PRESS_OK") != "":
 			for b in main.root.find_children("*", "Button", true, false):
@@ -177,7 +183,7 @@ func run(m: Node, dir: String) -> void:
 	get_tree().quit()
 
 func _tap() -> void:
-	var taps = main.root.find_children("*", "Button", true, false).filter(func(b): return b.flat and b.text == "" and b.is_visible_in_tree())
+	var taps = main.root.find_children("*", "Button", true, false).filter(func(b): return b.flat and b.text == "" and b.is_visible_in_tree() and b.get_parent().has_meta("keep"))
 	if taps.size() > 0:
 		taps[-1].pressed.emit()
 

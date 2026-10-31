@@ -2116,6 +2116,8 @@ func _chest_slots() -> Control:
 		chest_timer.wait_time = 1.0
 		add_child(chest_timer)
 		chest_timer.timeout.connect(func():
+			if root.get_children().any(func(c): return c.has_meta("keep")):
+				return
 			if tab == "battle" and battle == null and content and is_instance_valid(content):
 				for c in Data.save.chests:
 					if c and c.state == "unlocking":
