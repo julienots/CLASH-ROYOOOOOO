@@ -19,7 +19,7 @@ Jeu de cartes et de stratégie en temps réel en 3D : déploie tes unités, déf
 - Tours : tremblement à chaque coup, effondrement avec débris + ralenti, la couronne s'envole vers le score, réveil de la Tour Cœur
 - Interface : cartes qui glissent depuis « Suivante », boutons élastiques, onglets qui glissent, écran VS, ouverture de coffre, écran de victoire avec couronnes une par une et compteurs animés
 
-## 🃏 Cartes (21)
+## 🃏 Cartes (37)
 
 | Carte | Coût | Modèle | Attaque |
 |---|---|---|---|
@@ -44,12 +44,39 @@ Jeu de cartes et de stratégie en temps réel en 3D : déploie tes unités, déf
 | **Tour Catapulte** | 6 | Tour-catapulte | Bâtiment, rochers à très longue portée |
 | **Pluie de Flèches** | 3 | Flèches (Blender) | Large zone de dégâts |
 | **Rage** | 2 | Potion (Blender) | +40 % de vitesse pendant 7 s |
+| **Gardien Titanesque** | 6 | Chevalier colossal au bouclier rond | Tank géant |
+| **Artificière** | 4 | Voleuse | Bombes en zone |
+| **Archimage de Givre** | 5 | Mage au bâton | Éclats de glace qui ralentissent |
+| **Armée de Squelettes** | 4 | 12 squelettes | Submerge l'adversaire |
+| **Squelette Colossal** | 6 | Guerrier squelette géant | Vise les bâtiments, explose à sa mort |
+| **Bûcheron Enragé** | 4 | Barbare à la hache | Très rapide, libère de la Rage à sa mort |
+| **Dragonnet** | 4 | Petit dragon (Blender) | Volant, flammes en zone |
+| **Voleuse Fantôme** | 3 | Voleuse encapuchonnée | Invisible entre ses attaques |
+| **Gardes Royaux** | 5 | 4 chevaliers | Boucliers |
+| **Tour d'Arbalète** | 6 | Tour KayKit + arbalétrière | Tir rapide longue portée |
+| **Tombeau Hanté** | 3 | Pilier hanté | Invoque des squelettes |
+| **Caserne Barbare** | 6 | Caserne KayKit | Forme des barbares |
+| **Éclair Royal** | 6 | Sort | Foudroie les 3 cibles les plus robustes |
+| **Tornade** | 3 | Sort | Aspire les troupes ennemies |
+| **Bénédiction** | 3 | Fiole dorée | Soigne tes troupes |
+| **Poison** | 4 | Fiole toxique | Dégâts sur la durée + ralentissement |
+
+Les cartes se débloquent en progressant sur les îles.
 
 ## 🎁 Coffres
 
 5 coffres modélisés et animés dans Blender : Bois, Argent, Or, Magique (cristaux lumineux) et Couronne (couronne en or sertie).
 Ouverture en 3D : le coffre tombe et rebondit, tremble quand on le touche, le couvercle saute dans un éclat de lumière,
 puis chaque récompense (or, gemmes, carte améliorée gratuitement pour les coffres Or/Magique/Couronne) jaillit une par une.
+
+## 🏆 Progression
+
+- **Route des trophées** : 18 paliers de récompenses (or, gemmes, coffres) entre les îles
+- **Pass Essence** : 20 paliers débloqués avec les couronnes gagnées
+- **Succès** : 16 objectifs récompensés en gemmes
+- **Cadeau du jour** : calendrier de connexion sur 7 jours
+- **Offres du jour** en boutique : gemmes gratuites + améliorations de cartes à prix réduit
+- Quêtes quotidiennes, coffres à débloquer, coffre couronne, niveau du joueur
 
 ## 🧭 Menus
 

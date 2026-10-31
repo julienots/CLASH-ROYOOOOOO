@@ -121,6 +121,14 @@ static func build(id: String, team: int) -> Node3D:
 		"drake": r = _drake(team)
 		"totem": r = _totem(team)
 		"catapult": r = _catapult(team)
+		"babydrake": r = _babydrake(team)
+		"xbow": r = _xbow(team)
+		"tomb": r = _tomb(team)
+		"barracks": r = _barracks(team)
+		"lightning": r = _bolt_icon()
+		"tornado": r = _tornado()
+		"heal": r = _flask(Color("ffd84a"), Color("fff3b0"))
+		"poison": r = _flask(Color("6ad13a"), Color("b8ff8a"))
 		"arrows": r = _arrows()
 		"rage": r = _rage()
 		"meteor": r = _meteor()
@@ -204,6 +212,89 @@ static func _catapult(team: int) -> Node3D:
 	r.add_child(b)
 	r.set_meta("building", b)
 	return r
+
+static func _babydrake(team: int) -> Node3D:
+	var holder = Node3D.new()
+	var dragon = blend("dragon", team)
+	dragon.scale = Vector3.ONE * 0.5
+	holder.add_child(dragon)
+	var ap: AnimationPlayer = dragon.find_child("AnimationPlayer", false, false)
+	var saddle = dragon.find_child("Saddle", true, false)
+	if saddle:
+		saddle.visible = false
+	for a in ["Idle", "Fly"]:
+		ap.get_animation(a).loop_mode = Animation.LOOP_LINEAR
+	ap.play("Fly")
+	holder.set_meta("ap", ap)
+	holder.set_meta("cfg", {"move": "Fly", "attack": "Attack", "pose": ["Attack", 0.45]})
+	holder.set_meta("real", true)
+	return holder
+
+static func _xbow(team: int) -> Node3D:
+	var r = Node3D.new()
+	var b = RealModels.hex("building_tower_A_" + ("blue" if team == 0 else "red"))
+	b.scale = Vector3.ONE * 1.5
+	r.add_child(b)
+	r.set_meta("building", b)
+	var guard = RealModels.guard(team, false)
+	guard.position = Vector3(0, aabb_of(b).end.y - 0.9, 0.35 if team == 0 else -0.35)
+	r.add_child(guard)
+	r.set_meta("guard", guard)
+	return r
+
+static func _tomb(team: int) -> Node3D:
+	var r = Node3D.new()
+	mi(cyl(1.0, 1.15, 0.3, 10), mat(Color("4a4652"), 0.0, 0.95), Vector3(0, 0.15, 0), r)
+	var p = RealModels.prop("pillar_decorated")
+	p.scale = Vector3.ONE * 0.75
+	r.add_child(p)
+	var rb = RealModels.prop("rubble_half")
+	rb.scale = Vector3.ONE * 0.6
+	rb.position = Vector3(0.5, 0, 0.4)
+	r.add_child(rb)
+	var glow_m = glow(Color("8be04a"), 2.5)
+	for i in 4:
+		var a = i * TAU / 4.0 + 0.4
+		mi(sphere(0.12, 8), glow_m, Vector3(cos(a) * 0.85, 0.45, sin(a) * 0.85), r)
+	mi(gem(0.3), glow(Data.TEAM_GLOW[team], 2.0), Vector3(0, 2.8, 0), r).scale = Vector3(1, 1.5, 1)
+	return r
+
+static func _barracks(team: int) -> Node3D:
+	var r = Node3D.new()
+	var b = RealModels.hex("building_barracks_" + ("blue" if team == 0 else "red"))
+	b.scale = Vector3.ONE * 1.6
+	b.rotation.y = PI if team == 0 else 0.0
+	r.add_child(b)
+	r.set_meta("building", b)
+	return r
+
+static func _bolt_icon() -> Node3D:
+	var r = Node3D.new()
+	var g = glow(Color("ffe95a"), 4.0)
+	var pts = [Vector3(0.2, 2.0, 0), Vector3(-0.25, 1.2, 0), Vector3(0.25, 1.1, 0), Vector3(-0.2, 0.2, 0)]
+	for i in pts.size() - 1:
+		var a: Vector3 = pts[i]
+		var b: Vector3 = pts[i + 1]
+		var seg = mi(box(0.16, a.distance_to(b), 0.16), g, (a + b) / 2, r)
+		seg.rotation.z = atan2(-(b.x - a.x), b.y - a.y) + PI
+	mi(sphere(0.35), mat(Color("6f8bff"), 0.0, 0.5, 1.5, 0.6), Vector3(0, 2.1, 0), r)
+	mi(cyl(0.6, 0.7, 0.25, 12), mat(Color("4a4f66"), 0.0, 0.9), Vector3(0, 0.1, 0), r)
+	return r
+
+static func _tornado() -> Node3D:
+	var r = Node3D.new()
+	for i in 7:
+		var t = TorusMesh.new()
+		t.inner_radius = 0.15 + i * 0.12
+		t.outer_radius = 0.25 + i * 0.13
+		var o = mi(t, mat(Color(0.85, 0.9, 1.0), 0.0, 0.6, 0.4, 0.75), Vector3(sin(i) * 0.08, 0.2 + i * 0.28, 0), r)
+		o.rotation.z = sin(i * 1.3) * 0.15
+	return r
+
+static func _flask(liquid: Color, glass: Color) -> Node3D:
+	var f = blend("potion")
+	recolor(f, {"Liquid": liquid, "Glass": glass})
+	return f
 
 static func _arrows() -> Node3D:
 	var r = Node3D.new()

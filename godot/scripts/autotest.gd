@@ -45,7 +45,7 @@ func run(m: Node, dir: String) -> void:
 	main._show_menu()
 	await _wait(1.2)
 	await _shot("2_cards")
-	main._card_popup("storm")
+	main._card_popup("icemage")
 	await _wait(1.0)
 	await _shot("3_popup")
 	main.tab = "shop"
@@ -66,9 +66,13 @@ func run(m: Node, dir: String) -> void:
 		await _wait(0.5)
 	await _wait(0.8)
 	await _shot("5_chest_end")
-	for bt in main.root.find_children("*", "Button", true, false):
-		if bt.text == "OK":
-			bt.pressed.emit()
+	for k in 12:
+		var oks = main.root.find_children("*", "Button", true, false).filter(func(b): return b.text == "OK")
+		if oks.size() > 0:
+			oks[0].pressed.emit()
+			break
+		_tap()
+		await _wait(0.6)
 	await _wait(0.8)
 	main.tab = "clan"
 	main._show_menu()
@@ -91,6 +95,28 @@ func run(m: Node, dir: String) -> void:
 	main._profile_popup()
 	await _wait(1.0)
 	await _shot("5f_profile")
+	main._show_menu()
+	Data.save.trophies = 520
+	Data.save.pass_points = 8
+	main._road_popup()
+	await _wait(1.2)
+	await _shot("5g_road")
+	main._show_menu()
+	main._pass_popup()
+	await _wait(1.2)
+	await _shot("5h_pass")
+	main._show_menu()
+	main._achievements_popup()
+	await _wait(1.2)
+	await _shot("5i_ach")
+	main._show_menu()
+	Data.save.login_day = -1
+	main._login_popup()
+	await _wait(1.2)
+	await _shot("5j_login")
+	main._show_menu()
+	Data.save.trophies = 120
+	Data.save.best_island = 7
 	main.tab = "battle"
 	main._build_menu_world()
 	main._show_menu()
@@ -110,20 +136,27 @@ func run(m: Node, dir: String) -> void:
 	await _wait(0.4)
 	await _shot("8_deploy")
 	b.essence[0] = 10.0
-	b.deploy(0, "champion", 5.0, 4.0)
-	b.deploy(0, "drake", -4.0, 3.0)
+	b.deploy(0, "titan", 5.0, 4.0)
+	b.deploy(0, "babydrake", -4.0, 3.0)
 	b.essence[0] = 10.0
-	b.deploy(0, "necro", 3.0, 6.0)
-	b.deploy(0, "catapult", 0.0, 7.0)
+	b.deploy(0, "ghost", -5.0, 5.0)
+	b.deploy(0, "tomb", -2.0, 9.0)
+	b.essence[0] = 10.0
+	b.deploy(0, "icemage", 3.0, 6.0)
+	b.deploy(0, "xbow", 2.0, 8.0)
 	b.essence[1] = 10.0
-	b.deploy(1, "warriors", 5.0, -4.0)
-	b.deploy(1, "berserker", -5.0, -5.0)
+	b.deploy(1, "army", 5.0, -4.0)
+	b.deploy(1, "giant_skel", -5.0, -5.0)
+	b.essence[1] = 10.0
+	b.deploy(1, "barracks", 0.0, -8.0)
 	await _wait(9.0)
 	await _shot("9_fight")
 	b.essence[0] = 10.0
-	b.deploy(0, "arrows", 5.0, -4.0)
+	b.deploy(0, "poison", 5.0, -4.0)
 	b.essence[0] = 10.0
-	b.deploy(0, "rage", -4.0, 1.0)
+	b.deploy(0, "tornado", -5.0, -3.0)
+	b.essence[0] = 10.0
+	b.deploy(0, "lightning", 0.0, -8.0)
 	b.essence[0] = 10.0
 	b.deploy(0, "meteor", 5.5, -10.5)
 	await _wait(1.05)

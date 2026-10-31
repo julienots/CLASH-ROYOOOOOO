@@ -49,11 +49,19 @@ var summon_t = 0.0
 var heal_t = 0.0
 var min_range = 0.0
 
+var chill_t = 0.0
+var poison_t = 0.0
+var revealed_t = 0.0
+var invisible = false
+
 func spd_mult() -> float:
-	return 1.4 if rage_t > 0.0 else 1.0
+	return (1.4 if rage_t > 0.0 else 1.0) * (0.65 if chill_t > 0.0 else 1.0) * (0.8 if poison_t > 0.0 else 1.0)
 
 func atk_mult() -> float:
-	return (1.4 if rage_t > 0.0 else 1.0) * (2.0 if enraged else 1.0)
+	return (1.4 if rage_t > 0.0 else 1.0) * (2.0 if enraged else 1.0) * (0.65 if chill_t > 0.0 else 1.0)
+
+func hidden() -> bool:
+	return invisible and revealed_t <= 0.0
 
 var model: Node3D
 var ring: MeshInstance3D

@@ -71,6 +71,7 @@ var arena_node: Node3D
 var emote_bubbles = [null, null]
 var ai_emote_cd = 0.0
 var tower_hit_cd = 0.0
+var zones = []
 var stats = {"deployed": 0, "spells": 0, "towers": 0}
 
 func setup(p: Dictionary) -> void:
@@ -311,6 +312,9 @@ func _spawn(card_id: String, team: int, px: float, pz: float, delay := 1.0) -> E
 	add_child(e)
 	entities.append(e)
 	e.min_range = c.get("min_range", 0.0)
+	e.invisible = c.get("invisible", false)
+	if e.invisible:
+		_set_ghost(e, true)
 	e.summon_t = c.get("summon_every", 0.0) * 0.6
 	if RealModels.has(card_id) and RealModels.UNITS[card_id].has("spawn") and delay > 0.3:
 		Sfx.play("rattle")
@@ -408,6 +412,42 @@ func _cast_spell(team: int, card_id: String, px: float, pz: float) -> void:
 			if e.alive and e.team == team and e.kind == "unit" and Vector2(e.x - px, e.z - pz).length() <= c.radius:
 				e.rage_t = c.rage
 				fx.float_text(e.position_vec(2.2), "RAGE !", Color("e07bff"), 40)
+	elif card_id == "lightning":
+		var cands = entities.filter(func(o): return o.alive and o.team != team and Vector2(o.x - px, o.z - pz).length() <= c.radius + o.radius)
+		cands.sort_custom(func(a, b): return a.hp > b.hp)
+		var k = 0
+		for o in cands.slice(0, c.strikes):
+			var target: Entity = o
+			get_tree().create_timer(k * 0.22).timeout.connect(func():
+				if not is_instance_valid(target) or not target.alive:
+					return
+				var top = target.position_vec(14.0)
+				fx.bolt([top, top.lerp(target.position_vec(1.0), 0.5) + Vector3(randf_range(-1, 1), 0, 0), target.position_vec(1.0)], Color("fff27a"))
+				fx.flash(target.position_vec(1.0), Color("fff7b0"), 4.0, 0.25)
+				_damage(target, dmg * (c.tower_mult if target.kind == "tower" else 1.0), true)
+				if target.alive:
+					target.freeze(0.5)
+				_shake(0.35)
+				Sfx.play("zap", 0.8))
+			k += 1
+		_warn_flash(px, pz, c.radius, Color(1, 0.95, 0.4, 0.25))
+	elif card_id == "tornado":
+		zones.append({"kind": "tornado", "team": team, "x": px, "z": pz, "r": c.radius, "t": c.pull, "dmg": dmg / c.pull, "node": _tornado_node(px, pz, c.radius)})
+		Sfx.play("whoosh", 0.6)
+	elif card_id == "heal":
+		Sfx.play("levelup", 1.2)
+		fx.ring(Vector3(px, 0, pz), c.radius, Color("ffe27a"), 0.6, 0.35)
+		fx.burst(Vector3(px, 0.3, pz), Color("fff3b0"), 40, 3.0, 0.6, 1.0, -3.0)
+		for o in entities:
+			if o.alive and o.team == team and o.kind == "unit" and Vector2(o.x - px, o.z - pz).length() <= c.radius + o.radius:
+				var amount = minf(c.heal * _mult(team, card_id), o.max_hp - o.hp)
+				o.hp += amount
+				if amount > 0:
+					fx.float_text(o.position_vec(2.0), "+%d" % int(amount), Color("7cf27a"), 40)
+	elif card_id == "poison":
+		zones.append({"kind": "poison", "team": team, "x": px, "z": pz, "r": c.radius, "t": c.duration, "tick": 0.0,
+			"dmg": dmg / (c.duration * 2.0), "tower_mult": c.tower_mult, "node": _warn_circle(px, pz, c.radius, Color(0.4, 0.9, 0.2, 0.32))})
+		Sfx.play("beam", 0.5)
 	elif card_id == "frost":
 		Sfx.play("freeze")
 		_area_damage(team, px, pz, c.radius, dmg, c.tower_mult, true, c.freeze)
@@ -433,6 +473,54 @@ func _meteor_impact(team: int, px: float, pz: float, c: Dictionary, dmg: float) 
 	_shake(0.8)
 	hitstop = 0.06
 	Sfx.play("big_boom")
+
+func _warn_flash(px: float, pz: float, r: float, col: Color) -> void:
+	var w = _warn_circle(px, pz, r, col)
+	var tw = create_tween()
+	tw.tween_property(w.material_override, "albedo_color:a", 0.0, 0.8)
+	tw.tween_callback(w.queue_free)
+
+func _tornado_node(px: float, pz: float, r: float) -> Node3D:
+	var n = Models.build("tornado", 0)
+	n.position = Vector3(px, 0, pz)
+	n.scale = Vector3(r * 0.6, 1.4, r * 0.6)
+	add_child(n)
+	return n
+
+## Effets de zone persistants (tornade, poison).
+func _update_zones(dt: float) -> void:
+	for i in range(zones.size() - 1, -1, -1):
+		var z: Dictionary = zones[i]
+		z.t -= dt
+		var node: Node3D = z.node
+		if z.kind == "tornado":
+			node.rotation.y += dt * 9.0
+			if randf() < 0.6:
+				var a = randf() * TAU
+				fx.burst(Vector3(z.x + cos(a) * z.r * 0.8, 0.3, z.z + sin(a) * z.r * 0.8), Color(0.9, 0.9, 0.95, 0.7), 1, 1.0, 0.6, 0.5, 0.0, false)
+			for o in entities:
+				if o.alive and o.team != z.team and o.kind == "unit":
+					var d = Vector2(z.x - o.x, z.z - o.z)
+					var l = d.length()
+					if l <= z.r + 0.5 and l > 0.15:
+						o.x += d.x / l * minf(l, 3.2 * dt)
+						o.z += d.y / l * minf(l, 3.2 * dt)
+						_damage(o, z.dmg * dt)
+		elif z.kind == "poison":
+			z.tick -= dt
+			if randf() < 0.5:
+				fx.burst(Vector3(z.x + randf_range(-z.r, z.r) * 0.7, 0.2, z.z + randf_range(-z.r, z.r) * 0.7), Color("7be04a"), 1, 0.6, 0.45, 0.8, -1.5)
+			if z.tick <= 0.0:
+				z.tick = 0.5
+				for o in entities:
+					if o.alive and o.team != z.team and Vector2(o.x - z.x, o.z - z.z).length() <= z.r + o.radius * 0.5:
+						_damage(o, z.dmg * (z.tower_mult if o.kind == "tower" else 1.0))
+						o.poison_t = 0.6
+		if z.t <= 0.0:
+			var tw = create_tween()
+			tw.tween_property(node, "scale", Vector3.ZERO, 0.25)
+			tw.tween_callback(node.queue_free)
+			zones.remove_at(i)
 
 func _warn_circle(px: float, pz: float, r: float, col: Color) -> MeshInstance3D:
 	var warn = MeshInstance3D.new()
@@ -556,6 +644,27 @@ func _kill(e: Entity) -> void:
 		tw.tween_property(e, "scale", Vector3.ZERO, 0.15).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
 	tw.tween_callback(func(): e.ring.queue_free(); e.queue_free())
 	var c: Dictionary = Data.CARDS[e.card_id]
+	if c.has("death_bomb"):
+		var dx = e.x
+		var dz = e.z
+		var dteam = e.team
+		var did = e.card_id
+		get_tree().create_timer(0.6).timeout.connect(func():
+			if not is_instance_valid(self):
+				return
+			_area_damage(dteam, dx, dz, c.death_radius, c.death_bomb * _mult(dteam, did), 1.0, false)
+			fx.explosion(Vector3(dx, 0, dz), c.death_radius, Color("ff8a1f"))
+			fx.debris(Vector3(dx, 0.5, dz), Color("e8e2d0"), 14, 8.0)
+			_shake(0.7)
+			Sfx.play("big_boom"))
+		fx.float_text(e.position_vec(2.5), "BOUM !", Color("ffb02e"), 50)
+	if c.has("death_rage"):
+		fx.ring(e.position_vec(), 3.0, Color("d24bff"), 0.6, 0.35)
+		fx.burst(e.position_vec(0.5), Color("e07bff"), 30, 4.0, 0.6, 0.8, -1.0)
+		Sfx.play("levelup", 0.8)
+		for o in entities:
+			if o.alive and o.team == e.team and o.kind == "unit" and _dist(e, o) <= 3.0:
+				o.rage_t = c.death_rage
 	if c.has("on_death"):
 		for i in c.death_count:
 			_spawn(c.on_death, e.team, e.x + (0.6 if i else -0.6), e.z, 0.35)
@@ -635,7 +744,7 @@ func _fly_crown(e: Entity, to_team: int) -> void:
 
 # ================= Ciblage, déplacement =================
 func _can_target(a: Entity, b: Entity) -> bool:
-	if not b.alive or b.team == a.team or b.deploy > 0.5:
+	if not b.alive or b.team == a.team or b.deploy > 0.5 or b.hidden():
 		return false
 	if a.targets == "buildings":
 		return b.is_building
@@ -703,10 +812,30 @@ func _update_entity(e: Entity, dt: float) -> void:
 			return
 	if e.kind == "tower" and not e.active:
 		return
+	if e.chill_t > 0.0:
+		e.chill_t -= dt
+		if randf() < 0.15:
+			fx.burst(e.position_vec(0.6), Color("bff4ff"), 1, 0.8, 0.35, 0.5, 1.0)
+	if e.poison_t > 0.0:
+		e.poison_t -= dt
+	if e.invisible:
+		var was = e.revealed_t > 0.0
+		e.revealed_t -= dt
+		if was and e.revealed_t <= 0.0:
+			_set_ghost(e, true)
 	if e.rage_t > 0.0:
 		e.rage_t -= dt
 		if randf() < 0.25:
 			fx.burst(e.position_vec(0.3), Color("d24bff"), 1, 1.0, 0.5, 0.5, 2.0)
+	if e.kind == "building":
+		var cb: Dictionary = Data.CARDS[e.card_id]
+		if cb.has("summon"):
+			e.summon_t -= dt
+			if e.summon_t <= 0.0:
+				e.summon_t = cb.summon_every
+				_summon(e, cb)
+		if cb.attack == "none":
+			return
 	if e.kind == "unit":
 		var c: Dictionary = Data.CARDS[e.card_id]
 		if c.get("enrage", false) and not e.enraged and e.hp < e.max_hp * 0.5:
@@ -781,15 +910,33 @@ func _heal_pulse(e: Entity, c: Dictionary) -> void:
 		Sfx.play("beam", 1.6)
 
 func _summon(e: Entity, c: Dictionary) -> void:
-	RealModels.play_once(e.model, "Spellcast_Summon")
+	if e.model.has_meta("real"):
+		RealModels.play_once(e.model, "Spellcast_Summon")
+	elif e.model.has_meta("building"):
+		var bm: Node3D = e.model.get_meta("building")
+		var rt = create_tween()
+		rt.tween_property(bm, "scale", bm.scale * Vector3(1.1, 0.9, 1.1), 0.1)
+		rt.tween_property(bm, "scale", bm.scale, 0.3).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
 	fx.ring(e.position_vec(), 2.0, Color("9b5cff"), 0.5, 0.3)
 	Sfx.play("rattle")
 	for i in c.summon_count:
 		var a = randf() * TAU
-		var m = _spawn(c.summon, e.team, e.x + cos(a) * 1.0, e.z + sin(a) * 1.0, 0.6)
+		var off = e.radius + 0.6
+		var m = _spawn(c.summon, e.team, e.x + cos(a) * off, e.z + sin(a) * off + (off if e.team == 1 else -off) * 0.5, 0.6)
 		fx.burst(m.position_vec(0.2), Color("9b5cff"), 10, 2.5, 0.5, 0.5)
 
+func _set_ghost(e: Entity, hide: bool) -> void:
+	for m in e.meshes:
+		if is_instance_valid(m):
+			m.transparency = 0.72 if hide else 0.0
+	if not hide:
+		fx.burst(e.position_vec(1.0), Color("b9a6ff"), 10, 2.5, 0.4, 0.4)
+
 func _strike(e: Entity, t: Entity) -> void:
+	if e.invisible:
+		if e.revealed_t <= 0.0:
+			_set_ghost(e, false)
+		e.revealed_t = 1.3
 	var dmg = e.dmg
 	var team_glow: Color = Data.TEAM_GLOW[e.team]
 	if e.first_strike > 0.0:
@@ -835,6 +982,12 @@ func _strike(e: Entity, t: Entity) -> void:
 			for k in 3:
 				_projectile("knife", e, t, e.position_vec(1.2) + Vector3(randf_range(-0.2, 0.2), k * 0.1, 0), 20.0 + k, dmg / 3.0, 0.0)
 			Sfx.play("swipe", 1.5)
+		"bomb":
+			_projectile("bomb", e, t, e.position_vec(1.4), 9.0, dmg, e.splash)
+			Sfx.play("swipe", 0.8)
+		"ice":
+			_projectile("ice", e, t, e.position_vec(1.6), 12.0, dmg, e.splash)
+			Sfx.play("freeze", 1.8)
 		"arcane":
 			_projectile("arcane", e, t, e.position_vec(1.5), 13.0, dmg, 0.0)
 			Sfx.play("beam", 1.3)
@@ -898,6 +1051,12 @@ func _projectile(type: String, from_e: Entity, t: Entity, pos: Vector3, spd: flo
 		var col = Color("b56bff") if type == "arcane" else Color("5a1f8a")
 		Models.mi(Models.sphere(0.2, 10), Models.glow(col.lightened(0.4), 4.0), Vector3.ZERO, n)
 		Models.mi(Models.sphere(0.32, 10), Models.mat(col, 0.0, 0.5, 2.5, 0.45), Vector3.ZERO, n)
+	elif type == "bomb":
+		Models.mi(Models.sphere(0.22, 10), Models.mat(Color("2a2a30"), 0.4, 0.4), Vector3.ZERO, n)
+		Models.mi(Models.sphere(0.06, 6), Models.glow(Color("ffb02e"), 5.0), Vector3(0, 0.25, 0), n)
+	elif type == "ice":
+		var shard = Models.mi(Models.gem(0.22), Models.mat(Color("bff4ff"), 0.2, 0.1, 1.5, 0.9), Vector3.ZERO, n)
+		shard.scale = Vector3(0.6, 0.6, 1.6)
 	elif type == "boulder":
 		Models.mi(Models.rock(0.45), Models.mat(Color("7a7368"), 0.0, 0.9), Vector3.ZERO, n)
 	else:
@@ -928,6 +1087,15 @@ func _update_projectiles(dt: float) -> void:
 				fx.ring(p.dest, p.splash, Color("ff8a1f"), 0.35)
 				if p.type == "fire":
 					Sfx.play("boom", 1.4)
+				elif p.type == "bomb":
+					Sfx.play("boom", 1.2)
+					fx.explosion(p.dest, p.splash * 0.8, Color("ff9a2e"))
+				elif p.type == "ice":
+					for o in entities:
+						if o.alive and o.team != p.team and o.kind == "unit" and Vector2(o.x - p.dest.x, o.z - p.dest.z).length() <= p.splash + o.radius:
+							o.chill_t = 2.0
+					fx.burst(p.dest, Color("bff4ff"), 14, 3.0, 0.5, 0.5)
+					fx.ring(p.dest, p.splash, Color("8fe6ff"), 0.3)
 				elif p.type == "boulder":
 					Sfx.play("boom", 0.9)
 					fx.debris(p.dest, Color("7a7368"), 10, 6.0)
@@ -942,7 +1110,7 @@ func _update_projectiles(dt: float) -> void:
 		p.pos += d / l * step
 		var total: float = max(0.01, (p.dest - p.start).length())
 		var k: float = clamp(1.0 - l / total, 0.0, 1.0)
-		var arc = sin(k * PI) * (min(2.0, total * 0.15) if p.type == "arrow" else (total * 0.35 if p.type == "boulder" else 0.0))
+		var arc = sin(k * PI) * (min(2.0, total * 0.15) if p.type == "arrow" else (total * 0.35 if p.type in ["boulder", "bomb"] else 0.0))
 		var prev = node.position
 		node.position = p.pos + Vector3(0, arc, 0)
 		if node.position.distance_to(prev) > 0.001:
@@ -1123,6 +1291,7 @@ func _sim(dt: float) -> void:
 		if e.alive:
 			_update_entity(e, dt)
 	_update_projectiles(dt)
+	_update_zones(dt)
 	_separate()
 	for i in range(pending.size() - 1, -1, -1):
 		var p: Dictionary = pending[i]

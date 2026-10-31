@@ -98,6 +98,67 @@ const CARDS := {
 	"rage": {"name": "Rage", "type": "spell", "cost": 2, "rarity": "epic",
 		"desc": "Tes troupes dans la zone deviennent 40 % plus rapides pendant 7 s.",
 		"radius": 3.5, "dmg": 0, "tower_mult": 0.0, "rage": 7.0, "delay": 0.0},
+
+	"titan": {"name": "Gardien Titanesque", "type": "unit", "cost": 6, "rarity": "epic",
+		"desc": "Chevalier colossal au bouclier rond. Encaisse énormément de coups.",
+		"hp": 4200, "dmg": 140, "hit_speed": 1.4, "speed": 0.8, "range": 1.1, "radius": 0.9,
+		"targets": "ground", "attack": "melee", "heavy": true},
+	"bomber": {"name": "Artificière", "type": "unit", "cost": 4, "rarity": "rare",
+		"desc": "Lance des bombes qui explosent en zone sur les troupes au sol.",
+		"hp": 380, "dmg": 160, "hit_speed": 1.6, "speed": 1.3, "range": 4.6, "radius": 0.4,
+		"targets": "ground", "attack": "bomb", "splash": 1.6},
+	"icemage": {"name": "Archimage de Givre", "type": "unit", "cost": 5, "rarity": "legendary",
+		"desc": "Ses éclats de glace ralentissent les ennemis touchés de 35 %.",
+		"hp": 700, "dmg": 120, "hit_speed": 1.4, "speed": 1.2, "range": 5.0, "radius": 0.45,
+		"targets": "both", "attack": "ice", "splash": 1.0, "chill": 2.0},
+	"army": {"name": "Armée de Squelettes", "type": "unit", "cost": 4, "rarity": "epic", "count": 12,
+		"desc": "Douze squelettes surgissent d'un coup. Submerge n'importe quelle unité seule.",
+		"hp": 85, "dmg": 70, "hit_speed": 0.9, "speed": 2.1, "range": 0.6, "radius": 0.3,
+		"targets": "ground", "attack": "melee"},
+	"giant_skel": {"name": "Squelette Colossal", "type": "unit", "cost": 6, "rarity": "epic",
+		"desc": "Fonce sur les bâtiments. À sa mort, il explose violemment.",
+		"hp": 3000, "dmg": 200, "hit_speed": 1.5, "speed": 0.9, "range": 1.0, "radius": 0.95,
+		"targets": "buildings", "attack": "melee", "heavy": true, "death_bomb": 520, "death_radius": 3.0},
+	"lumber": {"name": "Bûcheron Enragé", "type": "unit", "cost": 4, "rarity": "legendary",
+		"desc": "Frappe très vite. À sa mort, il libère un nuage de Rage sur ses alliés.",
+		"hp": 1050, "dmg": 190, "hit_speed": 0.8, "speed": 1.9, "range": 0.9, "radius": 0.5,
+		"targets": "ground", "attack": "melee", "death_rage": 6.0},
+	"babydrake": {"name": "Dragonnet", "type": "unit", "cost": 4, "rarity": "epic", "flying": true,
+		"desc": "Jeune dragon volant qui crache de petites flammes en zone.",
+		"hp": 900, "dmg": 115, "hit_speed": 1.5, "speed": 1.6, "range": 3.0, "radius": 0.6,
+		"targets": "both", "attack": "breath", "splash": 1.2},
+	"ghost": {"name": "Voleuse Fantôme", "type": "unit", "cost": 3, "rarity": "legendary",
+		"desc": "Invisible tant qu'elle n'attaque pas : impossible à cibler entre deux coups.",
+		"hp": 620, "dmg": 210, "hit_speed": 1.1, "speed": 1.7, "range": 0.9, "radius": 0.45,
+		"targets": "ground", "attack": "melee", "invisible": true},
+	"guards": {"name": "Gardes Royaux", "type": "unit", "cost": 5, "rarity": "epic", "count": 4,
+		"desc": "Quatre gardes en armure, chacun protégé par un bouclier.",
+		"hp": 360, "shield": 200, "dmg": 95, "hit_speed": 1.1, "speed": 1.3, "range": 1.0, "radius": 0.45,
+		"targets": "ground", "attack": "melee"},
+	"xbow": {"name": "Tour d'Arbalète", "type": "building", "cost": 6, "rarity": "epic",
+		"desc": "Tour défensive qui crible les troupes au sol de carreaux à très longue portée. Dure 40 s.",
+		"hp": 1300, "dmg": 70, "hit_speed": 0.35, "range": 8.5, "radius": 1.0, "lifetime": 40.0,
+		"targets": "ground", "attack": "arrow"},
+	"tomb": {"name": "Tombeau Hanté", "type": "building", "cost": 3, "rarity": "rare",
+		"desc": "Fait surgir un squelette toutes les 3,5 s pendant 30 s.",
+		"hp": 650, "dmg": 0, "hit_speed": 1.0, "range": 0.0, "radius": 0.8, "lifetime": 30.0,
+		"targets": "ground", "attack": "none", "summon": "minion", "summon_count": 1, "summon_every": 3.5},
+	"barracks": {"name": "Caserne Barbare", "type": "building", "cost": 6, "rarity": "rare",
+		"desc": "Forme un Barbare enragé toutes les 8 s pendant 40 s.",
+		"hp": 1250, "dmg": 0, "hit_speed": 1.0, "range": 0.0, "radius": 1.1, "lifetime": 40.0,
+		"targets": "ground", "attack": "none", "summon": "shard", "summon_count": 1, "summon_every": 8.0},
+	"lightning": {"name": "Éclair Royal", "type": "spell", "cost": 6, "rarity": "epic",
+		"desc": "Foudroie les 3 ennemis les plus robustes de la zone.",
+		"radius": 3.6, "dmg": 720, "tower_mult": 0.3, "delay": 0.0, "strikes": 3},
+	"tornado": {"name": "Tornade", "type": "spell", "cost": 3, "rarity": "epic",
+		"desc": "Aspire les troupes ennemies vers son centre pendant 2 s.",
+		"radius": 3.8, "dmg": 110, "tower_mult": 0.0, "delay": 0.0, "pull": 2.0},
+	"heal": {"name": "Bénédiction", "type": "spell", "cost": 3, "rarity": "rare",
+		"desc": "Soigne tes troupes de 450 PV dans la zone.",
+		"radius": 3.5, "dmg": 0, "heal": 450, "tower_mult": 0.0, "delay": 0.0},
+	"poison": {"name": "Poison", "type": "spell", "cost": 4, "rarity": "epic",
+		"desc": "Nuage toxique : 600 dégâts sur 7 s et ralentit les ennemis.",
+		"radius": 3.4, "dmg": 600, "tower_mult": 0.35, "delay": 0.0, "duration": 7.0},
 }
 
 const DEFAULT_DECK := ["blade", "golem", "archers", "pyro", "swarm", "shield", "meteor", "frost"]
@@ -109,10 +170,57 @@ const TOWER := {
 
 const ISLANDS := [
 	{"id": 0, "name": "Île des Brumes", "trophies": 0, "grass": Color("58b847"), "grass2": Color("4ea83f"), "tile": Color("d8c9a3"), "water": Color("2ab7e8"), "sky": Color("8fd8ff"), "cliff": Color("8a6b4a"), "leaf": Color("3f9e3a")},
-	{"id": 1, "name": "Île de Braise", "trophies": 300, "grass": Color("7a8a3c"), "grass2": Color("6d7c33"), "tile": Color("c9a98a"), "water": Color("ff6a1a"), "sky": Color("ffb27a"), "cliff": Color("5a3a2a"), "leaf": Color("d9661f")},
-	{"id": 2, "name": "Île Givrée", "trophies": 700, "grass": Color("cfe7f2"), "grass2": Color("bcdbea"), "tile": Color("a7b8c9"), "water": Color("4fd2ff"), "sky": Color("b7d6ff"), "cliff": Color("7a8ca6"), "leaf": Color("e8f6ff")},
-	{"id": 3, "name": "Île Céleste", "trophies": 1200, "grass": Color("8f6cd8"), "grass2": Color("7f5ec9"), "tile": Color("e6d7a8"), "water": Color("ffd84f"), "sky": Color("9a7bff"), "cliff": Color("5a4a8a"), "leaf": Color("ff9ad5")},
+	{"id": 1, "name": "Île de Braise", "trophies": 200, "grass": Color("7a8a3c"), "grass2": Color("6d7c33"), "tile": Color("c9a98a"), "water": Color("ff6a1a"), "sky": Color("ffb27a"), "cliff": Color("5a3a2a"), "leaf": Color("d9661f")},
+	{"id": 2, "name": "Marais Maudit", "trophies": 450, "grass": Color("5f7a3a"), "grass2": Color("546d33"), "tile": Color("a89a7a"), "water": Color("6bbf59"), "sky": Color("9fc2a0"), "cliff": Color("4d4a3a"), "leaf": Color("4f6b2a")},
+	{"id": 3, "name": "Île Givrée", "trophies": 750, "grass": Color("cfe7f2"), "grass2": Color("bcdbea"), "tile": Color("a7b8c9"), "water": Color("4fd2ff"), "sky": Color("b7d6ff"), "cliff": Color("7a8ca6"), "leaf": Color("e8f6ff")},
+	{"id": 4, "name": "Dunes Dorées", "trophies": 1100, "grass": Color("e2c47a"), "grass2": Color("d6b66a"), "tile": Color("c99a62"), "water": Color("2fc7c9"), "sky": Color("ffd89a"), "cliff": Color("b07a45"), "leaf": Color("7fae3a")},
+	{"id": 5, "name": "Forêt Ancienne", "trophies": 1500, "grass": Color("3f8f4a"), "grass2": Color("378241"), "tile": Color("9a8a6a"), "water": Color("3a9ad9"), "sky": Color("7fc7a8"), "cliff": Color("5e4a32"), "leaf": Color("2f7a35")},
+	{"id": 6, "name": "Île Céleste", "trophies": 2000, "grass": Color("8f6cd8"), "grass2": Color("7f5ec9"), "tile": Color("e6d7a8"), "water": Color("ffd84f"), "sky": Color("9a7bff"), "cliff": Color("5a4a8a"), "leaf": Color("ff9ad5")},
+	{"id": 7, "name": "Citadelle d'Essence", "trophies": 2600, "grass": Color("39466e"), "grass2": Color("323e63"), "tile": Color("c9b27a"), "water": Color("d24bff"), "sky": Color("5a4a9a"), "cliff": Color("2c2a44"), "leaf": Color("8a5ad9")},
 ]
+
+## Île à atteindre pour débloquer chaque carte.
+const UNLOCK := {
+	"blade": 0, "golem": 0, "archers": 0, "pyro": 0, "swarm": 0, "shield": 0, "meteor": 0, "frost": 0, "arrows": 0,
+	"sapper": 1, "knives": 1, "totem": 1, "warriors": 1, "bomber": 1, "tomb": 1,
+	"rage": 2, "drake": 2, "army": 2, "babydrake": 2, "healer": 2, "titan": 2,
+	"berserker": 3, "icemage": 3, "xbow": 3, "heal": 3,
+	"champion": 4, "giant_skel": 4, "guards": 4, "lightning": 4,
+	"storm": 5, "lumber": 5, "barracks": 5, "tornado": 5, "catapult": 5,
+	"necro": 6, "poison": 6,
+	"ghost": 7,
+}
+
+## Récompenses de la route des trophées.
+const ROAD := [
+	{"t": 50, "gold": 150}, {"t": 100, "chest": "silver"}, {"t": 150, "gems": 10}, {"t": 250, "gold": 300}, {"t": 350, "chest": "gold"},
+	{"t": 500, "gems": 20}, {"t": 600, "gold": 600}, {"t": 700, "chest": "magic"}, {"t": 850, "gems": 30}, {"t": 1000, "chest": "gold"},
+	{"t": 1250, "gold": 1200}, {"t": 1400, "chest": "magic"}, {"t": 1700, "gems": 50}, {"t": 1850, "chest": "crown"}, {"t": 2200, "gold": 2500},
+	{"t": 2400, "chest": "magic"}, {"t": 2800, "gems": 100}, {"t": 3000, "chest": "crown"},
+]
+
+## Pass Essence : 20 paliers, 3 points par palier (1 point par couronne gagnée).
+const PASS_STEP := 3
+const PASS := [
+	{"gold": 100}, {"chest": "wood"}, {"gems": 5}, {"gold": 200}, {"chest": "silver"}, {"gems": 8}, {"gold": 300}, {"chest": "gold"},
+	{"gems": 12}, {"gold": 450}, {"chest": "silver"}, {"gems": 15}, {"gold": 600}, {"chest": "magic"}, {"gems": 20}, {"gold": 800},
+	{"chest": "gold"}, {"gems": 30}, {"gold": 1200}, {"chest": "crown"},
+]
+
+## Succès : [id, texte, statistique, objectif, gemmes]
+const ACHIEVEMENTS := [
+	["win1", "Première victoire", "wins", 1, 10], ["win10", "Gagne 10 combats", "wins", 10, 25], ["win50", "Gagne 50 combats", "wins", 50, 80],
+	["three1", "Victoire 3 couronnes", "three_crowns", 1, 15], ["three10", "10 victoires 3 couronnes", "three_crowns", 10, 50],
+	["tow10", "Détruis 10 tours", "towers", 10, 15], ["tow100", "Détruis 100 tours", "towers", 100, 60],
+	["dep100", "Déploie 100 unités", "deployed", 100, 15], ["dep1000", "Déploie 1000 unités", "deployed", 1000, 60],
+	["troph500", "Atteins 500 trophées", "best_trophies", 500, 25], ["troph1500", "Atteins 1500 trophées", "best_trophies", 1500, 60],
+	["troph3000", "Atteins 3000 trophées", "best_trophies", 3000, 150], ["lvl5", "Atteins le niveau 5", "level", 5, 30],
+	["lvl10", "Atteins le niveau 10", "level", 10, 80], ["chests10", "Ouvre 10 coffres", "chests_opened", 10, 20],
+	["chests50", "Ouvre 50 coffres", "chests_opened", 50, 70],
+]
+
+## Cadeaux de connexion (7 jours, puis on recommence).
+const LOGIN := [{"gold": 100}, {"gems": 5}, {"chest": "silver"}, {"gold": 300}, {"gems": 10}, {"chest": "gold"}, {"chest": "magic"}]
 
 const MODES := [
 	{"id": "classic", "name": "1c1 Classique", "desc": "Le duel standard : 3 minutes pour tout raser.", "essence": 1.0, "start": 5.0, "time": 180.0, "trophies": true, "color": Color("2f86ff")},
@@ -148,6 +256,9 @@ var chest_textures = {}
 
 func _ready() -> void:
 	load_save()
+
+func unlocked(id: String) -> bool:
+	return int(save.get("best_island", 0)) >= UNLOCK.get(id, 0) or island_for(int(save.trophies)).id >= UNLOCK.get(id, 0)
 
 func playable() -> Array:
 	var out = []
@@ -229,7 +340,9 @@ func load_save() -> void:
 	save = {"name": "Joueur", "trophies": 0, "gold": 500, "gems": 50, "deck": DEFAULT_DECK.duplicate(),
 		"levels": levels, "wins": 0, "losses": 0, "muted": false, "music": true, "welcome": false, "last_free": 0,
 		"level": 1, "xp": 0, "best_trophies": 0, "three_crowns": 0, "towers": 0, "deployed": 0, "chests": [null, null, null, null],
-		"crown_progress": 0, "quests": [], "quest_day": -1, "mode": "classic", "clan_chat": [], "favorite": {}}
+		"crown_progress": 0, "quests": [], "quest_day": -1, "mode": "classic", "clan_chat": [], "favorite": {},
+		"best_island": 0, "road_claimed": [], "pass_points": 0, "pass_claimed": [], "ach_claimed": [], "chests_opened": 0,
+		"login_day": -1, "login_index": 0, "deal_day": -1, "deals": [], "deals_bought": []}
 	if FileAccess.file_exists(SAVE_PATH):
 		var f = FileAccess.open(SAVE_PATH, FileAccess.READ)
 		var parsed = JSON.parse_string(f.get_as_text())

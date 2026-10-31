@@ -29,8 +29,7 @@ var content: Control
 var chest_timer: Timer
 var clan_sub = "clan"
 var booted = false
-var modal_open = 0
-var _menu_deferred = false
+
 
 func _ready() -> void:
 	ui = CanvasLayer.new()
@@ -65,6 +64,8 @@ func _boot() -> void:
 	fade.tween_callback(title.queue_free)
 	_show_menu()
 	booted = true
+	if OS.get_cmdline_user_args().is_empty():
+		_login_popup()
 
 ## Écran du studio : le logo SuperEssence complet, centré, avec un reflet lumineux.
 func _studio_splash() -> void:
@@ -191,6 +192,10 @@ func _render_cards(bar: ProgressBar) -> void:
 	var framing = {"drake": [6.2, 0.9, 1.4], "totem": [6.4, 1.5, 0.6], "champion": [4.6, 0.95, 0.4], "berserker": [4.4, 0.9, 0.4],
 		"healer": [4.1, 0.85, 0.4], "knives": [3.9, 0.85, 0.4], "warriors": [3.6, 0.65, 0.5], "necro": [4.8, 1.0, 0.5],
 		"catapult": [7.4, 1.6, 1.4], "arrows": [3.8, 0.45, 0.4], "rage": [3.6, 0.75, 0.3],
+		"titan": [5.8, 1.3, 0.6], "bomber": [3.9, 0.85, 0.4], "icemage": [4.1, 0.85, 0.4], "army": [2.6, 0.45, 0.4],
+		"giant_skel": [6.0, 1.3, 0.7], "lumber": [4.3, 0.9, 0.4], "babydrake": [4.6, 0.6, 1.0], "ghost": [3.9, 0.85, 0.4],
+		"guards": [3.6, 0.7, 0.5], "xbow": [6.4, 1.9, 1.0], "tomb": [5.4, 1.4, 0.6], "barracks": [6.8, 1.4, 1.2],
+		"lightning": [4.4, 1.1, 0.4], "tornado": [4.6, 1.0, 0.4], "heal": [3.6, 0.75, 0.3], "poison": [3.6, 0.75, 0.3],
 		"meteor": [4.2, 0.0, 0.3], "frost": [3.8, 0.6, 0.3], "swarm": [2.6, 0.45, 0.4], "sapper": [3.4, 0.75, 0.5], "pyro": [4.0, 0.85, 0.4], "storm": [6.4, 1.3, 0.8], "golem": [6.6, 1.3, 0.8]}
 	var ids = Data.playable()
 	var n = 0
@@ -201,7 +206,7 @@ func _render_cards(bar: ProgressBar) -> void:
 			b.position = Vector3(0.6, 0, -0.5)
 			model.add_child(b)
 			model.position.x = -0.25
-		elif id == "warriors":
+		elif id in ["warriors", "guards", "army"]:
 			for k in 2:
 				var b = Models.build(id, 0)
 				b.position = Vector3(0.55 if k else -0.55, 0, -0.45)
@@ -340,16 +345,11 @@ func _process(_dt: float) -> void:
 
 # ================= Menus =================
 func _show_menu() -> void:
-	if modal_open > 0 and not _menu_deferred:
-		_menu_deferred = true
-		for c in root.get_children():
-			c.visible = false
-		await get_tree().create_timer(0.1).timeout
-		_menu_deferred = false
 	Sfx.music("menu")
 	Data.refresh_quests()
 	for c in root.get_children():
-		c.queue_free()
+		if not c.has_meta("keep"):
+			c.queue_free()
 	var page = VBoxContainer.new()
 	UI.full_rect(page)
 	page.add_theme_constant_override("separation", 0)
@@ -362,6 +362,9 @@ func _show_menu() -> void:
 	content.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	page.add_child(content)
 	page.add_child(_nav_bar())
+	for c in root.get_children():
+		if c.has_meta("keep"):
+			root.move_child(c, -1)
 	_show_tab(tab, 0)
 
 func _top_bar() -> Control:
@@ -434,11 +437,13 @@ func _top_bar() -> Control:
 func _refresh_resources() -> void:
 	for k in res_labels:
 		var l: Label = res_labels[k]
+		if not is_instance_valid(l) or not l.is_inside_tree():
+			continue
 		var from = int(l.text)
 		var to = int(Data.save[k])
 		if from == to:
 			continue
-		var tw = create_tween()
+		var tw = l.create_tween()
 		tw.tween_method(func(v: float): l.text = str(int(v)), float(from), float(to), 0.6)
 		UI.squash(l.get_parent().get_parent(), 1.0)
 
@@ -641,6 +646,15 @@ func _tab_home() -> Control:
 	side.add_child(qb)
 	if claimable:
 		qb.ready.connect(func(): UI.pulse(qb, 1.08, 0.8))
+	var pass_ready = _pass_claimable()
+	var pb = UI.button("Pass" + (" (%d)" % pass_ready if pass_ready else ""), Color("c23cf0"), 24)
+	pb.pressed.connect(_pass_popup)
+	side.add_child(pb)
+	var road_ready = _road_claimable()
+	if road_ready:
+		var rb = UI.button("Route (%d)" % road_ready, UI.GOLD, 24)
+		rb.pressed.connect(_road_popup)
+		side.add_child(rb)
 	var spc = Control.new()
 	spc.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	spc.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -792,7 +806,8 @@ func _tab_cards() -> Control:
 	var hint = "Touche une carte du deck pour l'échanger" if sel_card in Data.save.deck else ("Touche une carte du deck à remplacer" if sel_card != "" else "Touche une carte pour la voir")
 	info.add_child(UI.label(hint, 18, Color(1, 1, 1, 0.8), 5))
 	v.add_child(info)
-	v.add_child(UI.label("Collection", 34))
+	var found = Data.playable().filter(func(id): return Data.unlocked(id)).size()
+	v.add_child(UI.label("Collection  ·  %d / %d cartes trouvées" % [found, Data.playable().size()], 30))
 	var cp = PanelContainer.new()
 	cp.add_theme_stylebox_override("panel", UI.panel(Color(0.02, 0.06, 0.18, 0.55), 22))
 	var g2 = GridContainer.new()
@@ -800,14 +815,38 @@ func _tab_cards() -> Control:
 	g2.add_theme_constant_override("h_separation", 12)
 	g2.add_theme_constant_override("v_separation", 12)
 	cp.add_child(g2)
-	for id in Data.playable():
-		if not id in Data.save.deck:
-			var t = _card_tile(id, true)
-			g2.add_child(t)
-			UI.pop_in(t, 0.2 + i * 0.035)
-			i += 1
+	var ids = Data.playable().filter(func(id): return not id in Data.save.deck)
+	ids.sort_custom(func(a, b): return [Data.UNLOCK.get(a, 0), Data.CARDS[a].cost] < [Data.UNLOCK.get(b, 0), Data.CARDS[b].cost])
+	for id in ids:
+		var t = _card_tile(id, true) if Data.unlocked(id) else _locked_tile(id)
+		g2.add_child(t)
+		UI.pop_in(t, 0.2 + mini(i, 20) * 0.03)
+		i += 1
 	v.add_child(cp)
 	return _scroll(v)
+
+func _locked_tile(id: String) -> Control:
+	var v = VBoxContainer.new()
+	v.add_theme_constant_override("separation", 0)
+	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var tr = TextureRect.new()
+	tr.texture = Data.card_textures[id]
+	tr.custom_minimum_size = Vector2(140, 175)
+	tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	tr.modulate = Color(0.18, 0.2, 0.3)
+	var lk = UI.icon("lock", 60)
+	lk.set_anchors_and_offsets_preset(Control.PRESET_CENTER)
+	lk.position -= Vector2(30, 40)
+	tr.add_child(lk)
+	v.add_child(tr)
+	var isl = Data.ISLANDS[Data.UNLOCK.get(id, 0)]
+	var l = UI.label(isl.name, 16, Color("ffd54a"), 5)
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD
+	l.custom_minimum_size.x = 140
+	v.add_child(l)
+	return v
 
 func _modal() -> Array:
 	var bg = ColorRect.new()
@@ -956,6 +995,7 @@ func _tab_shop() -> Control:
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	v.add_theme_constant_override("separation", 16)
 	v.add_child(_ribbon("Boutique"))
+	v.add_child(_daily_deals())
 	var offer = PanelContainer.new()
 	offer.add_theme_stylebox_override("panel", UI.panel(Color("ff9f1f"), 24))
 	var oh = HBoxContainer.new()
@@ -1100,11 +1140,13 @@ func _chest_icon(type: String, s: float) -> Control:
 ## Ouverture de coffre en 3D : il tombe et rebondit, tremble au toucher, le couvercle saute
 ## dans un éclat de lumière, puis chaque récompense jaillit du coffre une par une.
 func _open_chest(type: String, gold: int, gems: int, bonus: String = "") -> void:
-	modal_open += 1
+	Data.save.chests_opened = int(Data.save.get("chests_opened", 0)) + 1
+	Data.persist()
 	var t: Dictionary = Data.CHEST_TYPES[type]
 	var vp_size = get_viewport().get_visible_rect().size
 	var bg = ColorRect.new()
 	bg.color = Color(0.02, 0.05, 0.15, 0.0)
+	bg.set_meta("keep", true)
 	UI.full_rect(bg)
 	root.add_child(bg)
 	create_tween().tween_property(bg, "color:a", 0.94, 0.25)
@@ -1176,7 +1218,6 @@ func _open_chest(type: String, gold: int, gems: int, bonus: String = "") -> void
 	tw.tween_property(chest, "position:y", 0.0, 0.2).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
 	await tw.finished
 	if not is_instance_valid(bg):
-		modal_open = maxi(0, modal_open - 1)
 		return
 	# 2. on attend que le joueur touche le coffre
 	var hint = UI.label("Touche pour ouvrir !", 40)
@@ -1316,7 +1357,6 @@ func _open_chest(type: String, gold: int, gems: int, bonus: String = "") -> void
 	bg.add_child(ok)
 	UI.pop_in(ok, 0.2)
 	ok.pressed.connect(func():
-		modal_open = maxi(0, modal_open - 1)
 		_close_modal(bg)
 		_refresh_resources()
 		_rebuild_tab())
@@ -1619,7 +1659,7 @@ func _start_battle(enemy: String, isl: Dictionary) -> void:
 		world.queue_free()
 		world = null
 		menu_pivot = null
-	var pool = Data.playable()
+	var pool = Data.playable().filter(func(id): return Data.UNLOCK.get(id, 0) <= isl.id)
 	pool.shuffle()
 	var e_lvl = {}
 	var tot = 0
@@ -1657,6 +1697,7 @@ func _on_battle_end(res: Dictionary, enemy: String) -> void:
 		if crowns[0] >= 3:
 			Data.save.three_crowns = int(Data.save.three_crowns) + 1
 	Data.save.crown_progress = mini(10, int(Data.save.crown_progress) + crowns[0])
+	Data.save.pass_points = int(Data.save.pass_points) + crowns[0]
 	var chest_won = ""
 	if win:
 		var slot = Data.save.chests.find(null)
@@ -1732,6 +1773,27 @@ func _on_battle_end(res: Dictionary, enemy: String) -> void:
 	grow.add_child(UI.label("+%d" % gold, 44))
 	rw.add_child(grow)
 	v.add_child(rw)
+	var newly = []
+	if after.id > int(Data.save.get("best_island", 0)):
+		for id in Data.playable():
+			if Data.UNLOCK.get(id, 0) > int(Data.save.get("best_island", 0)) and Data.UNLOCK.get(id, 0) <= after.id:
+				newly.append(id)
+		Data.save.best_island = after.id
+		Data.persist()
+	if not newly.is_empty():
+		var nh = HBoxContainer.new()
+		nh.alignment = BoxContainer.ALIGNMENT_CENTER
+		nh.add_theme_constant_override("separation", 6)
+		for id in newly:
+			var tr = TextureRect.new()
+			tr.texture = Data.card_textures[id]
+			tr.custom_minimum_size = Vector2(84, 110)
+			tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			nh.add_child(tr)
+		v.add_child(nh)
+		UI.pop_in(nh, 2.8)
+		get_tree().create_timer(2.8).timeout.connect(func(): Sfx.play("unlock"))
 	if after.id > before.id:
 		var un = UI.label("Nouvelle île débloquée : %s !" % after.name, 32, UI.GOLD)
 		un.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
@@ -2220,7 +2282,7 @@ func _profile_popup() -> void:
 	nv.add_child(UI.label("Clan : Les Gardiens d'Essence", 22, UI.GOLD, 6))
 	h.add_child(nv)
 	v.add_child(h)
-	var cards_found = Data.playable().size()
+	var cards_found = Data.playable().filter(func(id): return Data.unlocked(id)).size()
 	var maxed = 0
 	var best_card = Data.save.deck[0]
 	for id in Data.save.levels:
@@ -2230,7 +2292,7 @@ func _profile_popup() -> void:
 			maxed += 1
 	var stats = [["Trophées", str(Data.save.trophies)], ["Record", str(maxi(int(Data.save.get("best_trophies", 0)), Data.save.trophies))],
 		["Victoires", str(Data.save.wins)], ["Défaites", str(Data.save.losses)], ["Victoires 3 couronnes", str(int(Data.save.three_crowns))],
-		["Tours détruites", str(int(Data.save.towers))], ["Unités déployées", str(int(Data.save.deployed))], ["Cartes trouvées", "%d / %d" % [cards_found, cards_found]],
+		["Tours détruites", str(int(Data.save.towers))], ["Unités déployées", str(int(Data.save.deployed))], ["Cartes trouvées", "%d / %d" % [cards_found, Data.playable().size()]], ["Coffres ouverts", str(int(Data.save.get("chests_opened", 0)))],
 		["Cartes au niveau max", str(maxed)], ["Île actuelle", Data.island_for(Data.save.trophies).name]]
 	var g = GridContainer.new()
 	g.columns = 2
@@ -2264,6 +2326,12 @@ func _profile_popup() -> void:
 	var fl = UI.label("Carte favorite :\n" + Data.CARDS[best_card].name, 26)
 	fav.add_child(fl)
 	v.add_child(fav)
+	var ab = UI.button("Succès", UI.GOLD, 28)
+	ab.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	ab.pressed.connect(func():
+		_close_modal(bg)
+		_achievements_popup())
+	v.add_child(ab)
 	var cl = UI.button("Fermer", UI.RED, 24)
 	cl.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	cl.pressed.connect(_close_modal.bind(bg))
@@ -2284,7 +2352,7 @@ func _popup_page(page: Control) -> void:
 	v.add_child(cl)
 
 func _road_popup() -> void:
-	_popup_page(_tab_islands())
+	_popup_page(_trophy_road())
 
 func _settings_popup() -> void:
 	_popup_page(_tab_settings())
@@ -2481,3 +2549,352 @@ func _tab_events() -> Control:
 		UI.pop_in(p, 0.05 + k * 0.07)
 		k += 1
 	return _scroll(v)
+
+
+# ================= Contenu : route des trophées, pass, succès, cadeaux, offres =================
+func _reward_text(r: Dictionary) -> String:
+	if r.has("gold"):
+		return "%d or" % r.gold
+	if r.has("gems"):
+		return "%d gemmes" % r.gems
+	return Data.CHEST_TYPES[r.chest].name
+
+func _reward_icon(r: Dictionary, sz: float) -> Control:
+	if r.has("chest"):
+		return _chest_icon(r.chest, sz)
+	var ic = UI.icon("coin" if r.has("gold") else "gem", sz)
+	ic.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	return ic
+
+## Donne une récompense (or, gemmes ou coffre à ouvrir tout de suite).
+func _grant(r: Dictionary, from: Vector2) -> void:
+	if r.has("chest"):
+		_give_chest(r.chest)
+		return
+	if r.has("gold"):
+		Data.save.gold += r.gold
+	if r.has("gems"):
+		Data.save.gems += r.gems
+	Data.persist()
+	Sfx.play("reward")
+	_reward_burst(from, ["coin"] if r.has("gold") else ["gem"])
+	_refresh_resources()
+
+func _road_claimable() -> int:
+	var n = 0
+	for i in Data.ROAD.size():
+		if Data.save.trophies >= Data.ROAD[i].t and not i in Data.save.road_claimed:
+			n += 1
+	return n
+
+func _trophy_road() -> Control:
+	var v = VBoxContainer.new()
+	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	v.add_theme_constant_override("separation", 10)
+	v.add_child(_ribbon("Route des trophées"))
+	var rows = []
+	for isl in Data.ISLANDS:
+		rows.append({"kind": "island", "t": isl.trophies, "isl": isl})
+	for i in Data.ROAD.size():
+		rows.append({"kind": "reward", "t": Data.ROAD[i].t, "i": i})
+	rows.sort_custom(func(a, b): return a.t > b.t if a.t != b.t else a.kind == "reward")
+	var cur = Data.island_for(Data.save.trophies)
+	for row in rows:
+		var reached = Data.save.trophies >= row.t
+		var p = PanelContainer.new()
+		var h = HBoxContainer.new()
+		h.add_theme_constant_override("separation", 14)
+		p.add_child(h)
+		if row.kind == "island":
+			var isl: Dictionary = row.isl
+			var st = UI.panel(isl.sky.darkened(0.3) if reached else Color("3a4458"), 22)
+			if isl.id == cur.id:
+				st.border_color = UI.GOLD
+				st.set_border_width_all(6)
+			p.add_theme_stylebox_override("panel", st)
+			h.add_child(UI.icon("island", 90))
+			var tv = VBoxContainer.new()
+			tv.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			tv.add_child(UI.label(isl.name, 34))
+			var th = HBoxContainer.new()
+			th.add_child(UI.icon("trophy", 28))
+			th.add_child(UI.label("%d" % isl.trophies, 22, Color("ffd54a"), 6))
+			tv.add_child(th)
+			h.add_child(tv)
+			var cards = HBoxContainer.new()
+			cards.add_theme_constant_override("separation", 2)
+			for id in Data.playable():
+				if Data.UNLOCK.get(id, 0) == isl.id and isl.id > 0:
+					var tr = TextureRect.new()
+					tr.texture = Data.card_textures[id]
+					tr.custom_minimum_size = Vector2(46, 60)
+					tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+					tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+					if not reached:
+						tr.modulate = Color(0.35, 0.35, 0.45)
+					cards.add_child(tr)
+			h.add_child(cards)
+			if not reached:
+				p.modulate = Color(0.8, 0.8, 0.85)
+		else:
+			var r: Dictionary = Data.ROAD[row.i]
+			var claimed = row.i in Data.save.road_claimed
+			p.add_theme_stylebox_override("panel", UI.panel(Color("1f3f8a") if reached else Color(0.05, 0.08, 0.2, 0.8), 16))
+			var tl = HBoxContainer.new()
+			tl.custom_minimum_size.x = 120
+			tl.add_child(UI.icon("trophy", 30))
+			tl.add_child(UI.label(str(r.t), 26, Color("ffd54a")))
+			h.add_child(tl)
+			h.add_child(_reward_icon(r, 64))
+			var nl = UI.label(_reward_text(r), 26)
+			nl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			h.add_child(nl)
+			var b = UI.button("Reçu" if claimed else ("Récupérer" if reached else "Verrouillé"), UI.GREEN if reached and not claimed else Color("5a6680"), 22)
+			b.disabled = claimed or not reached
+			var idx: int = row.i
+			b.pressed.connect(func():
+				Data.save.road_claimed.append(idx)
+				Data.persist()
+				b.disabled = true
+				b.text = "Reçu"
+				_grant(r, b.global_position + b.size / 2))
+			h.add_child(b)
+		v.add_child(p)
+	return _scroll(v)
+
+func _pass_tier() -> int:
+	return mini(Data.PASS.size(), int(Data.save.pass_points) / Data.PASS_STEP)
+
+func _pass_claimable() -> int:
+	var n = 0
+	for i in _pass_tier():
+		if not i in Data.save.pass_claimed:
+			n += 1
+	return n
+
+func _pass_popup() -> void:
+	Sfx.play("open")
+	var page = VBoxContainer.new()
+	page.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	page.add_theme_constant_override("separation", 12)
+	page.add_child(_ribbon("Pass Essence"))
+	var tier = _pass_tier()
+	var info = UI.label("Palier %d / %d  ·  1 couronne gagnée = 1 point, %d points par palier" % [tier, Data.PASS.size(), Data.PASS_STEP], 20, Color("e7c6ff"), 5)
+	info.autowrap_mode = TextServer.AUTOWRAP_WORD
+	page.add_child(info)
+	var pb = ProgressBar.new()
+	pb.custom_minimum_size.y = 30
+	pb.show_percentage = false
+	pb.max_value = Data.PASS_STEP
+	pb.value = int(Data.save.pass_points) % Data.PASS_STEP if tier < Data.PASS.size() else Data.PASS_STEP
+	pb.add_theme_stylebox_override("background", UI.panel(UI.INK, 12))
+	var pf = StyleBoxFlat.new()
+	pf.bg_color = UI.PURPLE
+	pf.set_corner_radius_all(10)
+	pb.add_theme_stylebox_override("fill", pf)
+	page.add_child(pb)
+	for i in Data.PASS.size():
+		var r: Dictionary = Data.PASS[i]
+		var reached = i < tier
+		var claimed = i in Data.save.pass_claimed
+		var p = PanelContainer.new()
+		p.add_theme_stylebox_override("panel", UI.panel(Color("6a2fc4") if reached else Color(0.12, 0.08, 0.25, 0.85), 16))
+		var h = HBoxContainer.new()
+		h.add_theme_constant_override("separation", 14)
+		p.add_child(h)
+		var num = UI.label(str(i + 1), 34, UI.GOLD if reached else Color(0.7, 0.7, 0.8))
+		num.custom_minimum_size.x = 56
+		num.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		h.add_child(num)
+		h.add_child(_reward_icon(r, 64))
+		var nl = UI.label(_reward_text(r), 26)
+		nl.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		h.add_child(nl)
+		var b = UI.button("Reçu" if claimed else ("Récupérer" if reached else "%d pts" % ((i + 1) * Data.PASS_STEP)), UI.GREEN if reached and not claimed else Color("5a6680"), 22)
+		b.disabled = claimed or not reached
+		var idx = i
+		b.pressed.connect(func():
+			Data.save.pass_claimed.append(idx)
+			Data.persist()
+			b.disabled = true
+			b.text = "Reçu"
+			_grant(r, b.global_position + b.size / 2))
+		h.add_child(b)
+		page.add_child(p)
+	_popup_page(_scroll(page))
+
+func _ach_value(stat: String) -> int:
+	if stat == "best_trophies":
+		return maxi(int(Data.save.get("best_trophies", 0)), Data.save.trophies)
+	return int(Data.save.get(stat, 0))
+
+func _achievements_popup() -> void:
+	var page = VBoxContainer.new()
+	page.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	page.add_theme_constant_override("separation", 10)
+	page.add_child(_ribbon("Succès"))
+	for a in Data.ACHIEVEMENTS:
+		var val = _ach_value(a[2])
+		var goal: int = a[3]
+		var done = val >= goal
+		var claimed = a[0] in Data.save.ach_claimed
+		var p = PanelContainer.new()
+		p.add_theme_stylebox_override("panel", UI.panel(Color("1f6f3a") if claimed else (Color("2f63cf") if done else Color(0.05, 0.08, 0.2, 0.85)), 16))
+		var h = HBoxContainer.new()
+		h.add_theme_constant_override("separation", 12)
+		p.add_child(h)
+		h.add_child(UI.icon("trophy" if done else "lock", 56))
+		var tv = VBoxContainer.new()
+		tv.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		tv.add_child(UI.label(a[1], 26))
+		var bar = ProgressBar.new()
+		bar.custom_minimum_size.y = 20
+		bar.max_value = goal
+		bar.value = mini(val, goal)
+		bar.show_percentage = false
+		bar.add_theme_stylebox_override("background", UI.panel(UI.INK, 8))
+		var bf = StyleBoxFlat.new()
+		bf.bg_color = UI.GOLD
+		bf.set_corner_radius_all(6)
+		bar.add_theme_stylebox_override("fill", bf)
+		tv.add_child(bar)
+		tv.add_child(UI.label("%d / %d  ·  %d gemmes" % [mini(val, goal), goal, a[4]], 18, Color("c8ffc8"), 5))
+		h.add_child(tv)
+		var b = UI.button("Reçu" if claimed else "Récupérer", UI.GREEN if done and not claimed else Color("5a6680"), 22)
+		b.disabled = claimed or not done
+		var id: String = a[0]
+		var gems: int = a[4]
+		b.pressed.connect(func():
+			Data.save.ach_claimed.append(id)
+			b.disabled = true
+			b.text = "Reçu"
+			Sfx.play("achievement")
+			_grant({"gems": gems}, b.global_position + b.size / 2))
+		h.add_child(b)
+		page.add_child(p)
+	_popup_page(_scroll(page))
+
+## Cadeau de connexion quotidien (calendrier de 7 jours).
+func _login_popup() -> void:
+	var day = int(Time.get_unix_time_from_system() / 86400)
+	if int(Data.save.get("login_day", -1)) == day:
+		return
+	var idx = int(Data.save.get("login_index", 0)) % Data.LOGIN.size()
+	var m = await _modal()
+	var bg: Control = m[0]
+	var v = VBoxContainer.new()
+	v.add_theme_constant_override("separation", 14)
+	m[1].add_child(v)
+	var t = UI.label("Cadeau du jour !", 50, UI.GOLD)
+	t.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	v.add_child(t)
+	var g = GridContainer.new()
+	g.columns = 4
+	g.add_theme_constant_override("h_separation", 10)
+	g.add_theme_constant_override("v_separation", 10)
+	for i in Data.LOGIN.size():
+		var r: Dictionary = Data.LOGIN[i]
+		var p = PanelContainer.new()
+		var col = Color("1f6f3a") if i < idx else (UI.GOLD.darkened(0.2) if i == idx else Color(0.05, 0.08, 0.2, 0.85))
+		p.add_theme_stylebox_override("panel", UI.panel(col, 16))
+		var pv = VBoxContainer.new()
+		pv.alignment = BoxContainer.ALIGNMENT_CENTER
+		var dl = UI.label("Jour %d" % (i + 1), 20)
+		dl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		pv.add_child(dl)
+		pv.add_child(_reward_icon(r, 70))
+		var rl = UI.label(_reward_text(r), 16, Color.WHITE, 5)
+		rl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		rl.autowrap_mode = TextServer.AUTOWRAP_WORD
+		rl.custom_minimum_size.x = 120
+		pv.add_child(rl)
+		p.add_child(pv)
+		g.add_child(p)
+		UI.pop_in(p, 0.05 * i)
+		if i == idx:
+			p.ready.connect(func(): UI.pulse(p, 1.06, 0.8))
+	v.add_child(g)
+	var b = UI.button("Récupérer", UI.GREEN, 32)
+	b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	b.pressed.connect(func():
+		Data.save.login_day = day
+		Data.save.login_index = idx + 1
+		Data.persist()
+		_close_modal(bg)
+		_grant(Data.LOGIN[idx], get_viewport().get_visible_rect().size / 2))
+	v.add_child(b)
+
+## Offres du jour : 3 améliorations de cartes à prix réduit + gemmes gratuites.
+func _daily_deals() -> Control:
+	var day = int(Time.get_unix_time_from_system() / 86400)
+	if int(Data.save.get("deal_day", -1)) != day:
+		var pool = Data.playable().filter(func(id): return Data.unlocked(id) and int(Data.save.levels[id]) < Data.MAX_LEVEL)
+		pool.shuffle()
+		Data.save.deal_day = day
+		Data.save.deals = pool.slice(0, 3)
+		Data.save.deals_bought = []
+		Data.persist()
+	var box = VBoxContainer.new()
+	box.add_theme_constant_override("separation", 10)
+	box.add_child(UI.label("Offres du jour", 34))
+	var row = HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	# gemmes gratuites
+	var fp = PanelContainer.new()
+	fp.add_theme_stylebox_override("panel", UI.panel(Color("1f8a4a"), 18))
+	fp.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var fv = VBoxContainer.new()
+	fv.alignment = BoxContainer.ALIGNMENT_CENTER
+	var gi = UI.icon("gem", 90)
+	gi.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	fv.add_child(gi)
+	var fl = UI.label("10 gemmes", 22)
+	fl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	fv.add_child(fl)
+	var got = "free" in Data.save.deals_bought
+	var fb = UI.button("Pris" if got else "Gratuit", UI.GREEN, 22)
+	fb.disabled = got
+	fb.pressed.connect(func():
+		Data.save.deals_bought.append("free")
+		fb.disabled = true
+		fb.text = "Pris"
+		_grant({"gems": 10}, fb.global_position + fb.size / 2))
+	fv.add_child(fb)
+	fp.add_child(fv)
+	row.add_child(fp)
+	for id in Data.save.deals:
+		if not Data.CARDS.has(id):
+			continue
+		var lvl = int(Data.save.levels[id])
+		var price = int(Data.upgrade_cost(lvl) * 0.6)
+		var p = PanelContainer.new()
+		p.add_theme_stylebox_override("panel", UI.panel(Color("2f63cf"), 18))
+		p.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var pv = VBoxContainer.new()
+		pv.alignment = BoxContainer.ALIGNMENT_CENTER
+		var tr = TextureRect.new()
+		tr.texture = Data.card_textures[id]
+		tr.custom_minimum_size = Vector2(80, 100)
+		tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		pv.add_child(tr)
+		var ll = UI.label("Niv. %d → %d" % [lvl, lvl + 1], 18, Color("7cf27a"), 5)
+		ll.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		pv.add_child(ll)
+		var bought = id in Data.save.deals_bought
+		var b = UI.button("Acheté" if bought else "%d or" % price, UI.GOLD, 20)
+		b.disabled = bought or Data.save.gold < price or lvl >= Data.MAX_LEVEL
+		b.pressed.connect(func():
+			Data.save.gold -= price
+			Data.save.levels[id] = int(Data.save.levels[id]) + 1
+			Data.save.deals_bought.append(id)
+			Data.persist()
+			Sfx.play("levelup")
+			_refresh_resources()
+			b.disabled = true
+			b.text = "Acheté")
+		pv.add_child(b)
+		p.add_child(pv)
+		row.add_child(p)
+	box.add_child(row)
+	return box

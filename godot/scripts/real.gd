@@ -35,6 +35,22 @@ const UNITS := {
 		"move": "Walking_D_Skeletons", "attack": "Spellcast_Shoot", "pose": ["Spellcast_Summon", 0.45], "special": "Spellcast_Summon"},
 	"minion": {"file": "Skeleton_Minion", "scale": 0.4, "attach_r": "Skeleton_Blade", "spawn": "Spawn_Ground_Skeletons",
 		"move": "Running_C", "attack": "1H_Melee_Attack_Stab", "pose": ["Idle_Combat", 0.3]},
+	"titan": {"file": "Knight", "scale": 1.0, "show": ["1H_Sword", "Round_Shield"],
+		"move": "Walking_A", "attack": "1H_Melee_Attack_Chop", "pose": ["Blocking", 0.2]},
+	"bomber": {"file": "Rogue", "scale": 0.58, "show": ["Throwable"],
+		"move": "Walking_A", "attack": "Throw", "pose": ["Throw", 0.3]},
+	"icemage": {"file": "Mage", "scale": 0.63, "show": ["2H_Staff"],
+		"move": "Walking_A", "attack": "Spellcast_Shoot", "pose": ["Spellcast_Long", 0.4]},
+	"army": {"file": "Skeleton_Minion", "scale": 0.4, "attach_r": "Skeleton_Blade", "spawn": "Spawn_Ground_Skeletons",
+		"move": "Running_C", "attack": "1H_Melee_Attack_Stab", "pose": ["Idle_Combat", 0.3]},
+	"giant_skel": {"file": "Skeleton_Warrior", "scale": 1.0, "attach_r": "Skeleton_Axe", "spawn": "Spawn_Ground_Skeletons",
+		"move": "Walking_D_Skeletons", "attack": "1H_Melee_Attack_Chop", "pose": ["Taunt", 0.4]},
+	"lumber": {"file": "Barbarian", "scale": 0.66, "show": ["2H_Axe"], "hide": ["Barbarian_Hat"],
+		"move": "Running_A", "attack": "2H_Melee_Attack_Slice", "pose": ["2H_Melee_Attack_Slice", 0.35]},
+	"ghost": {"file": "Rogue_Hooded", "scale": 0.6, "show": ["Knife", "Knife_Offhand"],
+		"move": "Running_B", "attack": "Dualwield_Melee_Attack_Stab", "pose": ["Dualwield_Melee_Attack_Stab", 0.35]},
+	"guards": {"file": "Knight", "scale": 0.52, "show": ["1H_Sword", "Badge_Shield"],
+		"move": "Walking_A", "attack": "1H_Melee_Attack_Stab", "pose": ["Blocking", 0.2]},
 	"sapper": {"file": "Skeleton_Rogue", "scale": 0.55, "back": "keg_decorated", "spawn": "Spawn_Ground_Skeletons",
 		"move": "Running_B", "attack": "Throw", "pose": ["Running_B", 0.3]},
 }
@@ -160,6 +176,8 @@ static func guard(team: int, core: bool) -> Node3D:
 ## Pose figée pour l'illustration des cartes.
 static func pose(model: Node3D) -> void:
 	var ap: AnimationPlayer = model.get_meta("ap")
+	if not model.get_meta("cfg").has("pose"):
+		return
 	var p: Array = model.get_meta("cfg").pose
 	ap.play(p[0])
 	ap.seek(ap.current_animation_length * p[1], true)
