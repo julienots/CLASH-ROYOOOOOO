@@ -547,6 +547,216 @@ def make_island():
     export('island')
 
 
+# ------------------------------------------------------------------ coffres
+CHEST_STYLES = {
+    'wood': {'body': '#9a5f2e', 'body2': '#83501f', 'metal': '#5d6470', 'metal_rough': 0.45, 'metal_k': 0.8, 'lock': '#4a505c', 'gem': None, 'emblem': None},
+    'silver': {'body': '#4f6f9a', 'body2': '#3f5d86', 'metal': '#d6dde8', 'metal_rough': 0.25, 'metal_k': 0.95, 'lock': '#aeb8c8', 'gem': '#6fd0ff', 'emblem': None},
+    'gold': {'body': '#a8322a', 'body2': '#8c2620', 'metal': '#f2bf3a', 'metal_rough': 0.25, 'metal_k': 0.95, 'lock': '#f2bf3a', 'gem': '#3ee07a', 'emblem': 'studs'},
+    'magic': {'body': '#5a2a9a', 'body2': '#47207d', 'metal': '#f2bf3a', 'metal_rough': 0.25, 'metal_k': 0.95, 'lock': '#f2bf3a', 'gem': '#d24bff', 'emblem': 'crystals'},
+    'crown': {'body': '#2f5fd0', 'body2': '#244cae', 'metal': '#f6c945', 'metal_rough': 0.2, 'metal_k': 1.0, 'lock': '#f6c945', 'gem': '#ff4a6a', 'emblem': 'crown'},
+}
+
+
+def half_cylinder(name, radius, length, mat, segments=28):
+    """Demi-cylindre couché selon X (dessus arrondi), fermé aux extrémités."""
+    bpy.ops.mesh.primitive_cylinder_add(vertices=segments, radius=radius, depth=length, rotation=(0, math.radians(90), 0))
+    o = bpy.context.view_layer.objects.active
+    o.name = name
+    bpy.ops.object.transform_apply(rotation=True)
+    bm = bmesh.new()
+    bm.from_mesh(o.data)
+    bmesh.ops.bisect_plane(bm, geom=bm.verts[:] + bm.edges[:] + bm.faces[:], plane_co=(0, 0, 0), plane_no=(0, 0, 1), clear_inner=True)
+    edges = [e for e in bm.edges if e.is_boundary]
+    bmesh.ops.holes_fill(bm, edges=edges, sides=0)
+    bm.to_mesh(o.data)
+    bm.free()
+    o.data.materials.append(mat)
+    return o
+
+
+def bevel(o, w=0.03, seg=2):
+    b = o.modifiers.new('bevel', 'BEVEL')
+    b.width = w
+    b.segments = seg
+    b.limit_method = 'ANGLE'
+    apply_mods(o)
+
+
+def make_chest(kind):
+    reset()
+    st = CHEST_STYLES[kind]
+    wood = material('Body', hexc(st['body']), 0.7)
+    wood2 = material('Body2', hexc(st['body2']), 0.75)
+    metal = material('Metal', hexc(st['metal']), 0.35, st['metal_k'] * 0.45)
+    lockm = material('Lock', hexc(st['lock']), 0.35, 0.45)
+    dark = material('Dark', hexc('#1a1410'), 0.9)
+    inner = material('Inner', hexc('#2a1a10'), 0.95)
+    glow = material('Glow', hexc('#ffc93a'), 0.3, emit=hexc('#ffb21a'), emit_strength=1.6)
+    gem = material('Gem', hexc(st['gem']), 0.1, 0.2, emit=hexc(st['gem']), emit_strength=2.5) if st['gem'] else None
+
+    W, D, H = 1.6, 1.05, 0.85   # largeur (X), profondeur (Y), hauteur caisse (Z)
+    root = empty('Chest')
+    body_pv = empty('BodyPivot', (0, 0, 0), root)
+    parts_body = []
+    # caisse en planches horizontales
+    for i in range(3):
+        pl = prim('cube', f'Plank{i}', wood if i % 2 == 0 else wood2, size=1, location=(0, 0, 0.14 + i * 0.27))
+        pl.scale = (W - 0.04, D - 0.04, 0.25)
+        bpy.ops.object.transform_apply(scale=True)
+        bevel(pl, 0.03)
+        parts_body.append(pl)
+    # intérieur sombre visible à l'ouverture + lueur du trésor
+    inn = prim('cube', 'InnerTop', inner, size=1, location=(0, 0, H - 0.02))
+    inn.scale = (W - 0.16, D - 0.16, 0.04)
+    parts_body.append(inn)
+    treasure = prim('uv_sphere', 'Treasure', glow, segments=16, ring_count=8, radius=0.42, location=(0, 0, H - 0.05))
+    treasure.scale = (1.6, 0.9, 0.35)
+    parts_body.append(treasure)
+    # socle et cerclages
+    base = prim('cube', 'Base', metal, size=1, location=(0, 0, 0.03))
+    base.scale = (W + 0.08, D + 0.08, 0.08)
+    bpy.ops.object.transform_apply(scale=True)
+    bevel(base, 0.025)
+    parts_body.append(base)
+    rim = prim('cube', 'Rim', metal, size=1, location=(0, 0, H))
+    rim.scale = (W + 0.06, D + 0.06, 0.08)
+    bpy.ops.object.transform_apply(scale=True)
+    bevel(rim, 0.025)
+    parts_body.append(rim)
+    for x in (-W * 0.33, W * 0.33):
+        band = prim('cube', 'Band', metal, size=1, location=(x, 0, H / 2))
+        band.scale = (0.14, D + 0.05, H + 0.02)
+        bpy.ops.object.transform_apply(scale=True)
+        bevel(band, 0.02)
+        parts_body.append(band)
+        for z in (0.2, 0.45, 0.7):
+            for y in (-1, 1):
+                r = prim('uv_sphere', 'Rivet', metal, segments=10, ring_count=6, radius=0.035, location=(x, y * (D / 2 + 0.03), z))
+                parts_body.append(r)
+    # coins renforcés
+    for sx in (-1, 1):
+        for sy in (-1, 1):
+            c = prim('cube', 'Corner', metal, size=1, location=(sx * (W / 2 - 0.02), sy * (D / 2 - 0.02), H / 2))
+            c.scale = (0.12, 0.12, H + 0.04)
+            bpy.ops.object.transform_apply(scale=True)
+            bevel(c, 0.025)
+            parts_body.append(c)
+    # serrure à l'avant (-Y)
+    plate = prim('cube', 'LockPlate', lockm, size=1, location=(0, -D / 2 - 0.04, H - 0.12))
+    plate.scale = (0.34, 0.08, 0.36)
+    bpy.ops.object.transform_apply(scale=True)
+    bevel(plate, 0.04, 3)
+    parts_body.append(plate)
+    kh = prim('cylinder', 'Keyhole', dark, vertices=12, radius=0.045, depth=0.04, location=(0, -D / 2 - 0.085, H - 0.08), rotation=(math.radians(90), 0, 0))
+    parts_body.append(kh)
+    kh2 = prim('cube', 'KeySlot', dark, size=1, location=(0, -D / 2 - 0.085, H - 0.16))
+    kh2.scale = (0.03, 0.04, 0.1)
+    parts_body.append(kh2)
+    if gem:
+        g = prim('ico_sphere', 'LockGem', gem, subdivisions=1, radius=0.07, location=(0, -D / 2 - 0.09, H - 0.25))
+        g.scale = (1, 0.6, 1)
+        parts_body.append(g)
+    if st['emblem'] == 'studs':
+        for x in (-0.55, -0.15, 0.15, 0.55):
+            for z in (0.15, 0.42):
+                stud = prim('uv_sphere', 'Stud', metal, segments=10, ring_count=6, radius=0.05, location=(x, -D / 2 - 0.02, z))
+                parts_body.append(stud)
+    for o in parts_body:
+        smooth(o, 35)
+        parent_keep(o, body_pv)
+
+    # couvercle arrondi, pivot à la charnière arrière (+Y)
+    lid_pv = empty('LidPivot', (0, D / 2, H), body_pv)
+    lid_parts = []
+    lid = half_cylinder('Lid', D / 2 + 0.02, W - 0.04, wood)
+    lid.location = (0, 0, H + 0.04)
+    lid.scale = (1, 1, 0.8)
+    bpy.context.view_layer.update()
+    lid_parts.append(lid)
+    for x in (-W * 0.33, W * 0.33):
+        lb = half_cylinder('LidBand', D / 2 + 0.06, 0.15, metal)
+        lb.location = (x, 0, H + 0.04)
+        lb.scale = (1, 1, 0.8)
+        lid_parts.append(lb)
+    for x in (-W / 2 + 0.03, W / 2 - 0.03):
+        cap = half_cylinder('LidCap', D / 2 + 0.06, 0.1, metal)
+        cap.location = (x, 0, H + 0.04)
+        cap.scale = (1, 1, 0.8)
+        lid_parts.append(cap)
+    lrim = prim('cube', 'LidRim', metal, size=1, location=(0, 0, H + 0.06))
+    lrim.scale = (W + 0.06, D + 0.08, 0.06)
+    bpy.ops.object.transform_apply(scale=True)
+    lid_parts.append(lrim)
+    hasp = prim('cube', 'Hasp', lockm, size=1, location=(0, -D / 2 - 0.05, H + 0.02))
+    hasp.scale = (0.2, 0.06, 0.24)
+    bpy.ops.object.transform_apply(scale=True)
+    bevel(hasp, 0.03, 2)
+    lid_parts.append(hasp)
+    top_z = H + 0.04 + (D / 2 + 0.06) * 0.8
+    if st['emblem'] == 'crystals':
+        for i, (x, s) in enumerate(((-0.35, 0.8), (0.0, 1.2), (0.35, 0.8))):
+            cr = prim('ico_sphere', 'Crystal', gem, subdivisions=1, radius=0.13 * s, location=(x, 0, top_z + 0.12 * s))
+            cr.scale = (0.7, 0.7, 1.6)
+            cr.rotation_euler = (0, (i - 1) * 0.35, 0)
+            lid_parts.append(cr)
+    elif st['emblem'] == 'crown':
+        cb = prim('cylinder', 'CrownBand', metal, vertices=24, radius=0.28, depth=0.14, location=(0, 0, top_z + 0.05))
+        lid_parts.append(cb)
+        for i in range(5):
+            a = i / 5 * 2 * math.pi
+            sp = prim('cone', 'CrownSpike', metal, vertices=8, radius1=0.07, depth=0.24, location=(math.cos(a) * 0.24, math.sin(a) * 0.24, top_z + 0.22))
+            lid_parts.append(sp)
+            jw = prim('uv_sphere', 'CrownGem', gem, segments=8, ring_count=6, radius=0.04, location=(math.cos(a) * 0.24, math.sin(a) * 0.24, top_z + 0.36))
+            lid_parts.append(jw)
+        cg = prim('ico_sphere', 'CrownJewel', gem, subdivisions=1, radius=0.07, location=(0, -0.28, top_z + 0.05))
+        lid_parts.append(cg)
+    elif st['emblem'] == 'studs' or kind == 'silver':
+        em = prim('cylinder', 'Emblem', metal, vertices=24, radius=0.16, depth=0.05, location=(0, -0.25, top_z - 0.08), rotation=(math.radians(60), 0, 0))
+        lid_parts.append(em)
+        if gem:
+            eg = prim('ico_sphere', 'EmblemGem', gem, subdivisions=1, radius=0.07, location=(0, -0.29, top_z - 0.05))
+            lid_parts.append(eg)
+    for o in lid_parts:
+        smooth(o, 35)
+        parent_keep(o, lid_pv)
+
+    objs = [root, body_pv, lid_pv]
+    rest_lid = lid_pv.location.copy()
+
+    def pose(f, lid_rot=0.0, sq=(1, 1, 1), rz=0.0, lz=0.0):
+        key_rot(lid_pv, f, (lid_rot, 0, 0))
+        key_loc(lid_pv, f, (rest_lid.x, rest_lid.y, rest_lid.z + lz))
+        key_scale(body_pv, f, sq)
+        key_rot(root, f, (0, 0, rz))
+
+    # Idle : respiration douce, le couvercle se soulève à peine (lueur visible)
+    pose(1); pose(30, -0.06, (1.02, 1.02, 0.97)); pose(61)
+    push_track(objs, 'Idle')
+    # Shake : anticipation qui tremble de plus en plus
+    for i, a in enumerate((0, 0.1, -0.12, 0.15, -0.17, 0.2, -0.2, 0.0)):
+        pose(1 + i * 3, -0.05 * (i % 2), (1.0 + 0.04 * (i % 2), 1.0 + 0.04 * (i % 2), 1.0 - 0.06 * (i % 2)), a)
+    push_track(objs, 'Shake')
+    # Open : écrasement, le couvercle s'envole en arrière avec rebond
+    pose(1, 0, (1, 1, 1))
+    pose(5, 0, (1.15, 1.15, 0.78))
+    pose(9, -2.25, (0.92, 0.92, 1.18), 0, 0.15)
+    pose(14, -1.75, (1.04, 1.04, 0.96))
+    pose(19, -1.98, (1, 1, 1))
+    pose(24, -1.9, (1, 1, 1))
+    push_track(objs, 'Open')
+    # Opened : reste ouvert (boucle légère)
+    pose(1, -1.9); pose(30, -1.86, (1.01, 1.01, 0.99)); pose(61, -1.9)
+    push_track(objs, 'Opened')
+    export('chest_' + kind)
+
+
+def make_chests():
+    for k in CHEST_STYLES:
+        make_chest(k)
+
+
 if __name__ == '__main__':
-    for fn in (make_dragon, make_totem, make_meteor, make_frost, make_potion, make_arrow, make_island):
-        fn()
+    only = sys.argv[sys.argv.index('--') + 2:] if '--' in sys.argv else []
+    for fn in (make_dragon, make_totem, make_meteor, make_frost, make_potion, make_arrow, make_island, make_chests):
+        if not only or fn.__name__ in only:
+            fn()

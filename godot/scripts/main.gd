@@ -223,7 +223,24 @@ func _render_cards(bar: ProgressBar) -> void:
 		Data.card_textures[id] = await _compose_card(ImageTexture.create_from_image(img), id)
 		model.queue_free()
 		n += 1
-		bar.value = 90.0 * n / ids.size()
+		bar.value = 85.0 * n / ids.size()
+	# icônes 3D des coffres
+	cam.fov = 32
+	for type in Data.CHEST_TYPES:
+		var ch = Models.blend("chest_" + type)
+		ch.rotation.y = 0.45
+		vp.add_child(ch)
+		var cap: AnimationPlayer = ch.find_child("AnimationPlayer", false, false)
+		cap.play("Idle")
+		cap.seek(0.0, true)
+		cap.pause()
+		cam.position = Vector3(0, 2.1, 3.9)
+		cam.look_at(Vector3(0, 0.6, 0))
+		await RenderingServer.frame_post_draw
+		await RenderingServer.frame_post_draw
+		Data.chest_textures[type] = ImageTexture.create_from_image(vp.get_texture().get_image())
+		ch.queue_free()
+	bar.value = 90.0
 	vp.queue_free()
 
 func _pose_card_model(n: Node) -> void:
@@ -984,8 +1001,7 @@ func _tab_shop() -> Control:
 		p.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		var cv = VBoxContainer.new()
 		cv.alignment = BoxContainer.ALIGNMENT_CENTER
-		var ic = UI.icon("chest", 110)
-		ic.tint = c.tint
+		var ic = _chest_icon(c.id, 120)
 		ic.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 		cv.add_child(ic)
 		var nl = UI.label(c.name, 22)
@@ -1051,86 +1067,305 @@ func _buy_chest(c: Dictionary) -> void:
 	Data.save.gold += gold
 	Data.save.gems += gems
 	Data.persist()
-	_open_chest(c, gold, gems)
+	_open_chest(c.id, gold, gems, _bonus_card(c.id))
 
-## Ouverture de coffre : il tremble, saute, explose en lumière, puis le butin apparaît.
-func _open_chest(c: Dictionary, gold: int, gems: int) -> void:
+## Les coffres d'Or, Magique et Couronne améliorent gratuitement une carte au hasard.
+func _bonus_card(type: String) -> String:
+	if not type in ["gold", "magic", "crown"]:
+		return ""
+	var pool = []
+	for id in Data.playable():
+		if int(Data.save.levels[id]) < Data.MAX_LEVEL:
+			pool.append(id)
+	if pool.is_empty():
+		return ""
+	var id: String = pool[randi() % pool.size()]
+	Data.save.levels[id] = int(Data.save.levels[id]) + 1
+	Data.persist()
+	return id
+
+func _chest_icon(type: String, s: float) -> Control:
+	if Data.chest_textures.has(type):
+		var t = TextureRect.new()
+		t.texture = Data.chest_textures[type]
+		t.custom_minimum_size = Vector2(s, s)
+		t.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		t.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		t.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		return t
+	var ic = UI.icon("chest", s)
+	ic.tint = Data.CHEST_TYPES[type].tint
+	return ic
+
+## Ouverture de coffre en 3D : il tombe et rebondit, tremble au toucher, le couvercle saute
+## dans un éclat de lumière, puis chaque récompense jaillit du coffre une par une.
+func _open_chest(type: String, gold: int, gems: int, bonus: String = "") -> void:
 	modal_open += 1
+	var t: Dictionary = Data.CHEST_TYPES[type]
+	var vp_size = get_viewport().get_visible_rect().size
 	var bg = ColorRect.new()
 	bg.color = Color(0.02, 0.05, 0.15, 0.0)
 	UI.full_rect(bg)
 	root.add_child(bg)
-	create_tween().tween_property(bg, "color:a", 0.92, 0.25)
+	create_tween().tween_property(bg, "color:a", 0.94, 0.25)
 	var rays = Rays.new()
 	UI.full_rect(rays)
-	rays.color = Color(1, 0.85, 0.3, 0.0)
+	rays.color = Color(t.tint.r, t.tint.g, t.tint.b, 0.0)
 	bg.add_child(rays)
-	var chest = UI.icon("chest", 260)
-	chest.tint = c.tint
-	chest.size = Vector2(260, 260)
-	bg.add_child(chest)
-	var vp = get_viewport().get_visible_rect().size
-	chest.position = Vector2(vp.x / 2 - 130, -300)
-	chest.pivot_offset = Vector2(130, 200)
+	var title = UI.label(t.name, 56, UI.GOLD, 14)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.size = Vector2(vp_size.x, 90)
+	title.position = Vector2(0, 120)
+	bg.add_child(title)
+	UI.pop_in(title, 0.2)
+	# scène 3D du coffre
+	var svc = SubViewportContainer.new()
+	svc.stretch = true
+	svc.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	svc.position = Vector2(0, vp_size.y * 0.18)
+	svc.size = Vector2(vp_size.x, vp_size.y * 0.55)
+	bg.add_child(svc)
+	var sv = SubViewport.new()
+	sv.transparent_bg = true
+	sv.own_world_3d = true
+	sv.msaa_3d = Viewport.MSAA_4X
+	svc.add_child(sv)
+	var env = WorldEnvironment.new()
+	var e = Environment.new()
+	e.background_mode = Environment.BG_CLEAR_COLOR
+	e.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	e.ambient_light_color = Color(0.9, 0.92, 1.0)
+	e.ambient_light_energy = 0.8
+	e.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+	env.environment = e
+	sv.add_child(env)
+	var key = DirectionalLight3D.new()
+	key.rotation = Vector3(deg_to_rad(-40), deg_to_rad(30), 0)
+	key.light_energy = 1.3
+	sv.add_child(key)
+	var glow_light = OmniLight3D.new()
+	glow_light.light_color = Color("ffd24a")
+	glow_light.omni_range = 6.0
+	glow_light.light_energy = 0.0
+	glow_light.position = Vector3(0, 0.75, 0.1)
+	glow_light.omni_range = 3.0
+	sv.add_child(glow_light)
+	var cam = Camera3D.new()
+	cam.fov = 38
+	cam.position = Vector3(0, 2.6, 5.2)
+	sv.add_child(cam)
+	cam.look_at(Vector3(0, 0.6, 0))
+	var fx3 = FX.new()
+	sv.add_child(fx3)
+	var chest: Node3D = Models.blend("chest_" + type)
+	chest.rotation.y = 0.0
+	chest.position = Vector3(0, 7, 0)
+	sv.add_child(chest)
+	var ap: AnimationPlayer = chest.find_child("AnimationPlayer", false, false)
+	for a in ["Idle", "Opened"]:
+		ap.get_animation(a).loop_mode = Animation.LOOP_LINEAR
+	ap.play("Idle")
+	# 1. chute + rebond
 	var tw = create_tween()
-	tw.tween_property(chest, "position:y", vp.y / 2 - 200, 0.5).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
-	tw.tween_callback(func(): Sfx.play("hit", 0.6))
-	for i in 6:
-		tw.tween_property(chest, "rotation", 0.12 * (1 if i % 2 else -1) * (1 + i * 0.3), 0.07)
-	tw.tween_property(chest, "rotation", 0.0, 0.05)
-	tw.tween_property(chest, "scale", Vector2(1.2, 0.75), 0.12)
-	tw.tween_property(chest, "scale", Vector2(0.9, 1.25), 0.1)
-	tw.parallel().tween_property(chest, "position:y", vp.y / 2 - 280, 0.1)
+	tw.tween_property(chest, "position:y", 0.0, 0.45).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 	tw.tween_callback(func():
-		Sfx.play("chest")
-		var flash = ColorRect.new()
-		flash.color = Color.WHITE
-		UI.full_rect(flash)
-		bg.add_child(flash)
-		flash.create_tween().tween_property(flash, "color:a", 0.0, 0.5)
-		rays.create_tween().tween_property(rays, "color:a", 0.35, 0.3))
-	tw.tween_property(chest, "scale", Vector2.ONE, 0.4).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
-	tw.parallel().tween_property(chest, "position:y", vp.y / 2 - 380, 0.4)
+		Sfx.play("hit", 0.7)
+		fx3.dust(Vector3.ZERO, 16, 1.4)
+		_shake_control(svc, 10.0))
+	tw.tween_property(chest, "position:y", 0.5, 0.15).set_ease(Tween.EASE_OUT)
+	tw.tween_property(chest, "position:y", 0.0, 0.2).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
 	await tw.finished
-	if not is_instance_valid(bg) or not bg.is_inside_tree():
+	if not is_instance_valid(bg):
 		modal_open = maxi(0, modal_open - 1)
 		return
-	var loot = HBoxContainer.new()
-	loot.add_theme_constant_override("separation", 40)
-	loot.position = Vector2(vp.x / 2 - 220, vp.y / 2)
-	loot.custom_minimum_size.x = 440
-	loot.alignment = BoxContainer.ALIGNMENT_CENTER
-	bg.add_child(loot)
-	var items = [["coin", gold, Color("ffd84a")]]
+	# 2. on attend que le joueur touche le coffre
+	var hint = UI.label("Touche pour ouvrir !", 40)
+	hint.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	hint.size = Vector2(vp_size.x, 60)
+	hint.position = Vector2(0, vp_size.y * 0.76)
+	bg.add_child(hint)
+	UI.pulse(hint, 1.1, 0.9)
+	var tap = Button.new()
+	tap.flat = true
+	UI.full_rect(tap)
+	bg.add_child(tap)
+	await tap.pressed
+	tap.queue_free()
+	hint.queue_free()
+	# 3. tremblement qui monte en puissance + lueur
+	ap.play("Shake")
+	Sfx.play("tick", 0.8)
+	create_tween().tween_property(glow_light, "light_energy", 2.5, 0.7)
+	await get_tree().create_timer(0.35).timeout
+	Sfx.play("tick", 1.1)
+	await get_tree().create_timer(0.35).timeout
+	# 4. ouverture : flash, faisceau de lumière, étincelles
+	ap.play("Open")
+	ap.queue("Opened")
+	Sfx.play("chest")
+	var flash = ColorRect.new()
+	flash.color = Color(1, 0.97, 0.85, 0.75)
+	UI.full_rect(flash)
+	flash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bg.add_child(flash)
+	flash.create_tween().tween_property(flash, "color:a", 0.0, 0.6)
+	rays.create_tween().tween_property(rays, "color:a", 0.35, 0.4)
+	glow_light.light_energy = 2.2
+	create_tween().tween_property(glow_light, "light_energy", 1.0, 1.2)
+	_beam(sv, t.tint.lightened(0.4))
+	fx3.burst(Vector3(0, 1.0, 0), Color("ffd24a"), 40, 6.0, 0.35, 1.0, -6.0)
+	fx3.burst(Vector3(0, 1.0, 0), t.tint.lightened(0.5), 24, 4.0, 0.5, 0.8, -3.0)
+	fx3.ring(Vector3(0, 0.0, 0), 3.0, Color("ffd24a"), 0.6, 0.25)
+	_shake_control(svc, 14.0)
+	var sparkle = Timer.new()
+	sparkle.wait_time = 0.12
+	sv.add_child(sparkle)
+	sparkle.timeout.connect(func(): fx3.burst(Vector3(randf_range(-0.5, 0.5), 1.1, 0), Color("ffe58a"), 2, 1.5, 0.25, 0.8, -1.0))
+	sparkle.start()
+	await get_tree().create_timer(0.7).timeout
+	# 5. récompenses une par une, qui jaillissent du coffre
+	var items = [["coin", gold, Color("ffd84a"), "Pièces d'or"]]
 	if gems > 0:
-		items.append(["gem", gems, Color("7cf27a")])
-	var k = 0
-	for it in items:
-		var col = VBoxContainer.new()
-		var ic = UI.icon(it[0], 120)
-		ic.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-		col.add_child(ic)
-		var l = UI.label("+0", 54, it[2], 12)
-		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		col.add_child(l)
-		loot.add_child(col)
-		UI.pop_in(col, k * 0.25)
-		var amount: int = it[1]
-		var ct = l.create_tween()
-		ct.tween_interval(0.2 + k * 0.25)
-		ct.tween_method(func(v: float): l.text = "+%d" % int(v), 0.0, float(amount), 0.8).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		ct.tween_callback(func(): Sfx.play("coin"))
-		k += 1
-	var ok = UI.button("OK", UI.GOLD, 40)
+		items.append(["gem", gems, Color("7cf27a"), "Gemmes"])
+	if bonus != "":
+		items.append(["card", int(Data.save.levels[bonus]), Color("6fc4ff"), Data.CARDS[bonus].name])
+	var left = UI.label("", 30, Color.WHITE)
+	left.position = Vector2(vp_size.x / 2 + 90, vp_size.y * 0.47)
+	bg.add_child(left)
+	var collected = HBoxContainer.new()
+	collected.alignment = BoxContainer.ALIGNMENT_CENTER
+	collected.add_theme_constant_override("separation", 30)
+	collected.size = Vector2(vp_size.x, 160)
+	collected.position = Vector2(0, vp_size.y * 0.74)
+	bg.add_child(collected)
+	for idx in items.size():
+		var it = items[idx]
+		left.text = "x%d" % (items.size() - idx)
+		var card = PanelContainer.new()
+		card.add_theme_stylebox_override("panel", UI.panel(Color(0.08, 0.15, 0.4, 0.95), 26))
+		var cv = VBoxContainer.new()
+		cv.alignment = BoxContainer.ALIGNMENT_CENTER
+		card.add_child(cv)
+		if it[0] == "card":
+			var tr = TextureRect.new()
+			tr.texture = Data.card_textures[bonus]
+			tr.custom_minimum_size = Vector2(170, 225)
+			tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+			cv.add_child(tr)
+			var ll = UI.label("Niveau %d → %d !" % [it[1] - 1, it[1]], 34, Color("7cf27a"))
+			ll.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			cv.add_child(ll)
+		else:
+			var ic = UI.icon(it[0], 150)
+			ic.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+			cv.add_child(ic)
+			var cnt = UI.label("x0", 64, it[2], 14)
+			cnt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			cv.add_child(cnt)
+			var amount: int = it[1]
+			var ct = cnt.create_tween()
+			ct.tween_interval(0.25)
+			ct.tween_method(func(v: float): cnt.text = "x%d" % int(v), 0.0, float(amount), 0.6).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		var nm = UI.label(it[3], 30)
+		nm.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		cv.add_child(nm)
+		card.custom_minimum_size = Vector2(360, 0)
+		bg.add_child(card)
+		await get_tree().process_frame
+		var center = Vector2(vp_size.x / 2, vp_size.y * 0.45)
+		card.pivot_offset = card.size / 2
+		card.position = center - card.size / 2 + Vector2(0, 120)
+		card.scale = Vector2(0.1, 0.1)
+		card.rotation = -0.6
+		var ft = card.create_tween().set_parallel()
+		ft.tween_property(card, "position", center - card.size / 2 - Vector2(0, 40), 0.45).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		ft.tween_property(card, "scale", Vector2.ONE, 0.45).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		ft.tween_property(card, "rotation", 0.0, 0.45).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		fx3.burst(Vector3(0, 1.3, 0), it[2], 18, 5.0, 0.4, 0.7, -5.0)
+		Sfx.play("levelup" if it[0] == "card" else ("bonus" if it[0] == "gem" else "coin"))
+		Sfx.play("whoosh")
+		await get_tree().create_timer(0.5).timeout
+		var tap2 = Button.new()
+		tap2.flat = true
+		UI.full_rect(tap2)
+		bg.add_child(tap2)
+		await tap2.pressed
+		tap2.queue_free()
+		# la récompense file se ranger en bas
+		var mini_box = VBoxContainer.new()
+		var mi = _chest_reward_icon(it, bonus)
+		mini_box.add_child(mi)
+		var ml = UI.label(("Niv. %d" % it[1]) if it[0] == "card" else ("x%d" % it[1]), 28, it[2])
+		ml.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		mini_box.add_child(ml)
+		var gt = card.create_tween().set_parallel()
+		gt.tween_property(card, "scale", Vector2(0.2, 0.2), 0.25).set_ease(Tween.EASE_IN)
+		gt.tween_property(card, "position:y", vp_size.y * 0.74, 0.25).set_ease(Tween.EASE_IN)
+		gt.chain().tween_callback(func():
+			card.queue_free()
+			collected.add_child(mini_box)
+			UI.pop_in(mini_box, 0.0, 0.4)
+			Sfx.play("pop"))
+		await get_tree().create_timer(0.3).timeout
+	left.queue_free()
+	sparkle.stop()
+	var ok = UI.button("OK", UI.GOLD, 44)
 	ok.custom_minimum_size = Vector2(260, 100)
-	ok.position = Vector2(vp.x / 2 - 130, vp.y / 2 + 300)
+	ok.position = Vector2(vp_size.x / 2 - 130, vp_size.y - 240)
 	bg.add_child(ok)
-	UI.pop_in(ok, 0.8)
+	UI.pop_in(ok, 0.2)
 	ok.pressed.connect(func():
 		modal_open = maxi(0, modal_open - 1)
 		_close_modal(bg)
 		_refresh_resources()
 		_rebuild_tab())
+
+func _chest_reward_icon(it: Array, bonus: String) -> Control:
+	if it[0] == "card":
+		var tr = TextureRect.new()
+		tr.texture = Data.card_textures[bonus]
+		tr.custom_minimum_size = Vector2(80, 106)
+		tr.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		tr.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		return tr
+	var ic = UI.icon(it[0], 80)
+	ic.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	return ic
+
+## Faisceau de lumière vertical qui jaillit du coffre ouvert.
+func _beam(sv: SubViewport, col: Color) -> void:
+	for k in 2:
+		var m = MeshInstance3D.new()
+		var c = CylinderMesh.new()
+		c.top_radius = 1.4 if k == 0 else 0.6
+		c.bottom_radius = 0.5 if k == 0 else 0.25
+		c.height = 9.0
+		c.cap_top = false
+		c.cap_bottom = false
+		m.mesh = c
+		var mat = StandardMaterial3D.new()
+		mat.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+		mat.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+		mat.blend_mode = BaseMaterial3D.BLEND_MODE_ADD
+		mat.cull_mode = BaseMaterial3D.CULL_DISABLED
+		mat.albedo_color = Color(col.r, col.g, col.b, 0.0)
+		m.material_override = mat
+		m.position = Vector3(0, 5.2, 0)
+		m.scale = Vector3(0.2, 1, 0.2)
+		sv.add_child(m)
+		var tw = m.create_tween().set_parallel()
+		tw.tween_property(m, "scale", Vector3.ONE, 0.35).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+		tw.tween_property(mat, "albedo_color:a", 0.16 if k == 0 else 0.3, 0.2)
+		var rot = m.create_tween().set_loops()
+		rot.tween_property(m, "rotation:y", TAU, 4.0).as_relative()
+
+func _shake_control(c: Control, amp: float) -> void:
+	var base = c.position
+	var tw = c.create_tween()
+	for i in 6:
+		tw.tween_property(c, "position", base + Vector2(randf_range(-amp, amp), randf_range(-amp, amp)), 0.035)
+	tw.tween_property(c, "position", base, 0.05)
 
 func _reward_burst(from: Vector2, kinds: Array) -> void:
 	Sfx.play("coin")
@@ -1505,8 +1740,7 @@ func _on_battle_end(res: Dictionary, enemy: String) -> void:
 	if chest_won != "":
 		var ch = HBoxContainer.new()
 		ch.alignment = BoxContainer.ALIGNMENT_CENTER
-		var ci = UI.icon("chest", 90)
-		ci.tint = Data.CHEST_TYPES[chest_won].tint
+		var ci = _chest_icon(chest_won, 100)
 		ch.add_child(ci)
 		ch.add_child(UI.label(Data.CHEST_TYPES[chest_won].name + " gagné !", 32, UI.GOLD))
 		v.add_child(ch)
@@ -1731,8 +1965,7 @@ func _crown_bar() -> Control:
 	var h = HBoxContainer.new()
 	h.add_theme_constant_override("separation", 10)
 	p.add_child(h)
-	var ci = UI.icon("chest", 56)
-	ci.tint = Data.CHEST_TYPES.crown.tint
+	var ci = _chest_icon("crown", 70)
 	h.add_child(ci)
 	var prog = int(Data.save.crown_progress)
 	if prog >= 10:
@@ -1797,8 +2030,7 @@ func _chest_slots() -> Control:
 		v.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		v.add_theme_constant_override("separation", -4)
 		if c:
-			var ic = UI.icon("chest", 76)
-			ic.tint = Data.CHEST_TYPES[c.type].tint
+			var ic = _chest_icon(c.type, 92)
 			ic.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 			ic.mouse_filter = Control.MOUSE_FILTER_IGNORE
 			v.add_child(ic)
@@ -1867,8 +2099,7 @@ func _tap_chest(i: int) -> void:
 	var v = VBoxContainer.new()
 	v.add_theme_constant_override("separation", 16)
 	m[1].add_child(v)
-	var ic = UI.icon("chest", 160)
-	ic.tint = t.tint
+	var ic = _chest_icon(c.type, 200)
 	ic.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	v.add_child(ic)
 	var tl = UI.label(t.name, 44)
@@ -1898,7 +2129,7 @@ func _give_chest(type: String) -> void:
 	Data.save.gold += gold
 	Data.save.gems += gems
 	Data.persist()
-	_open_chest({"tint": t.tint, "name": t.name}, gold, gems)
+	_open_chest(type, gold, gems, _bonus_card(type))
 
 func _quests_popup() -> void:
 	Sfx.play("open")

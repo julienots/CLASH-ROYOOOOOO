@@ -144,6 +144,7 @@ const TEAM_GLOW := [Color("6fd0ff"), Color("ff7a5c")]
 
 var save = {}
 var card_textures = {}
+var chest_textures = {}
 
 func _ready() -> void:
 	load_save()

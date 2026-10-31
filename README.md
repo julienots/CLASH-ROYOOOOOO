@@ -45,6 +45,12 @@ Jeu de cartes et de stratégie en temps réel en 3D : déploie tes unités, déf
 | **Pluie de Flèches** | 3 | Flèches (Blender) | Large zone de dégâts |
 | **Rage** | 2 | Potion (Blender) | +40 % de vitesse pendant 7 s |
 
+## 🎁 Coffres
+
+5 coffres modélisés et animés dans Blender : Bois, Argent, Or, Magique (cristaux lumineux) et Couronne (couronne en or sertie).
+Ouverture en 3D : le coffre tombe et rebondit, tremble quand on le touche, le couvercle saute dans un éclat de lumière,
+puis chaque récompense (or, gemmes, carte améliorée gratuitement pour les coffres Or/Magique/Couronne) jaillit une par une.
+
 ## 🧭 Menus
 
 Accueil avec 4 emplacements de coffres (déblocage en temps réel ou en gemmes), coffre couronne (10 couronnes), quêtes du jour,
@@ -58,7 +64,7 @@ En combat : émotes, musique qui s'accélère à la dernière minute, ambiance s
 
 ## 🎨 Crédits
 
-- **Modèles Blender** (dragon, totem, sorts, île flottante) : créés pour le jeu par script, `tools/blender/make_models.py`
+- **Modèles Blender** (dragon, totem, coffres, sorts, île flottante) : créés pour le jeu par script, `tools/blender/make_models.py`
   (`blender -b --python tools/blender/make_models.py -- godot/assets/models/blender`).
 - **Musiques, fanfares et sons de combat** : synthétisés pour le jeu, `tools/make_audio.py`.
 - **Sons d'interface** : [uisfx](https://github.com/romainsimon/uisfx) (MIT). Quelques bruitages Kenney (CC0). Voir `godot/assets/sounds/CREDITS.txt`.

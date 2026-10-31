@@ -52,9 +52,20 @@ func run(m: Node, dir: String) -> void:
 	main._show_menu()
 	await _wait(1.0)
 	await _shot("4_shop")
-	main._buy_chest(main.CHESTS[0])
-	await _wait(2.4)
-	await _shot("5_chest")
+	Data.save.gems = 500
+	main._buy_chest(main.CHESTS[2])
+	await _wait(1.3)
+	await _shot("5_chest_drop")
+	_tap()
+	await _wait(1.0)
+	await _shot("5_chest_open")
+	for i in 3:
+		await _wait(0.6)
+		await _shot("5_chest_reward%d" % i)
+		_tap()
+		await _wait(0.5)
+	await _wait(0.8)
+	await _shot("5_chest_end")
 	for bt in main.root.find_children("*", "Button", true, false):
 		if bt.text == "OK":
 			bt.pressed.emit()
@@ -131,6 +142,11 @@ func run(m: Node, dir: String) -> void:
 	await _wait(6.0)
 	await _shot("13_result")
 	get_tree().quit()
+
+func _tap() -> void:
+	var taps = main.root.find_children("*", "Button", true, false).filter(func(b): return b.flat and b.text == "" and b.is_visible_in_tree())
+	if taps.size() > 0:
+		taps[-1].pressed.emit()
 
 func _wait(s: float) -> void:
 	await get_tree().create_timer(s, true, false, true).timeout

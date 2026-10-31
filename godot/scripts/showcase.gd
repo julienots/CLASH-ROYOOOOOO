@@ -13,18 +13,19 @@ func _ready():
 	var sun = DirectionalLight3D.new()
 	sun.rotation = Vector3(-0.9, -0.6, 0)
 	add_child(sun)
-	var names = ["dragon", "totem", "meteor", "frost", "potion", "arrow"]
+	var names = ["chest_wood", "chest_silver", "chest_gold", "chest_magic", "chest_crown", "chest_magic"]
 	for i in names.size():
 		var n = load("res://assets/models/blender/" + names[i] + ".glb").instantiate()
-		n.position = Vector3((i % 3) * 4.0 - 4.0, 0.5, (i / 3) * 4.0 - 3)
+		n.position = Vector3((i % 3) * 2.6 - 2.6, 0, (i / 3) * 2.4 - 1.5)
+		n.rotation.y = 0.35
 		add_child(n)
-		var ap = n.find_child("AnimationPlayer", true, false)
-		if ap:
-			print(names[i], " anims: ", ap.get_animation_list())
-			ap.play("Attack" if ap.has_animation("Attack") else ap.get_animation_list()[0])
-			ap.seek(0.45, true)
+		var ap = n.find_child("AnimationPlayer", false, false)
+		if i == 0:
+			print("chest anims: ", ap.get_animation_list())
+		ap.play("Opened" if i == 5 else "Idle")
+		ap.seek(0.5, true)
 	var cam = Camera3D.new()
-	cam.position = Vector3(0, 5, 9)
+	cam.position = Vector3(0, 4.2, 7.5)
 	add_child(cam)
 	cam.look_at(Vector3(0, 0.5, 0))
 	await get_tree().create_timer(0.5).timeout
