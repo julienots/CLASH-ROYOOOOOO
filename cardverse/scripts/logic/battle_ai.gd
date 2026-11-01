@@ -124,6 +124,11 @@ func _spell_value(g: BattleEngine, me: int, o: int, c: Dictionary) -> float:
 					v += g.pl[o].board.size() * 1.0 - 1.0
 			"draw":
 				v += float(e.value) * (1.5 if g.pl[me].hand.size() < 5 else 0.3)
+			"silence", "bounce":
+				var best := 0.0
+				for u in g.pl[o].board:
+					best = maxf(best, g.unit_value(u))
+				v += best * 0.4 - 1.0
 	return v
 
 func _pick_target(g: BattleEngine, me: int, o: int, id: String, tt: String) -> Dictionary:
@@ -135,7 +140,7 @@ func _pick_target(g: BattleEngine, me: int, o: int, id: String, tt: String) -> D
 			if e.do == "damage":
 				dmg = int(e.value)
 				harmful = true
-			elif e.do in ["freeze", "destroy"]:
+			elif e.do in ["freeze", "destroy", "silence", "bounce"]:
 				harmful = true
 	var options := g.targets_for(me, tt)
 	var best := {}

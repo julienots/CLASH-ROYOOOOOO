@@ -64,7 +64,7 @@ func start_turn() -> void:
 	# évolutions
 	for u in P.board.duplicate():
 		var c := DB.card(u.id)
-		if c.has("evolve") and int(u.age) >= int(c.evolve.turns) and u.hp > 0:
+		if c.has("evolve") and int(u.age) >= int(c.evolve.turns) and u.hp > 0 and not u.get("silenced", false):
 			_evolve(u, c.evolve.into)
 	# effets de début de tour
 	for u in P.board.duplicate():
@@ -213,9 +213,10 @@ func attack_targets(uid: int) -> Array:
 		all.append({"k": "unit", "uid": e.uid})
 		if e.kw.get("garde", false):
 			guards.append({"k": "unit", "uid": e.uid})
-	if not guards.is_empty():
-		return guards
 	all.append({"k": "leader", "p": o})
+	# Envol : ignore les créatures avec Garde
+	if not guards.is_empty() and not u.kw.get("envol", false):
+		return guards
 	return all
 
 func can_use_power(i: int) -> bool:
@@ -312,6 +313,8 @@ func use_power(i: int) -> bool:
 
 # ======================================================================= effets
 func _trigger(u: Dictionary, on: String, ctx: Dictionary) -> void:
+	if u.get("silenced", false):
+		return
 	for e in DB.card(u.id).get("effects", []):
 		if e.get("on", "") == on:
 			resolve(e, int(u.owner), u, ctx)
@@ -389,6 +392,10 @@ func resolve(e: Dictionary, i: int, src: Dictionary, ctx: Dictionary) -> void:
 		"draw":
 			draw(i, v)
 			return
+		"energy":
+			pl[i].energy = mini(MAX_ENERGY, int(pl[i].energy) + v)
+			ev({"t": "energy", "p": i, "amount": v})
+			return
 		"summon":
 			if pl[i].board.size() < MAX_BOARD:
 				ev({"t": "fx", "kind": "summon_fx", "src": src_ref})
@@ -433,6 +440,29 @@ func resolve(e: Dictionary, i: int, src: Dictionary, ctx: Dictionary) -> void:
 					var u2 := find_unit(t.uid)
 					u2.hp = 0
 					ev({"t": "destroy", "uid": t.uid})
+			"silence":
+				if t.k == "unit":
+					var u3 := find_unit(t.uid)
+					u3.kw = {}
+					u3.silenced = true
+					u3.frozen = 0
+					ev({"t": "silence", "uid": t.uid, "unit": u3.duplicate(true)})
+			"bounce":
+				if t.k == "unit":
+					bounce(t.uid)
+
+## Renvoie une créature dans la main de son propriétaire (détruite si la main est pleine).
+func bounce(uid: int) -> void:
+	var u := find_unit(uid)
+	if u.is_empty():
+		return
+	var owner := int(u.owner)
+	pl[owner].board.erase(u)
+	var c := DB.card(u.id)
+	ev({"t": "bounce", "uid": uid, "p": owner, "id": u.id})
+	if c.get("token", false):
+		return
+	add_to_hand(owner, u.id)
 
 func damage(t: Dictionary, amount: int, source, adv := false) -> int:
 	if amount <= 0:

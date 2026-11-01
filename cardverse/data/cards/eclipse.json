@@ -1,0 +1,195 @@
+{
+  "set": "eclipse",
+  "name": "Éclipse",
+  "cards": [
+    {"id": "ec01", "name": "Chauvelin", "type": "creature", "family": "creatures", "element": "ombre", "rarity": "C",
+     "cost": 1, "atk": 1, "hp": 2, "keywords": ["envol"], "evolve": {"into": "ec02", "turns": 2},
+     "lore": "Il dort la tête en bas et rêve à l'endroit. Personne ne sait lequel des deux est le vrai monde.",
+     "art": {"arch": "bird", "wing_span": 0.85, "tail": 0.5, "c1": [80, 50, 120], "c2": [170, 130, 210], "c3": [255, 210, 120], "eye": [255, 220, 100], "scale": 1.0, "cy": 160}},
+
+    {"id": "ec02", "name": "Nyctalis, Reine de la Nuit", "type": "creature", "family": "creatures", "element": "ombre", "rarity": "R",
+     "cost": 3, "atk": 3, "hp": 3, "keywords": ["envol", "vol_de_vie"],
+     "lore": "Quand Chauvelin a vu mille nuits sans lune, ses ailes s'ouvrent sur un ciel entier.",
+     "art": {"arch": "bird", "wing_span": 1.25, "wing_glow": true, "tail": 1.1, "c1": [60, 30, 100], "c2": [200, 120, 255], "c3": [255, 220, 140], "glow": [220, 120, 255], "eye": [255, 230, 120], "scene": "haunted"}},
+
+    {"id": "ec03", "name": "Éclipsien", "type": "creature", "family": "esprits", "element": "ombre", "rarity": "U",
+     "cost": 2, "atk": 2, "hp": 2, "effects": [{"on": "summon", "do": "silence", "target": "choose_enemy_creature"}],
+     "lore": "Là où il passe, les sorts s'éteignent comme des bougies sous un souffle.",
+     "art": {"arch": "spirit", "kind": "ghost", "c1": [60, 50, 80], "eye": [255, 200, 90], "glow": [255, 190, 90], "size": 0.95}},
+
+    {"id": "ec04", "name": "Rayon d'Éclipse", "type": "spell", "family": "divinites", "element": "lumiere", "rarity": "SR",
+     "cost": 3, "effects": [{"on": "cast", "do": "silence", "target": "choose_enemy_creature"}, {"on": "cast", "do": "damage", "target": "choose_enemy_creature", "value": 3}],
+     "lore": "Le soleil et la lune s'alignent : pendant un instant, plus rien n'a de pouvoir.",
+     "art": {"arch": "spell", "spell": "solar", "scene": "nebula"}},
+
+    {"id": "ec05", "name": "Sentinelle Solaire", "type": "creature", "family": "divinites", "element": "lumiere", "rarity": "C",
+     "cost": 3, "atk": 2, "hp": 4, "keywords": ["garde"],
+     "lore": "Elle monte la garde depuis l'aube du premier jour. Elle attend toujours la relève.",
+     "art": {"arch": "biped", "kind": "humanoid", "robe_c": [230, 200, 140], "armor": [255, 220, 120], "hood": [200, 160, 90], "weapon": "sword", "eye": [255, 240, 160]}},
+
+    {"id": "ec06", "name": "Hibou Astral", "type": "creature", "family": "cosmiques", "element": "cosmique", "rarity": "U",
+     "cost": 3, "atk": 2, "hp": 3, "keywords": ["envol"], "effects": [{"on": "summon", "do": "draw", "value": 1}],
+     "lore": "Chaque plume de son plumage est une carte du ciel. Il n'en a jamais perdu une seule.",
+     "art": {"arch": "bird", "wing_span": 1.0, "tail": 0.7, "c1": [70, 60, 160], "c2": [200, 170, 255], "c3": [255, 220, 255], "wing_glow": true}},
+
+    {"id": "ec07", "name": "Marée Inversée", "type": "spell", "family": "aquatiques", "element": "eau", "rarity": "R",
+     "cost": 2, "effects": [{"on": "cast", "do": "bounce", "target": "choose_enemy_creature"}],
+     "lore": "La mer reprend ce qu'elle a donné. Parfois, elle le rend. Rarement en bon état.",
+     "art": {"arch": "spell", "spell": "wave", "scene": "abyss"}},
+
+    {"id": "ec08", "name": "Tortue-Récif Antique", "type": "creature", "family": "antiques", "element": "eau", "rarity": "R",
+     "cost": 5, "atk": 3, "hp": 8, "keywords": ["garde"], "effects": [{"on": "turn_start", "do": "shield", "target": "self"}],
+     "lore": "Un archipel entier vit sur sa carapace. Les habitants ignorent qu'ils voyagent.",
+     "art": {"arch": "quadruped", "snout": "beast", "horns": "none", "spikes": false, "shell": true, "shell_c": [80, 160, 140], "shell_glow": true, "bulk": 1.15, "head": 1.1, "neck": 0.4, "leg_len": 0.6, "tail": 0.3, "c1": [120, 170, 130], "c2": [200, 220, 180], "glow": [120, 255, 230], "scale": 0.95}},
+
+    {"id": "ec09", "name": "Anguille Voltaïque", "type": "creature", "family": "aquatiques", "element": "foudre", "rarity": "C",
+     "cost": 2, "atk": 2, "hp": 2, "effects": [{"on": "attack", "do": "damage", "target": "enemy_leader", "value": 1}],
+     "lore": "Les pêcheurs l'appellent « la lanterne qui mord ».",
+     "art": {"arch": "serpent", "thick": 0.7, "horns": "none", "whiskers": true, "water": true, "c1": [60, 90, 150], "c2": [255, 240, 140], "c3": [255, 230, 80], "scene": "ocean"}},
+
+    {"id": "ec10", "name": "Gemmelin", "type": "creature", "family": "antiques", "element": "terre", "rarity": "C",
+     "cost": 2, "atk": 1, "hp": 3, "keywords": ["garde"], "evolve": {"into": "ec11", "turns": 3},
+     "lore": "Un petit caillou qui a avalé un rayon de soleil. Il grandit à chaque lever du jour.",
+     "art": {"arch": "biped", "kind": "golem", "bulk": 0.8, "height": 0.75, "c1": [150, 130, 150], "glow": [255, 140, 220], "eye": [255, 160, 230], "crystals": [[-6, -30, 18]], "scale": 1.05, "cy": 170}},
+
+    {"id": "ec11", "name": "Colosse Prismatique", "type": "creature", "family": "antiques", "element": "terre", "rarity": "E",
+     "cost": 6, "atk": 6, "hp": 7, "keywords": ["garde"], "effects": [{"on": "summon", "do": "shield", "target": "all_allies"}],
+     "lore": "Ce que devient Gemmelin après mille levers de soleil : une cathédrale de cristal qui marche.",
+     "art": {"arch": "biped", "kind": "golem", "bulk": 1.45, "c1": [130, 110, 140], "glow": [255, 130, 230], "eye": [255, 170, 240], "crystals": [[-18, -34, 34], [16, -26, 30], [0, -12, 24], [-26, -4, 18], [26, 0, 16]], "aura": true, "scale": 0.9, "scene": "canyon"}},
+
+    {"id": "ec12", "name": "Feu Follet Éclipsé", "type": "creature", "family": "esprits", "element": "feu", "rarity": "C",
+     "cost": 1, "atk": 1, "hp": 1, "effects": [{"on": "death", "do": "damage", "target": "random_enemy", "value": 2}],
+     "lore": "Une flamme qui a vu l'éclipse et n'a jamais retrouvé sa couleur.",
+     "art": {"arch": "spirit", "kind": "flame", "c1": [150, 60, 160], "c2": [255, 120, 60], "glow": [255, 110, 160], "scale": 1.15}},
+
+    {"id": "ec13", "name": "Phalène de Cendre", "type": "creature", "family": "creatures", "element": "feu", "rarity": "U",
+     "cost": 3, "atk": 3, "hp": 2, "keywords": ["envol"],
+     "lore": "Attirée par les flammes, elle n'y brûle jamais : elle en est faite.",
+     "art": {"arch": "insect", "c1": [120, 70, 60], "c2": [255, 170, 90], "c3": [255, 220, 160], "scene": "volcano"}},
+
+    {"id": "ec14", "name": "Kraag, Dragon d'Obsidienne", "type": "creature", "family": "dragons", "element": "feu", "rarity": "L",
+     "cost": 8, "atk": 7, "hp": 8, "keywords": ["envol"], "effects": [{"on": "summon", "do": "damage", "target": "all_enemies", "value": 2}],
+     "lore": "Ses écailles sont du verre volcanique : chaque battement d'ailes fait pleuvoir des éclats tranchants.",
+     "art": {"arch": "quadruped", "snout": "reptile", "horns": "ram", "wings": true, "wing_span": 1.3, "wing_glow": true, "bulk": 1.1, "neck": 1.1, "breath": true, "spike_size": 1.5, "c1": [40, 30, 40], "c2": [255, 120, 50], "c3": [255, 160, 80], "membrane": [90, 30, 30], "rim": [255, 140, 60], "scene": "volcano", "scale": 0.9}},
+
+    {"id": "ec15", "name": "Givrelame", "type": "creature", "family": "creatures", "element": "glace", "rarity": "C",
+     "cost": 2, "atk": 3, "hp": 1, "effects": [{"on": "attack", "do": "freeze", "target": "attack_target"}],
+     "lore": "Un renard au pelage de givre. Sa morsure gèle avant même de faire mal.",
+     "art": {"arch": "quadruped", "snout": "beast", "horns": "none", "ears": true, "spikes": false, "mane": true, "mane_c": [200, 240, 255], "bulk": 0.8, "leg_len": 1.2, "head": 1.35, "tail": 1.2, "c1": [190, 220, 245], "c2": [240, 250, 255], "eye": [80, 200, 255]}},
+
+    {"id": "ec16", "name": "Ilka, Sorcière des Neiges", "type": "creature", "family": "esprits", "element": "glace", "rarity": "E",
+     "cost": 5, "atk": 3, "hp": 5, "effects": [{"on": "summon", "do": "silence", "target": "choose_enemy_creature"}, {"on": "summon", "do": "freeze", "target": "choose_enemy_creature"}],
+     "lore": "Elle chante une berceuse aux blizzards. Ils s'endorment toujours sur les villages.",
+     "art": {"arch": "biped", "kind": "humanoid", "robe_c": [120, 170, 220], "hair": [235, 245, 255], "skin_h": [220, 235, 250], "weapon": "staff", "orb_hand": true, "trim": [200, 240, 255], "floating": true, "eye": [120, 220, 255], "scene": "tundra"}},
+
+    {"id": "ec17", "name": "Blizzard", "type": "spell", "family": "esprits", "element": "glace", "rarity": "U",
+     "cost": 4, "effects": [{"on": "cast", "do": "damage", "target": "all_enemy_creatures", "value": 2}, {"on": "cast", "do": "freeze", "target": "random_enemy_creature"}],
+     "lore": "Il n'y a pas de chemin dans le blizzard. Il n'y a que le froid.",
+     "art": {"arch": "spell", "spell": "ice_prison", "scene": "tundra"}},
+
+    {"id": "ec18", "name": "Champignon Spore-Rieur", "type": "creature", "family": "vegetaux", "element": "nature", "rarity": "C",
+     "cost": 2, "atk": 1, "hp": 3, "effects": [{"on": "death", "do": "summon", "card": "ec90"}, {"on": "death", "do": "summon", "card": "ec90"}],
+     "lore": "Il rit si fort que ses spores s'envolent. Et chaque spore rit aussi.",
+     "art": {"arch": "plant", "kind": "flower", "petals": 5, "big": 0.9, "c1": [220, 80, 80], "c2": [255, 240, 220], "scale": 1.1, "cy": 160}},
+
+    {"id": "ec19", "name": "Dryade Lunaire", "type": "creature", "family": "esprits", "element": "nature", "rarity": "R",
+     "cost": 4, "atk": 3, "hp": 4, "effects": [{"on": "turn_start", "do": "heal", "target": "all_allies", "value": 2}],
+     "lore": "Elle ne sort de son arbre que les nuits sans lune, pour soigner la forêt endormie.",
+     "art": {"arch": "biped", "kind": "humanoid", "robe_c": [70, 140, 90], "hair": [180, 240, 160], "skin_h": [200, 230, 190], "halo": true, "halo_c": [220, 255, 200], "floating": true, "trim": [230, 255, 180], "eye": [200, 255, 120], "scene": "forest"}},
+
+    {"id": "ec20", "name": "Racines Étrangleuses", "type": "spell", "family": "vegetaux", "element": "nature", "rarity": "C",
+     "cost": 2, "effects": [{"on": "cast", "do": "damage", "target": "choose_enemy_creature", "value": 2}, {"on": "cast", "do": "freeze", "target": "choose_enemy_creature"}],
+     "lore": "La forêt n'oublie pas les bûcherons.",
+     "art": {"arch": "spell", "spell": "blessing", "scene": "haunted"}},
+
+    {"id": "ec21", "name": "Mantecorne", "type": "creature", "family": "mutants", "element": "nature", "rarity": "SR",
+     "cost": 5, "atk": 5, "hp": 4, "keywords": ["poison", "rage"],
+     "lore": "Mi-mante, mi-scarabée, entièrement affamée.",
+     "art": {"arch": "insect", "poison": true, "c1": [40, 120, 70], "c2": [160, 255, 120], "c3": [230, 255, 140], "scene": "haunted"}},
+
+    {"id": "ec22", "name": "Golem Tempête", "type": "creature", "family": "machines", "element": "foudre", "rarity": "U",
+     "cost": 4, "atk": 4, "hp": 4, "keywords": ["celerite"],
+     "lore": "Il fonctionne à la foudre. Les jours de beau temps, il boude.",
+     "art": {"arch": "biped", "kind": "mech", "bulk": 1.15, "c1": [60, 70, 110], "c3": [150, 220, 255], "eye": [255, 240, 120], "glow": [150, 220, 255], "scene": "storm"}},
+
+    {"id": "ec23", "name": "Surcharge", "type": "spell", "family": "machines", "element": "foudre", "rarity": "C",
+     "cost": 1, "effects": [{"on": "cast", "do": "buff", "target": "choose_ally_creature", "value": 2, "value2": 0}],
+     "lore": "Les fusibles, c'est pour les prudents.",
+     "art": {"arch": "spell", "spell": "lightning", "scene": "storm"}},
+
+    {"id": "ec24", "name": "Zéphyr, Faucon-Foudre", "type": "creature", "family": "creatures", "element": "foudre", "rarity": "R",
+     "cost": 4, "atk": 4, "hp": 2, "keywords": ["envol", "celerite"],
+     "lore": "Il plonge plus vite que le tonnerre qui le suit.",
+     "art": {"arch": "bird", "sparks": true, "wing_span": 1.1, "c1": [230, 200, 80], "c2": [255, 250, 200], "c3": [80, 90, 160], "scene": "storm"}},
+
+    {"id": "ec25", "name": "Lame du Néant", "type": "spell", "family": "mutants", "element": "neant", "rarity": "U",
+     "cost": 2, "effects": [{"on": "cast", "do": "damage", "target": "choose_enemy_creature", "value": 4}, {"on": "cast", "do": "damage", "target": "ally_leader", "value": 2}],
+     "lore": "Elle tranche aussi la main qui la tient.",
+     "art": {"arch": "spell", "spell": "dark_pact", "scene": "void"}},
+
+    {"id": "ec26", "name": "Gorgh, Ver Abyssal", "type": "creature", "family": "mutants", "element": "neant", "rarity": "E",
+     "cost": 6, "atk": 6, "hp": 6, "effects": [{"on": "summon", "do": "silence", "target": "all_other_creatures"}],
+     "lore": "Il dévore la magie elle-même. Après son passage, le monde paraît terne.",
+     "art": {"arch": "larva", "eyes": 5, "c1": [40, 40, 60], "glow": [140, 255, 210], "scale": 1.15, "scene": "void"}},
+
+    {"id": "ec27", "name": "Spectre Effacé", "type": "creature", "family": "esprits", "element": "neant", "rarity": "C",
+     "cost": 3, "atk": 2, "hp": 3, "keywords": ["furtif", "vol_de_vie"],
+     "lore": "Personne ne se souvient de son nom. Lui non plus.",
+     "art": {"arch": "spirit", "kind": "ghost", "c1": [90, 140, 130], "eye": [140, 255, 210], "size": 0.95, "scene": "void"}},
+
+    {"id": "ec28", "name": "Séléné, Oracle de l'Éclipse", "type": "creature", "family": "divinites", "element": "ombre", "rarity": "L",
+     "cost": 6, "atk": 4, "hp": 6, "effects": [{"on": "summon", "do": "bounce", "target": "choose_enemy_creature"}, {"on": "turn_start", "do": "draw", "value": 1}],
+     "lore": "Elle a vu l'éclipse finale. Elle refuse de dire qui y survit.",
+     "art": {"arch": "biped", "kind": "deity", "robe_c": [40, 30, 70], "hair": [220, 210, 255], "skin_h": [200, 190, 230], "crown": [255, 210, 120], "halo": true, "halo_c": [255, 200, 120], "orb_hand": true, "trim": [255, 210, 120], "floating": true, "aura": true, "eye": [255, 220, 140], "glow": [255, 200, 120], "scene": "haunted", "scale": 0.92}},
+
+    {"id": "ec29", "name": "Soléon, Arbitre Céleste", "type": "creature", "family": "divinites", "element": "lumiere", "rarity": "M",
+     "cost": 8, "atk": 6, "hp": 9, "keywords": ["garde"], "effects": [{"on": "summon", "do": "silence", "target": "all_enemy_creatures"}],
+     "lore": "Il juge chaque pouvoir du monde. Il les trouve presque tous coupables.",
+     "art": {"arch": "biped", "kind": "deity", "robe_c": [250, 240, 220], "hair": [255, 220, 140], "crown": [255, 220, 120], "halo": true, "wings": "feather", "wing_c": [255, 240, 200], "wing_span": 1.2, "wing_glow": true, "weapon": "sword", "trim": [255, 200, 90], "floating": true, "aura": true, "scene": "sanctum", "scale": 0.92}},
+
+    {"id": "ec30", "name": "Chimère Bicéphale", "type": "creature", "family": "mutants", "element": "feu", "rarity": "SR",
+     "cost": 5, "atk": 4, "hp": 5, "keywords": ["rage"], "effects": [{"on": "attack", "do": "damage", "target": "random_enemy_creature", "value": 1}],
+     "lore": "Ses deux têtes ne sont d'accord que sur une chose : vous avez l'air comestible.",
+     "art": {"arch": "quadruped", "heads": 2, "snout": "beast", "horns": "ram", "ears": true, "mane": true, "mane_c": [255, 140, 60], "spikes": false, "bulk": 1.1, "neck": 0.9, "c1": [170, 90, 50], "c2": [240, 190, 130], "c3": [80, 50, 40], "tail": 1.0, "tail_tip": "flame"}},
+
+    {"id": "ec31", "name": "Léviathan d'Encre", "type": "creature", "family": "aquatiques", "element": "eau", "rarity": "L",
+     "cost": 7, "atk": 6, "hp": 7, "keywords": ["furtif"], "effects": [{"on": "summon", "do": "bounce", "target": "strongest_enemy_creature"}],
+     "lore": "Il écrit l'histoire des océans avec sa propre encre. Les marins illisibles disparaissent.",
+     "art": {"arch": "kraken", "c1": [20, 20, 40], "c2": [120, 200, 255], "eye": [120, 230, 255], "glow": [80, 200, 255], "scene": "abyss", "scale": 0.88, "cy": 150}},
+
+    {"id": "ec32", "name": "Méduse Sombre", "type": "creature", "family": "aquatiques", "element": "ombre", "rarity": "U",
+     "cost": 3, "atk": 2, "hp": 3, "keywords": ["poison"],
+     "lore": "Elle brille juste assez pour qu'on la regarde de trop près.",
+     "art": {"arch": "jelly", "tentacles": 8, "length": 1.1, "c1": [90, 40, 120], "c2": [220, 80, 200], "glow": [255, 90, 220], "scene": "abyss"}},
+
+    {"id": "ec33", "name": "Kéros, Planète Errante", "type": "creature", "family": "cosmiques", "element": "cosmique", "rarity": "A",
+     "cost": 8, "atk": 5, "hp": 10, "keywords": ["garde"], "effects": [{"on": "turn_start", "do": "damage", "target": "random_enemy", "value": 2}, {"on": "turn_start", "do": "heal", "target": "self", "value": 2}],
+     "lore": "Arrachée à son étoile il y a des éons, elle cherche encore un soleil autour duquel tourner.",
+     "art": {"arch": "orb", "face": "eye", "ring": true, "craters": true, "size": 1.1, "orbiters": 4, "c1": [110, 80, 150], "ring_c": [255, 200, 140], "eye": [255, 190, 90], "scene": "nebula", "scale": 0.92}},
+
+    {"id": "ec34", "name": "Astrolabe Vivant", "type": "creature", "family": "machines", "element": "cosmique", "rarity": "R",
+     "cost": 3, "atk": 2, "hp": 3, "effects": [{"on": "summon", "do": "energy", "value": 1}],
+     "lore": "Il calcule la position de chaque étoile. Et il vous fait gagner du temps.",
+     "art": {"arch": "orb", "face": "cute", "ring": true, "size": 0.8, "orbiters": 6, "c1": [200, 170, 110], "ring_c": [255, 220, 140], "glow": [255, 200, 120], "scale": 1.05}},
+
+    {"id": "ec35", "name": "Éclipse Totale", "type": "spell", "family": "cosmiques", "element": "cosmique", "rarity": "M",
+     "cost": 8, "effects": [{"on": "cast", "do": "destroy", "target": "all_enemy_creatures"}, {"on": "cast", "do": "damage", "target": "ally_leader", "value": 5}],
+     "lore": "Pendant sept minutes, le monde retient son souffle. Certains ne le reprennent jamais.",
+     "art": {"arch": "spell", "spell": "blackhole", "scene": "void"}},
+
+    {"id": "ec36", "name": "Morvael, l'Ange Déchu", "type": "creature", "family": "demons", "element": "ombre", "rarity": "D",
+     "cost": 9, "atk": 8, "hp": 8, "keywords": ["envol", "vol_de_vie"], "effects": [{"on": "summon", "do": "damage", "target": "all_enemies", "value": 2}],
+     "lore": "Il a éteint son propre halo pour voir dans le noir. Il n'a jamais regretté.",
+     "art": {"arch": "biped", "kind": "deity", "robe_c": [40, 20, 50], "hair": [230, 230, 240], "skin_h": [210, 200, 220], "horns": true, "c3": [60, 40, 70], "wings": "bat", "wing_span": 1.35, "membrane": [60, 20, 70], "weapon": "scythe", "trim": [180, 60, 220], "floating": true, "aura": true, "eye": [255, 60, 120], "glow": [200, 60, 255], "scene": "haunted", "scale": 0.9}},
+
+    {"id": "ec37", "name": "Noctaris, Cœur de l'Éclipse", "type": "creature", "family": "legendaires", "element": "cosmique", "rarity": "CE",
+     "cost": 10, "atk": 9, "hp": 9, "keywords": ["envol", "bouclier"], "effects": [{"on": "turn_start", "do": "silence", "target": "random_enemy_creature"}, {"on": "turn_start", "do": "damage", "target": "random_enemy", "value": 2}],
+     "lore": "Un soleil noir couronné de lumière. Quand il ouvre l'œil, l'éclipse commence.",
+     "art": {"arch": "orb", "face": "eye", "ring": true, "tentacles": 12, "size": 1.1, "c1": [10, 8, 20], "ring_c": [255, 210, 120], "eye": [255, 200, 90], "glow": [255, 180, 80], "scene": "void", "scale": 0.86}},
+
+    {"id": "ec90", "name": "Spore Rieuse", "type": "creature", "family": "vegetaux", "element": "nature", "rarity": "C", "token": true,
+     "cost": 1, "atk": 1, "hp": 1,
+     "lore": "Hi hi hi.",
+     "art": {"arch": "spirit", "kind": "light", "c1": [255, 160, 160], "scale": 0.9}}
+  ]
+}

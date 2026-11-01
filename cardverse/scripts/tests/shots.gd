@@ -106,11 +106,70 @@ func run(main: Control, arg: String) -> void:
 			print("partie auto terminée : vainqueur=", b.g.winner if is_instance_valid(b) else "?", " tours=", b.g.turn if is_instance_valid(b) else 0)
 			Profile.d.settings.fast = false
 			await _wait(2.0)],
+		["battle_eclipse", func():
+			_clear(main)
+			await _wait(0.3)
+			Profile.d.settings.fast = true
+			var ec := []
+			for id in DB.sets[1].cards:
+				for k in DB.rarity(DB.card(id).rarity).deck_max:
+					ec.append(id)
+			ec.shuffle()
+			var bv = load("res://scripts/ui/battle_view.gd").new()
+			bv.setup({"deck": ec.slice(0, 20), "leader": "umbra", "enemy_deck": ec.slice(20, 40), "enemy_leader": "sylva", "enemy_hp": 25, "difficulty": 2, "rewards_mult": 1.0, "event": false, "board_colors": ["0b0716", "3a1466", "0d4070"]})
+			main.open_overlay(bv, true)
+			var b = bv
+			var seen := {}
+			var tmax := 400.0
+			while is_instance_valid(b) and not b._finished and tmax > 0:
+				for e in b.g.events:
+					seen[e.t] = true
+				b.autoplay_step()
+				await _wait(0.25)
+				tmax -= 0.25
+			print("partie Éclipse : vainqueur=", b.g.winner, " tours=", b.g.turn, " événements animés=", b.anim_seen)
+			Profile.d.settings.fast = false
+			await _wait(1.5)],
+		["battle_mech", func():
+			_clear(main)
+			await _wait(0.3)
+			main.goto("battle_select")
+			await _wait(0.4)
+			main.current.start_battle(0)
+			var b = _ov(main)
+			await _wait(4.0)
+			while b.busy:
+				await _wait(0.3)
+			var u1: Dictionary = b.g.summon(1, "w007")
+			var u2: Dictionary = b.g.summon(1, "e001")
+			await b._play(b.g.take_events())
+			b.g.resolve({"do": "silence", "target": "choose_enemy_creature"}, 0, {}, {"chosen": {"k": "unit", "uid": u1.uid}})
+			await b._play(b.g.take_events())
+			b.g.resolve({"do": "bounce", "target": "choose_enemy_creature"}, 0, {}, {"chosen": {"k": "unit", "uid": u2.uid}})
+			await b._play(b.g.take_events())
+			b.g.resolve({"do": "energy", "value": 1}, 0, {}, {})
+			await b._play(b.g.take_events())
+			b._sync()
+			print("mécaniques animées : ", b.anim_seen)],
 		["shop_offers", func(): _clear(main); main.goto("shop", {"tab": "offers"})],
 		["shop_singles", func(): main.goto("shop", {"tab": "singles"})],
 		["shop_style", func(): main.goto("shop", {"tab": "cosmetics"})],
 		["shop_premium", func(): main.goto("shop", {"tab": "premium"})],
 		["odds", func(): main.goto("shop"); await _wait(0.3); main.current._show_odds(DB.booster("divine"))],
+		["forge", func():
+			_clear(main)
+			Profile.d.dust = 3000
+			for k in 3:
+				Profile.add_card("f001", "", false)
+			main.goto("forge")],
+		["forge_evolve", func(): main.current._do_evolve("f001", 3, 60, "f002")],
+		["forge_secret", func(): _clear(main); main.goto("forge", {"tab": "secret"})],
+		["forge_craft", func(): main.goto("forge", {"tab": "craft"})],
+		["forge_variant", func(): main.goto("forge", {"tab": "variant"})],
+		["season", func(): Profile.add_xp(400); main.goto("season")],
+		["news", func(): Profile.d.seen_version = "0.1"; main.goto("home", {"r": 2})],
+		["tuto", func(): _clear(main); Profile.d.tutorial_done = false; main.goto("home", {"r": 3})],
+		["album_eclipse", func(): _clear(main); Profile.d.tutorial_done = true; Profile.d.seen_version = "0.2"; main.goto("collection"); await _wait(0.5); main.current.filt.set = "eclipse"; main.current.rebuild()],
 		["decks", func(): _clear(main); await _wait(0.3); main.goto("decks")],
 		["deck_edit", func(): main.goto("decks", {"edit": 0})],
 		["missions", func(): main.goto("missions")],

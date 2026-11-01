@@ -1,11 +1,149 @@
 {
  "boosters": [
-  {"id": "classic", "name": "Booster Genèse",    "desc": "Toutes les cartes du set Genèse.",                 "price": {"coins": 100},  "cards": 5, "focus": {}, "luck": 1.0, "color": "#4a7dff"},
-  {"id": "dragons", "name": "Booster Draconique", "desc": "Dragons et cartes de Feu plus fréquents.",         "price": {"coins": 160},  "cards": 5, "focus": {"family": ["dragons"], "element": ["feu", "glace"]}, "luck": 1.1, "color": "#e0502e"},
-  {"id": "abyss",   "name": "Booster Abyssal",    "desc": "Les profondeurs : Eau et Ombre.",                  "price": {"coins": 160},  "cards": 5, "focus": {"element": ["eau", "ombre"], "family": ["aquatiques"]}, "luck": 1.1, "color": "#1fb5b0"},
-  {"id": "cosmic",  "name": "Booster Cosmique",   "desc": "Entités cosmiques et Néant. Chances accrues.",     "price": {"crystals": 40}, "cards": 5, "focus": {"element": ["cosmique", "neant"], "family": ["cosmiques"]}, "luck": 1.6, "color": "#a04cff"},
-  {"id": "divine",  "name": "Booster Divin",      "desc": "Divinités et Lumière. Légendaires x2.",            "price": {"crystals": 80}, "cards": 5, "focus": {"element": ["lumiere"], "family": ["divinites"]}, "luck": 2.0, "color": "#ffc94a"},
-  {"id": "event",   "name": "Booster Éveil du Phénix", "desc": "Événement : le Phénix et ses flammes.",        "price": {"event": 12},    "cards": 5, "focus": {"card": ["f006", "f001", "f002", "f004"], "element": ["feu"]}, "luck": 1.5, "color": "#ff7a3a", "event": "phoenix"},
-  {"id": "secret",  "name": "Booster Secret",     "desc": "Réservé aux collectionneurs. Raretés supérieures x4.", "price": {"tokens": 3}, "cards": 5, "focus": {}, "luck": 4.0, "color": "#40ffc0", "min_level": 5}
+  {
+   "id": "classic",
+   "name": "Booster Genèse",
+   "desc": "Toutes les cartes du set Genèse.",
+   "price": {
+    "coins": 100
+   },
+   "cards": 5,
+   "focus": {},
+   "luck": 1.0,
+   "color": "#4a7dff",
+   "sets": [
+    "genesis"
+   ]
+  },
+  {
+   "id": "eclipse",
+   "name": "Booster Éclipse",
+   "desc": "Set 2 : Envol, Silence et Renvoi. Toutes les cartes Éclipse.",
+   "price": {
+    "coins": 120
+   },
+   "cards": 5,
+   "sets": [
+    "eclipse"
+   ],
+   "focus": {},
+   "luck": 1.0,
+   "color": "#c8902a"
+  },
+  {
+   "id": "dragons",
+   "name": "Booster Draconique",
+   "desc": "Dragons et cartes de Feu plus fréquents.",
+   "price": {
+    "coins": 160
+   },
+   "cards": 5,
+   "focus": {
+    "family": [
+     "dragons"
+    ],
+    "element": [
+     "feu",
+     "glace"
+    ]
+   },
+   "luck": 1.1,
+   "color": "#e0502e"
+  },
+  {
+   "id": "abyss",
+   "name": "Booster Abyssal",
+   "desc": "Les profondeurs : Eau et Ombre.",
+   "price": {
+    "coins": 160
+   },
+   "cards": 5,
+   "focus": {
+    "element": [
+     "eau",
+     "ombre"
+    ],
+    "family": [
+     "aquatiques"
+    ]
+   },
+   "luck": 1.1,
+   "color": "#1fb5b0"
+  },
+  {
+   "id": "cosmic",
+   "name": "Booster Cosmique",
+   "desc": "Entités cosmiques et Néant. Chances accrues.",
+   "price": {
+    "crystals": 40
+   },
+   "cards": 5,
+   "focus": {
+    "element": [
+     "cosmique",
+     "neant"
+    ],
+    "family": [
+     "cosmiques"
+    ]
+   },
+   "luck": 1.6,
+   "color": "#a04cff"
+  },
+  {
+   "id": "divine",
+   "name": "Booster Divin",
+   "desc": "Divinités et Lumière. Légendaires x2.",
+   "price": {
+    "crystals": 80
+   },
+   "cards": 5,
+   "focus": {
+    "element": [
+     "lumiere"
+    ],
+    "family": [
+     "divinites"
+    ]
+   },
+   "luck": 2.0,
+   "color": "#ffc94a"
+  },
+  {
+   "id": "event",
+   "name": "Booster Éveil du Phénix",
+   "desc": "Événement : le Phénix et ses flammes.",
+   "price": {
+    "event": 12
+   },
+   "cards": 5,
+   "focus": {
+    "card": [
+     "f006",
+     "f001",
+     "f002",
+     "f004"
+    ],
+    "element": [
+     "feu"
+    ]
+   },
+   "luck": 1.5,
+   "color": "#ff7a3a",
+   "event": "phoenix"
+  },
+  {
+   "id": "secret",
+   "name": "Booster Secret",
+   "desc": "Réservé aux collectionneurs. Raretés supérieures x4.",
+   "price": {
+    "tokens": 3
+   },
+   "cards": 5,
+   "focus": {},
+   "luck": 4.0,
+   "color": "#40ffc0",
+   "min_level": 5
+  }
  ]
 }

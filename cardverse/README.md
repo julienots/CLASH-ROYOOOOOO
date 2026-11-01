@@ -1,6 +1,6 @@
 # CARDVERSE : Ultimate TCG Collection
 
-Jeu mobile de cartes à collectionner en **portrait** (Godot 4.3). Il propose 64 cartes originales réparties sur 15 raretés, des boosters spectaculaires, un album complet, des combats stratégiques contre l'IA, des missions et un événement.
+Jeu mobile de cartes à collectionner en **portrait** (Godot 4.3). Il propose 101 cartes originales en 2 sets (Genèse et Éclipse) réparties sur 15 raretés, des boosters spectaculaires, un album complet, des combats stratégiques contre l'IA, un Atelier d'évolutions, un passe de saison, des missions et un événement.
 
 📄 Architecture, direction artistique et feuille de route : [ARCHITECTURE.md](ARCHITECTURE.md)
 
@@ -18,6 +18,8 @@ Jeu mobile de cartes à collectionner en **portrait** (Godot 4.3). Il propose 64
 - **Boutique → Boosters** : touche le prix (ou GRATUIT), fais tourner le paquet, **glisse le doigt le long du haut** pour le déchirer, puis touche chaque carte pour la retourner. Le bouton **i** affiche les probabilités exactes.
 - **Album** : filtre par élément (icônes), rareté ou famille ; recherche, tri, favoris, comparaison, recyclage des doublons, récompenses de collection. Touche une carte pour l'inspecter et incline-la du doigt.
 - **Combat** : touche une carte de ta main pour l'agrandir, puis **JOUER** (choisis une cible si besoin). Touche une de tes créatures prêtes (contour vert), puis une cible ennemie pour attaquer. Les créatures avec **Garde** doivent être attaquées en premier. Un élément favorable inflige des dégâts x1,5. Le pouvoir du leader coûte 2 énergie.
+- **Atelier** (accueil) : fais évoluer tes créatures (3 exemplaires et de la Poussière d'étoile), découvre les transformations secrètes, crée des cartes ou applique des variantes.
+- **Passe** (accueil) : 30 paliers de récompenses gagnés en jouant, voie Élite débloquable avec des Cristaux.
 - **Decks** : choisis ton leader, ajoute ou retire des cartes (20 exactement) ou utilise *Remplir auto*.
 
 ## 🛠️ Développement

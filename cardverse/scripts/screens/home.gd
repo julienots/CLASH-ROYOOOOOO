@@ -52,7 +52,7 @@ func setup(_p: Dictionary) -> void:
 		var cap := UI.label("Ta carte la plus précieuse", 20, UI.MUTED, "body", 600, HORIZONTAL_ALIGNMENT_CENTER)
 		col.add_child(cap)
 	# bouton principal : booster
-	var free := int(Profile.d.free_boosters)
+	var free := Profile.total_free()
 	var open_b := UI.button("OUVRIR UN BOOSTER", Color("7b3dff"), 34, Vector2(0, 112), "ui_gift")
 	col.add_child(open_b)
 	open_b.pressed.connect(func(): main.goto("shop", {"tab": "boosters"}))
@@ -75,6 +75,21 @@ func setup(_p: Dictionary) -> void:
 		bd2.position = Vector2(270, -12)
 		miss.add_child(bd2)
 	col.add_child(row)
+	var row2 := UI.hbox(16)
+	var forge_b := UI.button("ATELIER", Color("8a3ad1"), 28, Vector2(0, 92), "ui_star")
+	forge_b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	forge_b.pressed.connect(func(): main.goto("forge"))
+	row2.add_child(forge_b)
+	var pass_b := UI.button("PASSE", Color("b8842a"), 28, Vector2(0, 92), "ui_trophy")
+	pass_b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	pass_b.pressed.connect(func(): main.goto("season"))
+	row2.add_child(pass_b)
+	var pp := Profile.pass_pending()
+	if pp > 0:
+		var bd3 := UI.badge(str(pp), UI.BAD, 22)
+		bd3.position = Vector2(270, -12)
+		pass_b.add_child(bd3)
+	col.add_child(row2)
 	# événement
 	var ev := DB.active_event()
 	if not ev.is_empty():
@@ -95,9 +110,13 @@ func setup(_p: Dictionary) -> void:
 	cb.pressed.connect(func(): main.goto("collection"))
 	cp.add_child(cb)
 	col.add_child(cp)
-	# connexion quotidienne
-	if Profile.login_available():
+	# connexion quotidienne, tutoriel, nouveautés
+	if not Profile.d.get("tutorial_done", true):
+		_tutorial.call_deferred(0)
+	elif Profile.login_available():
 		_login_popup.call_deferred()
+	elif Profile.d.get("seen_version", "0.2") < "0.2":
+		_news.call_deferred()
 
 func _event_banner(ev: Dictionary) -> Control:
 	var p := PanelContainer.new()
@@ -183,3 +202,38 @@ func _login_popup() -> void:
 		Profile.claim_login()
 		if is_instance_valid(self):
 			main.goto("home", {"r": 1})]])
+
+const TUTO := [
+	["Bienvenue dans le Cardverse !", "Collectionne des centaines de créatures, ouvre des boosters et affronte d'autres invocateurs en duel stratégique.\n\nTu commences avec un deck de départ et 3 boosters gratuits."],
+	["Les boosters", "Boutique > Boosters : fais tourner le paquet, glisse le doigt le long du haut pour le déchirer, puis touche chaque carte pour la retourner. Plus la rareté est haute, plus la révélation est spectaculaire."],
+	["Les raretés", "15 raretés, de Commune à ??? ! Chaque niveau possède son cadre, ses effets et ses sons. Le bouton i de chaque booster affiche les probabilités exactes, et une garantie te protège de la malchance."],
+	["Le combat", "Chaque tour, ton énergie augmente (max 10). Touche une carte puis JOUER. Touche une créature prête (contour vert) puis une cible pour attaquer. Les créatures avec Garde protègent leur leader, et un élément favorable inflige des dégâts x1,5. Réduis le leader adverse à 0 PV !"],
+	["Collection et progression", "L'Album montre tes cartes et les silhouettes de celles qui te manquent. L'Atelier fait évoluer tes créatures avec la Poussière d'étoile. Missions, succès et Passe de saison récompensent chaque partie. Bonne chance !"],
+]
+
+func _tutorial(step: int) -> void:
+	if step >= TUTO.size():
+		Profile.d.tutorial_done = true
+		Profile.d.seen_version = "0.2"
+		Profile.save_game()
+		if Profile.login_available():
+			_login_popup()
+		return
+	var l := UI.label(TUTO[step][1], 24, UI.TEXT, "body", 600)
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	l.custom_minimum_size = Vector2(560, 0)
+	var v := UI.vbox(10)
+	v.add_child(l)
+	v.add_child(UI.label("%d / %d" % [step + 1, TUTO.size()], 18, UI.MUTED, "body", 700, HORIZONTAL_ALIGNMENT_CENTER))
+	var btns := [["Suivant" if step < TUTO.size() - 1 else "C'est parti !", UI.ACCENT, func(): _tutorial(step + 1)]]
+	if step == 0:
+		btns.push_front(["Passer", Color("4a3a6a"), func(): _tutorial(TUTO.size())])
+	main.modal(TUTO[step][0], v, btns)
+
+func _news() -> void:
+	var l := UI.label("• Nouveau set ÉCLIPSE : 37 cartes et le Booster Éclipse\n• Nouvelles mécaniques : Envol (ignore Garde), Silence, Renvoi en main, gain d'énergie\n• ATELIER : évolutions de collection, transformations secrètes, création de cartes et de variantes avec la Poussière d'étoile\n• PASSE DE SAISON : 30 paliers, voie gratuite et voie Élite\n• L'Album trie maintenant par set\n• Les combats rapportent de la Poussière d'étoile", 21, UI.TEXT, "body", 600)
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	l.custom_minimum_size = Vector2(560, 0)
+	main.modal("Nouveautés 0.2", l, [["Super !", UI.ACCENT, func():
+		Profile.d.seen_version = "0.2"
+		Profile.save_game()]])

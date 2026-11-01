@@ -19,6 +19,8 @@ var leaders: Array = []
 var progression := {}
 var events: Array = []
 var layout := {}
+var forge := {}
+var season := {}
 
 var _tex_cache := {}
 
@@ -39,6 +41,8 @@ func _ready() -> void:
 	progression = _json("res://data/progression.json")
 	events = _json("res://data/events.json").events
 	layout = _json("res://data/card_layout.json")
+	forge = _json("res://data/forge.json")
+	season = _json("res://data/season.json")
 	for f in _list("res://data/cards", ".json"):
 		var s: Dictionary = _json("res://data/cards/" + f)
 		var ids := []
@@ -77,6 +81,12 @@ func _json(path: String) -> Variant:
 		push_error("JSON invalide : " + path)
 		return {}
 	return v
+
+func set_title(id: String) -> String:
+	for s in sets:
+		if s.id == id:
+			return s.name
+	return id
 
 func _list(dir: String, ext: String) -> Array:
 	var out := []
@@ -174,7 +184,7 @@ const TARGETS := {
 	"choose_enemy": "un ennemi", "choose_enemy_creature": "une créature ennemie", "choose_creature": "une créature",
 	"choose_ally_creature": "une créature alliée", "enemy_leader": "le leader adverse", "ally_leader": "votre leader",
 	"all_enemy_creatures": "toutes les créatures ennemies", "all_enemies": "tous les ennemis", "all_creatures": "toutes les créatures",
-	"all_other_creatures": "toutes les autres créatures", "all_allies": "vos créatures", "random_enemy": "un ennemi aléatoire",
+	"all_other_creatures": "toutes les autres créatures", "all_allies": "vos créatures", "all_enemy_creatures_silence": "toutes les créatures ennemies", "random_enemy": "un ennemi aléatoire",
 	"random_enemy_creature": "une créature ennemie aléatoire", "random_ally_creature": "une créature alliée aléatoire",
 	"self": "cette créature", "attack_target": "la cible", "strongest_enemy_creature": "la créature ennemie la plus puissante"}
 
@@ -192,6 +202,9 @@ func effect_text(e: Dictionary) -> String:
 		"summon": s = "Invoque %s." % card(e.card).get("name", "?")
 		"shield": s = "Donne Bouclier à %s." % tgt
 		"destroy": s = "Détruit %s." % tgt
+		"silence": s = "Réduit au silence %s (perd mots-clés et effets)." % tgt
+		"bounce": s = "Renvoie %s dans la main de son propriétaire." % tgt
+		"energy": s = "Gagnez %d énergie ce tour-ci." % v
 		"add_random": s = "Ajoute %d cartes %s ou mieux aléatoires à votre main." % [v, rarity(e.get("min_rarity", "L")).get("name", "")]
 		_: s = e.do
 	if trig != "":

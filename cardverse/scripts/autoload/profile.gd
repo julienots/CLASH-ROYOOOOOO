@@ -25,6 +25,7 @@ func new_game() -> void:
 		"shop": {"date": "", "bought": []}, "cosmetics": {"owned": ["back_default", "board_default"], "back": "back_default", "board": "board_default"},
 		"collection_rewards": [], "settings": {"sfx": true, "music": true, "fast": false},
 		"rank": {"points": 0}, "title": "Novice",
+		"free_packs": {}, "pass": {}, "forge_known": [], "tutorial_done": false, "seen_version": "0.2",
 	}
 	for id in st.cards:
 		add_card(id, "", false)
@@ -43,7 +44,8 @@ func load_game() -> void:
 
 func _migrate() -> void:
 	# compléter les clés absentes (sauvegardes d'anciennes versions du prototype)
-	var defaults := {"dust": 0, "serials": {}, "collection_rewards": [], "rank": {"points": 0}, "title": "Novice", "event": 0}
+	var defaults := {"dust": 0, "serials": {}, "collection_rewards": [], "rank": {"points": 0}, "title": "Novice", "event": 0,
+		"free_packs": {}, "pass": {}, "forge_known": [], "tutorial_done": true, "seen_version": "0.1"}
 	for k in defaults:
 		if not d.has(k):
 			d[k] = defaults[k]
@@ -64,6 +66,70 @@ func reset() -> void:
 
 # ---------------------------------------------------------------- monnaies
 const CURRENCY_NAMES := {"coins": "Pièces", "crystals": "Cristaux", "tokens": "Jetons", "event": "Plumes", "dust": "Poussière"}
+
+# ---------------------------------------------------------------- boosters gratuits
+func free_count(bid: String) -> int:
+	if bid == "classic":
+		return int(d.free_boosters) + int(d.free_packs.get(bid, 0))
+	return int(d.free_packs.get(bid, 0))
+
+func add_free(bid: String, n: int) -> void:
+	if bid == "classic":
+		d.free_boosters = int(d.free_boosters) + n
+	else:
+		d.free_packs[bid] = int(d.free_packs.get(bid, 0)) + n
+
+func use_free(bid: String) -> bool:
+	if bid == "classic" and int(d.free_boosters) > 0:
+		d.free_boosters = int(d.free_boosters) - 1
+		return true
+	if int(d.free_packs.get(bid, 0)) > 0:
+		d.free_packs[bid] = int(d.free_packs[bid]) - 1
+		return true
+	return false
+
+func total_free() -> int:
+	var n := int(d.free_boosters)
+	for k in d.free_packs:
+		n += int(d.free_packs[k])
+	return n
+
+# ---------------------------------------------------------------- passe de saison
+func pass_data() -> Dictionary:
+	if d.pass.get("season", "") != DB.season.get("id", ""):
+		d.pass = {"season": DB.season.get("id", ""), "xp": 0, "elite": false, "free": [], "elite_claimed": []}
+	return d.pass
+
+func pass_tier() -> int:
+	return mini(DB.season.tiers.size(), int(pass_data().xp) / int(DB.season.xp_per_tier))
+
+func claim_pass(tier: int, elite: bool) -> bool:
+	var pd := pass_data()
+	var key := "elite_claimed" if elite else "free"
+	if tier > pass_tier() or tier in pd[key] or (elite and not pd.elite):
+		return false
+	pd[key].append(tier)
+	var t: Dictionary = DB.season.tiers[tier - 1]
+	give(t.elite if elite else t.free)
+	return true
+
+func buy_elite() -> bool:
+	var pd := pass_data()
+	if pd.elite or not pay(DB.season.elite_price):
+		return false
+	pd.elite = true
+	save_game()
+	return true
+
+func pass_pending() -> int:
+	var pd := pass_data()
+	var n := 0
+	for t in range(1, pass_tier() + 1):
+		if not t in pd.free:
+			n += 1
+		if pd.elite and not t in pd.elite_claimed:
+			n += 1
+	return n
 
 func cur_name(k: String, n: int) -> String:
 	var s: String = CURRENCY_NAMES.get(k, k)
@@ -93,8 +159,13 @@ func give(rew: Dictionary, silent := false) -> void:
 			"xp":
 				add_xp(int(rew.xp))
 			"booster":
-				d.free_boosters = int(d.free_boosters) + 1
-				parts.append("1 booster gratuit")
+				var bid: String = rew.booster if rew.booster is String else "classic"
+				add_free(bid, 1)
+				parts.append("1 %s gratuit" % DB.booster(bid).get("name", "booster"))
+			"cosmetic":
+				if not rew.cosmetic in d.cosmetics.owned:
+					d.cosmetics.owned.append(rew.cosmetic)
+				parts.append("cosmétique exclusif")
 			"coins", "crystals", "tokens", "event", "dust":
 				d[k] = get_cur(k) + int(rew[k])
 				parts.append("+%d %s" % [int(rew[k]), cur_name(k, int(rew[k]))])
@@ -109,6 +180,11 @@ func xp_needed(level: int) -> int:
 
 func add_xp(n: int) -> void:
 	d.xp = int(d.xp) + n
+	var pd := pass_data()
+	var before := pass_tier()
+	pd.xp = int(pd.xp) + n
+	if pass_tier() > before:
+		toast.emit("Passe de saison : palier %d atteint !" % pass_tier(), "level")
 	while int(d.xp) >= xp_needed(int(d.level)):
 		d.level = int(d.level) + 1
 		var lr: Dictionary = DB.progression.level_rewards
@@ -154,7 +230,7 @@ func add_card(id: String, variant := "", track := true) -> bool:
 			stat("legendary_pulls")
 		if ri >= DB.rarity_index("M"):
 			stat("mythic_pulls")
-		d.stats["unique_cards"] = d.collection.size()
+		d.stats["unique_cards"] = unique_count()
 	return is_new
 
 func toggle_fav(id: String) -> void:
@@ -162,11 +238,34 @@ func toggle_fav(id: String) -> void:
 		d.collection[id].fav = not d.collection[id].get("fav", false)
 		save_game()
 
-func unique_count() -> int:
-	return d.collection.size()
+func discovered(id: String) -> bool:
+	return d.collection.has(id)
 
-func completion() -> float:
-	return float(d.collection.size()) / max(1, DB.card_order.size())
+func unique_count() -> int:
+	var n := 0
+	for id in d.collection:
+		if int(d.collection[id].count) > 0:
+			n += 1
+	return n
+
+func completion(set_id := "") -> float:
+	var tot := 0
+	var have := 0
+	for id in DB.card_order:
+		if set_id != "" and DB.card(id).set != set_id:
+			continue
+		tot += 1
+		if owned(id) > 0:
+			have += 1
+	return float(have) / max(1, tot)
+
+## Retire un exemplaire (Atelier). L'entrée reste : la carte reste « découverte ».
+func remove_card(id: String, n := 1) -> bool:
+	if owned(id) < n:
+		return false
+	d.collection[id].count = owned(id) - n
+	d.stats["unique_cards"] = unique_count()
+	return true
 
 ## Recycle les exemplaires au-delà de 3 (2 pour les raretés limitées à 1 en deck) contre de la poussière.
 func recycle_duplicates() -> int:
@@ -191,7 +290,7 @@ func check_collection_rewards() -> void:
 			continue
 		var all := true
 		for id in DB.card_order:
-			if DB.card(id).element == el and not d.collection.has(id):
+			if DB.card(id).element == el and owned(id) == 0:
 				all = false
 				break
 		if all:
@@ -204,7 +303,7 @@ func check_collection_rewards() -> void:
 			continue
 		var all2 := true
 		for id in s.cards:
-			if not d.collection.has(id):
+			if owned(id) == 0:
 				all2 = false
 				break
 		if all2:

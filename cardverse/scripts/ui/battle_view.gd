@@ -286,6 +286,9 @@ func _sync(instant := false) -> void:
 	_update_end_glow()
 
 func _make_unit(u: Dictionary) -> UnitView:
+	var old: UnitView = units.get(int(u.uid))
+	if old and is_instance_valid(old):
+		old.queue_free()
 	var v := UnitView.new()
 	v.setup(u)
 	v.tapped.connect(_on_unit_tap)
@@ -593,7 +596,10 @@ func _play(evs: Array) -> void:
 			return
 		await _anim(e)
 
+var anim_seen := {}
+
 func _anim(e: Dictionary) -> void:
+	anim_seen[e.t] = int(anim_seen.get(e.t, 0)) + 1
 	match e.t:
 		"turn":
 			_sync()
@@ -612,7 +618,9 @@ func _anim(e: Dictionary) -> void:
 			UI.float_text(fx_layer, _ref_pos({"k": "leader", "p": e.p}) - Vector2(0, 60), "Deck vide !", UI.BAD, 30)
 		"summon":
 			var u: Dictionary = e.unit
-			var v := _make_unit(u)
+			var v: UnitView = units.get(int(u.uid))
+			if v == null:
+				v = _make_unit(u)
 			var n: int = g.pl[e.p].board.size()
 			var slot := int(e.slot)
 			v.position = _slot_pos(e.p, min(slot, max(0, n - 1)), max(n, slot + 1))
@@ -702,6 +710,29 @@ func _anim(e: Dictionary) -> void:
 		"poison":
 			if units.has(int(e.uid)):
 				UI.float_text(fx_layer, units[int(e.uid)].position + UnitView.SZ / 2, "Poison", Color("8dff6a"), 30)
+		"silence":
+			Sfx.play("shield", 0.6)
+			if units.has(int(e.uid)):
+				var vs: UnitView = units[int(e.uid)]
+				UI.float_text(fx_layer, vs.position + UnitView.SZ / 2, "Silence", Color("d0c8e8"), 30)
+				vs.refresh(e.unit)
+			await _wait(0.2)
+		"bounce":
+			var vbn: UnitView = units.get(int(e.uid))
+			if vbn:
+				units.erase(int(e.uid))
+				Sfx.play("whoosh")
+				var tb := vbn.create_tween().set_parallel(true)
+				tb.tween_property(vbn, "position:y", -200.0 if e.p == 1 else size.y, 0.35).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+				tb.tween_property(vbn, "modulate:a", 0.0, 0.35)
+				tb.chain().tween_callback(vbn.queue_free)
+				UI.float_text(fx_layer, vbn.position + UnitView.SZ / 2, "Renvoyée !", Color("9fd8ff"), 30)
+				await _wait(0.35)
+			_sync()
+		"energy":
+			Sfx.play("coin")
+			UI.float_text(fx_layer, _ref_pos({"k": "leader", "p": e.p}) - Vector2(0, 80), "+%d énergie" % int(e.amount), Color("8fd8ff"), 30)
+			_sync()
 		"destroy":
 			if units.has(int(e.uid)):
 				UI.burst(fx_layer, units[int(e.uid)].position + UnitView.SZ / 2, Color(0.7, 0.3, 1.0), 40, 400)
@@ -754,7 +785,7 @@ func _effect_fx(e: Dictionary) -> void:
 			for t in e.targets:
 				UI.burst(fx_layer, _ref_pos(t), UI.GOOD, 24, 200, 0.45, 0.8, -150)
 			await _wait(0.15)
-		"freeze", "shield", "buff":
+		"freeze", "shield", "buff", "silence", "bounce":
 			for t in e.targets:
 				UI.burst(fx_layer, _ref_pos(t), col, 18, 200, 0.4, 0.6, -80)
 			await _wait(0.1)
@@ -880,7 +911,7 @@ func _end_battle() -> void:
 	for k in rew:
 		var h := UI.hbox(10)
 		h.alignment = BoxContainer.ALIGNMENT_CENTER
-		var icn := {"coins": "coin", "xp": "ui_star", "event": "event"}.get(k, "coin")
+		var icn := {"coins": "coin", "xp": "ui_star", "event": "event", "dust": "dust"}.get(k, "coin")
 		h.add_child(UI.icon_rect(icn, 54, UI.GOLD if k == "xp" else Color.WHITE))
 		var amount := UI.label("+%d %s" % [int(rew[k]), "XP" if k == "xp" else Profile.cur_name(k, int(rew[k]))], 36, Color.WHITE, "num", 400)
 		UI.outline(amount, 6)

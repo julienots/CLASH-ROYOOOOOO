@@ -449,7 +449,7 @@ func _summary() -> void:
 	h.size = Vector2(size.x - 80, 100)
 	var again_b := UI.button("Encore un", Color(booster.color).darkened(0.2), 26, Vector2(0, 92), "ui_gift")
 	again_b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	var can: bool = Profile.can_pay(booster.price) or (booster.id == "classic" and int(Profile.d.free_boosters) > 0)
+	var can: bool = Profile.can_pay(booster.price) or Profile.free_count(booster.id) > 0
 	again_b.disabled = not can
 	again_b.pressed.connect(func():
 		var main = get_tree().root.get_node("Main")

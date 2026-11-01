@@ -3,7 +3,7 @@ extends Control
 
 var main: Control
 var grid: GridContainer
-var filt := {"element": "", "rarity": "", "family": "", "search": "", "missing": false, "fav": false, "sort": 0}
+var filt := {"set": "", "element": "", "rarity": "", "family": "", "search": "", "missing": false, "fav": false, "sort": 0}
 var compare_mode := false
 var compare_pick: Array = []
 var _count_label: Label
@@ -53,7 +53,7 @@ func setup(_p: Dictionary) -> void:
 		er.add_child(b)
 	root.add_child(er)
 	# rareté / famille / tri
-	var r2 := UI.hbox(8)
+	var r2 := UI.hbox(6)
 	var ro := _option(["Toutes raretés"] + DB.rarity_order.map(func(r): return DB.rarity(r).name))
 	ro.item_selected.connect(func(i): filt.rarity = "" if i == 0 else DB.rarity_order[i - 1]; rebuild())
 	r2.add_child(ro)
@@ -61,6 +61,10 @@ func setup(_p: Dictionary) -> void:
 	var fo := _option(["Toutes familles"] + fams.map(func(f): return DB.families[f]))
 	fo.item_selected.connect(func(i): filt.family = "" if i == 0 else fams[i - 1]; rebuild())
 	r2.add_child(fo)
+	var sets: Array = DB.sets.map(func(x): return x.id)
+	var seto := _option(["Tous les sets"] + DB.sets.map(func(x): return x.name))
+	seto.item_selected.connect(func(i): filt.set = "" if i == 0 else sets[i - 1]; rebuild())
+	r2.add_child(seto)
 	var so := _option(SORTS.map(func(s): return "Tri : " + s))
 	so.item_selected.connect(func(i): filt.sort = i; rebuild())
 	r2.add_child(so)
@@ -162,6 +166,8 @@ func _visible_ids() -> Array:
 	for id in DB.card_order:
 		var c := DB.card(id)
 		var owned := Profile.owned(id) > 0
+		if filt.set != "" and c.set != filt.set:
+			continue
 		if filt.element != "" and c.element != filt.element:
 			continue
 		if filt.rarity != "" and c.rarity != filt.rarity:

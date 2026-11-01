@@ -8,7 +8,7 @@ import math
 
 from PIL import ImageDraw, ImageFilter
 
-from paint import catmull, darken, lighten, mix
+from paint import catmull, darken, lighten, mix  # noqa: F401
 
 
 class Rig:

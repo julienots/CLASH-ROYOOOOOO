@@ -24,10 +24,12 @@ static func slot_odds(b: Dictionary, guaranteed_min := "") -> Dictionary:
 	return out
 
 ## Cartes tirables d'une rareté (hors jetons).
-static func _pool(_b: Dictionary, r: String) -> Array:
+static func _pool(b: Dictionary, r: String) -> Array:
 	var out := []
+	var sets: Array = b.get("sets", [])
 	for id in DB.card_order:
-		if DB.card(id).rarity == r:
+		var c := DB.card(id)
+		if c.rarity == r and (sets.is_empty() or c.set in sets):
 			out.append(id)
 	return out
 

@@ -125,9 +125,17 @@ def spell(p, kind, pal):
         p.part(heart, (200, 20, 50), (80, 0, 20), rim=(255, 120, 160))
         p.add_glow_mask(heart, (255, 40, 90), 1.0, 12)
     elif kind == "solar":
-        p.radial_glow(150, 160, 140, (255, 230, 140), 1.2)
-        p.rays(150, 160, 24, (255, 240, 180), 0.8, spread=2.0, length=300, seed=11)
-        p.emit(p.ellipse_mask(150, 160, 40, 40), (255, 250, 220), 1.2, 16)
+        # éclipse : disque noir cerclé d'une couronne solaire
+        import numpy as np
+        p.img *= 0.55
+        p.glow *= 0.3
+        p.rays(150, 160, 20, (255, 210, 140), 0.3, spread=2.0, length=260, seed=11)
+        ring = p.ellipse_mask(150, 160, 50, 50)
+        p.emit(ring, (255, 220, 150), 0.7, 6)
+        disc = p.ellipse_mask(154, 157, 45, 45)
+        p.fill(disc, (6, 4, 14))
+        d = np.asarray(disc, np.float32)[..., None] / 255.0
+        p.glow *= (1 - d * 0.95)
 
 
 SPELLS = {"firebolt", "meteor", "lightning", "wave", "ice_prison", "quake", "blackhole", "holy", "blessing", "dark_pact", "solar"}

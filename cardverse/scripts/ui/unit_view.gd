@@ -122,6 +122,11 @@ func refresh(u: Dictionary) -> void:
 		_icons.add_child(UI.icon_rect("ui_star", 26, Color("ff8a4a")))
 	if u.kw.get("celerite", false):
 		_icons.add_child(UI.icon_rect("ui_energy", 26, Color("ffe14a")))
+	if u.kw.get("envol", false):
+		_icons.add_child(UI.icon_rect("ui_wing", 28, Color("bfe6ff")))
+	if u.get("silenced", false):
+		_icons.add_child(UI.icon_rect("ui_mute", 28, Color("c9c2d8")))
+	_art.modulate = Color(0.7, 0.7, 0.75) if u.get("silenced", false) else Color.WHITE
 	_sleep.visible = u.get("sleep", false) and not u.kw.get("celerite", false)
 
 func set_ready(v: bool) -> void:

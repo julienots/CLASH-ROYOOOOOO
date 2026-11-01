@@ -105,6 +105,33 @@ func run() -> int:
 		wins[clampi(g.winner, 0, 2)] += 1
 		turns += g.turn
 	print("  victoires J1/J2/nul : %s, tours moyens : %.1f" % [str(wins), turns / 200.0])
+	print("== Mécaniques Éclipse")
+	_mechanics()
+	print("== Booster Éclipse")
+	var rng3 := RandomNumberGenerator.new()
+	rng3.seed = 7
+	var pity3 := {}
+	var only_eclipse := true
+	for i in 300:
+		for x in BoosterLogic.open(DB.booster("eclipse"), pity3, rng3):
+			if DB.card(x.id).set != "eclipse":
+				only_eclipse = false
+		for x in BoosterLogic.open(DB.booster("classic"), pity3, rng3):
+			if DB.card(x.id).set != "genesis":
+				only_eclipse = false
+	check(only_eclipse, "les boosters de set ne donnent que leur set")
+	print("== Atelier et passe")
+	for r in DB.forge.evolutions:
+		check(DB.cards.has(r.from) and DB.cards.has(r.to), "recette d'évolution valide " + r.from)
+	for r in DB.forge.secrets:
+		check(DB.cards.has(r.to), "secret valide " + r.id)
+		for id in r.inputs:
+			check(DB.cards.has(id), "ingrédient valide " + id)
+	check(DB.season.tiers.size() == 30, "30 paliers de passe")
+	var pd: Dictionary = Profile.pass_data()
+	var xp0 := int(pd.xp)
+	Profile.add_xp(int(DB.season.xp_per_tier))
+	check(int(Profile.pass_data().xp) == xp0 + int(DB.season.xp_per_tier), "l'XP alimente le passe")
 	print("== Profil")
 	var pr: Node = Profile
 	var before: int = pr.unique_count()
@@ -120,3 +147,33 @@ func _invariants(g: BattleEngine) -> void:
 		check(int(g.pl[i].energy) >= 0, "énergie >= 0")
 		for u in g.pl[i].board:
 			check(int(u.hp) > 0, "aucune créature morte sur le terrain")
+
+func _mechanics() -> void:
+	var g := BattleEngine.new()
+	var filler := []
+	for i in 20:
+		filler.append("w007")
+	g.setup(filler, "pyra", filler, "thalassa", 5)
+	g.current = 0
+	var garde := g.summon(1, "w007")
+	var flyer := g.summon(0, "ec24")
+	flyer.sleep = false
+	var t := g.attack_targets(flyer.uid)
+	var has_leader := false
+	for x in t:
+		if x.k == "leader":
+			has_leader = true
+	check(has_leader, "Envol : peut viser le leader malgré une Garde")
+	var walker := g.summon(0, "e004")
+	walker.sleep = false
+	var t2 := g.attack_targets(walker.uid)
+	check(t2.size() == 1 and t2[0].k == "unit", "Garde : sans Envol, seule la Garde est ciblable")
+	g.resolve({"do": "silence", "target": "choose_enemy_creature"}, 0, {}, {"chosen": {"k": "unit", "uid": garde.uid}})
+	check(not garde.kw.get("garde", false) and garde.get("silenced", false), "Silence retire les mots-clés")
+	var hand_before: int = g.pl[1].hand.size()
+	g.resolve({"do": "bounce", "target": "choose_enemy_creature"}, 0, {}, {"chosen": {"k": "unit", "uid": garde.uid}})
+	check(g.find_unit(garde.uid).is_empty(), "Renvoi : la créature quitte le terrain")
+	check(g.pl[1].hand.size() == mini(hand_before + 1, BattleEngine.MAX_HAND), "Renvoi : la carte revient en main")
+	var e0 := int(g.pl[0].energy)
+	g.resolve({"do": "energy", "value": 1}, 0, {}, {})
+	check(int(g.pl[0].energy) == mini(e0 + 1, 10), "Gain d'énergie")

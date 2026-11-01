@@ -267,7 +267,7 @@ func build() -> void:
 	bm.shader = load("res://shaders/art_fx.gdshader")
 	var back_id: String = Profile.d.get("cosmetics", {}).get("back", "back_default")
 	bm.set_shader_parameter("mode", 0 if back_id == "back_default" else 1)
-	bm.set_shader_parameter("hue_shift", {"back_ember": 0.62, "back_jade": 0.35, "back_gold": 0.83}.get(back_id, 0.0))
+	bm.set_shader_parameter("hue_shift", {"back_ember": 0.62, "back_jade": 0.35, "back_gold": 0.83, "back_eclipse": 0.12}.get(back_id, 0.0))
 	_back.material = bm
 	add_child(_back)
 

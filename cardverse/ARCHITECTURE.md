@@ -196,7 +196,7 @@ Client Godot ──HTTPS/WebSocket──► Passerelle (Nakama ou service Go)
 |---|---|---|
 | 1 | Architecture, technologie, direction artistique (ce document) | ✅ Fait |
 | 2 | Prototype jouable : accueil, collection, 64 cartes originales, 15 raretés, boutique, boosters animés, combat contre l'IA, APK portrait | ✅ Fait (détails en section 9) |
-| 3 | Systèmes avancés : évolutions de collection (Poussière), capacités débloquables, passe de saison, decks IA thématiques, nouveaux mots-clés, tutoriel guidé, paramètres de langue | À faire |
+| 3 | Systèmes avancés : set 2 Éclipse et nouvelles mécaniques, Atelier (évolutions de collection, secrets, création, variantes), passe de saison, tutoriel | 🟡 En cours, première partie livrée en 0.2 (section 10) |
 | 4 | Contenu : sets 2 à N (objectif 2000+ cartes) via le pipeline, illustrations dessinées pour les cartes vedettes, chargement par set | À faire |
 | 5 | En ligne : backend, comptes, PvP classé et amical, tournois, événements serveur, sauvegarde cloud, achats réels | À faire |
 | 6 | Tests complets sur appareils Android, optimisation, accessibilité, version Play Store (AAB, clé de production) | À faire |
@@ -218,6 +218,25 @@ Client Godot ──HTTPS/WebSocket──► Passerelle (Nakama ou service Go)
 
 **Limites actuelles, annoncées honnêtement :**
 - Les illustrations sont du **pixel art procédural**, produit par recette. Chaque carte a sa silhouette et sa palette, mais ce ne sont pas des peintures faites main. Le pipeline permet de les remplacer une à une.
-- 64 cartes, pas 2000 : l'architecture est prête, le contenu sera ajouté par sets (étape 4).
-- Pas de multijoueur, de paiement réel, de passe de saison ni d'évolution de collection (étapes 3 et 5).
+- 101 cartes (2 sets), pas 2000 : l'architecture est prête, le contenu sera ajouté par sets (étape 4).
+- Pas de multijoueur ni de paiement réel (étape 5).
 - L'APK est signé avec une clé de développement (schéma v2, Android 7.0 minimum). Elle n'a pas été testée sur un appareil physique depuis cet environnement.
+
+## 10. Version 0.2 (étape 3, première partie)
+
+- **Set 2 « Éclipse »** (`data/cards/eclipse.json`) : 37 cartes et 1 jeton, avec 2 nouvelles chaînes d'évolution (Chauvelin devient Nyctalis, Gemmelin devient Colosse Prismatique) et une nouvelle carte Céleste (Noctaris). Le **Booster Éclipse** ne contient que ce set, et le Booster Genèse uniquement le set 1 (champ `sets` des boosters).
+- **Nouvelles mécaniques**, intégrées au moteur, à l'IA et aux textes générés :
+  - **Envol** (mot-clé) : attaque en ignorant les créatures avec Garde.
+  - **Silence** (effet) : retire les mots-clés et les effets, et bloque l'évolution.
+  - **Renvoi** (effet) : la créature retourne dans la main de son propriétaire ; un jeton disparaît.
+  - **Énergie** (effet) : énergie supplémentaire pour le tour en cours.
+- **Atelier** (`data/forge.json`, écran `forge.gd`) :
+  - **Évolutions de collection** : 3 exemplaires et de la Poussière donnent la forme évoluée, avec sa propre illustration.
+  - **5 transformations secrètes** : seul un indice est visible ; les ingrédients se révèlent quand on les possède tous.
+  - **Création** de toute carte déjà découverte (jusqu'à Mythique).
+  - **Application de variantes** : Holographique, Full Art, Alternate Art.
+- **Passe de saison** (`data/season.json`, écran `season.gd`) : 30 paliers alimentés par l'XP du compte, voie gratuite et voie Élite (400 Cristaux gagnés en jeu), dos de carte exclusif au palier 30.
+- **Boosters gratuits par type** (récompenses du passe), **Poussière d'étoile** gagnée en combat, 3 nouveaux succès.
+- **Tutoriel** en 5 étapes au premier lancement, fenêtre **Nouveautés** pour les joueurs existants, filtre **par set** dans l'album.
+- **Corrections** : retournement des cartes au toucher (0.1.1) ; créature « fantôme » affichée quand une action en invoquait plusieurs.
+- **Tests ajoutés** : Envol, Garde, Silence, Renvoi, Énergie, exclusivité des boosters de set, recettes de l'Atelier, passe, et une partie automatique jouée uniquement avec des cartes Éclipse.

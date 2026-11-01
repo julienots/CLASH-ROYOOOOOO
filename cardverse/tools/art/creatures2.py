@@ -542,9 +542,10 @@ def spirit(R):
         for k in range(5):
             a = -math.pi / 2 + (k - 2) * 0.35
             m = R.tube([(0, 10), (math.cos(a) * 30 * sz, -20), (math.cos(a) * 20 * sz, -70 * sz + abs(k - 2) * 12)], [30 * sz, 16 * sz, 2])
-            p.emit(m, c1 if k % 2 else c2, 0.6, 8)
+            R.paint(m, c1 if k % 2 else c2, outline=1, gloss=0.2)
+            p.add_glow_mask(m, c2, 0.3, 8)
         body = R.ell(0, 10, 32 * sz, 32 * sz)
-        R.paint(body, lighten(c1, 0.3), outline=1, gloss=0.4)
+        R.paint(body, c1, outline=1, gloss=0.4)
         R.eye(-10 * sz, 8, 6 * sz, cute=True)
         R.eye(10 * sz, 8, 6 * sz, cute=True)
         p.fill(R.ell(0, 22, 5 * sz, 3 * sz), (90, 20, 20))

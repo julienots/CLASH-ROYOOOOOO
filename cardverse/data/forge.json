@@ -1,0 +1,94 @@
+{
+ "evolutions": [
+  {
+   "from": "f001",
+   "count": 3,
+   "dust": 60,
+   "to": "f002"
+  },
+  {
+   "from": "n001",
+   "count": 3,
+   "dust": 60,
+   "to": "n002"
+  },
+  {
+   "from": "ec01",
+   "count": 3,
+   "dust": 80,
+   "to": "ec02"
+  },
+  {
+   "from": "ec10",
+   "count": 3,
+   "dust": 250,
+   "to": "ec11"
+  }
+ ],
+ "secrets": [
+  {
+   "id": "sx1",
+   "inputs": [
+    "f002",
+    "f004"
+   ],
+   "dust": 1500,
+   "to": "f006",
+   "hint": "La salamandre et le dragon partagent une même flamme… celle qui ne meurt jamais."
+  },
+  {
+   "id": "sx2",
+   "inputs": [
+    "i003",
+    "w004"
+   ],
+   "dust": 2500,
+   "to": "i004",
+   "hint": "Quand le wyrm de givre croise le léviathan, l'hiver se trouve une reine."
+  },
+  {
+   "id": "sx3",
+   "inputs": [
+    "s006",
+    "v002"
+   ],
+   "dust": 3000,
+   "to": "s003",
+   "hint": "Un spectre affamé dans un corps mutant appelle son seigneur."
+  },
+  {
+   "id": "sx4",
+   "inputs": [
+    "ec26",
+    "v003"
+   ],
+   "dust": 6000,
+   "to": "ec37",
+   "hint": "Le ver qui dévore la magie et l'œil qui ne dort jamais ouvrent l'éclipse."
+  },
+  {
+   "id": "sx5",
+   "inputs": [
+    "h003",
+    "c004"
+   ],
+   "dust": 10000,
+   "to": "o001",
+   "hint": "La première lumière naît de l'union du séraphin et du gardien des étoiles."
+  }
+ ],
+ "craft": {
+  "C": 40,
+  "U": 100,
+  "R": 250,
+  "SR": 500,
+  "E": 1000,
+  "L": 2400,
+  "M": 5000
+ },
+ "variants": {
+  "holo": 150,
+  "fullart": 400,
+  "alt": 600
+ }
+}

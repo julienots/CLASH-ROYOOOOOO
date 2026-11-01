@@ -1,37 +1,357 @@
 {
- "level_xp": [0, 100, 250, 450, 700, 1000, 1400, 1900, 2500, 3200, 4000, 5000, 6200, 7600, 9200, 11000, 13000, 15500, 18500, 22000],
- "level_rewards": {"coins": 150, "crystals": 10, "tokens_every": 3},
+ "level_xp": [
+  0,
+  100,
+  250,
+  450,
+  700,
+  1000,
+  1400,
+  1900,
+  2500,
+  3200,
+  4000,
+  5000,
+  6200,
+  7600,
+  9200,
+  11000,
+  13000,
+  15500,
+  18500,
+  22000
+ ],
+ "level_rewards": {
+  "coins": 150,
+  "crystals": 10,
+  "tokens_every": 3
+ },
  "daily_pool": [
-  {"id": "open_boosters", "text": "Ouvre 2 boosters", "stat": "boosters_opened", "goal": 2, "reward": {"coins": 80, "xp": 40}},
-  {"id": "win_battle",    "text": "Remporte 1 combat", "stat": "battles_won", "goal": 1, "reward": {"coins": 100, "xp": 60}},
-  {"id": "play_cards",    "text": "Joue 15 cartes en combat", "stat": "cards_played", "goal": 15, "reward": {"coins": 80, "xp": 40}},
-  {"id": "deal_damage",   "text": "Inflige 40 dégâts au leader adverse", "stat": "leader_damage", "goal": 40, "reward": {"crystals": 5, "xp": 40}},
-  {"id": "summon",        "text": "Invoque 10 créatures", "stat": "creatures_summoned", "goal": 10, "reward": {"coins": 60, "xp": 40}},
-  {"id": "spells",        "text": "Lance 5 sorts", "stat": "spells_cast", "goal": 5, "reward": {"coins": 70, "xp": 40}},
-  {"id": "play_battle",   "text": "Termine 2 combats", "stat": "battles_played", "goal": 2, "reward": {"coins": 60, "xp": 50}}
+  {
+   "id": "open_boosters",
+   "text": "Ouvre 2 boosters",
+   "stat": "boosters_opened",
+   "goal": 2,
+   "reward": {
+    "coins": 80,
+    "xp": 40
+   }
+  },
+  {
+   "id": "win_battle",
+   "text": "Remporte 1 combat",
+   "stat": "battles_won",
+   "goal": 1,
+   "reward": {
+    "coins": 100,
+    "xp": 60
+   }
+  },
+  {
+   "id": "play_cards",
+   "text": "Joue 15 cartes en combat",
+   "stat": "cards_played",
+   "goal": 15,
+   "reward": {
+    "coins": 80,
+    "xp": 40
+   }
+  },
+  {
+   "id": "deal_damage",
+   "text": "Inflige 40 dégâts au leader adverse",
+   "stat": "leader_damage",
+   "goal": 40,
+   "reward": {
+    "crystals": 5,
+    "xp": 40
+   }
+  },
+  {
+   "id": "summon",
+   "text": "Invoque 10 créatures",
+   "stat": "creatures_summoned",
+   "goal": 10,
+   "reward": {
+    "coins": 60,
+    "xp": 40
+   }
+  },
+  {
+   "id": "spells",
+   "text": "Lance 5 sorts",
+   "stat": "spells_cast",
+   "goal": 5,
+   "reward": {
+    "coins": 70,
+    "xp": 40
+   }
+  },
+  {
+   "id": "play_battle",
+   "text": "Termine 2 combats",
+   "stat": "battles_played",
+   "goal": 2,
+   "reward": {
+    "coins": 60,
+    "xp": 50
+   }
+  }
  ],
  "weekly": [
-  {"id": "w_win",     "text": "Remporte 7 combats", "stat": "battles_won", "goal": 7, "reward": {"crystals": 30, "tokens": 1, "xp": 200}},
-  {"id": "w_open",    "text": "Ouvre 12 boosters", "stat": "boosters_opened", "goal": 12, "reward": {"crystals": 25, "xp": 150}},
-  {"id": "w_new",     "text": "Obtiens 10 nouvelles cartes", "stat": "new_cards", "goal": 10, "reward": {"coins": 400, "xp": 150}}
+  {
+   "id": "w_win",
+   "text": "Remporte 7 combats",
+   "stat": "battles_won",
+   "goal": 7,
+   "reward": {
+    "crystals": 30,
+    "tokens": 1,
+    "xp": 200
+   }
+  },
+  {
+   "id": "w_open",
+   "text": "Ouvre 12 boosters",
+   "stat": "boosters_opened",
+   "goal": 12,
+   "reward": {
+    "crystals": 25,
+    "xp": 150
+   }
+  },
+  {
+   "id": "w_new",
+   "text": "Obtiens 10 nouvelles cartes",
+   "stat": "new_cards",
+   "goal": 10,
+   "reward": {
+    "coins": 400,
+    "xp": 150
+   }
+  }
  ],
  "achievements": [
-  {"id": "a_first",   "text": "Première ouverture", "desc": "Ouvre ton premier booster.", "stat": "boosters_opened", "goal": 1, "reward": {"crystals": 10}},
-  {"id": "a_col25",   "text": "Apprenti collectionneur", "desc": "Possède 25 cartes différentes.", "stat": "unique_cards", "goal": 25, "reward": {"crystals": 30}},
-  {"id": "a_col50",   "text": "Archiviste", "desc": "Possède 50 cartes différentes.", "stat": "unique_cards", "goal": 50, "reward": {"crystals": 60, "tokens": 1}},
-  {"id": "a_leg",     "text": "Touché par la légende", "desc": "Obtiens une carte Légendaire ou mieux.", "stat": "legendary_pulls", "goal": 1, "reward": {"crystals": 25}},
-  {"id": "a_myth",    "text": "Mythe vivant", "desc": "Obtiens une carte Mythique ou mieux.", "stat": "mythic_pulls", "goal": 1, "reward": {"crystals": 50, "tokens": 1}},
-  {"id": "a_win10",   "text": "Duelliste", "desc": "Remporte 10 combats.", "stat": "battles_won", "goal": 10, "reward": {"crystals": 40}},
-  {"id": "a_win50",   "text": "Maître des arènes", "desc": "Remporte 50 combats.", "stat": "battles_won", "goal": 50, "reward": {"crystals": 100, "tokens": 2}},
-  {"id": "a_evolve",  "text": "Métamorphose", "desc": "Fais évoluer une créature en combat.", "stat": "evolutions", "goal": 1, "reward": {"crystals": 15}},
-  {"id": "a_variant", "text": "Œil de collectionneur", "desc": "Obtiens une variante rare (Holo, Full Art…).", "stat": "variants_found", "goal": 1, "reward": {"crystals": 20}},
-  {"id": "a_open50",  "text": "Déchireur de boosters", "desc": "Ouvre 50 boosters.", "stat": "boosters_opened", "goal": 50, "reward": {"crystals": 80, "tokens": 1}}
+  {
+   "id": "a_first",
+   "text": "Première ouverture",
+   "desc": "Ouvre ton premier booster.",
+   "stat": "boosters_opened",
+   "goal": 1,
+   "reward": {
+    "crystals": 10
+   }
+  },
+  {
+   "id": "a_col25",
+   "text": "Apprenti collectionneur",
+   "desc": "Possède 25 cartes différentes.",
+   "stat": "unique_cards",
+   "goal": 25,
+   "reward": {
+    "crystals": 30
+   }
+  },
+  {
+   "id": "a_col50",
+   "text": "Archiviste",
+   "desc": "Possède 50 cartes différentes.",
+   "stat": "unique_cards",
+   "goal": 50,
+   "reward": {
+    "crystals": 60,
+    "tokens": 1
+   }
+  },
+  {
+   "id": "a_leg",
+   "text": "Touché par la légende",
+   "desc": "Obtiens une carte Légendaire ou mieux.",
+   "stat": "legendary_pulls",
+   "goal": 1,
+   "reward": {
+    "crystals": 25
+   }
+  },
+  {
+   "id": "a_myth",
+   "text": "Mythe vivant",
+   "desc": "Obtiens une carte Mythique ou mieux.",
+   "stat": "mythic_pulls",
+   "goal": 1,
+   "reward": {
+    "crystals": 50,
+    "tokens": 1
+   }
+  },
+  {
+   "id": "a_win10",
+   "text": "Duelliste",
+   "desc": "Remporte 10 combats.",
+   "stat": "battles_won",
+   "goal": 10,
+   "reward": {
+    "crystals": 40
+   }
+  },
+  {
+   "id": "a_win50",
+   "text": "Maître des arènes",
+   "desc": "Remporte 50 combats.",
+   "stat": "battles_won",
+   "goal": 50,
+   "reward": {
+    "crystals": 100,
+    "tokens": 2
+   }
+  },
+  {
+   "id": "a_evolve",
+   "text": "Métamorphose",
+   "desc": "Fais évoluer une créature en combat.",
+   "stat": "evolutions",
+   "goal": 1,
+   "reward": {
+    "crystals": 15
+   }
+  },
+  {
+   "id": "a_variant",
+   "text": "Œil de collectionneur",
+   "desc": "Obtiens une variante rare (Holo, Full Art…).",
+   "stat": "variants_found",
+   "goal": 1,
+   "reward": {
+    "crystals": 20
+   }
+  },
+  {
+   "id": "a_open50",
+   "text": "Déchireur de boosters",
+   "desc": "Ouvre 50 boosters.",
+   "stat": "boosters_opened",
+   "goal": 50,
+   "reward": {
+    "crystals": 80,
+    "tokens": 1
+   }
+  },
+  {
+   "id": "a_forge",
+   "text": "Alchimiste",
+   "desc": "Fais évoluer une carte à l'Atelier.",
+   "stat": "forge_evolutions",
+   "goal": 1,
+   "reward": {
+    "crystals": 20
+   }
+  },
+  {
+   "id": "a_secret",
+   "text": "Secret des anciens",
+   "desc": "Réussis une transformation secrète.",
+   "stat": "secret_forges",
+   "goal": 1,
+   "reward": {
+    "crystals": 80,
+    "tokens": 1
+   }
+  },
+  {
+   "id": "a_col100",
+   "text": "Gardien du Cardverse",
+   "desc": "Possède 100 cartes différentes.",
+   "stat": "unique_cards",
+   "goal": 100,
+   "reward": {
+    "crystals": 150,
+    "tokens": 2
+   }
+  }
  ],
  "login_calendar": [
-  {"coins": 100}, {"crystals": 10}, {"coins": 200}, {"booster": "classic"}, {"crystals": 20}, {"coins": 300}, {"tokens": 1, "crystals": 30}
+  {
+   "coins": 100
+  },
+  {
+   "crystals": 10
+  },
+  {
+   "coins": 200
+  },
+  {
+   "booster": "classic"
+  },
+  {
+   "crystals": 20
+  },
+  {
+   "coins": 300
+  },
+  {
+   "tokens": 1,
+   "crystals": 30
+  }
  ],
- "collection_rewards": {"element": {"crystals": 40}, "rarity": {"crystals": 60}, "set": {"crystals": 300, "tokens": 3}},
- "battle_rewards": {"win": {"coins": 60, "xp": 50, "event": 3}, "loss": {"coins": 20, "xp": 20, "event": 1}},
- "starter": {"coins": 300, "crystals": 50, "tokens": 0, "event": 12, "free_boosters": 3,
-   "cards": ["f001","f001","f003","f008","f008","w001","w001","w007","e001","e002","e002","l001","l001","l002","l005","n001","n001","n003","n006","s001","s002","h001","v001","m001","i001","i002"]}
+ "collection_rewards": {
+  "element": {
+   "crystals": 40
+  },
+  "rarity": {
+   "crystals": 60
+  },
+  "set": {
+   "crystals": 300,
+   "tokens": 3
+  }
+ },
+ "battle_rewards": {
+  "win": {
+   "coins": 60,
+   "xp": 50,
+   "event": 3,
+   "dust": 15
+  },
+  "loss": {
+   "coins": 20,
+   "xp": 20,
+   "event": 1,
+   "dust": 5
+  }
+ },
+ "starter": {
+  "coins": 300,
+  "crystals": 50,
+  "tokens": 0,
+  "event": 12,
+  "free_boosters": 3,
+  "cards": [
+   "f001",
+   "f001",
+   "f003",
+   "f008",
+   "f008",
+   "w001",
+   "w001",
+   "w007",
+   "e001",
+   "e002",
+   "e002",
+   "l001",
+   "l001",
+   "l002",
+   "l005",
+   "n001",
+   "n001",
+   "n003",
+   "n006",
+   "s001",
+   "s002",
+   "h001",
+   "v001",
+   "m001",
+   "i001",
+   "i002"
+  ]
+ }
 }

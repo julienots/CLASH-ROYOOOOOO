@@ -7,12 +7,14 @@ var body: VBoxContainer
 var _tabs := {}
 
 const TABS := [["boosters", "Boosters"], ["offers", "Offres"], ["singles", "Cartes"], ["cosmetics", "Style"], ["premium", "Cristaux"]]
+const BACK_HUES := {"back_ember": 0.62, "back_jade": 0.35, "back_gold": 0.83, "back_eclipse": 0.12}
 const SINGLE_PRICE := {"C": 40, "U": 80, "R": 180, "SR": 350, "E": 700, "L": 1800}
 const COSMETICS := [
 	{"id": "back_default", "type": "back", "name": "Dos Nébuleuse", "price": {}},
 	{"id": "back_ember", "type": "back", "name": "Dos Braise", "price": {"crystals": 60}},
 	{"id": "back_jade", "type": "back", "name": "Dos Jade", "price": {"crystals": 60}},
 	{"id": "back_gold", "type": "back", "name": "Dos Aurore", "price": {"crystals": 120}},
+	{"id": "back_eclipse", "type": "back", "name": "Dos Éclipse", "price": {}, "exclusive": "Passe Élite, palier 30"},
 	{"id": "board_default", "type": "board", "name": "Arène Astrale", "price": {}, "colors": ["0b0716", "3a1466", "0d4070"]},
 	{"id": "board_volcano", "type": "board", "name": "Arène Volcanique", "price": {"crystals": 80}, "colors": ["160505", "6a1a08", "8a3a10"]},
 	{"id": "board_abyss", "type": "board", "name": "Arène Abyssale", "price": {"crystals": 80}, "colors": ["02101a", "06404a", "0a2a60"]},
@@ -112,13 +114,13 @@ func _booster_row(b: Dictionary) -> Control:
 	v.add_child(UI.label("%d cartes · la 5e est Rare ou mieux" % int(b.cards), 18, UI.MUTED, "body", 600))
 	var bh := UI.hbox(10)
 	var locked: bool = int(b.get("min_level", 0)) > int(Profile.d.level)
-	var free: bool = b.id == "classic" and int(Profile.d.free_boosters) > 0
+	var free: bool = Profile.free_count(b.id) > 0
 	var buy: Button
 	if locked:
 		buy = UI.button("Niveau %d requis" % int(b.min_level), Color("4a3a6a"), 22, Vector2(0, 70), "ui_lock")
 		buy.disabled = true
 	elif free:
-		buy = UI.button("GRATUIT (%d)" % int(Profile.d.free_boosters), UI.GOOD.darkened(0.2), 24, Vector2(0, 70), "ui_gift")
+		buy = UI.button("GRATUIT (%d)" % Profile.free_count(b.id), UI.GOOD.darkened(0.2), 24, Vector2(0, 70), "ui_gift")
 	else:
 		buy = UI.price_button(b.price, col.darkened(0.15), 26)
 	buy.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -133,12 +135,11 @@ func _booster_row(b: Dictionary) -> Control:
 	return p
 
 func open_booster(b: Dictionary, test := false) -> void:
-	var free: bool = b.id == "classic" and int(Profile.d.free_boosters) > 0
 	if not test:
 		if int(b.get("min_level", 0)) > int(Profile.d.level):
 			return
-		if free:
-			Profile.d.free_boosters = int(Profile.d.free_boosters) - 1
+		if Profile.use_free(b.id):
+			pass
 		elif not Profile.pay(b.price):
 			main.show_toast("Pas assez de %s." % Profile.CURRENCY_NAMES.get(b.price.keys()[0], ""), "error")
 			return
@@ -337,7 +338,7 @@ func _cosmetics() -> void:
 		var m := ShaderMaterial.new()
 		m.shader = load("res://shaders/art_fx.gdshader")
 		m.set_shader_parameter("mode", 0 if c.id == "back_default" else 1)
-		m.set_shader_parameter("hue_shift", {"back_ember": 0.62, "back_jade": 0.35, "back_gold": 0.83}.get(c.id, 0.0))
+		m.set_shader_parameter("hue_shift", BACK_HUES.get(c.id, 0.0))
 		prev.material = m
 		v.add_child(prev)
 		v.add_child(UI.label(c.name, 22, UI.TEXT, "body", 800, HORIZONTAL_ALIGNMENT_CENTER))
@@ -375,6 +376,9 @@ func _cosmetic_button(c: Dictionary, kind: String) -> Button:
 		b.disabled = true
 	elif owned:
 		b = UI.button("Équiper", UI.ACCENT, 22, Vector2(170, 64))
+	elif c.has("exclusive"):
+		b = UI.button(c.exclusive, Color("3a3350"), 16, Vector2(170, 64), "ui_lock")
+		b.disabled = true
 	else:
 		b = UI.price_button(c.price, UI.ACCENT, 22)
 		b.custom_minimum_size.x = 170

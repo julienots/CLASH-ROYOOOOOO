@@ -216,6 +216,7 @@ PACKS = {
     "divine": ((210, 160, 60), (255, 245, 200), "h003"),
     "event": ((160, 30, 90), (255, 200, 90), "f006"),
     "secret": ((10, 10, 14), (120, 255, 210), "v003"),
+    "eclipse": ((30, 18, 50), (255, 190, 90), "ec37"),
 }
 
 
@@ -405,6 +406,8 @@ def ui_icons():
     im, d = new(); d.line([(5, 5), (19, 19)], fill=W, width=4); d.line([(19, 5), (5, 19)], fill=W, width=4); out["close"] = im
     im, d = new(); d.polygon([(6, 4), (18, 12), (6, 20)], fill=W); out["play"] = im
     im, d = new(); d.ellipse([2, 6, 22, 18], fill=W); d.ellipse([8, 8, 16, 16], fill=(0, 0, 0, 0)); d.ellipse([10, 10, 14, 14], fill=W); out["eye"] = im
+    im, d = new(); d.polygon([(2, 14), (8, 6), (14, 4), (22, 3), (18, 8), (21, 9), (16, 13), (18, 15), (10, 17), (4, 20)], fill=W); out["wing"] = im
+    im, d = new(); d.ellipse([3, 3, 21, 21], outline=W, width=3); d.line([(6, 18), (18, 6)], fill=W, width=3); out["mute"] = im
     im, d = new(); d.polygon([(12, 2), (21, 6), (20, 14), (12, 22), (4, 14), (3, 6)], fill=W); d.polygon([(12, 5), (18, 8), (17, 13), (12, 19)], fill=(0, 0, 0, 0)); out["shield"] = im
     im, d = new(); d.polygon([(13, 2), (5, 13), (11, 13), (9, 22), (19, 9), (13, 9)], fill=W); out["energy"] = im
     im, d = new(); d.ellipse([3, 3, 21, 21], fill=W); d.polygon([(12, 6), (14, 11), (19, 12), (14, 13), (12, 18), (10, 13), (5, 12), (10, 11)], fill=(0, 0, 0, 0)); out["globe"] = im

@@ -1,0 +1,284 @@
+{
+ "id": "s1",
+ "name": "Saison 1 : L'Éclipse",
+ "end": "2026-12-31",
+ "xp_per_tier": 120,
+ "elite_price": {
+  "crystals": 400
+ },
+ "tiers": [
+  {
+   "tier": 1,
+   "free": {
+    "coins": 100
+   },
+   "elite": {
+    "coins": 200
+   }
+  },
+  {
+   "tier": 2,
+   "free": {
+    "dust": 60
+   },
+   "elite": {
+    "dust": 150
+   }
+  },
+  {
+   "tier": 3,
+   "free": {
+    "crystals": 10
+   },
+   "elite": {
+    "booster": "eclipse"
+   }
+  },
+  {
+   "tier": 4,
+   "free": {
+    "dust": 60
+   },
+   "elite": {
+    "dust": 150
+   }
+  },
+  {
+   "tier": 5,
+   "free": {
+    "booster": "classic"
+   },
+   "elite": {
+    "coins": 200
+   }
+  },
+  {
+   "tier": 6,
+   "free": {
+    "crystals": 10
+   },
+   "elite": {
+    "booster": "eclipse"
+   }
+  },
+  {
+   "tier": 7,
+   "free": {
+    "coins": 100
+   },
+   "elite": {
+    "coins": 200
+   }
+  },
+  {
+   "tier": 8,
+   "free": {
+    "dust": 60
+   },
+   "elite": {
+    "dust": 150
+   }
+  },
+  {
+   "tier": 9,
+   "free": {
+    "crystals": 10
+   },
+   "elite": {
+    "booster": "eclipse"
+   }
+  },
+  {
+   "tier": 10,
+   "free": {
+    "booster": "classic"
+   },
+   "elite": {
+    "tokens": 1,
+    "crystals": 30
+   }
+  },
+  {
+   "tier": 11,
+   "free": {
+    "coins": 100
+   },
+   "elite": {
+    "coins": 200
+   }
+  },
+  {
+   "tier": 12,
+   "free": {
+    "crystals": 10
+   },
+   "elite": {
+    "booster": "eclipse"
+   }
+  },
+  {
+   "tier": 13,
+   "free": {
+    "coins": 100
+   },
+   "elite": {
+    "coins": 200
+   }
+  },
+  {
+   "tier": 14,
+   "free": {
+    "dust": 60
+   },
+   "elite": {
+    "dust": 150
+   }
+  },
+  {
+   "tier": 15,
+   "free": {
+    "tokens": 1
+   },
+   "elite": {
+    "booster": "eclipse"
+   }
+  },
+  {
+   "tier": 16,
+   "free": {
+    "dust": 60
+   },
+   "elite": {
+    "dust": 150
+   }
+  },
+  {
+   "tier": 17,
+   "free": {
+    "coins": 100
+   },
+   "elite": {
+    "coins": 200
+   }
+  },
+  {
+   "tier": 18,
+   "free": {
+    "crystals": 10
+   },
+   "elite": {
+    "booster": "eclipse"
+   }
+  },
+  {
+   "tier": 19,
+   "free": {
+    "coins": 100
+   },
+   "elite": {
+    "coins": 200
+   }
+  },
+  {
+   "tier": 20,
+   "free": {
+    "booster": "classic"
+   },
+   "elite": {
+    "tokens": 1,
+    "crystals": 30
+   }
+  },
+  {
+   "tier": 21,
+   "free": {
+    "crystals": 10
+   },
+   "elite": {
+    "booster": "eclipse"
+   }
+  },
+  {
+   "tier": 22,
+   "free": {
+    "dust": 60
+   },
+   "elite": {
+    "dust": 150
+   }
+  },
+  {
+   "tier": 23,
+   "free": {
+    "coins": 100
+   },
+   "elite": {
+    "coins": 200
+   }
+  },
+  {
+   "tier": 24,
+   "free": {
+    "crystals": 10
+   },
+   "elite": {
+    "booster": "eclipse"
+   }
+  },
+  {
+   "tier": 25,
+   "free": {
+    "booster": "classic"
+   },
+   "elite": {
+    "coins": 200
+   }
+  },
+  {
+   "tier": 26,
+   "free": {
+    "dust": 60
+   },
+   "elite": {
+    "dust": 150
+   }
+  },
+  {
+   "tier": 27,
+   "free": {
+    "crystals": 10
+   },
+   "elite": {
+    "booster": "eclipse"
+   }
+  },
+  {
+   "tier": 28,
+   "free": {
+    "dust": 60
+   },
+   "elite": {
+    "dust": 150
+   }
+  },
+  {
+   "tier": 29,
+   "free": {
+    "coins": 100
+   },
+   "elite": {
+    "coins": 200
+   }
+  },
+  {
+   "tier": 30,
+   "free": {
+    "booster": "classic"
+   },
+   "elite": {
+    "cosmetic": "back_eclipse",
+    "crystals": 100
+   }
+  }
+ ]
+}
