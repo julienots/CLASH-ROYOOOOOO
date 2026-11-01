@@ -1,3 +1,13 @@
+# 🃏 Nouveau : CARDVERSE — Ultimate TCG Collection
+
+Jeu mobile de cartes à collectionner en portrait (Godot 4.3) : 64 cartes originales, 15 raretés, boosters animés avec faille cosmique, album, combats stratégiques contre l'IA, missions, événement.
+
+- 📲 APK Android : **[`dist/Cardverse.apk`](dist/Cardverse.apk)**
+- 📖 Présentation et utilisation : [`cardverse/README.md`](cardverse/README.md)
+- 🏗️ Architecture, direction artistique et feuille de route : [`cardverse/ARCHITECTURE.md`](cardverse/ARCHITECTURE.md)
+
+---
+
 # Clash of Things
 
 **Un jeu SuperEssence Studio, fait avec Godot 4.3.**

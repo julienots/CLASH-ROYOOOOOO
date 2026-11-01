@@ -1,0 +1,51 @@
+; CARDVERSE — Ultimate TCG Collection
+config_version=5
+
+[application]
+
+config/name="Cardverse"
+config/description="Jeu de cartes à collectionner : boosters, collection et combats stratégiques"
+config/version="0.1"
+run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.3", "GL Compatibility")
+config/quit_on_go_back=false
+config/icon="res://assets/icon.png"
+boot_splash/bg_color=Color(0.03, 0.02, 0.07, 1)
+boot_splash/show_image=false
+
+[autoload]
+
+DB="*res://scripts/autoload/db.gd"
+Profile="*res://scripts/autoload/profile.gd"
+Sfx="*res://scripts/autoload/sfx.gd"
+
+[display]
+
+window/size/viewport_width=720
+window/size/viewport_height=1280
+window/size/window_width_override=405
+window/size/window_height_override=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=1
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=false
+pointing/emulate_mouse_from_touch=true
+
+[gui]
+
+theme/custom_font="res://assets/fonts/Exo2.ttf"
+common/drop_mouse_on_gui_input_disabled=true
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true
+environment/defaults/default_clear_color=Color(0.03, 0.02, 0.07, 1)
+
+[debug]
+
+gdscript/warnings/inference_on_variant=1

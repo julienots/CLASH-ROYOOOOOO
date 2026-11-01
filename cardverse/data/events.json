@@ -1,0 +1,7 @@
+{
+ "events": [
+  {"id": "phoenix", "name": "L'Éveil du Phénix", "desc": "Le Phénix Solcendre renaît des cendres de Kharn. Affronte ses gardiens, gagne des Plumes ardentes et ouvre le booster de l'événement.",
+   "currency": "Plumes ardentes", "color": "#ff7a3a", "booster": "event", "boss": {"name": "Gardien des Cendres", "leader": "pyra", "deck_elements": ["feu"], "hp": 30, "difficulty": 2},
+   "start": "2026-10-20", "end": "2026-12-31"}
+ ]
+}

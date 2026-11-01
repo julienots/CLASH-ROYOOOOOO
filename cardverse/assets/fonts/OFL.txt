@@ -1,0 +1,5 @@
+Polices incluses sous licence SIL Open Font License 1.1 (https://openfontlicense.org) :
+- Cinzel, Cinzel Decorative — Copyright 2012 Natanael Gama
+- Exo 2 — Copyright 2013 The Exo 2 Project Authors
+- Lilita One — Copyright 2011 Juan Montoreano
+Source : https://github.com/google/fonts

@@ -1,0 +1,2806 @@
+{
+ "set": "genesis",
+ "name": "Genèse",
+ "cards": [
+  {
+   "id": "f001",
+   "name": "Braiselet",
+   "type": "creature",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 2,
+   "hp": 1,
+   "evolve": {
+    "into": "f002",
+    "turns": 2
+   },
+   "lore": "Il naît dans les cendres encore tièdes et grignote les braises comme des bonbons.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "cute",
+    "eyes_style": "cute",
+    "horns": "none",
+    "spikes": false,
+    "bulk": 0.75,
+    "head": 1.7,
+    "leg_len": 0.6,
+    "tail": 0.8,
+    "tail_tip": "flame",
+    "c1": [
+     240,
+     110,
+     50
+    ],
+    "c2": [
+     255,
+     200,
+     120
+    ],
+    "scale": 1.232,
+    "cy": 160
+   }
+  },
+  {
+   "id": "f002",
+   "name": "Salamandre Ardente",
+   "type": "creature",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "R",
+   "cost": 3,
+   "atk": 4,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 1
+    }
+   ],
+   "lore": "Quand Braiselet a assez mangé de braises, sa peau se fend et révèle une armure de lave vivante.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "back",
+    "bulk": 0.9,
+    "head": 1.4,
+    "leg_len": 0.7,
+    "tail": 1.2,
+    "tail_tip": "flame",
+    "spike_size": 1.4,
+    "c1": [
+     220,
+     70,
+     30
+    ],
+    "c2": [
+     255,
+     190,
+     90
+    ],
+    "c3": [
+     255,
+     230,
+     120
+    ],
+    "breath": true,
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "f003",
+   "name": "Pyrognathe",
+   "type": "creature",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 3,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "attack",
+     "do": "damage",
+     "target": "enemy_leader",
+     "value": 1
+    }
+   ],
+   "lore": "Ses mâchoires chauffées à blanc laissent des cicatrices qui fument pendant des années.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "ram",
+    "bulk": 1.05,
+    "head": 1.6,
+    "neck": 0.5,
+    "tail": 0.9,
+    "c1": [
+     170,
+     50,
+     40
+    ],
+    "c2": [
+     240,
+     150,
+     90
+    ],
+    "c3": [
+     60,
+     30,
+     30
+    ],
+    "tail_tip": "spike",
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "f004",
+   "name": "Vorrak, Dragon de Magma",
+   "type": "creature",
+   "family": "dragons",
+   "element": "feu",
+   "rarity": "L",
+   "cost": 7,
+   "atk": 7,
+   "hp": 7,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 2
+    }
+   ],
+   "lore": "Le volcan de Kharn ne s'est jamais éteint : c'est Vorrak qui y dort, et chacun de ses rêves est une éruption.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "back",
+    "wings": true,
+    "wing_span": 1.25,
+    "wing_glow": true,
+    "bulk": 1.1,
+    "neck": 1.2,
+    "breath": true,
+    "c1": [
+     150,
+     30,
+     25
+    ],
+    "c2": [
+     255,
+     150,
+     60
+    ],
+    "c3": [
+     40,
+     20,
+     20
+    ],
+    "membrane": [
+     200,
+     70,
+     40
+    ],
+    "scale": 1.03,
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "f005",
+   "name": "Azhul des Fournaises",
+   "type": "creature",
+   "family": "demons",
+   "element": "feu",
+   "rarity": "E",
+   "cost": 5,
+   "atk": 5,
+   "hp": 4,
+   "keywords": [
+    "rage"
+   ],
+   "lore": "Forgeron des enfers, Azhul trempe ses lames dans sa propre colère.",
+   "art": {
+    "arch": "biped",
+    "kind": "demon",
+    "bulk": 1.25,
+    "horns": true,
+    "wings": "bat",
+    "tail": true,
+    "skin": [
+     170,
+     40,
+     30
+    ],
+    "c3": [
+     40,
+     20,
+     20
+    ],
+    "membrane": [
+     110,
+     20,
+     20
+    ],
+    "weapon": "sword",
+    "aura": true,
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "f006",
+   "name": "Solcendre, le Phénix",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "feu",
+   "rarity": "M",
+   "cost": 6,
+   "atk": 5,
+   "hp": 5,
+   "keywords": [
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "t001"
+    }
+   ],
+   "lore": "Il a brûlé mille fois. Mille fois, le monde a cru en être débarrassé.",
+   "art": {
+    "arch": "bird",
+    "flame": true,
+    "wing_span": 1.15,
+    "tail": 1.2,
+    "c1": [
+     255,
+     120,
+     30
+    ],
+    "c2": [
+     255,
+     210,
+     90
+    ],
+    "c3": [
+     255,
+     80,
+     40
+    ],
+    "scene": "sanctum",
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "f008",
+   "name": "Trait de Feu",
+   "type": "spell",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "C",
+   "cost": 1,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "choose_enemy",
+     "value": 2
+    }
+   ],
+   "lore": "La première leçon de tout pyromancien. Et souvent la dernière de sa cible.",
+   "art": {
+    "arch": "spell",
+    "spell": "firebolt"
+   }
+  },
+  {
+   "id": "f009",
+   "name": "Météore Écarlate",
+   "type": "spell",
+   "family": "cosmiques",
+   "element": "feu",
+   "rarity": "SR",
+   "cost": 5,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "choose_enemy_creature",
+     "value": 6
+    },
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "enemy_leader",
+     "value": 2
+    }
+   ],
+   "lore": "Les astronomes de Vell'Ara l'avaient prédit. Personne ne les avait écoutés.",
+   "art": {
+    "arch": "spell",
+    "spell": "meteor",
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "w001",
+   "name": "Bulleplume",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 3,
+   "keywords": [
+    "garde"
+   ],
+   "lore": "Un poisson qui a rêvé d'être un oiseau. Il a gardé les plumes, pas les ailes.",
+   "art": {
+    "arch": "fish",
+    "eyes_style": "cute",
+    "length": 0.8,
+    "feathers": [
+     255,
+     200,
+     120
+    ],
+    "c1": [
+     90,
+     190,
+     250
+    ],
+    "c2": [
+     220,
+     245,
+     255
+    ],
+    "c3": [
+     255,
+     170,
+     110
+    ],
+    "scale": 1.288
+   }
+  },
+  {
+   "id": "w002",
+   "name": "Méduse Chantante",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "U",
+   "cost": 2,
+   "atk": 1,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 1
+    }
+   ],
+   "lore": "Son chant apaise les marins… et attire les requins.",
+   "art": {
+    "arch": "jelly",
+    "eyes_style": "cute",
+    "tentacles": 7,
+    "c1": [
+     150,
+     200,
+     255
+    ],
+    "c2": [
+     200,
+     160,
+     255
+    ],
+    "scene": "abyss",
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "w003",
+   "name": "Ourm, Kraken Abyssal",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 5,
+   "hp": 7,
+   "effects": [
+    {
+     "on": "attack",
+     "do": "freeze",
+     "target": "attack_target"
+    }
+   ],
+   "lore": "Les cartes marines ne mentionnent pas Ourm. Les cartographes qui l'ont croisé ne sont jamais rentrés.",
+   "art": {
+    "arch": "kraken",
+    "c1": [
+     60,
+     40,
+     110
+    ],
+    "c2": [
+     255,
+     170,
+     200
+    ],
+    "eye": [
+     255,
+     220,
+     80
+    ],
+    "scene": "abyss",
+    "scale": 0.952,
+    "cy": 150
+   }
+  },
+  {
+   "id": "w004",
+   "name": "Thalassor, le Léviathan",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "eau",
+   "rarity": "L",
+   "cost": 8,
+   "atk": 8,
+   "hp": 8,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "freeze",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Quand il remonte respirer, les marées changent de sens.",
+   "art": {
+    "arch": "serpent",
+    "whiskers": true,
+    "water": true,
+    "thick": 1.15,
+    "horns": "crown",
+    "c1": [
+     30,
+     110,
+     170
+    ],
+    "c2": [
+     180,
+     240,
+     230
+    ],
+    "c3": [
+     120,
+     255,
+     230
+    ],
+    "scale": 1.008
+   }
+  },
+  {
+   "id": "w005",
+   "name": "Ondine des Récifs",
+   "type": "creature",
+   "family": "esprits",
+   "element": "eau",
+   "rarity": "R",
+   "cost": 3,
+   "atk": 2,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 3
+    }
+   ],
+   "lore": "Gardienne des coraux, elle soigne les plongeurs perdus et les renvoie vers la surface.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     40,
+     150,
+     200
+    ],
+    "hair": [
+     120,
+     230,
+     255
+    ],
+    "skin_h": [
+     190,
+     230,
+     240
+    ],
+    "orb_hand": true,
+    "trim": [
+     255,
+     220,
+     150
+    ],
+    "floating": true,
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "w006",
+   "name": "Raz-de-Marée",
+   "type": "spell",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "E",
+   "cost": 6,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 3
+    },
+    {
+     "on": "cast",
+     "do": "freeze",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "L'océan n'oublie jamais une insulte.",
+   "art": {
+    "arch": "spell",
+    "spell": "wave"
+   }
+  },
+  {
+   "id": "w007",
+   "name": "Crabe-Forteresse",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "C",
+   "cost": 3,
+   "atk": 2,
+   "hp": 5,
+   "keywords": [
+    "garde"
+   ],
+   "lore": "Sa carapace abrite une colonie entière de bernard-l'ermite reconnaissants.",
+   "art": {
+    "arch": "crab",
+    "fortress": true,
+    "c1": [
+     220,
+     90,
+     70
+    ],
+    "c3": [
+     200,
+     190,
+     170
+    ],
+    "scale": 1.064,
+    "cy": 160
+   }
+  },
+  {
+   "id": "e001",
+   "name": "Golem de Granit",
+   "type": "creature",
+   "family": "antiques",
+   "element": "terre",
+   "rarity": "C",
+   "cost": 4,
+   "atk": 3,
+   "hp": 6,
+   "keywords": [
+    "garde"
+   ],
+   "lore": "Façonné par un mage oublié, il garde encore une porte qui n'existe plus.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.2,
+    "c1": [
+     140,
+     130,
+     120
+    ],
+    "glow": [
+     255,
+     190,
+     90
+    ],
+    "eye": [
+     255,
+     200,
+     80
+    ],
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "e002",
+   "name": "Taupe Foreuse",
+   "type": "creature",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Elle creuse si vite qu'elle remonte parfois avec des trésors… et des ennuis.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "eyes_style": "cute",
+    "horns": "none",
+    "spikes": false,
+    "bulk": 0.85,
+    "head": 1.6,
+    "leg_len": 0.5,
+    "tail": 0.3,
+    "c1": [
+     110,
+     80,
+     70
+    ],
+    "c2": [
+     240,
+     180,
+     170
+    ],
+    "c3": [
+     250,
+     230,
+     200
+    ],
+    "scale": 1.232,
+    "cy": 165
+   }
+  },
+  {
+   "id": "e003",
+   "name": "Gorrum, Titan des Failles",
+   "type": "creature",
+   "family": "antiques",
+   "element": "terre",
+   "rarity": "E",
+   "cost": 7,
+   "atk": 6,
+   "hp": 9,
+   "keywords": [
+    "garde",
+    "rage"
+   ],
+   "lore": "Les tremblements de terre ne sont que Gorrum qui se retourne dans son sommeil.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.5,
+    "c1": [
+     120,
+     90,
+     70
+    ],
+    "glow": [
+     255,
+     120,
+     50
+    ],
+    "eye": [
+     255,
+     140,
+     50
+    ],
+    "crystals": [
+     [
+      -16,
+      -30,
+      30
+     ],
+     [
+      14,
+      -22,
+      22
+     ],
+     [
+      -2,
+      -10,
+      18
+     ]
+    ],
+    "scale": 1.03
+   }
+  },
+  {
+   "id": "e004",
+   "name": "Sanglier Rocheux",
+   "type": "creature",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 3,
+   "hp": 3,
+   "keywords": [
+    "celerite"
+   ],
+   "lore": "Il ne connaît qu'une direction : tout droit, à travers tout.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "horns": "none",
+    "tusks": true,
+    "ears": true,
+    "spikes": true,
+    "spike_size": 1.2,
+    "bulk": 1.15,
+    "head": 1.4,
+    "neck": 0.3,
+    "tail": 0.3,
+    "c1": [
+     120,
+     95,
+     80
+    ],
+    "c2": [
+     180,
+     150,
+     120
+    ],
+    "c3": [
+     160,
+     160,
+     170
+    ],
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "e005",
+   "name": "Séisme",
+   "type": "spell",
+   "family": "antiques",
+   "element": "terre",
+   "rarity": "SR",
+   "cost": 4,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_creatures",
+     "value": 2
+    }
+   ],
+   "lore": "La terre ne choisit pas son camp.",
+   "art": {
+    "arch": "spell",
+    "spell": "quake",
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "e006",
+   "name": "Mégalith, Colosse Antique",
+   "type": "creature",
+   "family": "antiques",
+   "element": "terre",
+   "rarity": "A",
+   "cost": 9,
+   "atk": 10,
+   "hp": 10,
+   "keywords": [
+    "garde",
+    "bouclier"
+   ],
+   "lore": "Antérieur aux dieux eux-mêmes, il porte sur son dos les ruines d'une civilisation entière.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.7,
+    "height": 1.05,
+    "c1": [
+     170,
+     150,
+     120
+    ],
+    "glow": [
+     120,
+     255,
+     220
+    ],
+    "eye": [
+     140,
+     255,
+     230
+    ],
+    "crystals": [
+     [
+      -20,
+      -36,
+      34
+     ],
+     [
+      16,
+      -28,
+      28
+     ],
+     [
+      0,
+      -14,
+      22
+     ],
+     [
+      26,
+      -6,
+      16
+     ]
+    ],
+    "aura": true,
+    "scale": 0.986,
+    "scene": "sanctum"
+   }
+  },
+  {
+   "id": "l001",
+   "name": "Étincelin",
+   "type": "creature",
+   "family": "esprits",
+   "element": "foudre",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 1,
+   "keywords": [
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "random_enemy",
+     "value": 1
+    }
+   ],
+   "lore": "Ne le caressez pas. Vraiment. Même s'il insiste.",
+   "art": {
+    "arch": "spirit",
+    "kind": "spark",
+    "c1": [
+     255,
+     230,
+     90
+    ],
+    "scale": 1.344
+   }
+  },
+  {
+   "id": "l002",
+   "name": "Loup Voltaïque",
+   "type": "creature",
+   "family": "creatures",
+   "element": "foudre",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 3,
+   "hp": 2,
+   "keywords": [
+    "celerite"
+   ],
+   "lore": "La meute chasse pendant les orages ; on ne distingue leurs hurlements du tonnerre.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "horns": "none",
+    "ears": true,
+    "mane": true,
+    "mane_c": [
+     150,
+     230,
+     255
+    ],
+    "spikes": false,
+    "bulk": 0.9,
+    "leg_len": 1.25,
+    "head": 1.35,
+    "c1": [
+     70,
+     80,
+     140
+    ],
+    "c2": [
+     180,
+     200,
+     240
+    ],
+    "tail": 1.0,
+    "tail_tip": "flame",
+    "glow": [
+     150,
+     230,
+     255
+    ],
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "l003",
+   "name": "Mécha-Tonnerre MK-IV",
+   "type": "creature",
+   "family": "robots",
+   "element": "foudre",
+   "rarity": "SR",
+   "cost": 5,
+   "atk": 4,
+   "hp": 5,
+   "keywords": [
+    "bouclier"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "damage",
+     "target": "random_enemy_creature",
+     "value": 1
+    }
+   ],
+   "lore": "Le quatrième prototype. Les trois premiers ont rasé le laboratoire.",
+   "art": {
+    "arch": "biped",
+    "kind": "mech",
+    "bulk": 1.2,
+    "c1": [
+     80,
+     90,
+     120
+    ],
+    "c3": [
+     250,
+     200,
+     60
+    ],
+    "eye": [
+     120,
+     230,
+     255
+    ],
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "l004",
+   "name": "Raijuu le Fulgurant",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "foudre",
+   "rarity": "L",
+   "cost": 6,
+   "atk": 6,
+   "hp": 4,
+   "keywords": [
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "random_enemy",
+     "value": 2
+    },
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "random_enemy",
+     "value": 2
+    }
+   ],
+   "lore": "La bête-éclair ne touche jamais le sol plus d'un instant.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "horns": "back",
+    "ears": true,
+    "mane": true,
+    "mane_c": [
+     255,
+     240,
+     120
+    ],
+    "spikes": false,
+    "bulk": 0.95,
+    "leg_len": 1.2,
+    "head": 1.4,
+    "c1": [
+     255,
+     210,
+     60
+    ],
+    "c2": [
+     255,
+     250,
+     210
+    ],
+    "c3": [
+     60,
+     60,
+     110
+    ],
+    "tail": 1.3,
+    "tail_tip": "flame",
+    "glow": [
+     180,
+     230,
+     255
+    ],
+    "scene": "storm",
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "l005",
+   "name": "Arc Électrique",
+   "type": "spell",
+   "family": "robots",
+   "element": "foudre",
+   "rarity": "C",
+   "cost": 2,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "choose_enemy_creature",
+     "value": 3
+    }
+   ],
+   "lore": "Il cherche toujours le chemin le plus court. Généralement, c'est vous.",
+   "art": {
+    "arch": "spell",
+    "spell": "lightning"
+   }
+  },
+  {
+   "id": "l006",
+   "name": "Kaarn, l'Oiseau-Orage",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "foudre",
+   "rarity": "M",
+   "cost": 7,
+   "atk": 6,
+   "hp": 6,
+   "keywords": [
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "damage",
+     "target": "random_enemy",
+     "value": 2
+    }
+   ],
+   "lore": "Chaque battement de ses ailes est un coup de tonnerre ; chaque cri, un éclair.",
+   "art": {
+    "arch": "bird",
+    "sparks": true,
+    "wing_glow": true,
+    "wing_span": 1.2,
+    "c1": [
+     60,
+     70,
+     150
+    ],
+    "c2": [
+     130,
+     200,
+     255
+    ],
+    "c3": [
+     255,
+     230,
+     80
+    ],
+    "scene": "storm",
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "i001",
+   "name": "Floconin",
+   "type": "creature",
+   "family": "esprits",
+   "element": "glace",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 2,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "freeze",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Chaque Floconin est unique. Ils en sont très fiers.",
+   "art": {
+    "arch": "spirit",
+    "kind": "snow",
+    "scale": 1.288
+   }
+  },
+  {
+   "id": "i002",
+   "name": "Yéti des Cimes",
+   "type": "creature",
+   "family": "creatures",
+   "element": "glace",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 4,
+   "hp": 5,
+   "lore": "On dit qu'il garde le sommet le plus haut du monde. Personne n'a jamais vérifié.",
+   "art": {
+    "arch": "biped",
+    "kind": "brute",
+    "bulk": 1.4,
+    "skin": [
+     235,
+     240,
+     250
+    ],
+    "horns": true,
+    "c3": [
+     120,
+     150,
+     190
+    ],
+    "eye": [
+     80,
+     180,
+     255
+    ],
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "i003",
+   "name": "Nivhëa, Wyrm de Givre",
+   "type": "creature",
+   "family": "dragons",
+   "element": "glace",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 5,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "attack",
+     "do": "freeze",
+     "target": "attack_target"
+    }
+   ],
+   "lore": "Son souffle fige les rivières en pleine chute.",
+   "art": {
+    "arch": "serpent",
+    "horns": "back",
+    "thick": 1.0,
+    "c1": [
+     170,
+     220,
+     255
+    ],
+    "c2": [
+     240,
+     250,
+     255
+    ],
+    "c3": [
+     100,
+     160,
+     230
+    ],
+    "path": [
+     [
+      110,
+      120
+     ],
+     [
+      80,
+      70
+     ],
+     [
+      110,
+      20
+     ],
+     [
+      60,
+      -20
+     ],
+     [
+      -10,
+      0
+     ],
+     [
+      -50,
+      -50
+     ],
+     [
+      -80,
+      -70
+     ]
+    ],
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "i004",
+   "name": "Sylvëa, Reine Boréale",
+   "type": "creature",
+   "family": "divinites",
+   "element": "glace",
+   "rarity": "D",
+   "cost": 8,
+   "atk": 6,
+   "hp": 8,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "freeze",
+     "target": "random_enemy_creature"
+    },
+    {
+     "on": "turn_start",
+     "do": "buff",
+     "target": "self",
+     "value": 1,
+     "value2": 1
+    }
+   ],
+   "lore": "Elle règne sur l'aurore éternelle. Ses larmes deviennent des étoiles de glace.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "robe_c": [
+     190,
+     230,
+     255
+    ],
+    "hair": [
+     240,
+     250,
+     255
+    ],
+    "skin_h": [
+     220,
+     235,
+     250
+    ],
+    "crown": [
+     180,
+     240,
+     255
+    ],
+    "halo": true,
+    "halo_c": [
+     160,
+     230,
+     255
+    ],
+    "wings": "feather",
+    "wing_c": [
+     210,
+     240,
+     255
+    ],
+    "wing_glow": true,
+    "weapon": "staff",
+    "trim": [
+     140,
+     200,
+     255
+    ],
+    "floating": true,
+    "scene": "tundra",
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "i005",
+   "name": "Prison de Glace",
+   "type": "spell",
+   "family": "esprits",
+   "element": "glace",
+   "rarity": "U",
+   "cost": 2,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "freeze",
+     "target": "choose_enemy_creature"
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Le froid n'est pas cruel. Il est patient.",
+   "art": {
+    "arch": "spell",
+    "spell": "ice_prison"
+   }
+  },
+  {
+   "id": "i006",
+   "name": "Golem Cryogénique",
+   "type": "creature",
+   "family": "robots",
+   "element": "glace",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 3,
+   "hp": 5,
+   "keywords": [
+    "bouclier"
+   ],
+   "lore": "Construit pour conserver les rations d'hiver. Il a pris son rôle très au sérieux.",
+   "art": {
+    "arch": "biped",
+    "kind": "mech",
+    "bulk": 1.1,
+    "c1": [
+     150,
+     200,
+     230
+    ],
+    "c3": [
+     230,
+     245,
+     255
+    ],
+    "eye": [
+     120,
+     230,
+     255
+    ],
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "n001",
+   "name": "Pousse-Sourire",
+   "type": "creature",
+   "family": "vegetaux",
+   "element": "nature",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 2,
+   "effects": [
+    {
+     "on": "death",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 2
+    }
+   ],
+   "evolve": {
+    "into": "n002",
+    "turns": 2
+   },
+   "lore": "Arrosez-la, chantez-lui une chanson, et regardez-la grandir.",
+   "art": {
+    "arch": "plant",
+    "kind": "flower",
+    "big": 0.8,
+    "c1": [
+     255,
+     200,
+     90
+    ],
+    "c2": [
+     255,
+     240,
+     170
+    ],
+    "scale": 1.288,
+    "cy": 155
+   }
+  },
+  {
+   "id": "n002",
+   "name": "Floraison Majestueuse",
+   "type": "creature",
+   "family": "vegetaux",
+   "element": "nature",
+   "rarity": "R",
+   "cost": 3,
+   "atk": 3,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 2
+    }
+   ],
+   "lore": "Ce que Pousse-Sourire devient quand on lui chante assez de chansons.",
+   "art": {
+    "arch": "plant",
+    "kind": "flower",
+    "big": 1.1,
+    "petals": 8,
+    "petals2": [
+     255,
+     130,
+     170
+    ],
+    "glow_petals": true,
+    "c1": [
+     255,
+     190,
+     230
+    ],
+    "c2": [
+     255,
+     240,
+     150
+    ],
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "n003",
+   "name": "Mante Émeraude",
+   "type": "creature",
+   "family": "creatures",
+   "element": "nature",
+   "rarity": "U",
+   "cost": 2,
+   "atk": 2,
+   "hp": 1,
+   "keywords": [
+    "poison"
+   ],
+   "lore": "Elle prie avant chaque repas. Ses proies, elles, prient pendant.",
+   "art": {
+    "arch": "insect",
+    "poison": true,
+    "c1": [
+     70,
+     200,
+     110
+    ],
+    "c2": [
+     180,
+     255,
+     200
+    ],
+    "c3": [
+     220,
+     255,
+     220
+    ],
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "n004",
+   "name": "Ormëwald, Tréant Ancestral",
+   "type": "creature",
+   "family": "vegetaux",
+   "element": "nature",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 4,
+   "hp": 8,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "summon",
+     "card": "n001"
+    }
+   ],
+   "lore": "Il a vu naître la forêt. Il la verra mourir, et renaître.",
+   "art": {
+    "arch": "plant",
+    "kind": "treant",
+    "c1": [
+     70,
+     150,
+     70
+    ],
+    "bloom": [
+     255,
+     230,
+     140
+    ],
+    "eye": [
+     200,
+     255,
+     120
+    ],
+    "scale": 1.064,
+    "cy": 160
+   }
+  },
+  {
+   "id": "n005",
+   "name": "Liane Dévoreuse",
+   "type": "creature",
+   "family": "vegetaux",
+   "element": "nature",
+   "rarity": "R",
+   "cost": 3,
+   "atk": 2,
+   "hp": 4,
+   "keywords": [
+    "poison",
+    "garde"
+   ],
+   "lore": "Les explorateurs la prennent pour une fleur. Une seule fois.",
+   "art": {
+    "arch": "plant",
+    "kind": "carnivore",
+    "c1": [
+     140,
+     40,
+     90
+    ],
+    "c2": [
+     255,
+     230,
+     120
+    ],
+    "scene": "haunted",
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "n006",
+   "name": "Bénédiction Sylvestre",
+   "type": "spell",
+   "family": "vegetaux",
+   "element": "nature",
+   "rarity": "C",
+   "cost": 3,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "all_allies",
+     "value": 1,
+     "value2": 1
+    },
+    {
+     "on": "cast",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 2
+    }
+   ],
+   "lore": "La forêt donne à ceux qui la protègent.",
+   "art": {
+    "arch": "spell",
+    "spell": "blessing"
+   }
+  },
+  {
+   "id": "n007",
+   "name": "Hydre Verdoyante",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "nature",
+   "rarity": "L",
+   "cost": 7,
+   "atk": 5,
+   "hp": 7,
+   "keywords": [
+    "rage"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "t004"
+    },
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "t004"
+    }
+   ],
+   "lore": "Coupez une tête, deux repousseront. Coupez les trois, et le marais entier se lève.",
+   "art": {
+    "arch": "quadruped",
+    "heads": 3,
+    "snout": "reptile",
+    "horns": "none",
+    "neck": 1.3,
+    "bulk": 1.15,
+    "head": 1.05,
+    "c1": [
+     50,
+     130,
+     80
+    ],
+    "c2": [
+     190,
+     230,
+     140
+    ],
+    "c3": [
+     240,
+     220,
+     120
+    ],
+    "tail": 1.0,
+    "scale": 0.963
+   }
+  },
+  {
+   "id": "s001",
+   "name": "Chuchoteur",
+   "type": "creature",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "keywords": [
+    "furtif"
+   ],
+   "lore": "Si vous entendez votre nom dans le noir, ne répondez pas.",
+   "art": {
+    "arch": "spirit",
+    "kind": "ghost",
+    "c1": [
+     140,
+     110,
+     190
+    ],
+    "size": 0.95,
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "s002",
+   "name": "Diablotin Rieur",
+   "type": "creature",
+   "family": "demons",
+   "element": "ombre",
+   "rarity": "U",
+   "cost": 1,
+   "atk": 2,
+   "hp": 1,
+   "effects": [
+    {
+     "on": "death",
+     "do": "damage",
+     "target": "enemy_leader",
+     "value": 1
+    }
+   ],
+   "lore": "Il rit même en disparaissant. Surtout en disparaissant.",
+   "art": {
+    "arch": "biped",
+    "kind": "imp",
+    "horns": true,
+    "wings": "bat",
+    "wing_span": 0.6,
+    "tail": true,
+    "skin": [
+     150,
+     60,
+     170
+    ],
+    "c3": [
+     255,
+     220,
+     120
+    ],
+    "membrane": [
+     90,
+     30,
+     110
+    ],
+    "scale": 1.176
+   }
+  },
+  {
+   "id": "s003",
+   "name": "Malgrith, l'Archidémon",
+   "type": "creature",
+   "family": "demons",
+   "element": "ombre",
+   "rarity": "M",
+   "cost": 8,
+   "atk": 7,
+   "hp": 7,
+   "keywords": [
+    "vol_de_vie"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "enemy_leader",
+     "value": 3
+    }
+   ],
+   "lore": "Il a signé un pacte avec chaque roi de l'ancien monde. Tous l'ont regretté.",
+   "art": {
+    "arch": "biped",
+    "kind": "demon",
+    "bulk": 1.45,
+    "horns": true,
+    "crown": [
+     255,
+     200,
+     80
+    ],
+    "wings": "bat",
+    "wing_span": 1.3,
+    "tail": true,
+    "skin": [
+     70,
+     30,
+     90
+    ],
+    "c3": [
+     230,
+     210,
+     190
+    ],
+    "membrane": [
+     50,
+     10,
+     50
+    ],
+    "weapon": "scythe",
+    "aura": true,
+    "eye": [
+     255,
+     60,
+     120
+    ],
+    "scene": "haunted",
+    "scale": 1.008
+   }
+  },
+  {
+   "id": "s004",
+   "name": "Assassin des Brumes Noires",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "SR",
+   "cost": 4,
+   "atk": 4,
+   "hp": 2,
+   "keywords": [
+    "furtif",
+    "poison"
+   ],
+   "lore": "Personne n'a vu son visage. Les rares qui l'ont aperçu n'ont vu que ses yeux.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     40,
+     30,
+     60
+    ],
+    "hood": [
+     30,
+     20,
+     50
+    ],
+    "weapon": "daggers",
+    "eye": [
+     230,
+     80,
+     255
+    ],
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "s005",
+   "name": "Pacte Ténébreux",
+   "type": "spell",
+   "family": "demons",
+   "element": "ombre",
+   "rarity": "R",
+   "cost": 1,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "ally_leader",
+     "value": 3
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "value": 2
+    }
+   ],
+   "lore": "Tout pouvoir a un prix. Celui-ci se paie en sang.",
+   "art": {
+    "arch": "spell",
+    "spell": "dark_pact"
+   }
+  },
+  {
+   "id": "s006",
+   "name": "Spectre Vorace",
+   "type": "creature",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "E",
+   "cost": 5,
+   "atk": 4,
+   "hp": 4,
+   "keywords": [
+    "vol_de_vie",
+    "rage"
+   ],
+   "lore": "Il se nourrit de souvenirs heureux. Il n'en laisse jamais un seul.",
+   "art": {
+    "arch": "spirit",
+    "kind": "ghost",
+    "size": 1.3,
+    "c1": [
+     90,
+     60,
+     140
+    ],
+    "eye": [
+     255,
+     80,
+     200
+    ],
+    "scene": "haunted",
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "h001",
+   "name": "Lucioline",
+   "type": "creature",
+   "family": "esprits",
+   "element": "lumiere",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 1,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 2
+    }
+   ],
+   "lore": "Elle guide les voyageurs égarés, tant qu'ils lui laissent un peu de miel.",
+   "art": {
+    "arch": "spirit",
+    "kind": "light",
+    "c1": [
+     255,
+     240,
+     150
+    ],
+    "scale": 1.344,
+    "scene": "forest"
+   }
+  },
+  {
+   "id": "h002",
+   "name": "Paladin Solaire",
+   "type": "creature",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 3,
+   "hp": 5,
+   "keywords": [
+    "garde",
+    "bouclier"
+   ],
+   "lore": "Son serment est gravé sur sa lame : « Aucune ombre ne passera ».",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     240,
+     230,
+     210
+    ],
+    "armor": [
+     255,
+     210,
+     110
+    ],
+    "hair": [
+     250,
+     220,
+     140
+    ],
+    "weapon": "sword",
+    "halo": true,
+    "trim": [
+     255,
+     200,
+     90
+    ],
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "h003",
+   "name": "Aurélion, Séraphin Primordial",
+   "type": "creature",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "D",
+   "cost": 8,
+   "atk": 6,
+   "hp": 8,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 99
+    },
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 5
+    }
+   ],
+   "lore": "Six ailes, mille yeux, une seule voix. Elle dit : « Relevez-vous ».",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "robe_c": [
+     255,
+     245,
+     225
+    ],
+    "hair": [
+     255,
+     230,
+     160
+    ],
+    "crown": [
+     255,
+     210,
+     90
+    ],
+    "halo": true,
+    "wings": "feather",
+    "wing_c": [
+     255,
+     250,
+     235
+    ],
+    "wing_span": 1.25,
+    "wing_glow": true,
+    "pose": "raise",
+    "orb_hand": true,
+    "trim": [
+     255,
+     200,
+     90
+    ],
+    "floating": true,
+    "scene": "sanctum",
+    "scale": 1.03
+   }
+  },
+  {
+   "id": "h004",
+   "name": "Lumière Purificatrice",
+   "type": "spell",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "SR",
+   "cost": 3,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "choose_enemy_creature",
+     "value": 4
+    },
+    {
+     "on": "cast",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 2
+    }
+   ],
+   "lore": "Elle ne brûle que ce qui doit l'être.",
+   "art": {
+    "arch": "spell",
+    "spell": "holy",
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "h005",
+   "name": "Licorne Prismatique",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "lumiere",
+   "rarity": "L",
+   "cost": 5,
+   "atk": 4,
+   "hp": 5,
+   "keywords": [
+    "bouclier"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "shield",
+     "target": "all_allies"
+    }
+   ],
+   "lore": "Sa corne réfracte la lumière en couleurs que l'œil humain ne connaît pas.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "horns": "unicorn",
+    "spikes": false,
+    "mane": true,
+    "mane_c": [
+     255,
+     160,
+     230
+    ],
+    "neck": 1.3,
+    "leg_len": 1.45,
+    "bulk": 0.85,
+    "c1": [
+     245,
+     240,
+     255
+    ],
+    "c2": [
+     220,
+     210,
+     250
+    ],
+    "c3": [
+     255,
+     220,
+     140
+    ],
+    "glow": [
+     255,
+     170,
+     240
+    ],
+    "rim": [
+     255,
+     190,
+     250
+    ],
+    "tail": 0.9,
+    "scene": "nebula",
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "c001",
+   "name": "Orbelin",
+   "type": "creature",
+   "family": "cosmiques",
+   "element": "cosmique",
+   "rarity": "U",
+   "cost": 2,
+   "atk": 1,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "buff",
+     "target": "self",
+     "value": 1,
+     "value2": 0
+    }
+   ],
+   "lore": "Une toute petite planète qui rêve de devenir une étoile.",
+   "art": {
+    "arch": "orb",
+    "face": "cute",
+    "ring": true,
+    "craters": true,
+    "size": 0.8,
+    "c1": [
+     255,
+     170,
+     120
+    ],
+    "c3": [
+     255,
+     230,
+     180
+    ],
+    "scale": 1.232
+   }
+  },
+  {
+   "id": "c002",
+   "name": "Méduse Nébulaire",
+   "type": "creature",
+   "family": "cosmiques",
+   "element": "cosmique",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 3,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Elle dérive entre les galaxies, se nourrissant de lumière stellaire.",
+   "art": {
+    "arch": "jelly",
+    "stars": true,
+    "big_eye": true,
+    "tentacles": 9,
+    "length": 1.2,
+    "c1": [
+     160,
+     90,
+     255
+    ],
+    "c2": [
+     255,
+     140,
+     220
+    ],
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "c003",
+   "name": "Xyth'al, Dévoreur d'Étoiles",
+   "type": "creature",
+   "family": "cosmiques",
+   "element": "cosmique",
+   "rarity": "CE",
+   "cost": 9,
+   "atk": 8,
+   "hp": 9,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "destroy",
+     "target": "strongest_enemy_creature"
+    }
+   ],
+   "lore": "Les constellations disparaissent une à une. Quelque part, Xyth'al a encore faim.",
+   "art": {
+    "arch": "maw",
+    "eyes": 7,
+    "c1": [
+     80,
+     40,
+     140
+    ],
+    "glow": [
+     255,
+     120,
+     220
+    ],
+    "eye": [
+     255,
+     210,
+     90
+    ],
+    "scale": 0.918
+   }
+  },
+  {
+   "id": "c004",
+   "name": "Gardien des Constellations",
+   "type": "creature",
+   "family": "divinites",
+   "element": "cosmique",
+   "rarity": "CO",
+   "cost": 10,
+   "atk": 10,
+   "hp": 10,
+   "keywords": [
+    "garde",
+    "bouclier"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "all_enemies",
+     "value": 4
+    }
+   ],
+   "lore": "Il a tracé chaque étoile du ciel nocturne, une par une, pendant dix mille ans.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "robe_c": [
+     40,
+     30,
+     110
+    ],
+    "hair": [
+     200,
+     180,
+     255
+    ],
+    "skin_h": [
+     120,
+     110,
+     220
+    ],
+    "crown": [
+     255,
+     230,
+     140
+    ],
+    "halo": true,
+    "halo_c": [
+     255,
+     160,
+     240
+    ],
+    "wings": "feather",
+    "wing_c": [
+     120,
+     100,
+     255
+    ],
+    "wing_glow": true,
+    "weapon": "staff",
+    "orb_hand": true,
+    "trim": [
+     255,
+     220,
+     120
+    ],
+    "floating": true,
+    "aura": true,
+    "scene": "nebula",
+    "scale": 1.03
+   }
+  },
+  {
+   "id": "c005",
+   "name": "Trou Noir",
+   "type": "spell",
+   "family": "cosmiques",
+   "element": "cosmique",
+   "rarity": "A",
+   "cost": 7,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "destroy",
+     "target": "all_creatures"
+    }
+   ],
+   "lore": "Même la lumière ne s'en échappe pas. Vos créatures non plus.",
+   "art": {
+    "arch": "spell",
+    "spell": "blackhole",
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "v001",
+   "name": "Larve du Néant",
+   "type": "creature",
+   "family": "mutants",
+   "element": "neant",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 3,
+   "keywords": [
+    "rage"
+   ],
+   "lore": "Elle grandit en dévorant ce qui n'existe pas encore.",
+   "art": {
+    "arch": "larva",
+    "eyes": 3,
+    "c1": [
+     70,
+     60,
+     90
+    ],
+    "glow": [
+     110,
+     255,
+     200
+    ],
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "v002",
+   "name": "Aberration Mutante",
+   "type": "creature",
+   "family": "mutants",
+   "element": "neant",
+   "rarity": "SR",
+   "cost": 5,
+   "atk": 5,
+   "hp": 5,
+   "keywords": [
+    "rage",
+    "vol_de_vie"
+   ],
+   "lore": "Le Néant a essayé d'imiter la vie. Il s'est trompé de plusieurs bras.",
+   "art": {
+    "arch": "biped",
+    "kind": "brute",
+    "bulk": 1.35,
+    "skin": [
+     80,
+     100,
+     90
+    ],
+    "horns": true,
+    "c3": [
+     180,
+     255,
+     210
+    ],
+    "eye": [
+     120,
+     255,
+     200
+    ],
+    "tail": true,
+    "aura": true,
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "v003",
+   "name": "L'Œil Qui Ne Dort Jamais",
+   "type": "creature",
+   "family": "cosmiques",
+   "element": "neant",
+   "rarity": "T",
+   "cost": 7,
+   "atk": 4,
+   "hp": 12,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "damage",
+     "target": "all_enemies",
+     "value": 2
+    }
+   ],
+   "lore": "Il vous regardait déjà avant votre naissance. Il vous regardera après.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "tentacles": 9,
+    "size": 1.0,
+    "c1": [
+     50,
+     40,
+     60
+    ],
+    "eye": [
+     110,
+     255,
+     200
+    ],
+    "glow": [
+     110,
+     255,
+     200
+    ],
+    "scale": 1.008,
+    "scene": "void"
+   }
+  },
+  {
+   "id": "v004",
+   "name": "Néantorax, Fin des Mondes",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "neant",
+   "rarity": "AB",
+   "cost": 10,
+   "atk": 12,
+   "hp": 12,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "destroy",
+     "target": "all_other_creatures"
+    }
+   ],
+   "lore": "À la fin, il ne restera que lui. C'est la seule prophétie dont tous les oracles sont d'accord.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "crown",
+    "wings": true,
+    "wing_span": 1.35,
+    "wing_glow": true,
+    "bulk": 1.2,
+    "neck": 1.25,
+    "breath": true,
+    "spike_size": 1.6,
+    "c1": [
+     30,
+     26,
+     40
+    ],
+    "c2": [
+     70,
+     255,
+     200
+    ],
+    "c3": [
+     180,
+     255,
+     230
+    ],
+    "membrane": [
+     20,
+     60,
+     60
+    ],
+    "glow": [
+     90,
+     255,
+     210
+    ],
+    "eye": [
+     120,
+     255,
+     220
+    ],
+    "rim": [
+     110,
+     255,
+     210
+    ],
+    "scene": "void",
+    "scale": 0.963
+   }
+  },
+  {
+   "id": "o001",
+   "name": "Prima, la Première Lueur",
+   "type": "creature",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "O",
+   "cost": 9,
+   "atk": 9,
+   "hp": 9,
+   "keywords": [
+    "bouclier"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 99
+    },
+    {
+     "on": "summon",
+     "do": "buff",
+     "target": "all_allies",
+     "value": 2,
+     "value2": 2
+    }
+   ],
+   "lore": "Avant le Cardverse, il n'y avait rien. Puis Prima a ouvert les yeux.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "robe_c": [
+     255,
+     250,
+     240
+    ],
+    "hair": [
+     255,
+     240,
+     255
+    ],
+    "skin_h": [
+     255,
+     240,
+     230
+    ],
+    "crown": [
+     255,
+     230,
+     150
+    ],
+    "halo": true,
+    "halo_c": [
+     255,
+     200,
+     255
+    ],
+    "wings": "feather",
+    "wing_c": [
+     255,
+     245,
+     255
+    ],
+    "wing_span": 1.3,
+    "wing_glow": true,
+    "pose": "raise",
+    "orb_hand": true,
+    "trim": [
+     255,
+     210,
+     120
+    ],
+    "floating": true,
+    "aura": true,
+    "glow": [
+     255,
+     210,
+     250
+    ],
+    "scene": "sanctum",
+    "scale": 1.008
+   }
+  },
+  {
+   "id": "x001",
+   "name": "Le Cartographe",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "neant",
+   "rarity": "X",
+   "cost": 5,
+   "atk": 5,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "add_random",
+     "value": 3,
+     "min_rarity": "L"
+    }
+   ],
+   "lore": "Il a dessiné chaque carte de ce monde. Y compris celle que vous tenez.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     20,
+     20,
+     30
+    ],
+    "hood": [
+     10,
+     10,
+     16
+    ],
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "orb_hand": true,
+    "weapon": "staff",
+    "glow": [
+     255,
+     255,
+     255
+    ],
+    "aura": true,
+    "scene": "void",
+    "scale": 1.064
+   }
+  },
+  {
+   "id": "m001",
+   "name": "Drone Bricoleur",
+   "type": "creature",
+   "family": "robots",
+   "element": "foudre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "keywords": [
+    "bouclier"
+   ],
+   "lore": "Il répare tout ce qu'il touche. Parfois même ce qui n'était pas cassé.",
+   "art": {
+    "arch": "orb",
+    "face": "cute",
+    "size": 0.75,
+    "orbiters": 3,
+    "c1": [
+     200,
+     200,
+     210
+    ],
+    "c3": [
+     255,
+     200,
+     60
+    ],
+    "glow": [
+     255,
+     220,
+     90
+    ],
+    "scale": 1.232
+   }
+  },
+  {
+   "id": "m002",
+   "name": "Arachnotron",
+   "type": "creature",
+   "family": "machines",
+   "element": "terre",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 3,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "summon",
+     "card": "m001"
+    }
+   ],
+   "lore": "Une araignée de bronze qui pond des drones. Ne demandez pas comment.",
+   "art": {
+    "arch": "crab",
+    "c1": [
+     190,
+     140,
+     70
+    ],
+    "c3": [
+     120,
+     90,
+     50
+    ],
+    "eye": [
+     255,
+     80,
+     60
+    ],
+    "glow": [
+     255,
+     120,
+     60
+    ],
+    "scale": 1.064,
+    "cy": 160
+   }
+  },
+  {
+   "id": "t001",
+   "name": "Œuf de Cendre",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "feu",
+   "rarity": "R",
+   "token": true,
+   "cost": 2,
+   "atk": 0,
+   "hp": 3,
+   "evolve": {
+    "into": "f006",
+    "turns": 2
+   },
+   "lore": "Il est chaud. Il bouge. Il éclot bientôt.",
+   "art": {
+    "arch": "egg",
+    "c1": [
+     120,
+     50,
+     40
+    ],
+    "c2": [
+     255,
+     160,
+     60
+    ],
+    "scale": 1.232,
+    "cy": 160
+   }
+  },
+  {
+   "id": "t004",
+   "name": "Tête d'Hydre",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "nature",
+   "rarity": "U",
+   "token": true,
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "lore": "Elle a encore faim.",
+   "art": {
+    "arch": "serpent",
+    "fins": false,
+    "horns": "none",
+    "thick": 0.8,
+    "c1": [
+     50,
+     130,
+     80
+    ],
+    "c2": [
+     190,
+     230,
+     140
+    ],
+    "path": [
+     [
+      30,
+      120
+     ],
+     [
+      20,
+      60
+     ],
+     [
+      40,
+      0
+     ],
+     [
+      0,
+      -40
+     ]
+    ],
+    "scale": 1.064
+   }
+  }
+ ]
+}

@@ -1,0 +1,8 @@
+{
+ "leaders": [
+  {"id": "pyra",    "name": "Pyra, Forgeronne des Astres", "element": "feu",    "hp": 25, "art": "f005", "power": {"name": "Étincelle", "cost": 2, "desc": "Inflige 2 dégâts à un ennemi aléatoire.", "effects": [{"do": "damage", "target": "random_enemy", "value": 2}]}},
+  {"id": "thalassa","name": "Thalassa, Voix des Marées",   "element": "eau",    "hp": 25, "art": "w005", "power": {"name": "Marée apaisante", "cost": 2, "desc": "Rend 3 PV à votre leader.", "effects": [{"do": "heal", "target": "ally_leader", "value": 3}]}},
+  {"id": "umbra",   "name": "Umbra, Veilleuse du Voile",   "element": "ombre",  "hp": 25, "art": "s004", "power": {"name": "Murmure", "cost": 2, "desc": "Piochez une carte. Votre leader perd 1 PV.", "effects": [{"do": "draw", "value": 1}, {"do": "damage", "target": "ally_leader", "value": 1}]}},
+  {"id": "sylva",   "name": "Sylva, Cœur de la Forêt",     "element": "nature", "hp": 25, "art": "n004", "power": {"name": "Bourgeon", "cost": 2, "desc": "Donne +1/+1 à une créature alliée aléatoire.", "effects": [{"do": "buff", "target": "random_ally_creature", "value": 1, "value2": 1}]}}
+ ]
+}

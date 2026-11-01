@@ -1,0 +1,31 @@
+{
+ "order": ["C","U","R","SR","E","L","M","A","D","CE","CO","T","AB","O","X"],
+ "rarities": {
+  "C":  {"name": "Commune",       "color": "#b8b6bd", "weight": 58.0,  "dust": 5,     "fx": 0, "deck_max": 2},
+  "U":  {"name": "Inhabituelle",  "color": "#6fdc8c", "weight": 24.0,  "dust": 10,    "fx": 0, "deck_max": 2},
+  "R":  {"name": "Rare",          "color": "#5aa9ff", "weight": 9.5,   "dust": 25,    "fx": 1, "deck_max": 2},
+  "SR": {"name": "Super Rare",    "color": "#dfe9ff", "weight": 4.4,   "dust": 50,    "fx": 1, "deck_max": 2},
+  "E":  {"name": "Épique",        "color": "#c06bff", "weight": 2.2,   "dust": 100,   "fx": 2, "deck_max": 2},
+  "L":  {"name": "Légendaire",    "color": "#ffc94a", "weight": 1.0,   "dust": 250,   "fx": 2, "deck_max": 1},
+  "M":  {"name": "Mythique",      "color": "#ff4f6a", "weight": 0.45,  "dust": 500,   "fx": 3, "deck_max": 1},
+  "A":  {"name": "Antique",       "color": "#5fe0c0", "weight": 0.22,  "dust": 800,   "fx": 3, "deck_max": 1},
+  "D":  {"name": "Divine",        "color": "#fff1c4", "weight": 0.11,  "dust": 1200,  "fx": 3, "deck_max": 1},
+  "CE": {"name": "Céleste",       "color": "#9fd4ff", "weight": 0.055, "dust": 2000,  "fx": 4, "deck_max": 1},
+  "CO": {"name": "Cosmique",      "color": "#ff82e6", "weight": 0.03,  "dust": 3000,  "fx": 4, "deck_max": 1},
+  "T":  {"name": "Transcendante", "color": "#f3e6ff", "weight": 0.015, "dust": 5000,  "fx": 4, "deck_max": 1},
+  "AB": {"name": "Absolue",       "color": "#ffd36e", "weight": 0.007, "dust": 8000,  "fx": 4, "deck_max": 1},
+  "O":  {"name": "Originelle",    "color": "#ffffff", "weight": 0.003, "dust": 12000, "fx": 4, "deck_max": 1},
+  "X":  {"name": "???",           "color": "#7dffd4", "weight": 0.001, "dust": 20000, "fx": 4, "deck_max": 1}
+ },
+ "variants": {
+  "holo":     {"name": "Holographique", "chance": 0.06},
+  "fullart":  {"name": "Full Art",      "chance": 0.018},
+  "alt":      {"name": "Alternate Art", "chance": 0.01},
+  "chroma":   {"name": "Chromatique",   "chance": 0.005},
+  "animated": {"name": "Animée",        "chance": 0.003},
+  "prisma":   {"name": "Prismatique",   "chance": 0.0025},
+  "secret":   {"name": "Secret Art",    "chance": 0.001}
+ },
+ "numbered": {"rarities": ["O", "X"], "print_run": 500},
+ "pity": {"legendary_plus": {"soft": 25, "hard": 40, "min": "L"}, "mythic_plus": {"hard": 120, "min": "M"}}
+}

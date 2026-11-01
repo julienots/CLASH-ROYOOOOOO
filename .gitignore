@@ -2,3 +2,4 @@ godot/.godot/
 *.keystore
 *.idsig
 .work/
+cardverse/.godot/

@@ -1,0 +1,345 @@
+extends Node
+## Profil du joueur : monnaies, collection, decks, progression, missions, pity. Sauvegardé dans user://.
+
+signal changed
+signal toast(text: String, kind: String)
+
+const SAVE_PATH := "user://cardverse_save.json"
+const VERSION := 1
+
+var d := {}  # toutes les données sauvegardées
+
+func _ready() -> void:
+	load_game()
+
+# ---------------------------------------------------------------- sauvegarde
+func new_game() -> void:
+	var st: Dictionary = DB.progression.starter
+	d = {
+		"version": VERSION, "name": "Invocateur", "created": Time.get_unix_time_from_system(),
+		"coins": int(st.coins), "crystals": int(st.crystals), "tokens": int(st.tokens), "event": int(st.event), "dust": 0,
+		"free_boosters": int(st.free_boosters), "level": 1, "xp": 0,
+		"collection": {}, "pity": {"legendary_plus": 0, "mythic_plus": 0},
+		"serials": {}, "decks": [], "active_deck": 0, "stats": {},
+		"daily": {}, "weekly": {}, "achievements": {}, "login": {"day": 0, "last": ""},
+		"shop": {"date": "", "bought": []}, "cosmetics": {"owned": ["back_default", "board_default"], "back": "back_default", "board": "board_default"},
+		"collection_rewards": [], "settings": {"sfx": true, "music": true, "fast": false},
+		"rank": {"points": 0}, "title": "Novice",
+	}
+	for id in st.cards:
+		add_card(id, "", false)
+	d.decks.append(_starter_deck())
+	save_game()
+
+func load_game() -> void:
+	if FileAccess.file_exists(SAVE_PATH):
+		var f := FileAccess.open(SAVE_PATH, FileAccess.READ)
+		var v = JSON.parse_string(f.get_as_text()) if f else null
+		if v is Dictionary and v.get("version", 0) == VERSION:
+			d = v
+			_migrate()
+			return
+	new_game()
+
+func _migrate() -> void:
+	# compléter les clés absentes (sauvegardes d'anciennes versions du prototype)
+	var defaults := {"dust": 0, "serials": {}, "collection_rewards": [], "rank": {"points": 0}, "title": "Novice", "event": 0}
+	for k in defaults:
+		if not d.has(k):
+			d[k] = defaults[k]
+	# retirer les cartes qui n'existent plus dans le catalogue
+	for id in d.collection.keys():
+		if DB.card(id).is_empty():
+			d.collection.erase(id)
+
+func save_game() -> void:
+	var f := FileAccess.open(SAVE_PATH, FileAccess.WRITE)
+	if f:
+		f.store_string(JSON.stringify(d))
+	changed.emit()
+
+func reset() -> void:
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(SAVE_PATH))
+	new_game()
+
+# ---------------------------------------------------------------- monnaies
+const CURRENCY_NAMES := {"coins": "Pièces", "crystals": "Cristaux", "tokens": "Jetons", "event": "Plumes", "dust": "Poussière"}
+
+func cur_name(k: String, n: int) -> String:
+	var s: String = CURRENCY_NAMES.get(k, k)
+	return s.trim_suffix("s") if n == 1 and k != "dust" else s
+
+func get_cur(c: String) -> int:
+	return int(d.get(c, 0))
+
+func can_pay(price: Dictionary) -> bool:
+	for c in price:
+		if get_cur(c) < int(price[c]):
+			return false
+	return true
+
+func pay(price: Dictionary) -> bool:
+	if not can_pay(price):
+		return false
+	for c in price:
+		d[c] = get_cur(c) - int(price[c])
+	save_game()
+	return true
+
+func give(rew: Dictionary, silent := false) -> void:
+	var parts := []
+	for k in rew:
+		match k:
+			"xp":
+				add_xp(int(rew.xp))
+			"booster":
+				d.free_boosters = int(d.free_boosters) + 1
+				parts.append("1 booster gratuit")
+			"coins", "crystals", "tokens", "event", "dust":
+				d[k] = get_cur(k) + int(rew[k])
+				parts.append("+%d %s" % [int(rew[k]), cur_name(k, int(rew[k]))])
+	save_game()
+	if not silent and parts.size() > 0:
+		toast.emit(", ".join(parts), "reward")
+
+# ---------------------------------------------------------------- niveau
+func xp_needed(level: int) -> int:
+	var t: Array = DB.progression.level_xp
+	return int(t[min(level, t.size() - 1)]) if level < t.size() else int(t[-1]) + (level - t.size() + 1) * 4000
+
+func add_xp(n: int) -> void:
+	d.xp = int(d.xp) + n
+	while int(d.xp) >= xp_needed(int(d.level)):
+		d.level = int(d.level) + 1
+		var lr: Dictionary = DB.progression.level_rewards
+		d.coins = get_cur("coins") + int(lr.coins)
+		d.crystals = get_cur("crystals") + int(lr.crystals)
+		if int(d.level) % int(lr.tokens_every) == 0:
+			d.tokens = get_cur("tokens") + 1
+		toast.emit("Niveau %d atteint ! +%d Pièces, +%d Cristaux" % [d.level, lr.coins, lr.crystals], "level")
+		_update_title()
+
+func _update_title() -> void:
+	var lv := int(d.level)
+	d.title = "Novice" if lv < 3 else ("Invocateur" if lv < 6 else ("Duelliste" if lv < 10 else ("Maître des Cartes" if lv < 15 else "Légende du Cardverse")))
+
+# ---------------------------------------------------------------- collection
+func owned(id: String) -> int:
+	return int(d.collection.get(id, {}).get("count", 0))
+
+func entry(id: String) -> Dictionary:
+	return d.collection.get(id, {})
+
+## Ajoute une carte ; renvoie true si c'est une nouveauté.
+func add_card(id: String, variant := "", track := true) -> bool:
+	var is_new: bool = not d.collection.has(id)
+	if is_new:
+		d.collection[id] = {"count": 0, "first": Time.get_unix_time_from_system(), "variants": {}, "fav": false}
+	var e: Dictionary = d.collection[id]
+	e.count = int(e.count) + 1
+	if variant != "":
+		e.variants[variant] = int(e.variants.get(variant, 0)) + 1
+		if track:
+			stat("variants_found")
+	var r: String = DB.card(id).rarity
+	if r in DB.numbered.rarities:
+		var n := int(d.serials.get(id, 0)) + 1
+		d.serials[id] = n
+		e["serial"] = e.get("serial", randi_range(1, int(DB.numbered.print_run)))
+	if track:
+		if is_new:
+			stat("new_cards")
+		var ri := DB.rarity_index(r)
+		if ri >= DB.rarity_index("L"):
+			stat("legendary_pulls")
+		if ri >= DB.rarity_index("M"):
+			stat("mythic_pulls")
+		d.stats["unique_cards"] = d.collection.size()
+	return is_new
+
+func toggle_fav(id: String) -> void:
+	if d.collection.has(id):
+		d.collection[id].fav = not d.collection[id].get("fav", false)
+		save_game()
+
+func unique_count() -> int:
+	return d.collection.size()
+
+func completion() -> float:
+	return float(d.collection.size()) / max(1, DB.card_order.size())
+
+## Recycle les exemplaires au-delà de 3 (2 pour les raretés limitées à 1 en deck) contre de la poussière.
+func recycle_duplicates() -> int:
+	var total := 0
+	for id in d.collection:
+		var c := DB.card(id)
+		var keep := 3
+		var extra := int(d.collection[id].count) - keep
+		if extra > 0:
+			total += extra * int(DB.rarity(c.rarity).dust)
+			d.collection[id].count = keep
+	d.dust = get_cur("dust") + total
+	save_game()
+	return total
+
+## Récompenses de complétion (élément complet, set complet).
+func check_collection_rewards() -> void:
+	var cr: Dictionary = DB.progression.collection_rewards
+	for el in DB.element_order:
+		var key: String = "el_" + el
+		if key in d.collection_rewards:
+			continue
+		var all := true
+		for id in DB.card_order:
+			if DB.card(id).element == el and not d.collection.has(id):
+				all = false
+				break
+		if all:
+			d.collection_rewards.append(key)
+			give(cr.element, true)
+			toast.emit("Collection %s complète ! +%d Cristaux" % [DB.element_name(el), cr.element.crystals], "reward")
+	for s in DB.sets:
+		var key2: String = "set_" + s.id
+		if key2 in d.collection_rewards:
+			continue
+		var all2 := true
+		for id in s.cards:
+			if not d.collection.has(id):
+				all2 = false
+				break
+		if all2:
+			d.collection_rewards.append(key2)
+			give(cr.set, true)
+			toast.emit("Set %s complet !" % s.name, "reward")
+
+# ---------------------------------------------------------------- decks
+const DECK_SIZE := 20
+
+func _starter_deck() -> Dictionary:
+	var ids := []
+	for id in DB.progression.starter.cards:
+		if ids.size() < DECK_SIZE:
+			ids.append(id)
+	return {"name": "Deck de départ", "leader": "pyra", "cards": ids}
+
+func active_deck() -> Dictionary:
+	var i: int = clampi(int(d.active_deck), 0, d.decks.size() - 1)
+	return d.decks[i]
+
+func deck_count(deck: Dictionary, id: String) -> int:
+	return deck.cards.count(id)
+
+func deck_max(id: String) -> int:
+	return int(DB.rarity(DB.card(id).rarity).deck_max)
+
+func can_add_to_deck(deck: Dictionary, id: String) -> String:
+	if deck.cards.size() >= DECK_SIZE:
+		return "Le deck est complet (%d cartes)." % DECK_SIZE
+	if deck_count(deck, id) >= deck_max(id):
+		return "Maximum %d exemplaire(s) de cette rareté." % deck_max(id)
+	if deck_count(deck, id) >= owned(id):
+		return "Tu ne possèdes pas assez d'exemplaires."
+	return ""
+
+func deck_valid(deck: Dictionary) -> bool:
+	if deck.cards.size() != DECK_SIZE:
+		return false
+	for id in deck.cards:
+		if deck_count(deck, id) > owned(id):
+			return false
+	return true
+
+# ---------------------------------------------------------------- statistiques / missions
+func stat(key: String, n := 1) -> void:
+	d.stats[key] = int(d.stats.get(key, 0)) + n
+	_progress_quests(key, n)
+
+func _period_key(weekly: bool) -> String:
+	var t := Time.get_datetime_dict_from_system()
+	if not weekly:
+		return Time.get_date_string_from_system()
+	var unix := Time.get_unix_time_from_system()
+	return "W%d" % int((unix / 86400.0 + 3) / 7)  # semaines commençant le lundi
+
+func refresh_quests() -> void:
+	var day := _period_key(false)
+	if d.daily.get("key", "") != day:
+		var pool: Array = DB.progression.daily_pool.duplicate()
+		var rng := RandomNumberGenerator.new()
+		rng.seed = hash(day)
+		var picks := []
+		while picks.size() < 3 and pool.size() > 0:
+			picks.append(pool.pop_at(rng.randi_range(0, pool.size() - 1)).id)
+		d.daily = {"key": day, "quests": picks, "progress": {}, "claimed": []}
+	var wk := _period_key(true)
+	if d.weekly.get("key", "") != wk:
+		d.weekly = {"key": wk, "progress": {}, "claimed": []}
+
+func _progress_quests(key: String, n: int) -> void:
+	refresh_quests()
+	for q in daily_quests():
+		if q.stat == key:
+			d.daily.progress[q.id] = int(d.daily.progress.get(q.id, 0)) + n
+	for q in DB.progression.weekly:
+		if q.stat == key:
+			d.weekly.progress[q.id] = int(d.weekly.progress.get(q.id, 0)) + n
+
+func daily_quests() -> Array:
+	var out := []
+	for q in DB.progression.daily_pool:
+		if q.id in d.daily.get("quests", []):
+			out.append(q)
+	return out
+
+func quest_progress(q: Dictionary, weekly: bool) -> int:
+	var src: Dictionary = d.weekly if weekly else d.daily
+	return int(src.get("progress", {}).get(q.id, 0))
+
+func quest_claimed(q: Dictionary, weekly: bool) -> bool:
+	return q.id in (d.weekly if weekly else d.daily).get("claimed", [])
+
+func claim_quest(q: Dictionary, weekly: bool) -> bool:
+	if quest_claimed(q, weekly) or quest_progress(q, weekly) < int(q.goal):
+		return false
+	(d.weekly if weekly else d.daily).claimed.append(q.id)
+	give(q.reward)
+	return true
+
+func achievement_progress(a: Dictionary) -> int:
+	return int(d.stats.get(a.stat, 0))
+
+func claim_achievement(a: Dictionary) -> bool:
+	if d.achievements.has(a.id) or achievement_progress(a) < int(a.goal):
+		return false
+	d.achievements[a.id] = Time.get_unix_time_from_system()
+	give(a.reward)
+	return true
+
+func pending_rewards() -> int:
+	refresh_quests()
+	var n := 0
+	for q in daily_quests():
+		if not quest_claimed(q, false) and quest_progress(q, false) >= int(q.goal):
+			n += 1
+	for q in DB.progression.weekly:
+		if not quest_claimed(q, true) and quest_progress(q, true) >= int(q.goal):
+			n += 1
+	for a in DB.progression.achievements:
+		if not d.achievements.has(a.id) and achievement_progress(a) >= int(a.goal):
+			n += 1
+	return n
+
+# ---------------------------------------------------------------- connexion quotidienne
+func login_available() -> bool:
+	return d.login.get("last", "") != Time.get_date_string_from_system()
+
+func claim_login() -> Dictionary:
+	if not login_available():
+		return {}
+	var cal: Array = DB.progression.login_calendar
+	var day := int(d.login.get("day", 0)) % cal.size()
+	var rew: Dictionary = cal[day]
+	d.login.day = day + 1
+	d.login.last = Time.get_date_string_from_system()
+	give(rew)
+	return rew

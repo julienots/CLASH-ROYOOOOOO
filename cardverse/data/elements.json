@@ -1,0 +1,29 @@
+{
+ "order": ["feu","eau","terre","foudre","glace","nature","ombre","lumiere","cosmique","neant"],
+ "elements": {
+  "feu":      {"name": "Feu",      "color": "#ff6a2b", "strong": ["glace","nature"]},
+  "glace":    {"name": "Glace",    "color": "#a8e4ff", "strong": ["nature","terre"]},
+  "nature":   {"name": "Nature",   "color": "#62d06a", "strong": ["terre","foudre"]},
+  "terre":    {"name": "Terre",    "color": "#c79a62", "strong": ["foudre","eau"]},
+  "foudre":   {"name": "Foudre",   "color": "#ffe14a", "strong": ["eau","feu"]},
+  "eau":      {"name": "Eau",      "color": "#3fa8ff", "strong": ["feu","glace"]},
+  "ombre":    {"name": "Ombre",    "color": "#b45cff", "strong": ["lumiere","cosmique"]},
+  "lumiere":  {"name": "Lumière",  "color": "#fff0a8", "strong": ["ombre","neant"]},
+  "cosmique": {"name": "Cosmique", "color": "#ff7ae0", "strong": ["lumiere","neant"]},
+  "neant":    {"name": "Néant",    "color": "#6effc8", "strong": ["cosmique","ombre"]}
+ },
+ "families": {
+  "creatures": "Créature", "dragons": "Dragon", "demons": "Démon", "divinites": "Divinité", "robots": "Robot",
+  "esprits": "Esprit", "aquatiques": "Créature aquatique", "vegetaux": "Créature végétale", "cosmiques": "Entité cosmique",
+  "machines": "Machine vivante", "antiques": "Créature antique", "mutants": "Monstre mutant", "legendaires": "Créature légendaire"
+ },
+ "keywords": {
+  "garde":      {"name": "Garde",      "desc": "Les ennemis doivent attaquer cette créature en priorité."},
+  "celerite":   {"name": "Célérité",   "desc": "Peut attaquer dès son invocation."},
+  "bouclier":   {"name": "Bouclier",   "desc": "Annule entièrement les premiers dégâts subis."},
+  "poison":     {"name": "Poison",     "desc": "Détruit toute créature à laquelle elle inflige des dégâts."},
+  "vol_de_vie": {"name": "Vol de vie", "desc": "Les dégâts infligés soignent votre leader."},
+  "furtif":     {"name": "Furtif",     "desc": "Ne peut pas être ciblée tant qu'elle n'a pas attaqué."},
+  "rage":       {"name": "Rage",       "desc": "Gagne +1 ATQ chaque fois qu'elle survit à des dégâts."}
+ }
+}
