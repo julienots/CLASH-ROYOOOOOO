@@ -27,6 +27,7 @@ func setup(id: String, var_name := "", ids: Array = []) -> void:
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var dim := ColorRect.new()
+	dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	dim.color = Color(0.02, 0.01, 0.05, 0.93)
 	dim.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(dim)

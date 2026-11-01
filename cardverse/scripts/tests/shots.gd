@@ -30,6 +30,47 @@ func run(main: Control, arg: String) -> void:
 			for k in 12:
 				o._advance()
 				await _wait(0.9)],
+		["touch_booster", func():
+			_clear(main)
+			await _wait(0.3)
+			main.goto("shop")
+			await _wait(0.4)
+			main.current.open_booster(DB.booster("classic"), true)
+			await _wait(1.2)
+			var o = _ov(main)
+			var r: Rect2 = o._pack_rect()
+			await _drag(main, r.position + Vector2(10, 30), r.position + Vector2(r.size.x - 10, 30))
+			await _wait(2.5)
+			print("toucher : phase après déchirure = ", o.phase)
+			var c := main.get_viewport_rect().size / 2
+			for k in 14:
+				await _tap(main, c)
+				await _wait(1.6 if k % 2 == 0 else 0.5)
+			print("toucher : phase finale = ", o.phase, ", cartes rangées = ", o._done_cards.size())],
+		["touch_battle", func():
+			_clear(main)
+			await _wait(0.3)
+			main.goto("battle_select")
+			await _wait(0.4)
+			main.current.start_battle(0)
+			var b = _ov(main)
+			var guard := 0
+			while b.g.current != 0 or b.busy:
+				await _wait(0.5)
+				guard += 1
+				if guard > 40: break
+			var played := false
+			for h in b.g.pl[0].hand:
+				if b.g.can_play(0, int(h.hid)) == "" and b.g.needs_target(h.id) == "":
+					var cv = b.hand_views[int(h.hid)]
+					await _tap(main, cv.global_position + Vector2(60, 60))
+					await _wait(0.6)
+					var btn: Button = b.preview.get_child(1)
+					await _tap(main, btn.global_position + btn.size / 2)
+					await _wait(1.5)
+					played = true
+					break
+			print("toucher combat : carte jouée=", played, " créatures sur le terrain=", b.g.pl[0].board.size(), " main=", b.g.pl[0].hand.size())],
 		["battle_select", func(): _clear(main); await _wait(0.3); main.goto("battle_select")],
 		["battle", func(): main.current.start_battle(1)],
 		["battle2", func():
@@ -105,6 +146,39 @@ func _drive_booster(main: Control) -> void:
 
 func _drive_battle(_main: Control) -> void:
 	pass
+
+## Simule un vrai toucher (appui + relâchement) à l'écran.
+func _tap(main: Control, pos: Vector2) -> void:
+	for pressed in [true, false]:
+		var e := InputEventMouseButton.new()
+		e.button_index = MOUSE_BUTTON_LEFT
+		e.pressed = pressed
+		e.position = pos
+		e.global_position = pos
+		main.get_viewport().push_input(e)
+		await _wait(0.05)
+
+## Simule un glissement du doigt.
+func _drag(main: Control, a: Vector2, b: Vector2, steps := 12) -> void:
+	var e := InputEventMouseButton.new()
+	e.button_index = MOUSE_BUTTON_LEFT
+	e.pressed = true
+	e.position = a
+	e.global_position = a
+	main.get_viewport().push_input(e)
+	for i in steps + 1:
+		var m := InputEventMouseMotion.new()
+		m.position = a.lerp(b, float(i) / steps)
+		m.global_position = m.position
+		m.button_mask = MOUSE_BUTTON_MASK_LEFT
+		main.get_viewport().push_input(m)
+		await _wait(0.03)
+	var r := InputEventMouseButton.new()
+	r.button_index = MOUSE_BUTTON_LEFT
+	r.pressed = false
+	r.position = b
+	r.global_position = b
+	main.get_viewport().push_input(r)
 
 func _ov(main: Control):
 	var c: Array = main.overlay.get_children()

@@ -22,6 +22,7 @@ var _root: Control
 
 static func make(id: String, s := 0.5, var_name := "", st := "face") -> CardView:
 	var v := CardView.new()
+	v.mouse_filter = Control.MOUSE_FILTER_STOP  # modifiable avant l'ajout à l'arbre (ex. IGNORE)
 	v.card_id = id
 	v.variant = var_name
 	v.state = st
@@ -42,7 +43,6 @@ static func holder(id: String, s := 0.4, var_name := "", st := "face") -> Contro
 
 func _ready() -> void:
 	size = Vector2(W, H)
-	mouse_filter = Control.MOUSE_FILTER_STOP
 	build()
 
 func _gui_input(e: InputEvent) -> void:

@@ -38,6 +38,7 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var bgc: Array = cfg.get("board_colors", ["0b0716", "3a1466", "0d4070"])
 	var bg := ColorRect.new()
+	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	var m := ShaderMaterial.new()
 	m.shader = load("res://shaders/menu_bg.gdshader")
