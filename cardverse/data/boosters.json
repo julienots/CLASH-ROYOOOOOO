@@ -69,6 +69,23 @@
    "gen": 4
   },
   {
+   "id": "songes",
+   "name": "Booster Songes · Gén. 5",
+   "desc": "Set 5 : fées, rêves et cauchemars. Mécanique Sommeil.",
+   "price": {
+    "coins": 140
+   },
+   "cards": 5,
+   "sets": [
+    "songes"
+   ],
+   "focus": {},
+   "luck": 1.2,
+   "color": "#a07ae8",
+   "group": "gen",
+   "gen": 5
+  },
+  {
    "id": "multiverse",
    "name": "Booster Multivers",
    "desc": "Toutes les générations mélangées. Idéal pour compléter l'album.",

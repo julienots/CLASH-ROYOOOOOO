@@ -239,16 +239,24 @@ func run(main: Control, arg: String) -> void:
 			Profile.d.crystals = 2000
 			main.goto("shop", {"tab": "products"})
 			await _wait(0.5)
-			Profile.d.displays.append({"id": "display_primal", "left": 12, "hit": false})
+			Profile.d.displays.append({"id": "display_songes", "left": 12, "hit": false})
 			main.current.open_display(Profile.d.displays.size() - 1)
 			await _wait(1.2)],
+		["display_lid", func():
+			var d = _ov(main)
+			await _tap(main, Vector2(360, 600))
+			await _wait(2.2)
+			print("display 3D : couvercle ouvert = ", d.dsp.get("lid", false), ", boosters visibles = ", d.packs.size())],
 		["display_pack", func():
 			var d = _ov(main)
-			var first: Control = d.grid.get_child(0)
-			await _tap(main, first.global_position + first.size / 2)
-			await _wait(2.0)
+			var p: Node3D = d.packs[3]
+			var sp: Vector2 = d.vpc.position + d.cam.unproject_position(p.global_position + Vector3(0, 0.1, 0))
+			await _tap(main, sp)
+			await _wait(0.35)
+			main.get_viewport().get_texture().get_image().save_png("/tmp/claude-0/shots/display_pull.png")
+			await _wait(1.6)
 			var o = _ov(main)
-			print("display : écran au-dessus = ", o.get_script().resource_path.get_file())
+			print("display 3D : écran au-dessus = ", o.get_script().resource_path.get_file())
 			o.auto_tear()
 			await _wait(2.5)
 			var guard := 0
@@ -262,14 +270,12 @@ func run(main: Control, arg: String) -> void:
 					await _tap(main, main.get_viewport_rect().size / 2)
 				await _wait(1.0)
 			await _wait(1.0)
-			var again := _find_button(o, "Encore un")
-			print("display : bouton Encore un visible = ", again.visible if again else "absent")
 			var cont := _find_button(o, "Continuer")
 			if cont:
 				await _tap(main, cont.global_position + cont.size / 2)
-			await _wait(1.0)
+			await _wait(1.2)
 			var top = _ov(main)
-			print("display : retour = ", top.get_script().resource_path.get_file(), " restants=", top.dsp.left,)],
+			print("display 3D : retour = ", top.get_script().resource_path.get_file(), " restants=", top.dsp.left, " boosters dans la caisse=", top.packs.size())],
 		["box", func():
 			_clear(main)
 			await _wait(0.3)

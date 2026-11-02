@@ -1,0 +1,2201 @@
+{
+ "set": "songes",
+ "name": "Royaume des Songes",
+ "gen": 5,
+ "cards": [
+  {
+   "id": "sg01",
+   "name": "Lutin Bâilleur",
+   "type": "creature",
+   "family": "esprits",
+   "element": "lumiere",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 2,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "sleep",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Quand il bâille, tout le monde bâille. Et certains ne se réveillent plus.",
+   "art": {
+    "arch": "biped",
+    "kind": "imp",
+    "skin": [
+     220,
+     200,
+     255
+    ],
+    "c3": [
+     255,
+     230,
+     160
+    ],
+    "wings": "feather",
+    "wing_span": 0.5,
+    "wing_c": [
+     240,
+     230,
+     255
+    ],
+    "scale": 1.05,
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "sg02",
+   "name": "Mouton Nuage",
+   "type": "creature",
+   "family": "creatures",
+   "element": "lumiere",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 1,
+   "hp": 4,
+   "keywords": [
+    "garde"
+   ],
+   "lore": "On les compte pour s'endormir. Eux comptent les rêveurs.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "cute",
+    "eyes_style": "cute",
+    "horns": "ram",
+    "spikes": false,
+    "mane": true,
+    "mane_c": [
+     255,
+     255,
+     255
+    ],
+    "bulk": 1.1,
+    "leg_len": 0.6,
+    "head": 1.5,
+    "tail": 0.2,
+    "c1": [
+     245,
+     245,
+     255
+    ],
+    "c2": [
+     255,
+     230,
+     240
+    ],
+    "c3": [
+     230,
+     200,
+     255
+    ],
+    "scene": "nebula",
+    "scale": 1.05,
+    "cy": 160
+   }
+  },
+  {
+   "id": "sg03",
+   "name": "Fée des Lucioles",
+   "type": "creature",
+   "family": "esprits",
+   "element": "nature",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 1,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 2
+    }
+   ],
+   "lore": "Elle allume les rêves des enfants une luciole à la fois.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "floating": true,
+    "wings": "feather",
+    "wing_span": 0.7,
+    "wing_glow": true,
+    "robe_c": [
+     120,
+     200,
+     120
+    ],
+    "hair": [
+     255,
+     240,
+     160
+    ],
+    "skin_h": [
+     240,
+     230,
+     200
+    ],
+    "eye": [
+     200,
+     255,
+     120
+    ],
+    "scene": "forest",
+    "scale": 1.0
+   }
+  },
+  {
+   "id": "sg04",
+   "name": "Cauchemar Rampant",
+   "type": "creature",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 3,
+   "hp": 1,
+   "keywords": [
+    "furtif"
+   ],
+   "lore": "Il se cache sous le lit. Toujours le vôtre.",
+   "art": {
+    "arch": "spirit",
+    "kind": "ghost",
+    "c1": [
+     60,
+     40,
+     80
+    ],
+    "eye": [
+     255,
+     60,
+     100
+    ],
+    "size": 0.85,
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sg05",
+   "name": "Hibou des Songes",
+   "type": "creature",
+   "family": "creatures",
+   "element": "cosmique",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "keywords": [
+    "envol"
+   ],
+   "lore": "Il veille sur les dormeurs du haut des étoiles.",
+   "art": {
+    "arch": "bird",
+    "wing_span": 0.9,
+    "tail": 0.6,
+    "c1": [
+     110,
+     90,
+     180
+    ],
+    "c2": [
+     220,
+     200,
+     255
+    ],
+    "c3": [
+     255,
+     220,
+     140
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "sg06",
+   "name": "Berceuse",
+   "type": "spell",
+   "family": "esprits",
+   "element": "lumiere",
+   "rarity": "C",
+   "cost": 2,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "sleep",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Dors, petite créature. Dors très, très longtemps.",
+   "art": {
+    "arch": "spell",
+    "spell": "holy",
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "sg07",
+   "name": "Champignon Lumineux",
+   "type": "creature",
+   "family": "vegetaux",
+   "element": "nature",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 1,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 1
+    }
+   ],
+   "lore": "Il éclaire les sentiers des rêveurs égarés.",
+   "art": {
+    "arch": "plant",
+    "kind": "flower",
+    "petals": 5,
+    "big": 0.9,
+    "glow_petals": true,
+    "c1": [
+     120,
+     200,
+     255
+    ],
+    "c2": [
+     230,
+     250,
+     255
+    ],
+    "scene": "forest",
+    "scale": 1.1,
+    "cy": 160
+   }
+  },
+  {
+   "id": "sg08",
+   "name": "Poisson-Lune Dormeur",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "C",
+   "cost": 3,
+   "atk": 2,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "death",
+     "do": "sleep",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Il flotte entre deux eaux, entre deux rêves.",
+   "art": {
+    "arch": "fish",
+    "eyes_style": "cute",
+    "length": 0.9,
+    "c1": [
+     180,
+     200,
+     240
+    ],
+    "c2": [
+     240,
+     245,
+     255
+    ],
+    "c3": [
+     200,
+     170,
+     255
+    ],
+    "scene": "ocean",
+    "scale": 1.1
+   }
+  },
+  {
+   "id": "sg09",
+   "name": "Somnambule",
+   "type": "creature",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 3,
+   "atk": 3,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "attack",
+     "do": "sleep",
+     "target": "attack_target"
+    }
+   ],
+   "lore": "Il marche les yeux fermés. Ses coups, eux, sont bien réveillés.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     80,
+     70,
+     110
+    ],
+    "hood": [
+     60,
+     50,
+     90
+    ],
+    "eye": [
+     200,
+     180,
+     255
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sg10",
+   "name": "Poussière d'Étoile",
+   "type": "spell",
+   "family": "cosmiques",
+   "element": "cosmique",
+   "rarity": "C",
+   "cost": 1,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "choose_enemy",
+     "value": 1
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Une pincée sur les paupières, et le ciel vous répond.",
+   "art": {
+    "arch": "spell",
+    "spell": "blessing",
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "sg11",
+   "name": "Licorne Lunaire",
+   "type": "creature",
+   "family": "creatures",
+   "element": "lumiere",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 3,
+   "hp": 4,
+   "keywords": [
+    "bouclier"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "sleep",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Elle ne sort qu'à la pleine lune, et seulement pour ceux qui rêvent encore.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "horns": "unicorn",
+    "spikes": false,
+    "mane": true,
+    "mane_c": [
+     200,
+     190,
+     255
+    ],
+    "neck": 1.3,
+    "leg_len": 1.4,
+    "bulk": 0.85,
+    "c1": [
+     220,
+     220,
+     250
+    ],
+    "c2": [
+     200,
+     200,
+     240
+    ],
+    "c3": [
+     255,
+     240,
+     180
+    ],
+    "glow": [
+     200,
+     180,
+     255
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "sg12",
+   "name": "Marchand de Sable",
+   "type": "creature",
+   "family": "divinites",
+   "element": "terre",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 2,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "sleep",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Il passe chaque nuit. Ce soir, il est en avance.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     200,
+     170,
+     110
+    ],
+    "hood": [
+     170,
+     140,
+     90
+    ],
+    "orb_hand": true,
+    "eye": [
+     255,
+     230,
+     150
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sg13",
+   "name": "Chat de Minuit",
+   "type": "creature",
+   "family": "creatures",
+   "element": "ombre",
+   "rarity": "U",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "keywords": [
+    "furtif",
+    "celerite"
+   ],
+   "lore": "Il apparaît là où on ne regardait pas. Il disparaît là où on regarde.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "horns": "none",
+    "ears": true,
+    "spikes": false,
+    "bulk": 0.75,
+    "leg_len": 1.0,
+    "head": 1.5,
+    "tail": 1.3,
+    "c1": [
+     40,
+     30,
+     60
+    ],
+    "c2": [
+     90,
+     70,
+     120
+    ],
+    "eye": [
+     255,
+     220,
+     80
+    ],
+    "scene": "haunted",
+    "scale": 1.05
+   }
+  },
+  {
+   "id": "sg14",
+   "name": "Fée des Tempêtes",
+   "type": "creature",
+   "family": "esprits",
+   "element": "foudre",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 3,
+   "hp": 2,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "random_enemy",
+     "value": 2
+    }
+   ],
+   "lore": "Ses ailes crépitent ; ses colères sont brèves mais spectaculaires.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "floating": true,
+    "wings": "feather",
+    "wing_span": 0.7,
+    "wing_glow": true,
+    "robe_c": [
+     80,
+     90,
+     160
+    ],
+    "hair": [
+     255,
+     240,
+     120
+    ],
+    "skin_h": [
+     230,
+     230,
+     250
+    ],
+    "eye": [
+     150,
+     230,
+     255
+    ],
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "sg15",
+   "name": "Attrape-Rêves",
+   "type": "creature",
+   "family": "antiques",
+   "element": "nature",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 0,
+   "hp": 5,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Il capture les mauvais rêves. Les bons, il les garde pour lui.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "ring": true,
+    "size": 0.8,
+    "orbiters": 5,
+    "c1": [
+     160,
+     120,
+     80
+    ],
+    "ring_c": [
+     255,
+     220,
+     160
+    ],
+    "eye": [
+     200,
+     255,
+     160
+    ],
+    "scene": "forest",
+    "scale": 1.0
+   }
+  },
+  {
+   "id": "sg16",
+   "name": "Ours en Peluche Géant",
+   "type": "creature",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 3,
+   "hp": 6,
+   "keywords": [
+    "garde"
+   ],
+   "lore": "Il protège les enfants des monstres. Il connaît leurs points faibles.",
+   "art": {
+    "arch": "biped",
+    "kind": "brute",
+    "bulk": 1.3,
+    "skin": [
+     180,
+     130,
+     90
+    ],
+    "c3": [
+     240,
+     200,
+     170
+    ],
+    "eyes_style": "cute",
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sg17",
+   "name": "Papillon Prismatique",
+   "type": "creature",
+   "family": "creatures",
+   "element": "cosmique",
+   "rarity": "U",
+   "cost": 2,
+   "atk": 2,
+   "hp": 1,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "shield",
+     "target": "random_ally_creature"
+    }
+   ],
+   "lore": "Chaque battement d'ailes change la couleur du ciel.",
+   "art": {
+    "arch": "insect",
+    "c1": [
+     200,
+     120,
+     240
+    ],
+    "c2": [
+     255,
+     200,
+     255
+    ],
+    "c3": [
+     150,
+     240,
+     255
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "sg18",
+   "name": "Illusion",
+   "type": "spell",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "U",
+   "cost": 3,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "bounce",
+     "target": "choose_enemy_creature"
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Elle n'était jamais vraiment là. Vous non plus, peut-être.",
+   "art": {
+    "arch": "spell",
+    "spell": "dark_pact",
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sg19",
+   "name": "Noctua, Sorcière des Rêves",
+   "type": "creature",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 3,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "sleep",
+     "target": "choose_enemy_creature"
+    },
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "choose_enemy_creature",
+     "value": 2
+    }
+   ],
+   "lore": "Elle tisse les cauchemars avec du fil de lune.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     60,
+     40,
+     90
+    ],
+    "hair": [
+     200,
+     180,
+     255
+    ],
+    "skin_h": [
+     220,
+     210,
+     240
+    ],
+    "weapon": "staff",
+    "orb_hand": true,
+    "eye": [
+     255,
+     120,
+     240
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sg20",
+   "name": "Dragon de Coton",
+   "type": "creature",
+   "family": "dragons",
+   "element": "lumiere",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 4,
+   "hp": 5,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "sleep",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Il est tout doux. Ses flammes aussi, mais elles brûlent quand même.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "cute",
+    "eyes_style": "cute",
+    "horns": "back",
+    "wings": true,
+    "wing_span": 1.0,
+    "bulk": 1.0,
+    "neck": 0.9,
+    "head": 1.4,
+    "spikes": false,
+    "c1": [
+     255,
+     220,
+     240
+    ],
+    "c2": [
+     255,
+     250,
+     255
+    ],
+    "c3": [
+     220,
+     200,
+     255
+    ],
+    "membrane": [
+     255,
+     200,
+     230
+    ],
+    "scene": "nebula",
+    "scale": 0.95
+   }
+  },
+  {
+   "id": "sg21",
+   "name": "Gardien de la Porte d'Ivoire",
+   "type": "creature",
+   "family": "antiques",
+   "element": "lumiere",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 3,
+   "hp": 7,
+   "keywords": [
+    "garde",
+    "bouclier"
+   ],
+   "lore": "Seuls les vrais rêves passent par la Porte d'Ivoire.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.35,
+    "c1": [
+     230,
+     220,
+     200
+    ],
+    "glow": [
+     255,
+     230,
+     180
+    ],
+    "eye": [
+     255,
+     230,
+     180
+    ],
+    "crystals": [
+     [
+      0,
+      -28,
+      20
+     ]
+    ],
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "sg22",
+   "name": "Méduse Onirique",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 2,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "sleep",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Ses tentacules caressent les rêves des marins endormis.",
+   "art": {
+    "arch": "jelly",
+    "eyes_style": "cute",
+    "tentacles": 8,
+    "length": 1.1,
+    "c1": [
+     200,
+     180,
+     255
+    ],
+    "c2": [
+     255,
+     180,
+     240
+    ],
+    "glow": [
+     220,
+     190,
+     255
+    ],
+    "scene": "abyss"
+   }
+  },
+  {
+   "id": "sg23",
+   "name": "Cauchemar Galopant",
+   "type": "creature",
+   "family": "creatures",
+   "element": "ombre",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 5,
+   "hp": 3,
+   "keywords": [
+    "celerite",
+    "rage"
+   ],
+   "lore": "Le cheval des mauvais rêves ne s'arrête jamais avant l'aube.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "horns": "back",
+    "spikes": false,
+    "mane": true,
+    "mane_c": [
+     160,
+     60,
+     220
+    ],
+    "neck": 1.2,
+    "leg_len": 1.4,
+    "bulk": 0.9,
+    "c1": [
+     30,
+     20,
+     40
+    ],
+    "c2": [
+     80,
+     60,
+     100
+    ],
+    "eye": [
+     255,
+     60,
+     120
+    ],
+    "tail": 1.0,
+    "tail_tip": "flame",
+    "glow": [
+     180,
+     80,
+     255
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sg24",
+   "name": "Réveil Brutal",
+   "type": "spell",
+   "family": "esprits",
+   "element": "foudre",
+   "rarity": "R",
+   "cost": 3,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 2
+    },
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "all_allies",
+     "value": 1,
+     "value2": 0
+    }
+   ],
+   "lore": "DRIIIIIING !",
+   "art": {
+    "arch": "spell",
+    "spell": "lightning",
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "sg25",
+   "name": "Bibliothécaire des Songes",
+   "type": "creature",
+   "family": "divinites",
+   "element": "cosmique",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 2,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "add_random",
+     "value": 1,
+     "min_rarity": "E"
+    }
+   ],
+   "lore": "Elle range chaque rêve dans un livre. Certains livres mordent.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     70,
+     60,
+     140
+    ],
+    "hair": [
+     230,
+     210,
+     255
+    ],
+    "skin_h": [
+     230,
+     220,
+     240
+    ],
+    "orb_hand": true,
+    "halo": true,
+    "halo_c": [
+     200,
+     180,
+     255
+    ],
+    "eye": [
+     255,
+     220,
+     140
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "sg26",
+   "name": "Titania, Reine des Fées",
+   "type": "creature",
+   "family": "divinites",
+   "element": "nature",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 4,
+   "hp": 4,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "buff",
+     "target": "all_allies",
+     "value": 1,
+     "value2": 1
+    }
+   ],
+   "lore": "Elle couronne chaque été d'une pluie de pétales.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "floating": true,
+    "wings": "feather",
+    "wing_span": 0.7,
+    "wing_glow": true,
+    "robe_c": [
+     90,
+     170,
+     110
+    ],
+    "hair": [
+     255,
+     220,
+     160
+    ],
+    "skin_h": [
+     240,
+     230,
+     210
+    ],
+    "crown": [
+     255,
+     220,
+     120
+    ],
+    "halo": true,
+    "eye": [
+     200,
+     255,
+     150
+    ],
+    "scene": "forest"
+   }
+  },
+  {
+   "id": "sg27",
+   "name": "Croquemitaine",
+   "type": "creature",
+   "family": "demons",
+   "element": "ombre",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 6,
+   "hp": 5,
+   "keywords": [
+    "furtif"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "sleep",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Il attend que les lumières s'éteignent. Elles finissent toujours par s'éteindre.",
+   "art": {
+    "arch": "biped",
+    "kind": "demon",
+    "bulk": 1.3,
+    "horns": true,
+    "wings": "bat",
+    "tail": true,
+    "skin": [
+     50,
+     40,
+     70
+    ],
+    "c3": [
+     200,
+     190,
+     220
+    ],
+    "membrane": [
+     40,
+     20,
+     60
+    ],
+    "eye": [
+     255,
+     220,
+     80
+    ],
+    "aura": true,
+    "scene": "haunted",
+    "scale": 0.95
+   }
+  },
+  {
+   "id": "sg28",
+   "name": "Somnia, Baleine Céleste",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "cosmique",
+   "rarity": "SR",
+   "cost": 7,
+   "atk": 5,
+   "hp": 9,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 2
+    }
+   ],
+   "lore": "Elle nage entre les étoiles et chante les rêves du monde entier.",
+   "art": {
+    "arch": "fish",
+    "length": 1.4,
+    "fin": 1.1,
+    "c1": [
+     90,
+     80,
+     180
+    ],
+    "c2": [
+     220,
+     210,
+     255
+    ],
+    "c3": [
+     255,
+     200,
+     240
+    ],
+    "eye": [
+     255,
+     240,
+     180
+    ],
+    "scene": "nebula",
+    "scale": 0.95
+   }
+  },
+  {
+   "id": "sg29",
+   "name": "Sablier du Temps Perdu",
+   "type": "spell",
+   "family": "antiques",
+   "element": "terre",
+   "rarity": "SR",
+   "cost": 4,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "sleep",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Chaque grain de sable est une heure que vous ne retrouverez pas.",
+   "art": {
+    "arch": "spell",
+    "spell": "quake",
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sg30",
+   "name": "Phénix des Rêves",
+   "type": "creature",
+   "family": "esprits",
+   "element": "feu",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 5,
+   "hp": 5,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "sg90"
+    }
+   ],
+   "lore": "Il renaît chaque nuit dans les rêves de ceux qui ne l'ont pas oublié.",
+   "art": {
+    "arch": "bird",
+    "flame": true,
+    "wing_span": 1.1,
+    "tail": 1.1,
+    "c1": [
+     255,
+     140,
+     200
+    ],
+    "c2": [
+     255,
+     220,
+     160
+    ],
+    "c3": [
+     200,
+     140,
+     255
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "sg31",
+   "name": "Dévoreur de Rêves",
+   "type": "creature",
+   "family": "mutants",
+   "element": "neant",
+   "rarity": "SR",
+   "cost": 5,
+   "atk": 5,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "attack",
+     "do": "silence",
+     "target": "attack_target"
+    },
+    {
+     "on": "summon",
+     "do": "silence",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Il se nourrit de rêves. Les cauchemars lui donnent des aigreurs.",
+   "art": {
+    "arch": "maw",
+    "eyes": 5,
+    "c1": [
+     60,
+     40,
+     90
+    ],
+    "glow": [
+     200,
+     120,
+     255
+    ],
+    "eye": [
+     255,
+     200,
+     120
+    ],
+    "scale": 0.75,
+    "scene": "void"
+   }
+  },
+  {
+   "id": "sg32",
+   "name": "Chevalier Somnambule",
+   "type": "creature",
+   "family": "esprits",
+   "element": "glace",
+   "rarity": "SR",
+   "cost": 5,
+   "atk": 5,
+   "hp": 5,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "sleep",
+     "target": "attack_target"
+    }
+   ],
+   "lore": "Il se bat en dormant. Il n'a jamais perdu un duel.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     150,
+     180,
+     220
+    ],
+    "armor": [
+     200,
+     230,
+     255
+    ],
+    "hood": [
+     120,
+     150,
+     200
+    ],
+    "weapon": "sword",
+    "eye": [
+     180,
+     230,
+     255
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "sg33",
+   "name": "Arbre aux Rêves",
+   "type": "creature",
+   "family": "vegetaux",
+   "element": "nature",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 3,
+   "hp": 9,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "summon",
+     "card": "sg03"
+    }
+   ],
+   "lore": "Chaque fruit renferme un rêve. Chaque rêve libère une fée.",
+   "art": {
+    "arch": "plant",
+    "kind": "treant",
+    "c1": [
+     150,
+     110,
+     200
+    ],
+    "bloom": [
+     255,
+     220,
+     255
+    ],
+    "eye": [
+     255,
+     200,
+     255
+    ],
+    "scene": "nebula",
+    "scale": 0.95,
+    "cy": 160
+   }
+  },
+  {
+   "id": "sg34",
+   "name": "Miroir des Songes",
+   "type": "spell",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "SR",
+   "cost": 5,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "steal",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Votre reflet vous sourit, et passe de l'autre côté.",
+   "art": {
+    "arch": "spell",
+    "spell": "solar",
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "sg35",
+   "name": "Hypnos, Seigneur du Sommeil",
+   "type": "creature",
+   "family": "divinites",
+   "element": "ombre",
+   "rarity": "SR",
+   "cost": 7,
+   "atk": 5,
+   "hp": 7,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "sleep",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "turn_start",
+     "do": "sleep",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Le frère de la Mort, mais bien plus doux.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "robe_c": [
+     50,
+     40,
+     90
+    ],
+    "hair": [
+     230,
+     230,
+     255
+    ],
+    "skin_h": [
+     210,
+     210,
+     235
+    ],
+    "crown": [
+     200,
+     180,
+     255
+    ],
+    "halo": true,
+    "halo_c": [
+     200,
+     180,
+     255
+    ],
+    "wings": "feather",
+    "wing_c": [
+     120,
+     100,
+     180
+    ],
+    "floating": true,
+    "eye": [
+     200,
+     180,
+     255
+    ],
+    "scene": "haunted",
+    "scale": 0.92
+   }
+  },
+  {
+   "id": "sg36",
+   "name": "Lune Gardienne",
+   "type": "creature",
+   "family": "cosmiques",
+   "element": "cosmique",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 4,
+   "hp": 8,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 1
+    },
+    {
+     "on": "turn_start",
+     "do": "sleep",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Elle veille sur les rêveurs depuis l'aube des temps.",
+   "art": {
+    "arch": "orb",
+    "face": "cute",
+    "craters": true,
+    "size": 1.1,
+    "c1": [
+     230,
+     230,
+     250
+    ],
+    "glow": [
+     220,
+     220,
+     255
+    ],
+    "scene": "nebula",
+    "scale": 1.0
+   }
+  },
+  {
+   "id": "sg37",
+   "name": "Oniris, Tisseur de Rêves",
+   "type": "creature",
+   "family": "divinites",
+   "element": "cosmique",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 4,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "add_random",
+     "value": 2,
+     "min_rarity": "SR"
+    }
+   ],
+   "lore": "Il tisse les rêves du monde sur un métier fait d'aurores.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "robe_c": [
+     100,
+     80,
+     180
+    ],
+    "hair": [
+     255,
+     220,
+     255
+    ],
+    "skin_h": [
+     230,
+     220,
+     250
+    ],
+    "halo": true,
+    "halo_c": [
+     255,
+     200,
+     255
+    ],
+    "orb_hand": true,
+    "weapon": "staff",
+    "trim": [
+     255,
+     210,
+     250
+    ],
+    "floating": true,
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "sg38",
+   "name": "Cauchemar Primordial",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "E",
+   "cost": 7,
+   "atk": 7,
+   "hp": 6,
+   "keywords": [
+    "rage",
+    "furtif"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "sleep",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Le premier mauvais rêve de l'humanité. Il n'a jamais oublié personne.",
+   "art": {
+    "arch": "kraken",
+    "c1": [
+     40,
+     20,
+     60
+    ],
+    "c2": [
+     200,
+     80,
+     255
+    ],
+    "eye": [
+     255,
+     60,
+     120
+    ],
+    "scene": "haunted",
+    "scale": 0.85,
+    "cy": 150
+   }
+  },
+  {
+   "id": "sg39",
+   "name": "Ange Gardien des Rêves",
+   "type": "creature",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "E",
+   "cost": 5,
+   "atk": 3,
+   "hp": 6,
+   "keywords": [
+    "bouclier"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "shield",
+     "target": "all_allies"
+    },
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 2
+    }
+   ],
+   "lore": "Elle chasse les cauchemars d'un battement d'ailes.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "robe_c": [
+     255,
+     250,
+     240
+    ],
+    "hair": [
+     255,
+     240,
+     200
+    ],
+    "crown": [
+     255,
+     220,
+     140
+    ],
+    "halo": true,
+    "wings": "feather",
+    "wing_c": [
+     255,
+     255,
+     250
+    ],
+    "wing_glow": true,
+    "floating": true,
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "sg40",
+   "name": "Morphéa, Reine des Rêves",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "cosmique",
+   "rarity": "L",
+   "cost": 8,
+   "atk": 6,
+   "hp": 8,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "sleep",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 6
+    }
+   ],
+   "lore": "Celle qui choisit, chaque nuit, ce dont le monde va rêver.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "robe_c": [
+     80,
+     60,
+     160
+    ],
+    "hair": [
+     255,
+     200,
+     255
+    ],
+    "skin_h": [
+     240,
+     230,
+     255
+    ],
+    "crown": [
+     255,
+     220,
+     140
+    ],
+    "halo": true,
+    "halo_c": [
+     255,
+     180,
+     255
+    ],
+    "wings": "feather",
+    "wing_c": [
+     200,
+     180,
+     255
+    ],
+    "wing_span": 1.25,
+    "wing_glow": true,
+    "orb_hand": true,
+    "trim": [
+     255,
+     210,
+     250
+    ],
+    "floating": true,
+    "aura": true,
+    "scene": "nebula",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "sg41",
+   "name": "Le Grand Cauchemar",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "ombre",
+   "rarity": "L",
+   "cost": 8,
+   "atk": 8,
+   "hp": 7,
+   "keywords": [
+    "rage"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "all_enemies",
+     "value": 2
+    },
+    {
+     "on": "turn_start",
+     "do": "sleep",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Quand tous les cauchemars se rejoignent, il ouvre les yeux.",
+   "art": {
+    "arch": "maw",
+    "eyes": 9,
+    "c1": [
+     40,
+     20,
+     60
+    ],
+    "glow": [
+     255,
+     80,
+     200
+    ],
+    "eye": [
+     255,
+     60,
+     100
+    ],
+    "scale": 0.82,
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sg42",
+   "name": "Aelys, Dragon Onirique",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "lumiere",
+   "rarity": "L",
+   "cost": 7,
+   "atk": 6,
+   "hp": 7,
+   "keywords": [
+    "envol",
+    "bouclier"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "sleep",
+     "target": "attack_target"
+    }
+   ],
+   "lore": "Ses écailles reflètent le rêve de celui qui le regarde.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "crown",
+    "wings": true,
+    "wing_span": 1.3,
+    "wing_glow": true,
+    "bulk": 1.0,
+    "neck": 1.2,
+    "breath": true,
+    "spikes": true,
+    "c1": [
+     230,
+     220,
+     255
+    ],
+    "c2": [
+     255,
+     200,
+     240
+    ],
+    "c3": [
+     200,
+     180,
+     255
+    ],
+    "membrane": [
+     220,
+     200,
+     255
+    ],
+    "glow": [
+     255,
+     190,
+     255
+    ],
+    "rim": [
+     255,
+     200,
+     255
+    ],
+    "scene": "nebula",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "sg43",
+   "name": "Éveil Éternel",
+   "type": "spell",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "M",
+   "cost": 8,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 99
+    },
+    {
+     "on": "cast",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 99
+    },
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "all_allies",
+     "value": 2,
+     "value2": 2
+    },
+    {
+     "on": "cast",
+     "do": "sleep",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Et soudain, tout le monde se réveille. Tout le monde, sauf eux.",
+   "art": {
+    "arch": "spell",
+    "spell": "holy",
+    "scene": "sanctum"
+   }
+  },
+  {
+   "id": "sg44",
+   "name": "Le Rêveur Originel",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "cosmique",
+   "rarity": "CO",
+   "cost": 10,
+   "atk": 9,
+   "hp": 10,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "sleep",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "turn_start",
+     "do": "add_random",
+     "value": 1,
+     "min_rarity": "E"
+    }
+   ],
+   "lore": "Et si tout le Cardverse n'était que son rêve ?",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "robe_c": [
+     30,
+     20,
+     70
+    ],
+    "hair": [
+     255,
+     255,
+     255
+    ],
+    "skin_h": [
+     240,
+     240,
+     255
+    ],
+    "crown": [
+     255,
+     230,
+     160
+    ],
+    "halo": true,
+    "halo_c": [
+     255,
+     160,
+     255
+    ],
+    "wings": "feather",
+    "wing_c": [
+     150,
+     120,
+     255
+    ],
+    "wing_span": 1.35,
+    "wing_glow": true,
+    "orb_hand": true,
+    "trim": [
+     255,
+     220,
+     140
+    ],
+    "floating": true,
+    "aura": true,
+    "glow": [
+     255,
+     180,
+     255
+    ],
+    "scene": "nebula",
+    "scale": 0.88
+   }
+  },
+  {
+   "id": "sg45",
+   "name": "Morphée, Sommeil Absolu",
+   "type": "creature",
+   "family": "divinites",
+   "element": "ombre",
+   "rarity": "T",
+   "cost": 9,
+   "atk": 7,
+   "hp": 11,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "sleep",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "turn_start",
+     "do": "damage",
+     "target": "all_enemies",
+     "value": 1
+    }
+   ],
+   "lore": "Ce qui dort ne meurt jamais. Ce qui dort ne vit pas non plus.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "ring": true,
+    "tentacles": 12,
+    "size": 1.1,
+    "c1": [
+     30,
+     20,
+     50
+    ],
+    "ring_c": [
+     200,
+     160,
+     255
+    ],
+    "eye": [
+     220,
+     180,
+     255
+    ],
+    "glow": [
+     200,
+     150,
+     255
+    ],
+    "scene": "haunted",
+    "scale": 0.88
+   }
+  },
+  {
+   "id": "sw05",
+   "name": "Somnus & Lucidia, les Rêves Jumeaux",
+   "type": "creature",
+   "family": "divinites",
+   "element": "cosmique",
+   "rarity": "SW",
+   "cost": 7,
+   "atk": 6,
+   "hp": 6,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "swap_leaders"
+    },
+    {
+     "on": "summon",
+     "do": "sleep",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "L'une rêve que l'autre est éveillée. Personne ne sait laquelle a raison.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "robe_c": [
+     60,
+     200,
+     220
+    ],
+    "hair": [
+     255,
+     140,
+     240
+    ],
+    "skin_h": [
+     230,
+     240,
+     255
+    ],
+    "crown": [
+     120,
+     255,
+     240
+    ],
+    "halo": true,
+    "halo_c": [
+     120,
+     255,
+     240
+    ],
+    "wings": "feather",
+    "wing_c": [
+     200,
+     250,
+     255
+    ],
+    "wing_glow": true,
+    "orb_hand": true,
+    "trim": [
+     120,
+     255,
+     240
+    ],
+    "floating": true,
+    "aura": true,
+    "glow": [
+     120,
+     255,
+     240
+    ],
+    "scene": "nebula",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "sg90",
+   "name": "Plume Endormie",
+   "type": "creature",
+   "family": "esprits",
+   "element": "feu",
+   "rarity": "R",
+   "cost": 2,
+   "atk": 0,
+   "hp": 2,
+   "lore": "Elle respire doucement. Elle va renaître.",
+   "art": {
+    "arch": "egg",
+    "c1": [
+     255,
+     170,
+     220
+    ],
+    "c2": [
+     255,
+     230,
+     160
+    ],
+    "glow": [
+     255,
+     160,
+     220
+    ],
+    "scene": "nebula"
+   },
+   "token": true,
+   "evolve": {
+    "into": "sg30",
+    "turns": 2
+   }
+  }
+ ]
+}

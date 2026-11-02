@@ -222,6 +222,7 @@ func effect_text(e: Dictionary) -> String:
 		"heal": s = ("Soigne entièrement %s." % tgt) if v >= 99 else ("Rend %d PV à %s." % [v, tgt])
 		"buff": s = "Donne +%d/+%d à %s." % [v, int(e.get("value2", 0)), tgt]
 		"freeze": s = "Gèle %s." % tgt
+		"sleep": s = "Endort %s (ne peut pas attaquer pendant 2 tours)." % tgt
 		"draw": s = "Piochez %d carte%s." % [v, "s" if v > 1 else ""]
 		"summon": s = "Invoque %s." % card(e.card).get("name", "?")
 		"shield": s = "Donne Bouclier à %s." % tgt

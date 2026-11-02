@@ -79,7 +79,7 @@ func end_turn() -> void:
 	if winner >= 0:
 		return
 	for u in pl[current].board:
-		u.frozen = 0
+		u.frozen = maxi(0, int(u.frozen) - 1)  # Gel = 1 tour, Sommeil = 2 tours
 	ev({"t": "end", "p": current})
 	current = opp(current)
 	start_turn()
@@ -446,8 +446,12 @@ func resolve(e: Dictionary, i: int, src: Dictionary, ctx: Dictionary) -> void:
 					ev({"t": "buff", "uid": u.uid, "atk": u.atk, "hp": u.hp, "max_hp": u.max_hp})
 			"freeze":
 				if t.k == "unit":
-					find_unit(t.uid).frozen = 1
+					find_unit(t.uid).frozen = maxi(1, int(find_unit(t.uid).frozen))
 					ev({"t": "freeze", "uid": t.uid})
+			"sleep":
+				if t.k == "unit":
+					find_unit(t.uid).frozen = 2
+					ev({"t": "sleep", "uid": t.uid})
 			"shield":
 				if t.k == "unit":
 					find_unit(t.uid).kw["bouclier"] = true

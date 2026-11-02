@@ -773,6 +773,16 @@ func _anim(e: Dictionary) -> void:
 		"poison":
 			if units.has(int(e.uid)):
 				UI.float_text(fx_layer, units[int(e.uid)].position + UnitView.SZ / 2, "Poison", Color("8dff6a"), 30)
+		"sleep":
+			Sfx.play("heal", 0.7)
+			if units.has(int(e.uid)):
+				var vz: UnitView = units[int(e.uid)]
+				UI.float_text(fx_layer, vz.position + UnitView.SZ / 2, "Endormie", Color("c9b3ff"), 30)
+				UI.burst(fx_layer, vz.position + UnitView.SZ / 2, Color("c9b3ff"), 24, 200, 0.4, 0.8, -120)
+				var dz := vz.data.duplicate(true)
+				dz.frozen = 2
+				vz.refresh(dz)
+			await _wait(0.15)
 		"silence":
 			Sfx.play("shield", 0.6)
 			if units.has(int(e.uid)):
@@ -877,7 +887,7 @@ func _effect_fx(e: Dictionary) -> void:
 			for t in e.targets:
 				UI.float_text(fx_layer, _ref_pos(t) - Vector2(0, 60), "Piétinement !", Color("ffb340"), 28)
 			await _wait(0.15)
-		"freeze", "shield", "buff", "silence", "bounce", "steal", "swap_stats":
+		"freeze", "sleep", "shield", "buff", "silence", "bounce", "steal", "swap_stats":
 			for t in e.targets:
 				UI.burst(fx_layer, _ref_pos(t), col, 18, 200, 0.4, 0.6, -80)
 			await _wait(0.1)

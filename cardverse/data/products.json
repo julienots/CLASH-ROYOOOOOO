@@ -45,6 +45,17 @@
    "color": "#4aa3c8"
   },
   {
+   "id": "display_songes",
+   "name": "Display Royaume des Songes",
+   "booster": "songes",
+   "count": 12,
+   "price": {
+    "coins": 1350
+   },
+   "guarantee": "L",
+   "color": "#a07ae8"
+  },
+  {
    "id": "display_multiverse",
    "name": "Display Multivers",
    "booster": "multiverse",
@@ -126,6 +137,23 @@
     "variant": "fullart"
    },
    "color": "#4aa3c8"
+  },
+  {
+   "id": "box_songes",
+   "name": "Coffret des Rêves",
+   "desc": "La carte promo Morphéa en Full Art, 6 boosters Songes et 2 jetons spéciaux.",
+   "price": {
+    "coins": 2400
+   },
+   "boosters": {
+    "songes": 6
+   },
+   "tokens": 2,
+   "promo": {
+    "card": "sg40",
+    "variant": "fullart"
+   },
+   "color": "#a07ae8"
   },
   {
    "id": "box_elements",

@@ -108,6 +108,7 @@ func refresh(u: Dictionary) -> void:
 	_hp.add_theme_color_override("font_color", Color("ffb3b3") if int(u.hp) < int(u.max_hp) else Color.WHITE)
 	_atk.add_theme_color_override("font_color", Color("ffe08a") if int(u.atk) > int(c.get("atk", 0)) else Color.WHITE)
 	_ice.visible = int(u.get("frozen", 0)) > 0
+	_ice.color = Color(0.75, 0.6, 1.0, 0.45) if int(u.get("frozen", 0)) >= 2 else Color(0.5, 0.85, 1.0, 0.45)
 	_shield.visible = u.kw.get("bouclier", false)
 	modulate.a = 0.55 if u.kw.get("furtif", false) else 1.0
 	for ch in _icons.get_children():

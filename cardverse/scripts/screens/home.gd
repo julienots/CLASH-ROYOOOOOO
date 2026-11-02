@@ -114,6 +114,8 @@ func setup(_p: Dictionary) -> void:
 	# connexion quotidienne, tutoriel, nouveautés
 	if Profile.d.get("pending_gift", false):
 		_gift_popup.call_deferred()
+	elif Profile.d.get("pending_gift6", false):
+		_gift6_popup.call_deferred()
 	elif not Profile.d.get("tutorial_done", true):
 		_tutorial.call_deferred(0)
 	elif Profile.login_available():
@@ -289,5 +291,16 @@ func _gift_popup() -> void:
 		Profile.save_game()], ["Ouvrir mes boosters", UI.GOOD.darkened(0.2), func():
 		Profile.d.pending_gift = false
 		Profile.d.seen_version = "0.5"
+		Profile.save_game()
+		main.goto("shop", {"tab": "boosters"})]])
+
+func _gift6_popup() -> void:
+	var l := UI.label("Nouveautés 0.6 :\n• GÉNÉRATION 5 « ROYAUME DES SONGES » : 47 cartes de fées, rêves et cauchemars, avec la mécanique SOMMEIL (la cible ne peut plus attaquer pendant 2 tours).\n• DISPLAYS EN 3D : fais pivoter la caisse au doigt, déchire le scellé, puis sors les boosters un par un. La caisse se vide au fur et à mesure.\n\nCadeau : 3 Boosters Songes t'attendent dans la Boutique (bouton GRATUIT).", 20, UI.TEXT, "body", 600)
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	l.custom_minimum_size = Vector2(560, 0)
+	main.modal("Royaume des Songes", l, [["Plus tard", Color("4a3a6a"), func():
+		Profile.d.pending_gift6 = false
+		Profile.save_game()], ["Ouvrir mes boosters", UI.GOOD.darkened(0.2), func():
+		Profile.d.pending_gift6 = false
 		Profile.save_game()
 		main.goto("shop", {"tab": "boosters"})]])

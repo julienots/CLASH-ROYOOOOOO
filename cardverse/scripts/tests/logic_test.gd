@@ -241,6 +241,18 @@ func _mechanics() -> void:
 	var hp1 := int(g2.pl[1].leader.hp)
 	g2.attack(rex.uid, {"k": "unit", "uid": small.uid})
 	check(int(g2.pl[1].leader.hp) < hp1, "Piétinement : l'excédent touche le leader")
+	# Sommeil : bloque deux tours du propriétaire
+	var dz := g2.summon(1, "w007")
+	dz.sleep = false
+	g2.resolve({"do": "sleep", "target": "choose_enemy_creature"}, 0, {}, {"chosen": {"k": "unit", "uid": dz.uid}})
+	g2.current = 1
+	check(not g2.can_attack(dz.uid), "Sommeil : ne peut pas attaquer (tour 1)")
+	g2.end_turn()
+	g2.end_turn()
+	check(g2.current == 1 and not g2.can_attack(dz.uid), "Sommeil : ne peut pas attaquer (tour 2)")
+	g2.end_turn()
+	g2.end_turn()
+	check(g2.current == 1 and g2.can_attack(dz.uid), "Sommeil : réveillée au 3e tour")
 	# Vol de contrôle, échange de stats, échange des PV
 	var victim := g2.summon(1, "w007")
 	g2.resolve({"do": "steal", "target": "choose_enemy_creature"}, 0, {}, {"chosen": {"k": "unit", "uid": victim.uid}})

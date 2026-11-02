@@ -220,7 +220,7 @@ Client Godot ──HTTPS/WebSocket──► Passerelle (Nakama ou service Go)
 
 **Limites actuelles, annoncées honnêtement :**
 - Les illustrations sont du **pixel art procédural**, produit par recette. Chaque carte a sa silhouette et sa palette, mais ce ne sont pas des peintures faites main. Le pipeline permet de les remplacer une à une.
-- 196 cartes (4 sets), pas 2000 : l'architecture est prête, le contenu sera ajouté par sets (étape 4).
+- 242 cartes (5 sets), pas 2000 : l'architecture est prête, le contenu sera ajouté par sets (étape 4).
 - Pas de multijoueur ni de paiement réel (étape 5).
 - L'APK est signé avec une clé de développement (schéma v2, Android 7.0 minimum). Elle n'a pas été testée sur un appareil physique depuis cet environnement.
 
@@ -278,3 +278,14 @@ Client Godot ──HTTPS/WebSocket──► Passerelle (Nakama ou service Go)
   - **bannière « Nouveau »** sur l'accueil avec les meilleures cartes de la dernière génération ;
   - **cadeau de mise à jour** : 1 Booster Éclipse, 2 Âge Primitif et 3 Mécanica pour les joueurs existants. Les nouveaux joueurs reçoivent un Booster Multivers et un Booster Mécanica.
 - Total : **196 cartes collectionnables** sur 4 générations.
+
+## 14. Version 0.6
+
+- **Génération 5 « Royaume des Songes »** (`data/cards/songes.json`) : 46 cartes collectionnables (dont 9 Super Rares, 1 Cosmique, 1 Transcendante et la carte SWAP Somnus & Lucidia), plus un jeton. Nouvelle mécanique **Sommeil** (effet `sleep`) : la cible ne peut plus attaquer pendant 2 tours de son propriétaire. Le compteur `frozen` est décrémenté à chaque fin de tour (Gel = 1, Sommeil = 2). Booster, Display et Coffret dédiés.
+- **Displays en 3D** (`display_open.gd`) : scène 3D dans un `SubViewport`.
+  - Caisse modélisée (parois, face avant illustrée et générée par `tools/art/gen_display3d.py`), couvercle articulé, boosters debout en rangées, éclairage directionnel et lumière intérieure.
+  - Rotation au doigt ; au premier toucher, le scellé se déchire et le couvercle s'ouvre.
+  - Sélection d'un booster par projection écran (`Camera3D.unproject_position`) : le booster s'extrait de la caisse puis s'ouvre, et la caisse se vide au fur et à mesure.
+  - L'état « couvercle ouvert » est sauvegardé avec le display en cours.
+- **Tests** : Sommeil (bloque 2 tours puis se réveille), parcours du display 3D en touchers réels.
+- Total : **242 cartes collectionnables** sur 5 générations.

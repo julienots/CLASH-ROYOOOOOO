@@ -1,6 +1,6 @@
 # CARDVERSE : Ultimate TCG Collection
 
-Jeu mobile de cartes à collectionner en **portrait** (Godot 4.3). Il propose 196 cartes originales en 4 générations (Genèse, Éclipse, Âge Primitif, Mécanica) réparties sur 17 raretés, dont Primitif et SWAP, une rareté à reconstituer avec des pièces de puzzle,, des boosters spectaculaires, un album complet, des combats stratégiques contre l'IA, un Atelier d'évolutions, un passe de saison, des missions et un événement.
+Jeu mobile de cartes à collectionner en **portrait** (Godot 4.3). Il propose 242 cartes originales en 5 générations (Genèse, Éclipse, Âge Primitif, Mécanica, Royaume des Songes) réparties sur 17 raretés, dont Primitif et SWAP, une rareté à reconstituer avec des pièces de puzzle,, des boosters spectaculaires, un album complet, des combats stratégiques contre l'IA, un Atelier d'évolutions, un passe de saison, des missions et un événement.
 
 📄 Architecture, direction artistique et feuille de route : [ARCHITECTURE.md](ARCHITECTURE.md)
 
@@ -16,7 +16,7 @@ Jeu mobile de cartes à collectionner en **portrait** (Godot 4.3). Il propose 19
 
 - **Accueil** : récompense quotidienne, ta carte la plus précieuse, accès rapide aux boosters, aux combats, aux missions et à l'événement.
 - **Boutique → Boosters** : touche le prix (ou GRATUIT), fais tourner le paquet, **glisse le doigt le long du haut** pour le déchirer, puis touche chaque carte pour la retourner. Le bouton **i** affiche les probabilités exactes.
-- **Boutique → Displays** : achète une caisse de boosters et ouvre-les un par un (Légendaire garanti). Les **Coffrets** contiennent une carte promo exclusive, des boosters et des jetons.
+- **Boutique → Displays** : achète une caisse de boosters en 3D : fais-la pivoter au doigt, ouvre le couvercle et sors les boosters un par un (Légendaire garanti). Les **Coffrets** contiennent une carte promo exclusive, des boosters et des jetons.
 - **Album** : filtre par élément (icônes), rareté ou famille ; recherche, tri, favoris, comparaison, recyclage des doublons, récompenses de collection. Touche une carte pour l'inspecter et incline-la du doigt.
 - **Combat** : touche une carte de ta main pour l'agrandir, puis **JOUER** (choisis une cible si besoin). Touche une de tes créatures prêtes (contour vert), puis une cible ennemie pour attaquer. Les créatures avec **Garde** doivent être attaquées en premier. Un élément favorable inflige des dégâts x1,5. Le pouvoir du leader coûte 2 énergie.
 - **Atelier** (accueil) : fais évoluer tes créatures (3 exemplaires et de la Poussière d'étoile), découvre les transformations secrètes, crée des cartes ou applique des variantes.

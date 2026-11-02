@@ -26,7 +26,7 @@ func new_game() -> void:
 		"collection_rewards": [], "settings": {"sfx": true, "music": true, "fast": false},
 		"rank": {"points": 0}, "title": "Novice",
 		"free_packs": {}, "pass": {}, "forge_known": [], "tutorial_done": false, "seen_version": "0.5",
-		"puzzles": {}, "puzzle_pity": 0, "displays": [], "gifts": ["v05"],
+		"puzzles": {}, "puzzle_pity": 0, "displays": [], "gifts": ["v05", "v06"],
 	}
 	for id in st.cards:
 		add_card(id, "", false)
@@ -58,6 +58,10 @@ func _migrate() -> void:
 		for k in {"eclipse": 1, "primal": 2, "mecanica": 3}:
 			add_free(k, {"eclipse": 1, "primal": 2, "mecanica": 3}[k])
 		d["pending_gift"] = true
+	if not "v06" in d.gifts:
+		d.gifts.append("v06")
+		add_free("songes", 3)
+		d["pending_gift6"] = true
 	# retirer les cartes qui n'existent plus dans le catalogue
 	for id in d.collection.keys():
 		if DB.card(id).is_empty():
