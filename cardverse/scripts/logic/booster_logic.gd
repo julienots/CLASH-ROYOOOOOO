@@ -27,9 +27,10 @@ static func slot_odds(b: Dictionary, guaranteed_min := "") -> Dictionary:
 static func _pool(b: Dictionary, r: String) -> Array:
 	var out := []
 	var sets: Array = b.get("sets", [])
+	var els: Array = b.get("elements", [])
 	for id in DB.card_order:
 		var c := DB.card(id)
-		if c.rarity == r and (sets.is_empty() or c.set in sets):
+		if c.rarity == r and (sets.is_empty() or c.set in sets) and (els.is_empty() or c.element in els):
 			out.append(id)
 	return out
 

@@ -25,8 +25,8 @@ func new_game() -> void:
 		"shop": {"date": "", "bought": []}, "cosmetics": {"owned": ["back_default", "board_default"], "back": "back_default", "board": "board_default"},
 		"collection_rewards": [], "settings": {"sfx": true, "music": true, "fast": false},
 		"rank": {"points": 0}, "title": "Novice",
-		"free_packs": {}, "pass": {}, "forge_known": [], "tutorial_done": false, "seen_version": "0.3",
-		"puzzles": {}, "puzzle_pity": 0,
+		"free_packs": {}, "pass": {}, "forge_known": [], "tutorial_done": false, "seen_version": "0.4",
+		"puzzles": {}, "puzzle_pity": 0, "displays": [],
 	}
 	for id in st.cards:
 		add_card(id, "", false)
@@ -47,7 +47,7 @@ func _migrate() -> void:
 	# compléter les clés absentes (sauvegardes d'anciennes versions du prototype)
 	var defaults := {"dust": 0, "serials": {}, "collection_rewards": [], "rank": {"points": 0}, "title": "Novice", "event": 0,
 		"free_packs": {}, "pass": {}, "forge_known": [], "tutorial_done": true, "seen_version": "0.1",
-		"puzzles": {}, "puzzle_pity": 0}
+		"puzzles": {}, "puzzle_pity": 0, "displays": []}
 	for k in defaults:
 		if not d.has(k):
 			d[k] = defaults[k]

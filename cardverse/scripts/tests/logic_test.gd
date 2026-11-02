@@ -151,6 +151,32 @@ func run() -> int:
 		if DB.rarity(r).get("special", false):
 			for b in DB.boosters:
 				check(not BoosterLogic.slot_odds(b).has(r), "rareté spéciale absente des tirages " + b.id)
+	print("== Boosters de type, displays et coffrets")
+	var rng5 := RandomNumberGenerator.new()
+	rng5.seed = 21
+	for b in DB.boosters:
+		if b.has("elements"):
+			for i in 40:
+				for x in BoosterLogic.open(b, {}, rng5):
+					check(DB.card(x.id).element in b.elements, b.id + " ne donne que son élément")
+	for dd in DB.products.displays:
+		check(not DB.booster(dd.booster).is_empty(), "display -> booster existant " + dd.id)
+		# simule 30 displays : la garantie doit toujours être obtenue
+		for run in 30:
+			var pity5 := {"legendary_plus": 0, "mythic_plus": 0}
+			var hit := false
+			for k in int(dd.count):
+				if k == int(dd.count) - 1 and not hit:
+					var key := "mythic_plus" if DB.rarity_index(dd.guarantee) >= DB.rarity_index("M") else "legendary_plus"
+					pity5[key] = int(DB.pity[key].hard) - 1
+				for x in BoosterLogic.open(DB.booster(dd.booster), pity5, rng5):
+					if DB.rarity_index(DB.card(x.id).rarity) >= DB.rarity_index(dd.guarantee):
+						hit = true
+			check(hit, "garantie du display " + dd.id)
+	for bx in DB.products.boxes:
+		check(DB.cards.has(bx.promo.card) and DB.variants.has(bx.promo.variant), "promo valide " + bx.id)
+		for k in bx.boosters:
+			check(not DB.booster(k).is_empty(), "booster du coffret existant " + k)
 	print("== Atelier et passe")
 	for r in DB.forge.evolutions:
 		check(DB.cards.has(r.from) and DB.cards.has(r.to), "recette d'évolution valide " + r.from)

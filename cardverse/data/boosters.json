@@ -2,7 +2,7 @@
  "boosters": [
   {
    "id": "classic",
-   "name": "Booster Genèse",
+   "name": "Booster Genèse · Gén. 1",
    "desc": "Toutes les cartes du set Genèse.",
    "price": {
     "coins": 100
@@ -13,11 +13,13 @@
    "color": "#4a7dff",
    "sets": [
     "genesis"
-   ]
+   ],
+   "gen": 1,
+   "group": "gen"
   },
   {
    "id": "eclipse",
-   "name": "Booster Éclipse",
+   "name": "Booster Éclipse · Gén. 2",
    "desc": "Set 2 : Envol, Silence et Renvoi. Toutes les cartes Éclipse.",
    "price": {
     "coins": 120
@@ -28,11 +30,13 @@
    ],
    "focus": {},
    "luck": 1.0,
-   "color": "#c8902a"
+   "color": "#c8902a",
+   "gen": 2,
+   "group": "gen"
   },
   {
    "id": "primal",
-   "name": "Booster Âge Primitif",
+   "name": "Booster Âge Primitif · Gén. 3",
    "desc": "Set 3 : dinosaures, titans et raretés Primitives. Super Rares plus fréquentes.",
    "price": {
     "coins": 140
@@ -43,7 +47,23 @@
    ],
    "focus": {},
    "luck": 1.2,
-   "color": "#e07a2a"
+   "color": "#e07a2a",
+   "gen": 3,
+   "group": "gen"
+  },
+  {
+   "id": "multiverse",
+   "name": "Booster Multivers",
+   "desc": "Toutes les générations mélangées. Idéal pour compléter l'album.",
+   "price": {
+    "coins": 130
+   },
+   "cards": 5,
+   "focus": {},
+   "luck": 1.0,
+   "color": "#7a6cff",
+   "group": "gen",
+   "gen": 0
   },
   {
    "id": "dragons",
@@ -63,7 +83,8 @@
     ]
    },
    "luck": 1.1,
-   "color": "#e0502e"
+   "color": "#e0502e",
+   "group": "special"
   },
   {
    "id": "abyss",
@@ -83,7 +104,8 @@
     ]
    },
    "luck": 1.1,
-   "color": "#1fb5b0"
+   "color": "#1fb5b0",
+   "group": "special"
   },
   {
    "id": "cosmic",
@@ -103,7 +125,8 @@
     ]
    },
    "luck": 1.6,
-   "color": "#a04cff"
+   "color": "#a04cff",
+   "group": "special"
   },
   {
    "id": "divine",
@@ -122,7 +145,8 @@
     ]
    },
    "luck": 2.0,
-   "color": "#ffc94a"
+   "color": "#ffc94a",
+   "group": "special"
   },
   {
    "id": "event",
@@ -145,7 +169,8 @@
    },
    "luck": 1.5,
    "color": "#ff7a3a",
-   "event": "phoenix"
+   "event": "phoenix",
+   "group": "special"
   },
   {
    "id": "secret",
@@ -158,7 +183,178 @@
    "focus": {},
    "luck": 4.0,
    "color": "#40ffc0",
-   "min_level": 5
+   "min_level": 5,
+   "group": "special"
+  },
+  {
+   "id": "type_feu",
+   "name": "Booster Type Feu",
+   "desc": "Uniquement des cartes de type Feu, toutes générations confondues.",
+   "price": {
+    "coins": 140
+   },
+   "cards": 5,
+   "elements": [
+    "feu"
+   ],
+   "focus": {},
+   "luck": 1.0,
+   "color": "#ff6a2b",
+   "group": "type",
+   "mascot": "f004"
+  },
+  {
+   "id": "type_eau",
+   "name": "Booster Type Eau",
+   "desc": "Uniquement des cartes de type Eau, toutes générations confondues.",
+   "price": {
+    "coins": 140
+   },
+   "cards": 5,
+   "elements": [
+    "eau"
+   ],
+   "focus": {},
+   "luck": 1.0,
+   "color": "#3fa8ff",
+   "group": "type",
+   "mascot": "w004"
+  },
+  {
+   "id": "type_terre",
+   "name": "Booster Type Terre",
+   "desc": "Uniquement des cartes de type Terre, toutes générations confondues.",
+   "price": {
+    "coins": 140
+   },
+   "cards": 5,
+   "elements": [
+    "terre"
+   ],
+   "focus": {},
+   "luck": 1.0,
+   "color": "#c79a62",
+   "group": "type",
+   "mascot": "pr36"
+  },
+  {
+   "id": "type_foudre",
+   "name": "Booster Type Foudre",
+   "desc": "Uniquement des cartes de type Foudre, toutes générations confondues.",
+   "price": {
+    "coins": 140
+   },
+   "cards": 5,
+   "elements": [
+    "foudre"
+   ],
+   "focus": {},
+   "luck": 1.0,
+   "color": "#e8c020",
+   "group": "type",
+   "mascot": "l006"
+  },
+  {
+   "id": "type_glace",
+   "name": "Booster Type Glace",
+   "desc": "Uniquement des cartes de type Glace, toutes générations confondues.",
+   "price": {
+    "coins": 140
+   },
+   "cards": 5,
+   "elements": [
+    "glace"
+   ],
+   "focus": {},
+   "luck": 1.0,
+   "color": "#7fc8f0",
+   "group": "type",
+   "mascot": "i004"
+  },
+  {
+   "id": "type_nature",
+   "name": "Booster Type Nature",
+   "desc": "Uniquement des cartes de type Nature, toutes générations confondues.",
+   "price": {
+    "coins": 140
+   },
+   "cards": 5,
+   "elements": [
+    "nature"
+   ],
+   "focus": {},
+   "luck": 1.0,
+   "color": "#4fb85a",
+   "group": "type",
+   "mascot": "n007"
+  },
+  {
+   "id": "type_ombre",
+   "name": "Booster Type Ombre",
+   "desc": "Uniquement des cartes de type Ombre, toutes générations confondues.",
+   "price": {
+    "coins": 140
+   },
+   "cards": 5,
+   "elements": [
+    "ombre"
+   ],
+   "focus": {},
+   "luck": 1.0,
+   "color": "#9a4ce0",
+   "group": "type",
+   "mascot": "s003"
+  },
+  {
+   "id": "type_lumiere",
+   "name": "Booster Type Lumière",
+   "desc": "Uniquement des cartes de type Lumière, toutes générations confondues.",
+   "price": {
+    "coins": 140
+   },
+   "cards": 5,
+   "elements": [
+    "lumiere"
+   ],
+   "focus": {},
+   "luck": 1.0,
+   "color": "#e8c870",
+   "group": "type",
+   "mascot": "h003"
+  },
+  {
+   "id": "type_cosmique",
+   "name": "Booster Type Cosmique",
+   "desc": "Uniquement des cartes de type Cosmique, toutes générations confondues.",
+   "price": {
+    "coins": 140
+   },
+   "cards": 5,
+   "elements": [
+    "cosmique"
+   ],
+   "focus": {},
+   "luck": 1.0,
+   "color": "#e060c8",
+   "group": "type",
+   "mascot": "c003"
+  },
+  {
+   "id": "type_neant",
+   "name": "Booster Type Néant",
+   "desc": "Uniquement des cartes de type Néant, toutes générations confondues.",
+   "price": {
+    "coins": 140
+   },
+   "cards": 5,
+   "elements": [
+    "neant"
+   ],
+   "focus": {},
+   "luck": 1.0,
+   "color": "#30c898",
+   "group": "type",
+   "mascot": "v004"
   }
  ]
 }

@@ -115,7 +115,7 @@ func setup(_p: Dictionary) -> void:
 		_tutorial.call_deferred(0)
 	elif Profile.login_available():
 		_login_popup.call_deferred()
-	elif Profile.d.get("seen_version", "0.3") < "0.3":
+	elif Profile.d.get("seen_version", "0.4") < "0.4":
 		_news.call_deferred()
 
 func _event_banner(ev: Dictionary) -> Control:
@@ -214,7 +214,7 @@ const TUTO := [
 func _tutorial(step: int) -> void:
 	if step >= TUTO.size():
 		Profile.d.tutorial_done = true
-		Profile.d.seen_version = "0.3"
+		Profile.d.seen_version = "0.4"
 		Profile.save_game()
 		if Profile.login_available():
 			_login_popup()
@@ -231,9 +231,9 @@ func _tutorial(step: int) -> void:
 	main.modal(TUTO[step][0], v, btns)
 
 func _news() -> void:
-	var l := UI.label("• Set 3 ÂGE PRIMITIF : 48 cartes (dont 9 Super Rares) et le Booster Âge Primitif\n• Nouvelle rareté PRIMITIF : cadre d'os et d'ambre aux runes animées\n• Nouvelle rareté SWAP : trouve des pièces de puzzle dans les boosters ; 9 pièces reconstituent la carte, qui se révèle pièce par pièce dans l'Album\n• Effets animés des cartes rares : particules de leur élément, relief qui suit l'inclinaison, lumière qui court sur le cadre\n• Entrée spectaculaire en combat pour les Super Rares et plus\n• Nouvelles mécaniques : Piétinement, vol de créature, échanges SWAP\n• Défilement au doigt dans toutes les listes", 20, UI.TEXT, "body", 600)
+	var l := UI.label("• DISPLAYS (Boutique > Displays) : une caisse de 12 à 18 boosters à ouvrir un par un, avec un Légendaire garanti (Mythique pour le Multivers). Tu peux t'arrêter et reprendre plus tard.\n• COFFRETS : une carte promo précise garantie (Vorrak Secret Art, Séléné Full Art, Gaïarch Full Art, Licorne Prismatique), des boosters et des jetons spéciaux, avec une ouverture animée.\n• BOOSTERS PAR GÉNÉRATION : Gén. 1 Genèse, Gén. 2 Éclipse, Gén. 3 Âge Primitif et Multivers (toutes générations).\n• BOOSTERS PAR TYPE : un booster pour chacun des 10 éléments.", 20, UI.TEXT, "body", 600)
 	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	l.custom_minimum_size = Vector2(560, 0)
-	main.modal("Nouveautés 0.3", l, [["Génial !", UI.ACCENT, func():
-		Profile.d.seen_version = "0.3"
+	main.modal("Nouveautés 0.4", l, [["Génial !", UI.ACCENT, func():
+		Profile.d.seen_version = "0.4"
 		Profile.save_game()]])

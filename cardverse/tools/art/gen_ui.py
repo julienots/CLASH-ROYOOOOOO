@@ -247,7 +247,21 @@ PACKS = {
     "secret": ((10, 10, 14), (120, 255, 210), "v003"),
     "eclipse": ((30, 18, 50), (255, 190, 90), "ec37"),
     "primal": ((90, 50, 20), (255, 170, 70), "pr45"),
+    "multiverse": ((50, 40, 140), (160, 200, 255), "c004"),
 }
+
+
+def _hex(h):
+    h = h.lstrip("#")
+    return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
+
+
+def type_packs():
+    bs = json.load(open(os.path.join(ROOT, "data", "boosters.json"), encoding="utf-8"))["boosters"]
+    for b in bs:
+        if b.get("group") == "type":
+            c = _hex(b["color"])
+            PACKS[b["id"]] = (tuple(int(v * 0.55) for v in c), tuple(min(255, int(v * 1.3) + 40) for v in c), b["mascot"])
 
 
 def pack(key):
@@ -384,6 +398,7 @@ def main():
     for r in FRAMES:
         frame(r).save(os.path.join(out, "frames", r + ".png"), optimize=True)
     card_back().save(os.path.join(out, "card_back.png"), optimize=True)
+    type_packs()
     for k in PACKS:
         pack(k).save(os.path.join(out, "packs", k + ".png"), optimize=True)
     for k, im in icons().items():

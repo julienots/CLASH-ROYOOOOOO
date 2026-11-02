@@ -20,6 +20,7 @@ var progression := {}
 var events: Array = []
 var layout := {}
 var forge := {}
+var products := {}
 var season := {}
 
 var _tex_cache := {}
@@ -42,6 +43,7 @@ func _ready() -> void:
 	events = _json("res://data/events.json").events
 	layout = _json("res://data/card_layout.json")
 	forge = _json("res://data/forge.json")
+	products = _json("res://data/products.json")
 	season = _json("res://data/season.json")
 	for f in _list("res://data/cards", ".json"):
 		var s: Dictionary = _json("res://data/cards/" + f)
@@ -81,6 +83,12 @@ func _json(path: String) -> Variant:
 		push_error("JSON invalide : " + path)
 		return {}
 	return v
+
+func product(kind: String, id: String) -> Dictionary:
+	for p in products.get(kind, []):
+		if p.id == id:
+			return p
+	return {}
 
 func puzzle_cfg() -> Dictionary:
 	return _json_cache_get("puzzle")

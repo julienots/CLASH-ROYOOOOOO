@@ -16,6 +16,7 @@ Jeu mobile de cartes à collectionner en **portrait** (Godot 4.3). Il propose 14
 
 - **Accueil** : récompense quotidienne, ta carte la plus précieuse, accès rapide aux boosters, aux combats, aux missions et à l'événement.
 - **Boutique → Boosters** : touche le prix (ou GRATUIT), fais tourner le paquet, **glisse le doigt le long du haut** pour le déchirer, puis touche chaque carte pour la retourner. Le bouton **i** affiche les probabilités exactes.
+- **Boutique → Displays** : achète une caisse de boosters et ouvre-les un par un (Légendaire garanti). Les **Coffrets** contiennent une carte promo exclusive, des boosters et des jetons.
 - **Album** : filtre par élément (icônes), rareté ou famille ; recherche, tri, favoris, comparaison, recyclage des doublons, récompenses de collection. Touche une carte pour l'inspecter et incline-la du doigt.
 - **Combat** : touche une carte de ta main pour l'agrandir, puis **JOUER** (choisis une cible si besoin). Touche une de tes créatures prêtes (contour vert), puis une cible ennemie pour attaquer. Les créatures avec **Garde** doivent être attaquées en premier. Un élément favorable inflige des dégâts x1,5. Le pouvoir du leader coûte 2 énergie.
 - **Atelier** (accueil) : fais évoluer tes créatures (3 exemplaires et de la Poussière d'étoile), découvre les transformations secrètes, crée des cartes ou applique des variantes.

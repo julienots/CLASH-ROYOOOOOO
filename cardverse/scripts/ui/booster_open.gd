@@ -548,6 +548,7 @@ func _summary() -> void:
 	again_b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var can: bool = Profile.can_pay(booster.price) or Profile.free_count(booster.id) > 0
 	again_b.disabled = not can
+	again_b.visible = not has_meta("no_again")
 	again_b.pressed.connect(func():
 		var main = get_tree().root.get_node("Main")
 		queue_free()

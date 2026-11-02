@@ -1,0 +1,129 @@
+{
+ "displays": [
+  {
+   "id": "display_genesis",
+   "name": "Display Genèse",
+   "booster": "classic",
+   "count": 12,
+   "price": {
+    "coins": 950
+   },
+   "guarantee": "L",
+   "color": "#4a7dff"
+  },
+  {
+   "id": "display_eclipse",
+   "name": "Display Éclipse",
+   "booster": "eclipse",
+   "count": 12,
+   "price": {
+    "coins": 1150
+   },
+   "guarantee": "L",
+   "color": "#c8902a"
+  },
+  {
+   "id": "display_primal",
+   "name": "Display Âge Primitif",
+   "booster": "primal",
+   "count": 12,
+   "price": {
+    "coins": 1350
+   },
+   "guarantee": "L",
+   "color": "#e07a2a"
+  },
+  {
+   "id": "display_multiverse",
+   "name": "Display Multivers",
+   "booster": "multiverse",
+   "count": 18,
+   "price": {
+    "crystals": 220
+   },
+   "guarantee": "M",
+   "color": "#7a6cff"
+  }
+ ],
+ "boxes": [
+  {
+   "id": "box_dragon",
+   "name": "Coffret Maître des Dragons",
+   "desc": "La carte promo Vorrak en Secret Art, 6 boosters et 3 jetons spéciaux.",
+   "price": {
+    "coins": 2200
+   },
+   "boosters": {
+    "dragons": 4,
+    "classic": 2
+   },
+   "tokens": 3,
+   "promo": {
+    "card": "f004",
+    "variant": "secret"
+   },
+   "color": "#d8452f"
+  },
+  {
+   "id": "box_eclipse",
+   "name": "Coffret Éclipse Totale",
+   "desc": "La carte promo Séléné en Full Art, 6 boosters Éclipse et 2 jetons spéciaux.",
+   "price": {
+    "coins": 2400
+   },
+   "boosters": {
+    "eclipse": 6
+   },
+   "tokens": 2,
+   "promo": {
+    "card": "ec28",
+    "variant": "fullart"
+   },
+   "color": "#c8902a"
+  },
+  {
+   "id": "box_primal",
+   "name": "Coffret des Titans",
+   "desc": "La carte promo Gaïarch en Full Art, 5 boosters Âge Primitif, 1 booster Type Terre et 2 jetons.",
+   "price": {
+    "coins": 2600
+   },
+   "boosters": {
+    "primal": 5,
+    "type_terre": 1
+   },
+   "tokens": 2,
+   "promo": {
+    "card": "pr36",
+    "variant": "fullart"
+   },
+   "color": "#e07a2a"
+  },
+  {
+   "id": "box_elements",
+   "name": "Coffret des 10 Éléments",
+   "desc": "Un booster de chaque type, la carte promo Licorne Prismatique en Prismatique et 4 jetons.",
+   "price": {
+    "crystals": 350
+   },
+   "boosters": {
+    "type_feu": 1,
+    "type_eau": 1,
+    "type_terre": 1,
+    "type_foudre": 1,
+    "type_glace": 1,
+    "type_nature": 1,
+    "type_ombre": 1,
+    "type_lumiere": 1,
+    "type_cosmique": 1,
+    "type_neant": 1
+   },
+   "tokens": 4,
+   "promo": {
+    "card": "h005",
+    "variant": "prisma"
+   },
+   "color": "#7a6cff"
+  }
+ ]
+}

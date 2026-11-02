@@ -6,7 +6,7 @@ var tab := "boosters"
 var body: VBoxContainer
 var _tabs := {}
 
-const TABS := [["boosters", "Boosters"], ["offers", "Offres"], ["singles", "Cartes"], ["cosmetics", "Style"], ["premium", "Cristaux"]]
+const TABS := [["boosters", "Boosters"], ["products", "Displays"], ["offers", "Offres"], ["singles", "Cartes"], ["cosmetics", "Style"], ["premium", "Cristaux"]]
 const BACK_HUES := {"back_ember": 0.62, "back_jade": 0.35, "back_gold": 0.83, "back_eclipse": 0.12}
 const SINGLE_PRICE := {"C": 40, "U": 80, "R": 180, "SR": 350, "E": 700, "L": 1800}
 const COSMETICS := [
@@ -41,7 +41,7 @@ func setup(p: Dictionary) -> void:
 		b.custom_minimum_size = Vector2(0, 58)
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		b.add_theme_font_override("font", UI.font("body", 800))
-		b.add_theme_font_size_override("font_size", 20)
+		b.add_theme_font_size_override("font_size", 17)
 		var k: String = td[0]
 		b.pressed.connect(func(): Sfx.play("click"); tab = k; _build())
 		_tabs[k] = b
@@ -69,6 +69,7 @@ func _build() -> void:
 		c.queue_free()
 	match tab:
 		"boosters": _boosters()
+		"products": _products()
 		"offers": _offers()
 		"singles": _singles()
 		"cosmetics": _cosmetics()
@@ -81,10 +82,14 @@ func _boosters() -> void:
 		int(DB.pity.legendary_plus.hard) - int(pity.get("legendary_plus", 0)), int(DB.pity.mythic_plus.hard) - int(pity.get("mythic_plus", 0))], 19, UI.ACCENT2, "body", 700)
 	info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body.add_child(info)
-	for b in DB.boosters:
-		if b.has("event") and DB.active_event().get("id", "") != b.event:
-			continue
-		body.add_child(_booster_row(b))
+	for grp in [["gen", "Par génération", "Gén. 1 Genèse · Gén. 2 Éclipse · Gén. 3 Âge Primitif · Multivers"], ["type", "Par type", "Uniquement les cartes d'un élément, toutes générations"], ["special", "Boosters spéciaux", "Thèmes, chances accrues, événement"]]:
+		body.add_child(_section(grp[1], grp[2]))
+		for b in DB.boosters:
+			if b.get("group", "special") != grp[0]:
+				continue
+			if b.has("event") and DB.active_event().get("id", "") != b.event:
+				continue
+			body.add_child(_booster_row(b))
 
 func _booster_row(b: Dictionary) -> Control:
 	var col := Color(b.color)
@@ -143,8 +148,16 @@ func open_booster(b: Dictionary, test := false) -> void:
 		elif not Profile.pay(b.price):
 			main.show_toast("Pas assez de %s." % Profile.CURRENCY_NAMES.get(b.price.keys()[0], ""), "error")
 			return
+	open_pack(main, b, {"force_piece": test and get_meta("force_piece", false)})
+
+## Tire et ouvre un booster déjà payé. opts : force_min (rareté garantie), force_piece. Renvoie l'écran d'ouverture.
+static func open_pack(main_node: Control, b: Dictionary, opts := {}) -> Control:
 	var rng := RandomNumberGenerator.new()
 	rng.randomize()
+	var force: String = opts.get("force_min", "")
+	if force != "":
+		var key := "mythic_plus" if DB.rarity_index(force) >= DB.rarity_index("M") else "legendary_plus"
+		Profile.d.pity[key] = maxi(int(Profile.d.pity.get(key, 0)), int(DB.pity[key].hard) - 1)
 	var res := BoosterLogic.open(b, Profile.d.pity, rng)
 	for r in res:
 		r["new"] = Profile.add_card(r.id, r.variant)
@@ -153,7 +166,7 @@ func open_booster(b: Dictionary, test := false) -> void:
 	# pièce de puzzle SWAP éventuelle
 	var st := {"pity": int(Profile.d.puzzle_pity), "puzzles": Profile.d.puzzles}
 	var piece := BoosterLogic.roll_piece(b, st, rng)
-	if test and piece.is_empty() and get_meta("force_piece", false):
+	if opts.get("force_piece", false) and piece.is_empty():
 		piece = BoosterLogic.roll_piece(b, {"pity": 999, "puzzles": Profile.d.puzzles}, rng)
 	Profile.d.puzzle_pity = int(st.pity)
 	if not piece.is_empty():
@@ -164,7 +177,9 @@ func open_booster(b: Dictionary, test := false) -> void:
 	Profile.save_game()
 	var o = load("res://scripts/ui/booster_open.gd").new()
 	o.setup(b, res, piece)
-	main.open_overlay(o, true)
+	o.set_meta("results", res)
+	main_node.open_overlay(o, true)
+	return o
 
 func _show_odds(b: Dictionary) -> void:
 	var v := UI.vbox(6)
@@ -198,6 +213,101 @@ func _show_odds(b: Dictionary) -> void:
 	main.modal("Probabilités", v)
 
 # ---------------------------------------------------------------- offres
+# ---------------------------------------------------------------- displays et coffrets
+func _products() -> void:
+	var mine: Array = Profile.d.get("displays", [])
+	if not mine.is_empty():
+		body.add_child(_section("Tes displays en cours", "Reprends l'ouverture là où tu t'es arrêté"))
+		for i in mine.size():
+			var dsp: Dictionary = mine[i]
+			var dd := DB.product("displays", dsp.id)
+			var b := UI.button("%s · %d / %d boosters restants" % [dd.name, int(dsp.left), int(dd.count)], Color(dd.color).darkened(0.2), 22, Vector2(0, 80), "ui_gift")
+			var idx: int = i
+			b.pressed.connect(func(): open_display(idx))
+			body.add_child(b)
+	body.add_child(_section("Displays", "Une caisse de boosters à ouvrir un par un, avec une carte garantie"))
+	for dd in DB.products.displays:
+		body.add_child(_product_row(dd, true))
+	body.add_child(_section("Coffrets", "Boosters, jetons et une carte promo précise garantie"))
+	for bx in DB.products.boxes:
+		body.add_child(_product_row(bx, false))
+
+func _product_row(pd: Dictionary, is_display: bool) -> Control:
+	var col := Color(pd.color)
+	var p := PanelContainer.new()
+	var st := UI.box(col.darkened(0.72), 24, col, 3, 8)
+	st.content_margin_left = 14
+	st.content_margin_right = 14
+	st.content_margin_top = 14
+	st.content_margin_bottom = 14
+	p.add_theme_stylebox_override("panel", st)
+	var h := UI.hbox(14)
+	var pv := Control.new()
+	pv.custom_minimum_size = Vector2(170, 200)
+	if is_display:
+		var box := Panel.new()
+		box.position = Vector2(0, 40)
+		box.size = Vector2(170, 150)
+		box.add_theme_stylebox_override("panel", UI.box(col.darkened(0.35), 10, col.lightened(0.3), 3))
+		pv.add_child(box)
+		for k in 6:
+			var t := TextureRect.new()
+			t.texture = DB.tex("res://assets/ui/packs/%s.png" % pd.booster)
+			t.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			t.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+			t.size = Vector2(46, 72)
+			t.position = Vector2(8 + k * 26, 6 + (k % 2) * 6)
+			t.rotation = (k - 2.5) * 0.04
+			pv.add_child(t)
+		var lb := UI.label("x%d" % int(pd.count), 30, Color.WHITE, "num", 400, HORIZONTAL_ALIGNMENT_CENTER)
+		UI.outline(lb, 6)
+		lb.position = Vector2(0, 110)
+		lb.size = Vector2(170, 50)
+		pv.add_child(lb)
+	else:
+		var hld := CardView.holder(pd.promo.card, 0.3, pd.promo.variant)
+		hld.position = Vector2(18, 4)
+		pv.add_child(hld)
+	h.add_child(pv)
+	var v := UI.vbox(8)
+	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var n := UI.label(pd.name, 27, Color.WHITE, "serif", 800)
+	UI.outline(n, 6)
+	n.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	v.add_child(n)
+	var dtxt: String = pd.get("desc", "")
+	if is_display:
+		dtxt = "%d × %s. %s ou mieux garanti dans le display." % [int(pd.count), DB.booster(pd.booster).name, DB.rarity(pd.guarantee).name]
+	var d := UI.label(dtxt, 18, UI.TEXT, "body", 600)
+	d.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	v.add_child(d)
+	var buy := UI.price_button(pd.price, col.darkened(0.15), 24)
+	buy.pressed.connect(func():
+		if not Profile.pay(pd.price):
+			main.show_toast("Pas assez de ressources.", "error")
+			return
+		Sfx.play("buy")
+		if is_display:
+			Profile.d.displays.append({"id": pd.id, "left": int(pd.count), "hit": false})
+			Profile.save_game()
+			open_display(Profile.d.displays.size() - 1)
+		else:
+			open_box(pd))
+	v.add_child(buy)
+	h.add_child(v)
+	p.add_child(h)
+	return p
+
+func open_display(i: int) -> void:
+	var o = load("res://scripts/ui/display_open.gd").new()
+	o.setup(i)
+	main.open_overlay(o, true)
+
+func open_box(pd: Dictionary) -> void:
+	var o = load("res://scripts/ui/box_open.gd").new()
+	o.setup(pd)
+	main.open_overlay(o, true)
+
 func _today() -> String:
 	return Time.get_date_string_from_system()
 

@@ -260,3 +260,11 @@ Client Godot ──HTTPS/WebSocket──► Passerelle (Nakama ou service Go)
   - **entrée spectaculaire en combat** des cartes Super Rares et plus (rayons, éclats, titre, tremblement pour Légendaire et plus).
 - **Défilement tactile global** de toutes les listes, sans clic parasite.
 - **Tests** : Piétinement, vol, échanges, fréquence et garantie des pièces, exclusion des raretés spéciales des tirages.
+
+## 12. Version 0.4 : produits scellés
+
+- **Boosters par génération** (`group: "gen"`) : Gén. 1 Genèse, Gén. 2 Éclipse, Gén. 3 Âge Primitif, et le Booster Multivers (toutes générations). **Boosters par type** (`group: "type"`, champ `elements`) : 10 boosters ne contenant que les cartes d'un élément.
+- **Displays** (`data/products.json`, écran `display_open.gd`) : une caisse de 12 boosters (18 pour le Multivers) à prix réduit, ouverts un par un. La rareté garantie (Légendaire, ou Mythique pour le Multivers) est forcée au dernier booster si elle n'est pas encore sortie, via le mécanisme de pity. Les displays en cours sont sauvegardés et peuvent être repris.
+- **Coffrets** (écran `box_open.gd`) : une **carte promo précise** dans une variante exclusive, des boosters ajoutés à la réserve (boosters gratuits par type) et des jetons spéciaux. Le contenu est crédité dès l'ouverture de l'écran.
+- L'ouverture d'un booster est centralisée (`shop.gd::open_pack`) et partagée par la boutique, les displays et les coffrets.
+- **Tests** : exclusivité des boosters de type, 30 displays simulés par type de display (garantie toujours obtenue), validité des coffrets. Les parcours display et coffret ont été joués avec de vrais événements tactiles, ce qui a permis de corriger un coffret qui ne s'ouvrait pas au toucher.

@@ -227,6 +227,59 @@ func run(main: Control, arg: String) -> void:
 			await _wait(0.9)
 			main.get_viewport().get_texture().get_image().save_png("/tmp/claude-0/shots/splash_mid.png")
 			print("splash : fx_layer enfants pendant=", b.fx_layer.get_child_count(), " overlay=", main.overlay.get_child_count(), " top=", main.overlay.get_child(main.overlay.get_child_count() - 1))],
+		["shop_types", func():
+			_clear(main)
+			main.goto("shop", {"tab": "boosters"})
+			await _wait(0.6)
+			var sc: ScrollContainer = main._scroll_at(Vector2(360, 900))
+			sc.scroll_vertical = 1250],
+		["products", func(): main.goto("shop", {"tab": "products"})],
+		["display", func():
+			Profile.d.coins = 5000
+			Profile.d.crystals = 2000
+			main.goto("shop", {"tab": "products"})
+			await _wait(0.5)
+			Profile.d.displays.append({"id": "display_primal", "left": 12, "hit": false})
+			main.current.open_display(Profile.d.displays.size() - 1)
+			await _wait(1.2)],
+		["display_pack", func():
+			var d = _ov(main)
+			var first: Control = d.grid.get_child(0)
+			await _tap(main, first.global_position + first.size / 2)
+			await _wait(2.0)
+			var o = _ov(main)
+			print("display : écran au-dessus = ", o.get_script().resource_path.get_file())
+			o.auto_tear()
+			await _wait(2.5)
+			var guard := 0
+			while o.phase != "summary" and guard < 40:
+				guard += 1
+				if o.phase == "puzzle":
+					var pc := _find_button(o, "Continuer")
+					if pc:
+						await _tap(main, pc.global_position + pc.size / 2)
+				else:
+					await _tap(main, main.get_viewport_rect().size / 2)
+				await _wait(1.0)
+			await _wait(1.0)
+			var again := _find_button(o, "Encore un")
+			print("display : bouton Encore un visible = ", again.visible if again else "absent")
+			var cont := _find_button(o, "Continuer")
+			if cont:
+				await _tap(main, cont.global_position + cont.size / 2)
+			await _wait(1.0)
+			var top = _ov(main)
+			print("display : retour = ", top.get_script().resource_path.get_file(), " restants=", top.dsp.left,)],
+		["box", func():
+			_clear(main)
+			await _wait(0.3)
+			var free_before := Profile.free_count("dragons")
+			main.current.open_box(DB.product("boxes", "box_dragon"))
+			await _wait(1.3)
+			print("coffret : boosters Draconique crédités = ", Profile.free_count("dragons") - free_before, " promo possédée = ", Profile.entry("f004").get("variants", {}).has("secret"))
+			await _tap(main, Vector2(360, 700))
+			await _wait(3.2)],
+		["box_done", func(): await _wait(3.5)],
 		["shop_offers", func(): _clear(main); main.goto("shop", {"tab": "offers"})],
 		["shop_singles", func(): main.goto("shop", {"tab": "singles"})],
 		["shop_style", func(): main.goto("shop", {"tab": "cosmetics"})],
@@ -317,6 +370,15 @@ func _drag(main: Control, a: Vector2, b: Vector2, steps := 12) -> void:
 	r.position = b
 	r.global_position = b
 	main.get_viewport().push_input(r)
+
+func _find_button(n: Node, text: String) -> Button:
+	if n is Button and n.text == text:
+		return n
+	for c in n.get_children():
+		var r := _find_button(c, text)
+		if r:
+			return r
+	return null
 
 func _ov(main: Control):
 	var c: Array = main.overlay.get_children()
