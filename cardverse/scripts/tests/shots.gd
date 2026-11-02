@@ -71,6 +71,33 @@ func run(main: Control, arg: String) -> void:
 					played = true
 					break
 			print("toucher combat : carte jouée=", played, " créatures sur le terrain=", b.g.pl[0].board.size(), " main=", b.g.pl[0].hand.size())],
+		["touch_scroll", func():
+			_clear(main)
+			await _wait(0.3)
+			main.goto("collection")
+			await _wait(0.8)
+			var sc: ScrollContainer = main._scroll_at(Vector2(360, 900))
+			print("scroll trouvé : ", sc, " max=", sc.get_v_scroll_bar().max_value if sc else -1, " h=", sc.size.y if sc else -1)
+			var before: int = sc.scroll_vertical
+			# glisser vers le haut en partant d'une carte
+			await _drag(main, Vector2(200, 1000), Vector2(200, 500), 16)
+			await _wait(0.8)
+			var opened: int = main.overlay.get_child_count()
+			print("toucher défilement : avant=", before, " après=", sc.scroll_vertical, " fiches ouvertes=", opened)
+			# un simple toucher sur une carte doit toujours ouvrir sa fiche
+			await _tap(main, Vector2(200, 900))
+			await _wait(0.6)
+			print("toucher simple : fiches ouvertes=", main.overlay.get_child_count())
+			_clear(main)
+			await _wait(0.3)
+			main.goto("shop", {"tab": "boosters"})
+			await _wait(0.8)
+			var sc2: ScrollContainer = main._scroll_at(Vector2(360, 900))
+			var b2: int = sc2.scroll_vertical if sc2 else -1
+			var coins: int = Profile.get_cur("coins")
+			await _drag(main, Vector2(500, 1050), Vector2(500, 600), 16)
+			await _wait(0.8)
+			print("boutique : défilement ", b2, " -> ", sc2.scroll_vertical if sc2 else -1, ", achat parasite=", Profile.get_cur("coins") != coins, ", superpositions=", main.overlay.get_child_count())],
 		["battle_select", func(): _clear(main); await _wait(0.3); main.goto("battle_select")],
 		["battle", func(): main.current.start_battle(1)],
 		["battle2", func():
@@ -225,9 +252,12 @@ func _drag(main: Control, a: Vector2, b: Vector2, steps := 12) -> void:
 	e.position = a
 	e.global_position = a
 	main.get_viewport().push_input(e)
+	var prev := a
 	for i in steps + 1:
 		var m := InputEventMouseMotion.new()
 		m.position = a.lerp(b, float(i) / steps)
+		m.relative = m.position - prev
+		prev = m.position
 		m.global_position = m.position
 		m.button_mask = MOUSE_BUTTON_MASK_LEFT
 		main.get_viewport().push_input(m)

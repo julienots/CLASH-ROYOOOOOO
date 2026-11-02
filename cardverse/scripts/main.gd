@@ -342,6 +342,91 @@ func modal(title: String, body: Control, buttons: Array = []) -> Control:
 	UI.pop_in(p)
 	return root
 
+# ---------------------------------------------------------------- défilement tactile global
+## Les cartes et boutons des listes captent le toucher : sans ce gestionnaire, glisser le doigt
+## sur une carte ne ferait pas défiler la liste. Au-delà d'un seuil vertical, on annule le toucher
+## en cours (pas de clic parasite) et on fait défiler le ScrollContainer sous le doigt, avec inertie.
+const DRAG_THRESHOLD := 14.0
+var _press_pos := Vector2.ZERO
+var _drag_sc: ScrollContainer
+var _dragging := false
+var _faking := false
+var _vel := 0.0
+var _inertia_sc: ScrollContainer
+
+func _input(e: InputEvent) -> void:
+	if _faking:
+		return
+	if e is InputEventMouseButton and e.button_index == MOUSE_BUTTON_LEFT:
+		if e.pressed:
+			_press_pos = e.position
+			_drag_sc = _scroll_at(e.position)
+			_dragging = false
+			_vel = 0.0
+			_inertia_sc = null
+		else:
+			if _dragging:
+				get_viewport().set_input_as_handled()
+				_inertia_sc = _drag_sc
+			_dragging = false
+			_drag_sc = null
+	elif e is InputEventMouseMotion and (e.button_mask & MOUSE_BUTTON_MASK_LEFT) and _drag_sc:
+		if not _dragging:
+			var d: Vector2 = e.position - _press_pos
+			if absf(d.y) > DRAG_THRESHOLD and absf(d.y) > absf(d.x):
+				_dragging = true
+				_cancel_press()
+		if _dragging:
+			if is_instance_valid(_drag_sc):
+				_drag_sc.scroll_vertical -= int(round(e.relative.y))
+				_vel = lerpf(_vel, -e.relative.y / maxf(get_process_delta_time(), 0.008), 0.5)
+			get_viewport().set_input_as_handled()
+
+## Relâche le toucher hors écran : le bouton ou la carte touchée ne se déclenche pas.
+func _cancel_press() -> void:
+	_faking = true
+	var far := Vector2(-10000, -10000)
+	var m := InputEventMouseMotion.new()
+	m.position = far
+	m.global_position = far
+	m.button_mask = MOUSE_BUTTON_MASK_LEFT
+	get_viewport().push_input(m)
+	var r := InputEventMouseButton.new()
+	r.button_index = MOUSE_BUTTON_LEFT
+	r.pressed = false
+	r.position = Vector2(-10000, -10000)
+	r.global_position = r.position
+	get_viewport().push_input(r)
+	_faking = false
+
+func _process(delta: float) -> void:
+	if _inertia_sc and is_instance_valid(_inertia_sc) and absf(_vel) > 20:
+		_inertia_sc.scroll_vertical += int(round(_vel * delta))
+		_vel *= pow(0.04, delta)
+	else:
+		_inertia_sc = null
+
+func _scroll_at(pos: Vector2) -> ScrollContainer:
+	var roots: Array = []
+	if overlay.get_child_count() > 0:
+		roots.append(overlay.get_child(overlay.get_child_count() - 1))
+	else:
+		roots.append(content)
+	var best: ScrollContainer = null
+	for r in roots:
+		best = _find_scroll(r, pos, best)
+	return best
+
+func _find_scroll(n: Node, pos: Vector2, best: ScrollContainer) -> ScrollContainer:
+	if n is ScrollContainer and n.is_visible_in_tree() and n.get_global_rect().has_point(pos) and n.vertical_scroll_mode != ScrollContainer.SCROLL_MODE_DISABLED:
+		var bar: VScrollBar = n.get_v_scroll_bar()
+		if bar and bar.max_value > n.size.y + 1:
+			best = n
+	for c in n.get_children():
+		if c is Control or c is CanvasLayer:
+			best = _find_scroll(c, pos, best)
+	return best
+
 # ---------------------------------------------------------------- Android : retour et mise en pause
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_APPLICATION_PAUSED or what == NOTIFICATION_WM_CLOSE_REQUEST:
