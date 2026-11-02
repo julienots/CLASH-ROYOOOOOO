@@ -52,6 +52,23 @@
    "group": "gen"
   },
   {
+   "id": "mecanica",
+   "name": "Booster Mécanica · Gén. 4",
+   "desc": "Set 4 : robots, machines vivantes et rouages. Recyclage et Super Rares fréquentes.",
+   "price": {
+    "coins": 140
+   },
+   "cards": 5,
+   "sets": [
+    "mecanica"
+   ],
+   "focus": {},
+   "luck": 1.2,
+   "color": "#4aa3c8",
+   "group": "gen",
+   "gen": 4
+  },
+  {
    "id": "multiverse",
    "name": "Booster Multivers",
    "desc": "Toutes les générations mélangées. Idéal pour compléter l'album.",

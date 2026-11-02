@@ -3,7 +3,7 @@ extends Control
 
 var main: Control
 var grid: GridContainer
-var filt := {"set": "", "element": "", "rarity": "", "family": "", "search": "", "missing": false, "fav": false, "sort": 0}
+var filt := {"preview": false, "set": "", "element": "", "rarity": "", "family": "", "search": "", "missing": false, "fav": false, "sort": 0}
 var compare_mode := false
 var compare_pick: Array = []
 var _count_label: Label
@@ -85,6 +85,8 @@ func setup(_p: Dictionary) -> void:
 	r3.add_child(mb)
 	var fb := _toggle("Favoris", func(on): filt.fav = on; rebuild())
 	r3.add_child(fb)
+	var pb := _toggle("Aperçu", func(on): filt.preview = on; rebuild())
+	r3.add_child(pb)
 	root.add_child(r3)
 	var r4 := UI.hbox(8)
 	_cmp_btn = UI.button("Comparer", Color("2f7bd1"), 20, Vector2(0, 54), "ui_compare")
@@ -178,7 +180,7 @@ func _visible_ids() -> Array:
 			continue
 		if filt.fav and not Profile.entry(id).get("fav", false):
 			continue
-		if filt.search != "" and (not owned or not (filt.search in c.name.to_lower() or filt.search in DB.ability_text(c).to_lower())):
+		if filt.search != "" and ((not owned and not filt.preview) or not (filt.search in c.name.to_lower() or filt.search in DB.ability_text(c).to_lower())):
 			continue
 		out.append(id)
 	match int(filt.sort):
@@ -201,7 +203,7 @@ func rebuild() -> void:
 		var e := Profile.entry(id)
 		var cell := UI.vbox(2)
 		var is_swap: bool = DB.card(id).rarity == "SW"
-		var h := CardView.holder(id, 0.44, _best_variant(e), "face" if owned else ("auto" if is_swap else "missing"))
+		var h := CardView.holder(id, 0.44, _best_variant(e), "face" if owned else ("auto" if is_swap else ("preview" if filt.preview else "missing")))
 		var cv: CardView = h.get_meta("card")
 		cv.fx_enabled = owned
 		cv.tapped.connect(func(_v): _on_tap(id))

@@ -397,6 +397,9 @@ func resolve(e: Dictionary, i: int, src: Dictionary, ctx: Dictionary) -> void:
 		"draw":
 			draw(i, v)
 			return
+		"add_card":
+			add_to_hand(i, e.card)
+			return
 		"swap_leaders":
 			var l0: Dictionary = pl[0].leader
 			var l1: Dictionary = pl[1].leader

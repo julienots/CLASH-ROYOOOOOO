@@ -103,6 +103,8 @@ func build() -> void:
 		amode = 5
 	if state == "missing":
 		amode = 3
+	if state == "preview":
+		amode = 6
 	am.set_shader_parameter("mode", amode)
 	am.set_shader_parameter("hue_shift", 0.5 if variant == "alt" else 0.18)
 	_art.material = am
@@ -257,13 +259,13 @@ func build() -> void:
 		"prisma": mode = 5
 		"secret": mode = 6
 		"chroma": mode = max(mode, 3)
-	if missing or not fx_enabled:
+	if missing or not fx_enabled or state == "preview":
 		mode = 0
 	fm.set_shader_parameter("mode", mode)
 	fm.set_shader_parameter("tint", rcol)
 	fm.set_shader_parameter("intensity", 0.9)
 	# particules élémentaires (Rare et plus), cadre animé (Épique et plus)
-	var fx_on := fxl >= 1 and not missing and fx_enabled
+	var fx_on := fxl >= 1 and not missing and fx_enabled and state != "preview"
 	fm.set_shader_parameter("element", DB.element_order.find(c.element) if fx_on else -1)
 	fm.set_shader_parameter("elem_color", DB.element_color(c.element))
 	fm.set_shader_parameter("fx_level", float(fxl))

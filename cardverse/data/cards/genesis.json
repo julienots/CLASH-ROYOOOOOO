@@ -1,6 +1,7 @@
 {
  "set": "genesis",
  "name": "Genèse",
+ "gen": 1,
  "cards": [
   {
    "id": "f001",

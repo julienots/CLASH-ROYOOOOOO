@@ -50,7 +50,7 @@ void fragment() {
 	}
 	if (mode == 6) {
 		float l = dot(col.rgb, vec3(0.3, 0.59, 0.11));
-		col.rgb = vec3(l) * vec3(0.55, 0.5, 0.65);
+		col.rgb = mix(vec3(l), col.rgb, 0.3) * 0.88;
 	}
 	COLOR = col * COLOR;
 }

@@ -45,8 +45,11 @@ func _ready() -> void:
 	forge = _json("res://data/forge.json")
 	products = _json("res://data/products.json")
 	season = _json("res://data/season.json")
+	var files := []
 	for f in _list("res://data/cards", ".json"):
-		var s: Dictionary = _json("res://data/cards/" + f)
+		files.append(_json("res://data/cards/" + f))
+	files.sort_custom(func(a, b): return int(a.get("gen", 99)) < int(b.get("gen", 99)))
+	for s in files:
 		var ids := []
 		for c in s.cards:
 			c["set"] = s.set
@@ -54,7 +57,7 @@ func _ready() -> void:
 			if not c.get("token", false):
 				ids.append(c.id)
 		ids.sort_custom(_album_sort)
-		sets.append({"id": s.set, "name": s.name, "cards": ids})
+		sets.append({"id": s.set, "name": s.name, "gen": int(s.get("gen", 0)), "cards": ids})
 		card_order.append_array(ids)
 	print("CARDVERSE : %d cartes chargées (%d collectionnables, %d set(s))" % [cards.size(), card_order.size(), sets.size()])
 	if card_order.is_empty():
@@ -190,6 +193,7 @@ func ability_text(c: Dictionary) -> String:
 	var lines := []
 	if line != "":
 		lines.append(line + ".")
+	c_id_hint = c.get("id", "")
 	for e in c.get("effects", []):
 		lines.append(effect_text(e))
 	if c.has("evolve"):
@@ -206,6 +210,8 @@ const TARGETS := {
 	"random_enemy_creature": "une créature ennemie aléatoire", "random_ally_creature": "une créature alliée aléatoire",
 	"self": "cette créature", "attack_target": "la cible", "strongest_enemy_creature": "la créature ennemie la plus puissante"}
 
+var c_id_hint := ""
+
 func effect_text(e: Dictionary) -> String:
 	var trig: String = TRIGGERS.get(e.get("on", "cast"), "")
 	var tgt: String = TARGETS.get(e.get("target", ""), "")
@@ -220,6 +226,7 @@ func effect_text(e: Dictionary) -> String:
 		"summon": s = "Invoque %s." % card(e.card).get("name", "?")
 		"shield": s = "Donne Bouclier à %s." % tgt
 		"destroy": s = "Détruit %s." % tgt
+		"add_card": s = ("Recyclage : ajoute une copie de cette carte à votre main." if e.card == c_id_hint else "Ajoute %s à votre main." % card(e.card).get("name", "?"))
 		"swap_stats": s = "Échange l'ATQ et les PV de %s." % tgt
 		"steal": s = "Prend le contrôle de %s." % tgt
 		"swap_leaders": s = "Échange les PV des deux leaders."

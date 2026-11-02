@@ -220,7 +220,7 @@ Client Godot ──HTTPS/WebSocket──► Passerelle (Nakama ou service Go)
 
 **Limites actuelles, annoncées honnêtement :**
 - Les illustrations sont du **pixel art procédural**, produit par recette. Chaque carte a sa silhouette et sa palette, mais ce ne sont pas des peintures faites main. Le pipeline permet de les remplacer une à une.
-- 149 cartes (3 sets), pas 2000 : l'architecture est prête, le contenu sera ajouté par sets (étape 4).
+- 196 cartes (4 sets), pas 2000 : l'architecture est prête, le contenu sera ajouté par sets (étape 4).
 - Pas de multijoueur ni de paiement réel (étape 5).
 - L'APK est signé avec une clé de développement (schéma v2, Android 7.0 minimum). Elle n'a pas été testée sur un appareil physique depuis cet environnement.
 
@@ -268,3 +268,13 @@ Client Godot ──HTTPS/WebSocket──► Passerelle (Nakama ou service Go)
 - **Coffrets** (écran `box_open.gd`) : une **carte promo précise** dans une variante exclusive, des boosters ajoutés à la réserve (boosters gratuits par type) et des jetons spéciaux. Le contenu est crédité dès l'ouverture de l'écran.
 - L'ouverture d'un booster est centralisée (`shop.gd::open_pack`) et partagée par la boutique, les displays et les coffrets.
 - **Tests** : exclusivité des boosters de type, 30 displays simulés par type de display (garantie toujours obtenue), validité des coffrets. Les parcours display et coffret ont été joués avec de vrais événements tactiles, ce qui a permis de corriger un coffret qui ne s'ouvrait pas au toucher.
+
+## 13. Version 0.5
+
+- **Set 4 « Mécanica »** (`data/cards/mecanica.json`, Gén. 4) : 46 cartes collectionnables, dont 9 Super Rares, 1 Primitive, 1 Divine et 1 SWAP (Transformax), ainsi qu'un jeton (Noyau Ardent, qui redevient Phénix Mécanique). Nouvel effet **Recyclage** (`add_card`) : la carte revient en main à sa mort. Booster, Display et Coffret Mécanica (promo Colosse Atlas-9 en Full Art).
+- **Visibilité des nouvelles cartes** :
+  - les sets sont ordonnés par génération (champ `gen`), ce qui place la numérotation de l'album dans l'ordre Gén. 1 → Gén. 4 ;
+  - bouton **Aperçu** dans l'album : il affiche les cartes non possédées en couleurs atténuées, et la fiche d'une carte non possédée montre son contenu ;
+  - **bannière « Nouveau »** sur l'accueil avec les meilleures cartes de la dernière génération ;
+  - **cadeau de mise à jour** : 1 Booster Éclipse, 2 Âge Primitif et 3 Mécanica pour les joueurs existants. Les nouveaux joueurs reçoivent un Booster Multivers et un Booster Mécanica.
+- Total : **196 cartes collectionnables** sur 4 générations.

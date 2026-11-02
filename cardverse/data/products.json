@@ -34,6 +34,17 @@
    "color": "#e07a2a"
   },
   {
+   "id": "display_mecanica",
+   "name": "Display Mécanica",
+   "booster": "mecanica",
+   "count": 12,
+   "price": {
+    "coins": 1350
+   },
+   "guarantee": "L",
+   "color": "#4aa3c8"
+  },
+  {
    "id": "display_multiverse",
    "name": "Display Multivers",
    "booster": "multiverse",
@@ -98,6 +109,23 @@
     "variant": "fullart"
    },
    "color": "#e07a2a"
+  },
+  {
+   "id": "box_mecanica",
+   "name": "Coffret de la Cité des Rouages",
+   "desc": "La carte promo Colosse Atlas-9 en Full Art, 6 boosters Mécanica et 2 jetons spéciaux.",
+   "price": {
+    "coins": 2400
+   },
+   "boosters": {
+    "mecanica": 6
+   },
+   "tokens": 2,
+   "promo": {
+    "card": "mc41",
+    "variant": "fullart"
+   },
+   "color": "#4aa3c8"
   },
   {
    "id": "box_elements",

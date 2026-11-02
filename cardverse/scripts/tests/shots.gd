@@ -280,6 +280,28 @@ func run(main: Control, arg: String) -> void:
 			await _tap(main, Vector2(360, 700))
 			await _wait(3.2)],
 		["box_done", func(): await _wait(3.5)],
+		["gift", func():
+			_clear(main)
+			Profile.d.erase("pending_gift")
+			Profile.d.gifts = []
+			Profile._migrate()
+			main.goto("home", {"r": 9})
+			await _wait(0.8)],
+		["home_new", func():
+			_clear(main)
+			Profile.d.pending_gift = false
+			main.goto("home", {"r": 10})
+			await _wait(0.5)
+			var sc: ScrollContainer = main._scroll_at(Vector2(360, 700))
+			if sc:
+				sc.scroll_vertical = 520],
+		["album_preview", func():
+			_clear(main)
+			main.goto("collection")
+			await _wait(0.5)
+			main.current.filt.preview = true
+			main.current.filt.set = "mecanica"
+			main.current.rebuild()],
 		["shop_offers", func(): _clear(main); main.goto("shop", {"tab": "offers"})],
 		["shop_singles", func(): main.goto("shop", {"tab": "singles"})],
 		["shop_style", func(): main.goto("shop", {"tab": "cosmetics"})],

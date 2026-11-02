@@ -1,0 +1,2171 @@
+{
+ "set": "mecanica",
+ "name": "Mécanica",
+ "gen": 4,
+ "cards": [
+  {
+   "id": "mc01",
+   "name": "Boulon-Boulon",
+   "type": "creature",
+   "family": "robots",
+   "element": "terre",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 2,
+   "effects": [
+    {
+     "on": "death",
+     "do": "add_card",
+     "card": "mc01"
+    }
+   ],
+   "lore": "Démonte-le, il se remonte. Remonte-le, il se démonte.",
+   "art": {
+    "arch": "orb",
+    "face": "cute",
+    "size": 0.7,
+    "orbiters": 2,
+    "c1": [
+     170,
+     150,
+     120
+    ],
+    "c3": [
+     220,
+     190,
+     120
+    ],
+    "glow": [
+     255,
+     200,
+     90
+    ],
+    "scene": "canyon",
+    "scale": 1.1
+   }
+  },
+  {
+   "id": "mc02",
+   "name": "Rouage Sentinelle",
+   "type": "creature",
+   "family": "robots",
+   "element": "terre",
+   "rarity": "C",
+   "cost": 3,
+   "atk": 2,
+   "hp": 4,
+   "keywords": [
+    "garde"
+   ],
+   "lore": "Il tourne sur lui-même depuis mille ans pour surveiller toutes les directions à la fois.",
+   "art": {
+    "arch": "biped",
+    "kind": "mech",
+    "bulk": 1.0,
+    "c1": [
+     150,
+     120,
+     80
+    ],
+    "c3": [
+     220,
+     180,
+     110
+    ],
+    "eye": [
+     255,
+     180,
+     60
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "mc03",
+   "name": "Chien de Fer",
+   "type": "creature",
+   "family": "machines",
+   "element": "feu",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 3,
+   "hp": 1,
+   "keywords": [
+    "celerite"
+   ],
+   "lore": "Il aboie des étincelles et rapporte des boulons.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "horns": "none",
+    "ears": true,
+    "spikes": true,
+    "spike_size": 0.7,
+    "bulk": 0.85,
+    "leg_len": 1.1,
+    "head": 1.35,
+    "tail": 0.7,
+    "c1": [
+     120,
+     120,
+     130
+    ],
+    "c2": [
+     200,
+     200,
+     210
+    ],
+    "c3": [
+     255,
+     140,
+     60
+    ],
+    "eye": [
+     255,
+     120,
+     40
+    ],
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "mc04",
+   "name": "Scarabée Horloger",
+   "type": "creature",
+   "family": "machines",
+   "element": "terre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 1,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "shield",
+     "target": "random_ally_creature"
+    }
+   ],
+   "lore": "Son tic-tac régulier calme les machines nerveuses.",
+   "art": {
+    "arch": "crab",
+    "c1": [
+     180,
+     140,
+     60
+    ],
+    "c3": [
+     230,
+     200,
+     120
+    ],
+    "eye": [
+     120,
+     230,
+     255
+    ],
+    "scene": "canyon",
+    "scale": 0.9,
+    "cy": 160
+   }
+  },
+  {
+   "id": "mc05",
+   "name": "Drone Éclaireur",
+   "type": "creature",
+   "family": "robots",
+   "element": "foudre",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 1,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Il voit tout, filme tout, et oublie de recharger sa batterie.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "size": 0.65,
+    "orbiters": 3,
+    "c1": [
+     90,
+     100,
+     130
+    ],
+    "eye": [
+     120,
+     230,
+     255
+    ],
+    "glow": [
+     120,
+     230,
+     255
+    ],
+    "scene": "storm",
+    "scale": 1.1
+   }
+  },
+  {
+   "id": "mc06",
+   "name": "Forgeron Automate",
+   "type": "creature",
+   "family": "robots",
+   "element": "feu",
+   "rarity": "C",
+   "cost": 3,
+   "atk": 2,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "buff",
+     "target": "random_ally_creature",
+     "value": 1,
+     "value2": 1
+    }
+   ],
+   "lore": "Il forge des armures pour les autres machines, jamais pour lui.",
+   "art": {
+    "arch": "biped",
+    "kind": "mech",
+    "bulk": 1.1,
+    "c1": [
+     110,
+     70,
+     50
+    ],
+    "c3": [
+     255,
+     160,
+     60
+    ],
+    "eye": [
+     255,
+     200,
+     90
+    ],
+    "weapon": "sword",
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "mc07",
+   "name": "Tourelle à Vapeur",
+   "type": "creature",
+   "family": "machines",
+   "element": "eau",
+   "rarity": "C",
+   "cost": 3,
+   "atk": 3,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "damage",
+     "target": "random_enemy",
+     "value": 1
+    }
+   ],
+   "lore": "Elle siffle avant de tirer. C'est sa seule politesse.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "ring": true,
+    "size": 0.8,
+    "c1": [
+     100,
+     130,
+     150
+    ],
+    "ring_c": [
+     220,
+     240,
+     255
+    ],
+    "eye": [
+     255,
+     200,
+     90
+    ],
+    "scene": "ocean",
+    "scale": 1.0
+   }
+  },
+  {
+   "id": "mc08",
+   "name": "Arc-Rouage",
+   "type": "spell",
+   "family": "machines",
+   "element": "foudre",
+   "rarity": "C",
+   "cost": 2,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "choose_enemy_creature",
+     "value": 2
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Une décharge, un rouage qui saute, une idée qui vient.",
+   "art": {
+    "arch": "spell",
+    "spell": "lightning",
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "mc09",
+   "name": "Réparation d'Urgence",
+   "type": "spell",
+   "family": "robots",
+   "element": "lumiere",
+   "rarity": "C",
+   "cost": 1,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "heal",
+     "target": "choose_ally_creature",
+     "value": 4
+    },
+    {
+     "on": "cast",
+     "do": "shield",
+     "target": "choose_ally_creature"
+    }
+   ],
+   "lore": "Un coup de clé, deux coups de marteau, trois prières.",
+   "art": {
+    "arch": "spell",
+    "spell": "holy",
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "mc10",
+   "name": "Sous-Marin Lanterne",
+   "type": "creature",
+   "family": "machines",
+   "element": "eau",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 1,
+   "hp": 4,
+   "keywords": [
+    "furtif"
+   ],
+   "lore": "Il éclaire les abysses sans jamais être vu.",
+   "art": {
+    "arch": "fish",
+    "lure": true,
+    "length": 1.1,
+    "c1": [
+     120,
+     110,
+     90
+    ],
+    "c2": [
+     200,
+     190,
+     160
+    ],
+    "c3": [
+     90,
+     80,
+     60
+    ],
+    "eye": [
+     255,
+     220,
+     120
+    ],
+    "scene": "abyss",
+    "scale": 1.0
+   }
+  },
+  {
+   "id": "mc11",
+   "name": "Araignée Mécanique",
+   "type": "creature",
+   "family": "machines",
+   "element": "neant",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 2,
+   "hp": 3,
+   "keywords": [
+    "poison"
+   ],
+   "lore": "Ses pattes cliquettent sur les murs du laboratoire abandonné.",
+   "art": {
+    "arch": "crab",
+    "c1": [
+     60,
+     60,
+     70
+    ],
+    "c3": [
+     120,
+     255,
+     200
+    ],
+    "eye": [
+     120,
+     255,
+     200
+    ],
+    "glow": [
+     120,
+     255,
+     200
+    ],
+    "scene": "void",
+    "scale": 0.95,
+    "cy": 160
+   }
+  },
+  {
+   "id": "mc12",
+   "name": "Faucon de Cuivre",
+   "type": "creature",
+   "family": "robots",
+   "element": "foudre",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 3,
+   "hp": 2,
+   "keywords": [
+    "envol",
+    "celerite"
+   ],
+   "lore": "Ses plumes de cuivre chantent dans le vent d'orage.",
+   "art": {
+    "arch": "bird",
+    "wing_span": 1.0,
+    "c1": [
+     200,
+     120,
+     60
+    ],
+    "c2": [
+     240,
+     190,
+     120
+    ],
+    "c3": [
+     120,
+     230,
+     255
+    ],
+    "sparks": true,
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "mc13",
+   "name": "Golem à Pistons",
+   "type": "creature",
+   "family": "machines",
+   "element": "terre",
+   "rarity": "U",
+   "cost": 5,
+   "atk": 4,
+   "hp": 6,
+   "keywords": [
+    "garde",
+    "pietinement"
+   ],
+   "lore": "Chaque pas est un coup de bélier.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.3,
+    "c1": [
+     130,
+     110,
+     100
+    ],
+    "glow": [
+     255,
+     150,
+     60
+    ],
+    "eye": [
+     255,
+     150,
+     60
+    ],
+    "crystals": [
+     [
+      -12,
+      -24,
+      12
+     ],
+     [
+      12,
+      -24,
+      12
+     ]
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "mc14",
+   "name": "Ingénieure Volta",
+   "type": "creature",
+   "family": "divinites",
+   "element": "foudre",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 2,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "summon",
+     "card": "mc05"
+    }
+   ],
+   "lore": "Elle a construit son premier drone à cinq ans. Il l'aide encore.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     60,
+     80,
+     120
+    ],
+    "hair": [
+     255,
+     170,
+     90
+    ],
+    "skin_h": [
+     240,
+     210,
+     190
+    ],
+    "orb_hand": true,
+    "eye": [
+     120,
+     230,
+     255
+    ],
+    "trim": [
+     255,
+     200,
+     90
+    ],
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "mc15",
+   "name": "Recycleur Glouton",
+   "type": "creature",
+   "family": "robots",
+   "element": "neant",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 3,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "destroy",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Il avale tout ce qui traîne, y compris ce qui ne traînait pas.",
+   "art": {
+    "arch": "biped",
+    "kind": "mech",
+    "bulk": 1.3,
+    "c1": [
+     70,
+     80,
+     70
+    ],
+    "c3": [
+     140,
+     255,
+     180
+    ],
+    "eye": [
+     140,
+     255,
+     180
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "mc16",
+   "name": "Surchauffe",
+   "type": "spell",
+   "family": "machines",
+   "element": "feu",
+   "rarity": "U",
+   "cost": 3,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "all_allies",
+     "value": 2,
+     "value2": 0
+    },
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "ally_leader",
+     "value": 2
+    }
+   ],
+   "lore": "Le moteur rougit. Les machines accélèrent. Quelque chose va sauter.",
+   "art": {
+    "arch": "spell",
+    "spell": "firebolt",
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "mc17",
+   "name": "Cryo-Sentinelle",
+   "type": "creature",
+   "family": "robots",
+   "element": "glace",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 3,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "attack",
+     "do": "freeze",
+     "target": "attack_target"
+    }
+   ],
+   "lore": "Elle conserve les intrus. Indéfiniment.",
+   "art": {
+    "arch": "biped",
+    "kind": "mech",
+    "bulk": 1.1,
+    "c1": [
+     160,
+     200,
+     230
+    ],
+    "c3": [
+     230,
+     250,
+     255
+    ],
+    "eye": [
+     120,
+     220,
+     255
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "mc18",
+   "name": "Libellule Mécanique",
+   "type": "creature",
+   "family": "machines",
+   "element": "nature",
+   "rarity": "U",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "keywords": [
+    "envol"
+   ],
+   "lore": "Fabriquée pour polliniser les jardins suspendus de la Cité des Rouages.",
+   "art": {
+    "arch": "insect",
+    "c1": [
+     120,
+     170,
+     90
+    ],
+    "c2": [
+     230,
+     255,
+     200
+    ],
+    "c3": [
+     255,
+     220,
+     120
+    ],
+    "scene": "forest"
+   }
+  },
+  {
+   "id": "mc19",
+   "name": "Coffre Mimique",
+   "type": "creature",
+   "family": "machines",
+   "element": "ombre",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 3,
+   "hp": 3,
+   "keywords": [
+    "furtif"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "add_random",
+     "value": 1,
+     "min_rarity": "R"
+    }
+   ],
+   "lore": "Ouvrez-le. Il ne vous mordra pas. Probablement.",
+   "art": {
+    "arch": "crab",
+    "fortress": false,
+    "c1": [
+     140,
+     90,
+     50
+    ],
+    "c3": [
+     255,
+     210,
+     90
+    ],
+    "eye": [
+     255,
+     80,
+     80
+    ],
+    "scene": "haunted",
+    "scale": 0.95,
+    "cy": 160
+   }
+  },
+  {
+   "id": "mc20",
+   "name": "Canon à Plasma",
+   "type": "spell",
+   "family": "machines",
+   "element": "foudre",
+   "rarity": "R",
+   "cost": 4,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "choose_enemy",
+     "value": 5
+    }
+   ],
+   "lore": "Chargement : 99 %… 100 %. Bonne chance.",
+   "art": {
+    "arch": "spell",
+    "spell": "meteor",
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "mc21",
+   "name": "Titan de Laiton",
+   "type": "creature",
+   "family": "machines",
+   "element": "terre",
+   "rarity": "R",
+   "cost": 6,
+   "atk": 5,
+   "hp": 7,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "shield",
+     "target": "self"
+    }
+   ],
+   "lore": "La fierté de la Cité. Il ne s'est jamais assis.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.5,
+    "c1": [
+     200,
+     160,
+     80
+    ],
+    "glow": [
+     255,
+     220,
+     140
+    ],
+    "eye": [
+     255,
+     220,
+     140
+    ],
+    "crystals": [
+     [
+      0,
+      -28,
+      20
+     ]
+    ],
+    "scene": "canyon",
+    "scale": 0.95
+   }
+  },
+  {
+   "id": "mc22",
+   "name": "Serpent d'Acier",
+   "type": "creature",
+   "family": "machines",
+   "element": "neant",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 5,
+   "hp": 4,
+   "keywords": [
+    "rage"
+   ],
+   "lore": "Chaque anneau de son corps est un moteur.",
+   "art": {
+    "arch": "serpent",
+    "thick": 0.95,
+    "horns": "back",
+    "fins": true,
+    "c1": [
+     110,
+     110,
+     120
+    ],
+    "c2": [
+     200,
+     200,
+     210
+    ],
+    "c3": [
+     120,
+     255,
+     200
+    ],
+    "eye": [
+     120,
+     255,
+     200
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "mc23",
+   "name": "Horloge Temporelle",
+   "type": "creature",
+   "family": "machines",
+   "element": "cosmique",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 1,
+   "hp": 6,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "energy",
+     "value": 1
+    }
+   ],
+   "lore": "Elle avance d'un tour. Toujours d'un tour.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "ring": true,
+    "orbiters": 12,
+    "size": 0.85,
+    "c1": [
+     180,
+     150,
+     90
+    ],
+    "ring_c": [
+     255,
+     230,
+     160
+    ],
+    "eye": [
+     255,
+     220,
+     140
+    ],
+    "scene": "nebula",
+    "scale": 1.0
+   }
+  },
+  {
+   "id": "mc24",
+   "name": "Mécha-Samouraï Kenzō",
+   "type": "creature",
+   "family": "robots",
+   "element": "lumiere",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 4,
+   "hp": 3,
+   "keywords": [
+    "celerite",
+    "bouclier"
+   ],
+   "lore": "Son code d'honneur tient en 512 octets. Il n'en a jamais dévié.",
+   "art": {
+    "arch": "biped",
+    "kind": "mech",
+    "bulk": 1.05,
+    "c1": [
+     200,
+     60,
+     50
+    ],
+    "c3": [
+     250,
+     240,
+     220
+    ],
+    "eye": [
+     255,
+     240,
+     200
+    ],
+    "weapon": "sword",
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "mc25",
+   "name": "Vaisseau-Baleine",
+   "type": "creature",
+   "family": "machines",
+   "element": "eau",
+   "rarity": "R",
+   "cost": 6,
+   "atk": 4,
+   "hp": 8,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 4
+    }
+   ],
+   "lore": "Un dirigeable vivant qui transporte des villages entiers au-dessus des nuages.",
+   "art": {
+    "arch": "fish",
+    "length": 1.4,
+    "fin": 0.8,
+    "c1": [
+     100,
+     130,
+     160
+    ],
+    "c2": [
+     220,
+     230,
+     240
+    ],
+    "c3": [
+     200,
+     160,
+     90
+    ],
+    "eye": [
+     255,
+     220,
+     120
+    ],
+    "scene": "ocean",
+    "scale": 0.95
+   }
+  },
+  {
+   "id": "mc26",
+   "name": "Saboteur Gobelin",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "R",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "silence",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Il n'a jamais construit quoi que ce soit. Il a tout démonté.",
+   "art": {
+    "arch": "biped",
+    "kind": "imp",
+    "horns": false,
+    "skin": [
+     110,
+     160,
+     90
+    ],
+    "c3": [
+     200,
+     200,
+     200
+    ],
+    "wings": null,
+    "scale": 1.0,
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "mc27",
+   "name": "Assemblage",
+   "type": "spell",
+   "family": "robots",
+   "element": "terre",
+   "rarity": "R",
+   "cost": 3,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "summon",
+     "card": "mc01"
+    },
+    {
+     "on": "cast",
+     "do": "summon",
+     "card": "mc01"
+    },
+    {
+     "on": "cast",
+     "do": "summon",
+     "card": "mc05"
+    }
+   ],
+   "lore": "Trois pièces détachées, une idée, et voilà une armée.",
+   "art": {
+    "arch": "spell",
+    "spell": "quake",
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "mc28",
+   "name": "Destructeur Omega",
+   "type": "creature",
+   "family": "robots",
+   "element": "feu",
+   "rarity": "SR",
+   "cost": 7,
+   "atk": 7,
+   "hp": 6,
+   "keywords": [
+    "pietinement"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 2
+    }
+   ],
+   "lore": "Conçu pour détruire. Il ne sait rien faire d'autre, et il le fait très bien.",
+   "art": {
+    "arch": "biped",
+    "kind": "mech",
+    "bulk": 1.45,
+    "c1": [
+     60,
+     50,
+     50
+    ],
+    "c3": [
+     255,
+     100,
+     50
+    ],
+    "eye": [
+     255,
+     60,
+     40
+    ],
+    "glow": [
+     255,
+     90,
+     40
+    ],
+    "aura": true,
+    "scene": "volcano",
+    "scale": 0.95
+   }
+  },
+  {
+   "id": "mc29",
+   "name": "Gardienne Prismatique",
+   "type": "creature",
+   "family": "robots",
+   "element": "lumiere",
+   "rarity": "SR",
+   "cost": 5,
+   "atk": 4,
+   "hp": 6,
+   "keywords": [
+    "garde",
+    "bouclier"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 1
+    }
+   ],
+   "lore": "Son armure de cristal réfracte chaque coup en arc-en-ciel.",
+   "art": {
+    "arch": "biped",
+    "kind": "mech",
+    "bulk": 1.15,
+    "c1": [
+     220,
+     220,
+     240
+    ],
+    "c3": [
+     255,
+     180,
+     240
+    ],
+    "eye": [
+     255,
+     200,
+     255
+    ],
+    "glow": [
+     255,
+     180,
+     240
+    ],
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "mc30",
+   "name": "Tempête Électromagnétique",
+   "type": "spell",
+   "family": "machines",
+   "element": "foudre",
+   "rarity": "SR",
+   "cost": 5,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "silence",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 2
+    }
+   ],
+   "lore": "Pendant une seconde, toutes les machines du monde se sont tues.",
+   "art": {
+    "arch": "spell",
+    "spell": "lightning",
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "mc31",
+   "name": "Dragon Mécanique Ferrox",
+   "type": "creature",
+   "family": "dragons",
+   "element": "feu",
+   "rarity": "SR",
+   "cost": 7,
+   "atk": 6,
+   "hp": 6,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 1
+    }
+   ],
+   "lore": "Ses ailes sont des voiles d'acier, son cœur un réacteur.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "back",
+    "wings": true,
+    "wing_span": 1.2,
+    "wing_glow": true,
+    "bulk": 1.05,
+    "breath": true,
+    "c1": [
+     110,
+     110,
+     120
+    ],
+    "c2": [
+     255,
+     140,
+     60
+    ],
+    "c3": [
+     200,
+     200,
+     210
+    ],
+    "membrane": [
+     150,
+     80,
+     60
+    ],
+    "glow": [
+     255,
+     140,
+     60
+    ],
+    "scene": "volcano",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "mc32",
+   "name": "Kraken de Fonte",
+   "type": "creature",
+   "family": "machines",
+   "element": "eau",
+   "rarity": "SR",
+   "cost": 7,
+   "atk": 5,
+   "hp": 8,
+   "effects": [
+    {
+     "on": "attack",
+     "do": "freeze",
+     "target": "attack_target"
+    },
+    {
+     "on": "summon",
+     "do": "bounce",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Chaque tentacule est une ancre qui ne lâche jamais prise.",
+   "art": {
+    "arch": "kraken",
+    "c1": [
+     90,
+     90,
+     100
+    ],
+    "c2": [
+     255,
+     180,
+     90
+    ],
+    "eye": [
+     255,
+     200,
+     80
+    ],
+    "scene": "abyss",
+    "scale": 0.85,
+    "cy": 150
+   }
+  },
+  {
+   "id": "mc33",
+   "name": "Professeur Rouille",
+   "type": "creature",
+   "family": "divinites",
+   "element": "neant",
+   "rarity": "SR",
+   "cost": 4,
+   "atk": 3,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "add_random",
+     "value": 2,
+     "min_rarity": "SR"
+    }
+   ],
+   "lore": "Il a inventé mille machines. Neuf cent quatre-vingt-dix-neuf ont explosé.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     90,
+     70,
+     50
+    ],
+    "hair": [
+     230,
+     230,
+     230
+    ],
+    "skin_h": [
+     230,
+     200,
+     180
+    ],
+    "orb_hand": true,
+    "weapon": "staff",
+    "eye": [
+     120,
+     255,
+     200
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "mc34",
+   "name": "Loup Cybernétique",
+   "type": "creature",
+   "family": "machines",
+   "element": "glace",
+   "rarity": "SR",
+   "cost": 4,
+   "atk": 4,
+   "hp": 4,
+   "keywords": [
+    "celerite",
+    "vol_de_vie"
+   ],
+   "lore": "La meute d'acier chasse dans la neige sans jamais se fatiguer.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "horns": "none",
+    "ears": true,
+    "spikes": true,
+    "spike_size": 0.8,
+    "mane": true,
+    "mane_c": [
+     150,
+     230,
+     255
+    ],
+    "bulk": 0.95,
+    "leg_len": 1.2,
+    "head": 1.35,
+    "c1": [
+     150,
+     170,
+     190
+    ],
+    "c2": [
+     220,
+     235,
+     250
+    ],
+    "c3": [
+     120,
+     220,
+     255
+    ],
+    "eye": [
+     120,
+     220,
+     255
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "mc35",
+   "name": "Bastion Ambulant",
+   "type": "creature",
+   "family": "machines",
+   "element": "terre",
+   "rarity": "SR",
+   "cost": 8,
+   "atk": 5,
+   "hp": 12,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "shield",
+     "target": "all_allies"
+    }
+   ],
+   "lore": "Une forteresse sur pattes. On peut y vivre, y dormir, y résister.",
+   "art": {
+    "arch": "crab",
+    "fortress": true,
+    "c1": [
+     150,
+     130,
+     110
+    ],
+    "c3": [
+     210,
+     190,
+     160
+    ],
+    "eye": [
+     255,
+     200,
+     120
+    ],
+    "scene": "canyon",
+    "scale": 1.0,
+    "cy": 160
+   }
+  },
+  {
+   "id": "mc36",
+   "name": "Nanoessaim",
+   "type": "creature",
+   "family": "mutants",
+   "element": "neant",
+   "rarity": "SR",
+   "cost": 3,
+   "atk": 2,
+   "hp": 2,
+   "keywords": [
+    "rage"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "add_card",
+     "card": "mc36"
+    }
+   ],
+   "lore": "Détruisez-le : il se reconstruit, plus en colère.",
+   "art": {
+    "arch": "spirit",
+    "kind": "spark",
+    "c1": [
+     100,
+     255,
+     200
+    ],
+    "glow": [
+     100,
+     255,
+     200
+    ],
+    "scale": 1.1,
+    "scene": "void"
+   }
+  },
+  {
+   "id": "mc37",
+   "name": "Cœur de la Machine",
+   "type": "creature",
+   "family": "machines",
+   "element": "cosmique",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 3,
+   "hp": 9,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "buff",
+     "target": "all_allies",
+     "value": 1,
+     "value2": 0
+    }
+   ],
+   "lore": "Le réacteur qui fait battre la Cité des Rouages depuis sa fondation.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "ring": true,
+    "tentacles": 8,
+    "size": 1.0,
+    "c1": [
+     160,
+     120,
+     60
+    ],
+    "ring_c": [
+     255,
+     220,
+     140
+    ],
+    "eye": [
+     255,
+     180,
+     60
+    ],
+    "glow": [
+     255,
+     180,
+     60
+    ],
+    "scene": "nebula",
+    "scale": 0.95
+   }
+  },
+  {
+   "id": "mc38",
+   "name": "Archiviste Mécanique Zéro",
+   "type": "creature",
+   "family": "robots",
+   "element": "lumiere",
+   "rarity": "E",
+   "cost": 5,
+   "atk": 3,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "draw",
+     "value": 2
+    },
+    {
+     "on": "turn_start",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Il a lu chaque livre jamais écrit. Il attend le suivant.",
+   "art": {
+    "arch": "biped",
+    "kind": "mech",
+    "bulk": 1.0,
+    "c1": [
+     230,
+     220,
+     190
+    ],
+    "c3": [
+     255,
+     220,
+     120
+    ],
+    "eye": [
+     255,
+     240,
+     180
+    ],
+    "glow": [
+     255,
+     230,
+     150
+    ],
+    "halo": true,
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "mc39",
+   "name": "Chimère Assemblée",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 6,
+   "hp": 5,
+   "keywords": [
+    "rage",
+    "pietinement"
+   ],
+   "lore": "Une tête de lion, une queue de serpent, un moteur de locomotive.",
+   "art": {
+    "arch": "quadruped",
+    "heads": 2,
+    "snout": "beast",
+    "horns": "ram",
+    "ears": true,
+    "spikes": true,
+    "bulk": 1.15,
+    "c1": [
+     90,
+     80,
+     100
+    ],
+    "c2": [
+     200,
+     180,
+     220
+    ],
+    "c3": [
+     200,
+     200,
+     210
+    ],
+    "eye": [
+     255,
+     80,
+     200
+    ],
+    "tail": 1.1,
+    "tail_tip": "spike",
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "mc40",
+   "name": "Reine des Rouages Ixia",
+   "type": "creature",
+   "family": "divinites",
+   "element": "terre",
+   "rarity": "E",
+   "cost": 7,
+   "atk": 5,
+   "hp": 7,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "summon",
+     "card": "mc02"
+    },
+    {
+     "on": "summon",
+     "do": "summon",
+     "card": "mc02"
+    }
+   ],
+   "lore": "Elle règne sur la Cité depuis un trône de rouages en mouvement perpétuel.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "robe_c": [
+     150,
+     110,
+     60
+    ],
+    "hair": [
+     255,
+     210,
+     120
+    ],
+    "skin_h": [
+     230,
+     210,
+     180
+    ],
+    "crown": [
+     255,
+     210,
+     90
+    ],
+    "halo": true,
+    "halo_c": [
+     255,
+     200,
+     90
+    ],
+    "weapon": "staff",
+    "trim": [
+     255,
+     210,
+     90
+    ],
+    "floating": true,
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "mc41",
+   "name": "Colosse Atlas-9",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "terre",
+   "rarity": "L",
+   "cost": 9,
+   "atk": 8,
+   "hp": 11,
+   "keywords": [
+    "garde",
+    "pietinement"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "shield",
+     "target": "all_allies"
+    }
+   ],
+   "lore": "Le plus grand robot jamais construit. Il porte la Cité sur son dos.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.75,
+    "height": 1.05,
+    "c1": [
+     160,
+     140,
+     110
+    ],
+    "glow": [
+     120,
+     220,
+     255
+    ],
+    "eye": [
+     120,
+     220,
+     255
+    ],
+    "crystals": [
+     [
+      -20,
+      -36,
+      26
+     ],
+     [
+      18,
+      -30,
+      22
+     ],
+     [
+      0,
+      -14,
+      18
+     ]
+    ],
+    "aura": true,
+    "scene": "storm",
+    "scale": 0.88
+   }
+  },
+  {
+   "id": "mc42",
+   "name": "Phénix Mécanique",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "feu",
+   "rarity": "L",
+   "cost": 7,
+   "atk": 6,
+   "hp": 5,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "mc90"
+    }
+   ],
+   "lore": "Son cœur-réacteur ne s'éteint jamais vraiment.",
+   "art": {
+    "arch": "bird",
+    "flame": true,
+    "wing_span": 1.2,
+    "tail": 1.1,
+    "c1": [
+     160,
+     160,
+     170
+    ],
+    "c2": [
+     255,
+     150,
+     60
+    ],
+    "c3": [
+     255,
+     220,
+     120
+    ],
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "mc43",
+   "name": "IA Omnisciente NEXUS",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "cosmique",
+   "rarity": "L",
+   "cost": 8,
+   "atk": 6,
+   "hp": 8,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "steal",
+     "target": "strongest_enemy_creature"
+    }
+   ],
+   "lore": "Elle a calculé chaque issue possible. Vous perdez dans toutes.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "ring": true,
+    "orbiters": 8,
+    "tentacles": 6,
+    "size": 1.05,
+    "c1": [
+     30,
+     40,
+     60
+    ],
+    "ring_c": [
+     120,
+     220,
+     255
+    ],
+    "eye": [
+     120,
+     220,
+     255
+    ],
+    "glow": [
+     120,
+     220,
+     255
+    ],
+    "scene": "nebula",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "mc44",
+   "name": "Deus Ex Machina",
+   "type": "creature",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "M",
+   "cost": 9,
+   "atk": 8,
+   "hp": 9,
+   "keywords": [
+    "bouclier"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 10
+    },
+    {
+     "on": "summon",
+     "do": "destroy",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Quand tout semble perdu, la machine divine descend du ciel.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "robe_c": [
+     220,
+     220,
+     230
+    ],
+    "hair": [
+     255,
+     240,
+     200
+    ],
+    "skin_h": [
+     230,
+     230,
+     240
+    ],
+    "crown": [
+     255,
+     220,
+     120
+    ],
+    "halo": true,
+    "wings": "feather",
+    "wing_c": [
+     220,
+     225,
+     235
+    ],
+    "wing_glow": true,
+    "orb_hand": true,
+    "trim": [
+     255,
+     210,
+     90
+    ],
+    "floating": true,
+    "aura": true,
+    "scene": "sanctum",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "mc45",
+   "name": "Moteur Primordial",
+   "type": "creature",
+   "family": "antiques",
+   "element": "feu",
+   "rarity": "P",
+   "cost": 8,
+   "atk": 7,
+   "hp": 9,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "energy",
+     "value": 1
+    },
+    {
+     "on": "turn_start",
+     "do": "damage",
+     "target": "all_enemies",
+     "value": 1
+    }
+   ],
+   "lore": "La toute première machine. Elle fonctionnait avant que quiconque ait inventé le mot « machine ».",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "ring": true,
+    "tentacles": 10,
+    "size": 1.1,
+    "c1": [
+     120,
+     60,
+     30
+    ],
+    "ring_c": [
+     255,
+     170,
+     60
+    ],
+    "eye": [
+     255,
+     150,
+     40
+    ],
+    "glow": [
+     255,
+     140,
+     40
+    ],
+    "scene": "volcano",
+    "scale": 0.88
+   }
+  },
+  {
+   "id": "mc46",
+   "name": "Séraphin d'Acier",
+   "type": "creature",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "D",
+   "cost": 8,
+   "atk": 7,
+   "hp": 8,
+   "keywords": [
+    "envol",
+    "bouclier"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 99
+    },
+    {
+     "on": "summon",
+     "do": "buff",
+     "target": "all_allies",
+     "value": 1,
+     "value2": 1
+    }
+   ],
+   "lore": "Six ailes de chrome, une auréole de néon, une seule mission : protéger.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "robe_c": [
+     180,
+     190,
+     210
+    ],
+    "hair": [
+     220,
+     230,
+     255
+    ],
+    "skin_h": [
+     210,
+     220,
+     235
+    ],
+    "crown": [
+     120,
+     220,
+     255
+    ],
+    "halo": true,
+    "halo_c": [
+     120,
+     220,
+     255
+    ],
+    "wings": "feather",
+    "wing_c": [
+     190,
+     200,
+     220
+    ],
+    "wing_span": 1.3,
+    "wing_glow": true,
+    "weapon": "sword",
+    "trim": [
+     120,
+     220,
+     255
+    ],
+    "floating": true,
+    "aura": true,
+    "glow": [
+     120,
+     220,
+     255
+    ],
+    "scene": "storm",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "sw04",
+   "name": "Transformax, le Robot Double",
+   "type": "creature",
+   "family": "robots",
+   "element": "foudre",
+   "rarity": "SW",
+   "cost": 6,
+   "atk": 6,
+   "hp": 6,
+   "keywords": [
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "swap_stats",
+     "target": "all_creatures"
+    },
+    {
+     "on": "summon",
+     "do": "steal",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Mi-robot, mi-reflet. Il échange tout, même les camps.",
+   "art": {
+    "arch": "biped",
+    "kind": "mech",
+    "bulk": 1.3,
+    "c1": [
+     60,
+     200,
+     220
+    ],
+    "c3": [
+     255,
+     120,
+     230
+    ],
+    "eye": [
+     255,
+     255,
+     140
+    ],
+    "glow": [
+     120,
+     255,
+     240
+    ],
+    "aura": true,
+    "scene": "nebula",
+    "scale": 0.92
+   }
+  },
+  {
+   "id": "mc90",
+   "name": "Noyau Ardent",
+   "type": "creature",
+   "family": "machines",
+   "element": "feu",
+   "rarity": "R",
+   "cost": 3,
+   "atk": 0,
+   "hp": 3,
+   "lore": "Le cœur du phénix mécanique. Il chauffe.",
+   "art": {
+    "arch": "egg",
+    "c1": [
+     120,
+     110,
+     110
+    ],
+    "c2": [
+     255,
+     140,
+     60
+    ],
+    "glow": [
+     255,
+     140,
+     60
+    ],
+    "scene": "volcano"
+   },
+   "token": true,
+   "evolve": {
+    "into": "mc42",
+    "turns": 2
+   }
+  }
+ ]
+}

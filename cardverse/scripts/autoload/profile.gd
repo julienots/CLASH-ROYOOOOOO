@@ -25,11 +25,12 @@ func new_game() -> void:
 		"shop": {"date": "", "bought": []}, "cosmetics": {"owned": ["back_default", "board_default"], "back": "back_default", "board": "board_default"},
 		"collection_rewards": [], "settings": {"sfx": true, "music": true, "fast": false},
 		"rank": {"points": 0}, "title": "Novice",
-		"free_packs": {}, "pass": {}, "forge_known": [], "tutorial_done": false, "seen_version": "0.4",
-		"puzzles": {}, "puzzle_pity": 0, "displays": [],
+		"free_packs": {}, "pass": {}, "forge_known": [], "tutorial_done": false, "seen_version": "0.5",
+		"puzzles": {}, "puzzle_pity": 0, "displays": [], "gifts": ["v05"],
 	}
 	for id in st.cards:
 		add_card(id, "", false)
+	d.free_packs = {"multiverse": 1, "mecanica": 1}
 	d.decks.append(_starter_deck())
 	save_game()
 
@@ -47,10 +48,16 @@ func _migrate() -> void:
 	# compléter les clés absentes (sauvegardes d'anciennes versions du prototype)
 	var defaults := {"dust": 0, "serials": {}, "collection_rewards": [], "rank": {"points": 0}, "title": "Novice", "event": 0,
 		"free_packs": {}, "pass": {}, "forge_known": [], "tutorial_done": true, "seen_version": "0.1",
-		"puzzles": {}, "puzzle_pity": 0, "displays": []}
+		"puzzles": {}, "puzzle_pity": 0, "displays": [], "gifts": []}
 	for k in defaults:
 		if not d.has(k):
 			d[k] = defaults[k]
+	# cadeau de mise à jour : boosters des nouvelles générations
+	if not "v05" in d.gifts:
+		d.gifts.append("v05")
+		for k in {"eclipse": 1, "primal": 2, "mecanica": 3}:
+			add_free(k, {"eclipse": 1, "primal": 2, "mecanica": 3}[k])
+		d["pending_gift"] = true
 	# retirer les cartes qui n'existent plus dans le catalogue
 	for id in d.collection.keys():
 		if DB.card(id).is_empty():

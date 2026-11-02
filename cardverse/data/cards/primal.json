@@ -1,6 +1,7 @@
 {
  "set": "primal",
  "name": "Âge Primitif",
+ "gen": 3,
  "cards": [
   {
    "id": "pr01",

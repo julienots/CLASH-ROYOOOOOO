@@ -75,6 +75,7 @@ func setup(_p: Dictionary) -> void:
 		bd2.position = Vector2(270, -12)
 		miss.add_child(bd2)
 	col.add_child(row)
+	col.add_child(_new_cards_banner())
 	var row2 := UI.hbox(16)
 	var forge_b := UI.button("ATELIER", Color("8a3ad1"), 28, Vector2(0, 92), "ui_star")
 	forge_b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -111,11 +112,13 @@ func setup(_p: Dictionary) -> void:
 	cp.add_child(cb)
 	col.add_child(cp)
 	# connexion quotidienne, tutoriel, nouveautés
-	if not Profile.d.get("tutorial_done", true):
+	if Profile.d.get("pending_gift", false):
+		_gift_popup.call_deferred()
+	elif not Profile.d.get("tutorial_done", true):
 		_tutorial.call_deferred(0)
 	elif Profile.login_available():
 		_login_popup.call_deferred()
-	elif Profile.d.get("seen_version", "0.4") < "0.4":
+	elif Profile.d.get("seen_version", "0.5") < "0.4":
 		_news.call_deferred()
 
 func _event_banner(ev: Dictionary) -> Control:
@@ -237,3 +240,54 @@ func _news() -> void:
 	main.modal("Nouveautés 0.4", l, [["Génial !", UI.ACCENT, func():
 		Profile.d.seen_version = "0.4"
 		Profile.save_game()]])
+
+## Bannière « Nouvelles cartes » : aperçu de la dernière génération, ouvre ses boosters.
+func _new_cards_banner() -> Control:
+	var last: Dictionary = DB.sets[-1]
+	var p := PanelContainer.new()
+	var st := UI.box(Color("12384a"), 24, Color("4aa3c8"), 3, 8)
+	st.content_margin_left = 16
+	st.content_margin_right = 16
+	st.content_margin_top = 12
+	st.content_margin_bottom = 12
+	p.add_theme_stylebox_override("panel", st)
+	var v := UI.vbox(8)
+	var h := UI.hbox(8)
+	var t := UI.label("NOUVEAU · GÉN. %d %s" % [int(last.gen), last.name.to_upper()], 24, Color("bfefff"), "serif", 800)
+	UI.outline(t, 5)
+	h.add_child(UI.expand(t))
+	h.add_child(UI.badge("NEW", UI.BAD, 18))
+	v.add_child(h)
+	var row := UI.hbox(6)
+	var picks := []
+	for id in last.cards:
+		if DB.rarity_index(DB.card(id).rarity) >= DB.rarity_index("SR"):
+			picks.append(id)
+	picks.sort_custom(func(a, b): return DB.rarity_index(DB.card(a).rarity) > DB.rarity_index(DB.card(b).rarity))
+	for id in picks.slice(0, 5):
+		var hld := CardView.holder(id, 0.25, "", "preview")
+		hld.get_meta("card").tapped.connect(func(_c): main.show_card(id, "", []))
+		row.add_child(hld)
+	v.add_child(row)
+	v.add_child(UI.label("%d cartes à découvrir · touche pour voir les boosters" % last.cards.size(), 17, UI.MUTED, "body", 600))
+	p.add_child(v)
+	var b := Button.new()
+	b.flat = true
+	b.set_anchors_preset(Control.PRESET_FULL_RECT)
+	b.mouse_filter = Control.MOUSE_FILTER_PASS
+	b.pressed.connect(func(): main.goto("shop", {"tab": "boosters"}))
+	p.add_child(b)
+	return p
+
+func _gift_popup() -> void:
+	var l := UI.label("Merci de jouer à CARDVERSE !\n\nPour découvrir les nouvelles générations, tu reçois :\n• 1 Booster Éclipse (Gén. 2)\n• 2 Boosters Âge Primitif (Gén. 3)\n• 3 Boosters Mécanica (Gén. 4)\n\nIls t'attendent dans la Boutique (bouton GRATUIT).\n\nAstuce : le Booster Genèse ne contient que la Gén. 1. Pour les nouvelles cartes, ouvre les boosters de leur génération, Multivers ou par type. Le bouton « Aperçu » de l'Album montre toutes les cartes.", 20, UI.TEXT, "body", 600)
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	l.custom_minimum_size = Vector2(560, 0)
+	main.modal("Cadeau : nouvelles cartes !", l, [["Plus tard", Color("4a3a6a"), func():
+		Profile.d.pending_gift = false
+		Profile.d.seen_version = "0.5"
+		Profile.save_game()], ["Ouvrir mes boosters", UI.GOOD.darkened(0.2), func():
+		Profile.d.pending_gift = false
+		Profile.d.seen_version = "0.5"
+		Profile.save_game()
+		main.goto("shop", {"tab": "boosters"})]])

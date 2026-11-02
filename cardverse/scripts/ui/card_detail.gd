@@ -61,7 +61,7 @@ func _load_card() -> void:
 		c.queue_free()
 	var owned := Profile.owned(card_id) > 0
 	var c := DB.card(card_id)
-	var st := "face" if owned or c.get("token", false) or list.is_empty() else "missing"
+	var st := "face" if owned or c.get("token", false) or list.is_empty() else "preview"
 	if c.rarity == "SW" and not owned:
 		st = "auto"
 	_card = CardView.make(card_id, 1.0, variant, st)
