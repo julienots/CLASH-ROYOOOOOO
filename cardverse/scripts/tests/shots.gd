@@ -178,6 +178,55 @@ func run(main: Control, arg: String) -> void:
 			await b._play(b.g.take_events())
 			b._sync()
 			print("mécaniques animées : ", b.anim_seen)],
+		["fx_detail", func(): _clear(main); main.show_card("pr12", "", [])],
+		["fx_detail2", func(): _clear(main); main.show_card("pr42", "", [])],
+		["fx_grid", func():
+			_clear(main)
+			for id in ["pr12", "pr06", "pr21", "pr45", "pr37", "sw01", "ec14", "pr27", "pr31"]:
+				Profile.add_card(id, "", false)
+			Profile.d.puzzles["sw02"] = [0, 2, 4, 6, 8]
+			main.goto("collection")
+			await _wait(0.5)
+			main.current.filt.set = "primal"
+			main.current.filt.sort = 1
+			main.current.rebuild()],
+		["puzzle", func():
+			_clear(main)
+			Profile.d.puzzles["sw03"] = [0, 1, 2, 3, 4, 5, 6, 7]
+			var rng := RandomNumberGenerator.new()
+			var b := DB.booster("primal")
+			var res := BoosterLogic.open(b, {}, rng)
+			for r in res:
+				r["new"] = Profile.add_card(r.id, r.variant, false)
+			var pc := {"id": "sw03", "piece": 8}
+			pc.merge(Profile.add_piece("sw03", 8))
+			var o = load("res://scripts/ui/booster_open.gd").new()
+			o.setup(b, res, pc)
+			main.open_overlay(o, true)
+			await _wait(1.2)
+			o.auto_tear()
+			await _wait(2.5)
+			for k in 10:
+				o._advance()
+				await _wait(1.3 if k % 2 == 0 else 0.4)
+			await _wait(1.8)],
+		["puzzle_done", func(): await _wait(2.0)],
+		["splash", func():
+			_clear(main)
+			await _wait(0.3)
+			main.goto("battle_select")
+			await _wait(0.4)
+			main.current.start_battle(0)
+			var b = _ov(main)
+			await _wait(4.0)
+			while b.busy:
+				await _wait(0.3)
+			print("splash : rapide=", Profile.d.settings.get("fast", false))
+			Profile.d.settings.fast = false
+			b._splash("pr45")
+			await _wait(0.9)
+			main.get_viewport().get_texture().get_image().save_png("/tmp/claude-0/shots/splash_mid.png")
+			print("splash : fx_layer enfants pendant=", b.fx_layer.get_child_count(), " overlay=", main.overlay.get_child_count(), " top=", main.overlay.get_child(main.overlay.get_child_count() - 1))],
 		["shop_offers", func(): _clear(main); main.goto("shop", {"tab": "offers"})],
 		["shop_singles", func(): main.goto("shop", {"tab": "singles"})],
 		["shop_style", func(): main.goto("shop", {"tab": "cosmetics"})],

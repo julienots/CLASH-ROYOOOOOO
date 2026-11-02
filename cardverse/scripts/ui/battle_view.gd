@@ -429,6 +429,9 @@ func _do_play(hid: int, target) -> void:
 	if cv:
 		cv.set_meta("flying", true)
 		hand_views.erase(hid)
+		if DB.rarity_index(DB.card(h.id).rarity) >= DB.rarity_index("SR"):
+			cv.visible = false
+			await _splash(h.id)
 		await _fly_card(cv, DB.card(h.id))
 	await _play(g.take_events())
 	busy = false
@@ -454,7 +457,67 @@ func _fly_card(cv: CardView, c: Dictionary) -> void:
 	await t2.finished
 	cv.queue_free()
 
+## Entrée spectaculaire des cartes Super Rares et plus : rayons, éclats, titre, tremblement.
+func _splash(id: String) -> void:
+	var c := DB.card(id)
+	var ri := DB.rarity_index(c.rarity)
+	var col := DB.rarity_color(c.rarity)
+	var ecol := DB.element_color(c.element)
+	var big := ri >= DB.rarity_index("L")
+	var root := Control.new()
+	root.size = size
+	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	fx_layer.add_child(root)
+	var dimr := ColorRect.new()
+	dimr.color = Color(0, 0, 0, 0)
+	dimr.size = size
+	dimr.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	root.add_child(dimr)
+	var rays := UI.glow_rect(Color(col, 0.85), Vector2(1100, 1100), 1.3, 18.0 if big else 12.0)
+	rays.position = size / 2 - Vector2(550, 600)
+	rays.pivot_offset = Vector2(550, 550)
+	root.add_child(rays)
+	var cv := CardView.make(id, 0.66)
+	cv.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	cv.position = size / 2 - Vector2(CardView.W, CardView.H) * 0.33 - Vector2(0, 50)
+	cv.set_pivot(Vector2(CardView.W, CardView.H) / 2)
+	cv.scale = Vector2(0.15, 0.15)
+	cv.rotation = -0.5
+	root.add_child(cv)
+	var title := UI.label("SWAP !" if c.rarity == "SW" else (DB.rarity(c.rarity).name.to_upper() + " !"), 52 if big else 40, col.lightened(0.25), "serif", 800, HORIZONTAL_ALIGNMENT_CENTER)
+	UI.outline(title, 12)
+	title.position = Vector2(0, 150)
+	title.size = Vector2(size.x, 70)
+	title.modulate.a = 0
+	root.add_child(title)
+	Sfx.play("reveal_4" if big else "reveal_3")
+	var t := root.create_tween().set_parallel(true)
+	t.tween_property(dimr, "color:a", 0.6 if big else 0.4, 0.2)
+	t.tween_property(cv, "scale", Vector2(0.66, 0.66), 0.45).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	t.tween_property(cv, "rotation", 0.0, 0.45).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	t.tween_property(title, "modulate:a", 1.0, 0.25).set_delay(0.2)
+	t.tween_property(rays, "rotation", 0.6, 1.6)
+	await get_tree().create_timer(0.35).timeout
+	UI.burst(root, size / 2 - Vector2(0, 50), ecol, 60 if big else 40, 650, 0.7, 1.0, 0)
+	UI.burst(root, size / 2 - Vector2(0, 50), col, 40, 500, 0.5, 1.2, -100)
+	if big:
+		_flash(Color(col, 0.5), 0.5)
+		UI.shake(self, 14, 0.5)
+	var hold := 0.0
+	while hold < (1.2 if big else 0.8) * (0.5 if _fast() else 1.0):
+		cv.set_tilt(Vector2(sin(hold * 4.0), cos(hold * 3.0)) * 0.8)
+		await get_tree().process_frame
+		hold += get_process_delta_time()
+	var t2 := root.create_tween().set_parallel(true)
+	t2.tween_property(root, "modulate:a", 0.0, 0.25)
+	t2.tween_property(cv, "scale", Vector2(0.3, 0.3), 0.25)
+	await t2.finished
+	root.queue_free()
+
 func _show_enemy_card(id: String) -> void:
+	if DB.rarity_index(DB.card(id).rarity) >= DB.rarity_index("SR"):
+		await _splash(id)
+		return
 	var cv := CardView.make(id, 0.5)
 	cv.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	cv.position = Vector2(size.x / 2 - CardView.W * 0.25, -200)
@@ -729,6 +792,29 @@ func _anim(e: Dictionary) -> void:
 				UI.float_text(fx_layer, vbn.position + UnitView.SZ / 2, "Renvoyée !", Color("9fd8ff"), 30)
 				await _wait(0.35)
 			_sync()
+		"steal":
+			var vst: UnitView = units.get(int(e.uid))
+			if vst:
+				UI.float_text(fx_layer, vst.position + UnitView.SZ / 2, "Contrôle volé !", Color("4dffea"), 30)
+				UI.burst(fx_layer, vst.position + UnitView.SZ / 2, Color("4dffea"), 40, 400)
+			Sfx.play("evolve")
+			await _wait(0.4)
+			_sync()
+		"swap":
+			if units.has(int(e.uid)):
+				var vw: UnitView = units[int(e.uid)]
+				UI.float_text(fx_layer, vw.position + UnitView.SZ / 2, "SWAP", Color("4dffea"), 30)
+				vw.refresh(e.unit)
+			Sfx.play("shield", 1.4)
+			await _wait(0.15)
+		"swap_leaders":
+			Sfx.play("rift")
+			_flash(Color(0.3, 1.0, 0.9, 0.5), 0.7)
+			UI.shake(self, 12, 0.6)
+			for p2 in 2:
+				UI.float_text(fx_layer, _ref_pos({"k": "leader", "p": p2}) - Vector2(0, 70), "PV ÉCHANGÉS", Color("4dffea"), 30)
+			await _wait(0.6)
+			_sync()
 		"energy":
 			Sfx.play("coin")
 			UI.float_text(fx_layer, _ref_pos({"k": "leader", "p": e.p}) - Vector2(0, 80), "+%d énergie" % int(e.amount), Color("8fd8ff"), 30)
@@ -785,7 +871,13 @@ func _effect_fx(e: Dictionary) -> void:
 			for t in e.targets:
 				UI.burst(fx_layer, _ref_pos(t), UI.GOOD, 24, 200, 0.45, 0.8, -150)
 			await _wait(0.15)
-		"freeze", "shield", "buff", "silence", "bounce":
+		"trample":
+			Sfx.play("hit_big")
+			UI.shake(self, 8, 0.25)
+			for t in e.targets:
+				UI.float_text(fx_layer, _ref_pos(t) - Vector2(0, 60), "Piétinement !", Color("ffb340"), 28)
+			await _wait(0.15)
+		"freeze", "shield", "buff", "silence", "bounce", "steal", "swap_stats":
 			for t in e.targets:
 				UI.burst(fx_layer, _ref_pos(t), col, 18, 200, 0.4, 0.6, -80)
 			await _wait(0.1)

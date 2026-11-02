@@ -31,6 +31,21 @@
    "color": "#c8902a"
   },
   {
+   "id": "primal",
+   "name": "Booster Âge Primitif",
+   "desc": "Set 3 : dinosaures, titans et raretés Primitives. Super Rares plus fréquentes.",
+   "price": {
+    "coins": 140
+   },
+   "cards": 5,
+   "sets": [
+    "primal"
+   ],
+   "focus": {},
+   "luck": 1.2,
+   "color": "#e07a2a"
+  },
+  {
    "id": "dragons",
    "name": "Booster Draconique",
    "desc": "Dragons et cartes de Feu plus fréquents.",

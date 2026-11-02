@@ -140,6 +140,10 @@
   "envol": {
    "name": "Envol",
    "desc": "Peut attaquer en ignorant les créatures avec Garde."
+  },
+  "pietinement": {
+   "name": "Piétinement",
+   "desc": "En attaquant une créature, l'excédent de dégâts touche le leader adverse."
   }
  }
 }

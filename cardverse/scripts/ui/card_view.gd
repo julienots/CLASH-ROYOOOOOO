@@ -14,6 +14,8 @@ var compact := false    # masque les textes longs (petites tailles)
 var serial := 0
 var fx_enabled := true
 var tilt := Vector2.ZERO
+var pieces: Array = []   # état "puzzle" : pièces SWAP possédées (0..8)
+var covers := {}         # index -> Panel masquant une pièce manquante
 
 var _fx: ColorRect
 var _art: TextureRect
@@ -22,6 +24,11 @@ var _root: Control
 
 static func make(id: String, s := 0.5, var_name := "", st := "face") -> CardView:
 	var v := CardView.new()
+	if st == "auto":
+		st = "face"
+		if DB.card(id).rarity == "SW" and Profile.owned(id) == 0:
+			st = "puzzle"
+			v.pieces = Profile.pieces(id).duplicate()
 	v.mouse_filter = Control.MOUSE_FILTER_STOP  # modifiable avant l'ajout à l'arbre (ex. IGNORE)
 	v.card_id = id
 	v.variant = var_name
@@ -141,6 +148,8 @@ func build() -> void:
 		_root.add_child(fr)
 
 	var missing := state == "missing"
+	if state == "puzzle":
+		_build_covers()
 	# coût
 	var cost := UI.label(str(c.cost) if not missing else "?", 44, Color.WHITE, "num", 400, HORIZONTAL_ALIGNMENT_CENTER)
 	UI.outline(cost, 8)
@@ -253,8 +262,26 @@ func build() -> void:
 	fm.set_shader_parameter("mode", mode)
 	fm.set_shader_parameter("tint", rcol)
 	fm.set_shader_parameter("intensity", 0.9)
+	# particules élémentaires (Rare et plus), cadre animé (Épique et plus)
+	var fx_on := fxl >= 1 and not missing and fx_enabled
+	fm.set_shader_parameter("element", DB.element_order.find(c.element) if fx_on else -1)
+	fm.set_shader_parameter("elem_color", DB.element_color(c.element))
+	fm.set_shader_parameter("fx_level", float(fxl))
+	var bord := 0
+	if fx_on and fxl >= 2:
+		bord = 1
+	if fx_on and rar == "P":
+		bord = 2
+	if fx_on and rar == "SW":
+		bord = 3
+	fm.set_shader_parameter("border", bord)
+	if full:
+		fm.set_shader_parameter("win", Vector4(0.03, 0.03, 0.97, 0.6))
+	else:
+		var wn: Array = lay.win
+		fm.set_shader_parameter("win", Vector4(wn[0] * sc / W, wn[1] * sc / H, wn[2] * sc / W, wn[3] * sc / H))
 	_fx.material = fm
-	_fx.visible = mode > 0
+	_fx.visible = mode > 0 or fx_on
 	_root.add_child(_fx)
 	# dos de carte
 	_back = TextureRect.new()
@@ -271,8 +298,55 @@ func build() -> void:
 	_back.material = bm
 	add_child(_back)
 
+## Masque les pièces manquantes d'une carte SWAP (grille 3x3).
+func _build_covers() -> void:
+	covers.clear()
+	var pw := W / 3.0
+	var ph := H / 3.0
+	for k in 9:
+		if k in pieces:
+			continue
+		var c := Panel.new()
+		c.position = Vector2((k % 3) * pw, (k / 3) * ph)
+		c.size = Vector2(pw, ph)
+		c.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var st := UI.box(Color(0.03, 0.06, 0.09, 0.97), 6, Color(0.3, 1.0, 0.92, 0.55), 2)
+		c.add_theme_stylebox_override("panel", st)
+		var ic := UI.icon_rect("ui_puzzle", 56, Color(0.3, 1.0, 0.92, 0.35))
+		ic.position = c.size / 2 - Vector2(28, 28)
+		c.add_child(ic)
+		covers[k] = c
+	# les caches passent au-dessus de tout le contenu de la carte
+	for k in covers:
+		_root.add_child.call_deferred(covers[k])
+	var pl := UI.label("PIÈCES %d / 9" % pieces.size(), 26, Color("4dffea"), "body", 800, HORIZONTAL_ALIGNMENT_CENTER)
+	UI.outline(pl, 6)
+	pl.position = Vector2(0, H / 2 - 20)
+	pl.size = Vector2(W, 40)
+	pl.name = "pieces_label"
+	_root.add_child.call_deferred(pl)
+
+## Révèle une pièce (animation d'assemblage).
+func reveal_piece(k: int) -> void:
+	if not covers.has(k):
+		return
+	var c: Panel = covers[k]
+	covers.erase(k)
+	var t := c.create_tween()
+	t.tween_property(c, "modulate", Color(3, 3, 3, 1), 0.15)
+	t.tween_property(c, "modulate:a", 0.0, 0.35)
+	t.tween_callback(c.queue_free)
+	var pl := _root.get_node_or_null("pieces_label")
+	if pl:
+		pl.text = "PIÈCES %d / 9" % (9 - covers.size())
+		if covers.is_empty():
+			pl.queue_free()
+
 func set_tilt(t: Vector2) -> void:
 	tilt = t
+	# relief : l'illustration se décale légèrement avec l'inclinaison (Rare et plus)
+	if _art and _art.material and int(DB.rarity(DB.card(card_id).get("rarity", "C")).get("fx", 0)) >= 1:
+		_art.material.set_shader_parameter("parallax", -t * 0.012)
 	if _fx and _fx.material:
 		_fx.material.set_shader_parameter("tilt", t)
 

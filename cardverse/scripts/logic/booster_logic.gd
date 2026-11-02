@@ -9,7 +9,7 @@ static func slot_odds(b: Dictionary, guaranteed_min := "") -> Dictionary:
 	var min_i := DB.rarity_index(guaranteed_min) if guaranteed_min != "" else 0
 	for r in DB.rarity_order:
 		var i := DB.rarity_index(r)
-		if i < min_i or _pool(b, r).is_empty():
+		if i < min_i or _pool(b, r).is_empty() or DB.rarity(r).get("special", false):
 			continue
 		var w := float(DB.rarity(r).weight)
 		if i >= DB.rarity_index("L"):
@@ -143,3 +143,33 @@ static func fmt_pct(p: float) -> String:
 	if p >= 0.01:
 		return "%.2f %%" % p
 	return "%.4f %%" % p
+
+
+## Pièce de puzzle SWAP : chance par booster, garantie après `pity` boosters sans pièce.
+## Renvoie {} ou {"id": carte, "piece": index}. `state` = {"pity": n, "puzzles": {id: [pièces]}} (pity modifié).
+static func roll_piece(b: Dictionary, state: Dictionary, rng: RandomNumberGenerator) -> Dictionary:
+	var cfg: Dictionary = DB.puzzle_cfg()
+	var swaps := []
+	for id in DB.card_order:
+		if DB.card(id).rarity == "SW":
+			swaps.append(id)
+	if swaps.is_empty():
+		return {}
+	var chance := float(cfg.chance) * sqrt(float(b.get("luck", 1.0)))
+	var p := int(state.get("pity", 0))
+	if rng.randf() >= chance and p + 1 < int(cfg.pity):
+		state.pity = p + 1
+		return {}
+	state.pity = 0
+	# privilégie les puzzles inachevés et les pièces manquantes
+	var puzzles: Dictionary = state.get("puzzles", {})
+	var n := int(DB.rarity("SW").pieces)
+	var open := swaps.filter(func(id): return puzzles.get(id, []).size() < n)
+	var id: String = (open if not open.is_empty() else swaps)[rng.randi_range(0, (open if not open.is_empty() else swaps).size() - 1)]
+	var have: Array = puzzles.get(id, [])
+	var missing := []
+	for k in n:
+		if not k in have:
+			missing.append(k)
+	var piece: int = missing[rng.randi_range(0, missing.size() - 1)] if (not missing.is_empty() and rng.randf() < 0.75) else rng.randi_range(0, n - 1)
+	return {"id": id, "piece": piece}

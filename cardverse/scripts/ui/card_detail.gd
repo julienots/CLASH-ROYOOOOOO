@@ -61,7 +61,10 @@ func _load_card() -> void:
 		c.queue_free()
 	var owned := Profile.owned(card_id) > 0
 	var c := DB.card(card_id)
-	_card = CardView.make(card_id, 1.0, variant, "face" if owned or c.get("token", false) or list.is_empty() else "missing")
+	var st := "face" if owned or c.get("token", false) or list.is_empty() else "missing"
+	if c.rarity == "SW" and not owned:
+		st = "auto"
+	_card = CardView.make(card_id, 1.0, variant, st)
 	_card.position = Vector2(60, 60)
 	_card.serial = int(Profile.entry(card_id).get("serial", 0))
 	_card.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -99,6 +102,8 @@ func _build_info() -> void:
 	_info.add_child(h)
 	var h2 := UI.hbox(14)
 	var txt := "Possédée : %d" % owned if owned > 0 else ("Jeton (créé en combat)" if c.get("token", false) else "Non découverte")
+	if c.rarity == "SW" and owned == 0:
+		txt = "Carte SWAP : %d / 9 pièces de puzzle (trouvables dans les boosters)" % Profile.pieces(card_id).size()
 	h2.add_child(UI.expand(UI.label(txt, 22, UI.TEXT, "body", 700)))
 	if owned > 0:
 		var vs: Dictionary = e.get("variants", {})

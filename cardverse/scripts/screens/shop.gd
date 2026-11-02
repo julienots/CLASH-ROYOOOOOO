@@ -150,12 +150,20 @@ func open_booster(b: Dictionary, test := false) -> void:
 		r["new"] = Profile.add_card(r.id, r.variant)
 		if DB.card(r.id).rarity in DB.numbered.rarities:
 			r["serial"] = int(Profile.entry(r.id).get("serial", 0))
+	# pièce de puzzle SWAP éventuelle
+	var st := {"pity": int(Profile.d.puzzle_pity), "puzzles": Profile.d.puzzles}
+	var piece := BoosterLogic.roll_piece(b, st, rng)
+	if test and piece.is_empty() and get_meta("force_piece", false):
+		piece = BoosterLogic.roll_piece(b, {"pity": 999, "puzzles": Profile.d.puzzles}, rng)
+	Profile.d.puzzle_pity = int(st.pity)
+	if not piece.is_empty():
+		piece.merge(Profile.add_piece(piece.id, int(piece.piece)))
 	Profile.stat("boosters_opened")
 	Profile.add_xp(15)
 	Profile.check_collection_rewards()
 	Profile.save_game()
 	var o = load("res://scripts/ui/booster_open.gd").new()
-	o.setup(b, res)
+	o.setup(b, res, piece)
 	main.open_overlay(o, true)
 
 func _show_odds(b: Dictionary) -> void:
@@ -180,6 +188,10 @@ func _show_odds(b: Dictionary) -> void:
 	var vl := UI.label(var_txt + ", ".join(parts) + ".", 17, UI.MUTED, "body", 600)
 	vl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	v.add_child(vl)
+	var pz: Dictionary = DB.puzzle_cfg()
+	var pzl := UI.label("Pièce de puzzle SWAP : %s par booster, garantie au moins tous les %d boosters. 9 pièces forment une carte SWAP." % [BoosterLogic.fmt_pct(float(pz.chance) * sqrt(float(b.get("luck", 1.0))) * 100.0), int(pz.pity)], 17, Color("4dffea"), "body", 700)
+	pzl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	v.add_child(pzl)
 	var pl := UI.label("Garanties : Légendaire+ au plus tard au %de booster sans Légendaire (chances accrues dès le %de), Mythique+ au %de." % [int(DB.pity.legendary_plus.hard), int(DB.pity.legendary_plus.soft), int(DB.pity.mythic_plus.hard)], 17, UI.ACCENT2, "body", 700)
 	pl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	v.add_child(pl)

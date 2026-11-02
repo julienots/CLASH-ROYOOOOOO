@@ -1,0 +1,2200 @@
+{
+ "set": "primal",
+ "name": "Âge Primitif",
+ "cards": [
+  {
+   "id": "pr01",
+   "name": "Raptorin",
+   "type": "creature",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 3,
+   "hp": 1,
+   "keywords": [
+    "celerite"
+   ],
+   "lore": "Il chasse en meute de six. Si vous en voyez un, les cinq autres vous ont déjà vu.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "none",
+    "spikes": true,
+    "spike_size": 0.8,
+    "bulk": 0.7,
+    "leg_len": 1.35,
+    "neck": 0.7,
+    "head": 1.4,
+    "tail": 1.4,
+    "c1": [
+     110,
+     140,
+     80
+    ],
+    "c2": [
+     220,
+     210,
+     150
+    ],
+    "c3": [
+     60,
+     50,
+     40
+    ]
+   }
+  },
+  {
+   "id": "pr02",
+   "name": "Tricorne des Plaines",
+   "type": "creature",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 3,
+   "hp": 5,
+   "keywords": [
+    "garde",
+    "pietinement"
+   ],
+   "lore": "Sa collerette osseuse a arrêté plus de crocs qu'aucun bouclier.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "horns": "crown",
+    "spikes": false,
+    "bulk": 1.25,
+    "leg_len": 0.7,
+    "neck": 0.3,
+    "head": 1.5,
+    "tail": 0.6,
+    "c1": [
+     150,
+     110,
+     80
+    ],
+    "c2": [
+     220,
+     190,
+     150
+    ],
+    "c3": [
+     250,
+     240,
+     210
+    ]
+   }
+  },
+  {
+   "id": "pr03",
+   "name": "Brontodon",
+   "type": "creature",
+   "family": "antiques",
+   "element": "nature",
+   "rarity": "R",
+   "cost": 6,
+   "atk": 4,
+   "hp": 9,
+   "keywords": [
+    "garde"
+   ],
+   "lore": "Sa tête broute la cime des arbres pendant que ses pattes écrasent la forêt.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "none",
+    "spikes": false,
+    "spike_size": 0.8,
+    "bulk": 1.4,
+    "neck": 2.0,
+    "head": 0.9,
+    "leg_len": 1.2,
+    "tail": 1.6,
+    "c1": [
+     90,
+     130,
+     100
+    ],
+    "c2": [
+     190,
+     210,
+     170
+    ],
+    "scale": 0.85
+   }
+  },
+  {
+   "id": "pr04",
+   "name": "Ptéranox",
+   "type": "creature",
+   "family": "creatures",
+   "element": "foudre",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 3,
+   "hp": 2,
+   "keywords": [
+    "envol"
+   ],
+   "lore": "Il plane dans les orages, la crête chargée d'électricité.",
+   "art": {
+    "arch": "bird",
+    "wing_span": 1.15,
+    "tail": 0.3,
+    "c1": [
+     150,
+     110,
+     80
+    ],
+    "c2": [
+     230,
+     200,
+     150
+    ],
+    "c3": [
+     255,
+     220,
+     90
+    ],
+    "sparks": true
+   }
+  },
+  {
+   "id": "pr05",
+   "name": "Smilodent",
+   "type": "creature",
+   "family": "creatures",
+   "element": "glace",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 3,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "attack",
+     "do": "freeze",
+     "target": "attack_target"
+    }
+   ],
+   "lore": "Ses crocs de glace ne fondent jamais, même dans le ventre de sa proie.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "horns": "none",
+    "tusks": true,
+    "ears": true,
+    "spikes": false,
+    "bulk": 1.0,
+    "head": 1.45,
+    "c1": [
+     200,
+     180,
+     140
+    ],
+    "c2": [
+     240,
+     230,
+     210
+    ],
+    "c3": [
+     230,
+     245,
+     255
+    ],
+    "eye": [
+     120,
+     220,
+     255
+    ]
+   }
+  },
+  {
+   "id": "pr06",
+   "name": "Ombrok, Mammouth Laineux",
+   "type": "creature",
+   "family": "creatures",
+   "element": "glace",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 5,
+   "hp": 7,
+   "keywords": [
+    "garde",
+    "pietinement"
+   ],
+   "lore": "La toundra tremble quand le troupeau d'Ombrok migre vers le sud.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "horns": "ram",
+    "tusks": true,
+    "ears": true,
+    "spikes": true,
+    "spike_size": 0.6,
+    "mane": true,
+    "mane_c": [
+     120,
+     90,
+     70
+    ],
+    "bulk": 1.4,
+    "leg_len": 0.9,
+    "neck": 0.3,
+    "head": 1.4,
+    "tail": 0.3,
+    "c1": [
+     110,
+     80,
+     60
+    ],
+    "c2": [
+     170,
+     140,
+     110
+    ],
+    "c3": [
+     250,
+     245,
+     230
+    ],
+    "scene": "tundra",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "pr07",
+   "name": "Chaman des Cendres",
+   "type": "creature",
+   "family": "esprits",
+   "element": "feu",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "choose_enemy",
+     "value": 1
+    }
+   ],
+   "lore": "Il lit l'avenir dans la fumée. Elle dit toujours « feu ».",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     140,
+     60,
+     40
+    ],
+    "hood": [
+     100,
+     40,
+     30
+    ],
+    "weapon": "staff",
+    "eye": [
+     255,
+     170,
+     60
+    ]
+   }
+  },
+  {
+   "id": "pr08",
+   "name": "Totem Ancestral",
+   "type": "creature",
+   "family": "antiques",
+   "element": "terre",
+   "rarity": "R",
+   "cost": 3,
+   "atk": 0,
+   "hp": 6,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "buff",
+     "target": "random_ally_creature",
+     "value": 1,
+     "value2": 1
+    }
+   ],
+   "lore": "Chaque visage sculpté est un ancêtre qui veille encore sur la tribu.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 0.9,
+    "height": 1.0,
+    "c1": [
+     150,
+     100,
+     60
+    ],
+    "glow": [
+     255,
+     170,
+     60
+    ],
+    "eye": [
+     255,
+     180,
+     80
+    ],
+    "crystals": [
+     [
+      -10,
+      -30,
+      14
+     ],
+     [
+      10,
+      -20,
+      12
+     ]
+    ],
+    "scale": 1.0
+   }
+  },
+  {
+   "id": "pr09",
+   "name": "Ammonite Spiralée",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 2,
+   "effects": [
+    {
+     "on": "death",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Sa coquille garde en mémoire chaque marée depuis l'aube des océans.",
+   "art": {
+    "arch": "orb",
+    "face": "cute",
+    "ring": true,
+    "craters": false,
+    "size": 0.75,
+    "c1": [
+     230,
+     190,
+     140
+    ],
+    "ring_c": [
+     255,
+     230,
+     190
+    ],
+    "scene": "ocean",
+    "scale": 1.1
+   }
+  },
+  {
+   "id": "pr10",
+   "name": "Trilobite Cuirassé",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 1,
+   "hp": 4,
+   "keywords": [
+    "garde"
+   ],
+   "lore": "Il a survécu à trois extinctions. Il compte bien survivre à la vôtre.",
+   "art": {
+    "arch": "crab",
+    "c1": [
+     130,
+     110,
+     90
+    ],
+    "c3": [
+     180,
+     160,
+     130
+    ],
+    "scene": "abyss",
+    "scale": 0.95,
+    "cy": 160
+   }
+  },
+  {
+   "id": "pr11",
+   "name": "Mégador, Requin Primordial",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 6,
+   "hp": 5,
+   "keywords": [
+    "pietinement"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "damage",
+     "target": "enemy_leader",
+     "value": 2
+    }
+   ],
+   "lore": "Ses dents tombent et repoussent par milliers. Les plages en sont couvertes.",
+   "art": {
+    "arch": "fish",
+    "teeth": true,
+    "length": 1.25,
+    "fin": 1.4,
+    "c1": [
+     70,
+     90,
+     120
+    ],
+    "c2": [
+     200,
+     210,
+     220
+    ],
+    "c3": [
+     60,
+     70,
+     100
+    ],
+    "eye": [
+     255,
+     80,
+     60
+    ],
+    "scene": "abyss",
+    "scale": 1.05
+   }
+  },
+  {
+   "id": "pr12",
+   "name": "Dracosaure Volcanique",
+   "type": "creature",
+   "family": "dragons",
+   "element": "feu",
+   "rarity": "SR",
+   "cost": 7,
+   "atk": 6,
+   "hp": 6,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "choose_enemy",
+     "value": 3
+    }
+   ],
+   "lore": "Né dans une coulée de lave, il n'a jamais connu le froid.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "back",
+    "wings": true,
+    "wing_span": 1.2,
+    "wing_glow": true,
+    "bulk": 1.1,
+    "breath": true,
+    "c1": [
+     90,
+     40,
+     30
+    ],
+    "c2": [
+     255,
+     140,
+     60
+    ],
+    "c3": [
+     60,
+     30,
+     20
+    ],
+    "membrane": [
+     180,
+     60,
+     30
+    ],
+    "scene": "volcano",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "pr13",
+   "name": "Lézard Cracheur",
+   "type": "creature",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "effects": [
+    {
+     "on": "attack",
+     "do": "damage",
+     "target": "random_enemy_creature",
+     "value": 1
+    }
+   ],
+   "lore": "Il crache des braises par plaisir. Et par colère. Et par habitude.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "none",
+    "spikes": true,
+    "spike_size": 0.8,
+    "bulk": 0.75,
+    "leg_len": 0.7,
+    "neck": 0.5,
+    "head": 1.5,
+    "tail": 1.1,
+    "breath": true,
+    "c1": [
+     180,
+     80,
+     40
+    ],
+    "c2": [
+     250,
+     190,
+     110
+    ],
+    "c3": [
+     90,
+     40,
+     20
+    ]
+   }
+  },
+  {
+   "id": "pr14",
+   "name": "Œuf Fossile",
+   "type": "creature",
+   "family": "antiques",
+   "element": "terre",
+   "rarity": "U",
+   "cost": 1,
+   "atk": 0,
+   "hp": 3,
+   "lore": "Pris dans la roche depuis des millions d'années. Il vient de bouger.",
+   "art": {
+    "arch": "egg",
+    "c1": [
+     170,
+     150,
+     120
+    ],
+    "c2": [
+     120,
+     100,
+     80
+    ],
+    "glow": [
+     255,
+     190,
+     90
+    ],
+    "scene": "canyon"
+   },
+   "evolve": {
+    "into": "pr15",
+    "turns": 2
+   }
+  },
+  {
+   "id": "pr15",
+   "name": "Rex Primal",
+   "type": "creature",
+   "family": "dragons",
+   "element": "terre",
+   "rarity": "E",
+   "cost": 7,
+   "atk": 8,
+   "hp": 6,
+   "keywords": [
+    "pietinement",
+    "rage"
+   ],
+   "lore": "Le roi des lézards-tonnerre. Quand il rugit, les volcans se taisent.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "none",
+    "spikes": true,
+    "spike_size": 1.3,
+    "bulk": 1.25,
+    "leg_len": 1.3,
+    "neck": 0.8,
+    "head": 1.8,
+    "tail": 1.4,
+    "c1": [
+     120,
+     70,
+     50
+    ],
+    "c2": [
+     220,
+     180,
+     130
+    ],
+    "c3": [
+     240,
+     220,
+     190
+    ],
+    "scene": "volcano",
+    "scale": 0.92
+   }
+  },
+  {
+   "id": "pr16",
+   "name": "Grand-Mère Mousse",
+   "type": "creature",
+   "family": "esprits",
+   "element": "nature",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 2,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 2
+    }
+   ],
+   "lore": "La plus vieille de la forêt. Ses histoires durent des saisons entières.",
+   "art": {
+    "arch": "plant",
+    "kind": "treant",
+    "c1": [
+     90,
+     150,
+     90
+    ],
+    "bloom": [
+     255,
+     240,
+     180
+    ],
+    "eye": [
+     230,
+     255,
+     160
+    ],
+    "scene": "forest",
+    "scale": 0.95,
+    "cy": 160
+   }
+  },
+  {
+   "id": "pr17",
+   "name": "Liane Primordiale",
+   "type": "creature",
+   "family": "vegetaux",
+   "element": "nature",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 3,
+   "keywords": [
+    "poison"
+   ],
+   "lore": "Avant les fleurs, avant les arbres, il y avait elle.",
+   "art": {
+    "arch": "plant",
+    "kind": "carnivore",
+    "c1": [
+     60,
+     120,
+     60
+    ],
+    "c2": [
+     200,
+     255,
+     120
+    ],
+    "scale": 0.95
+   }
+  },
+  {
+   "id": "pr18",
+   "name": "Libellules Géantes",
+   "type": "creature",
+   "family": "creatures",
+   "element": "foudre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 1,
+   "keywords": [
+    "envol",
+    "celerite"
+   ],
+   "lore": "Leurs ailes font un mètre. Leur bourdonnement fait trembler les fougères.",
+   "art": {
+    "arch": "insect",
+    "c1": [
+     60,
+     140,
+     200
+    ],
+    "c2": [
+     180,
+     240,
+     255
+    ],
+    "c3": [
+     220,
+     255,
+     255
+    ],
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "pr19",
+   "name": "Chasseur de Mammouths",
+   "type": "creature",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 3,
+   "hp": 2,
+   "keywords": [
+    "pietinement"
+   ],
+   "lore": "Une lance, une peau de bête, et un courage immense.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     120,
+     90,
+     60
+    ],
+    "hood": [
+     90,
+     70,
+     50
+    ],
+    "weapon": "staff",
+    "eye": [
+     255,
+     220,
+     160
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "pr20",
+   "name": "Peinture Rupestre",
+   "type": "spell",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "U",
+   "cost": 3,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "summon",
+     "card": "pr01"
+    },
+    {
+     "on": "cast",
+     "do": "summon",
+     "card": "pr01"
+    }
+   ],
+   "lore": "Ce qui est peint sur la paroi finit toujours par en sortir.",
+   "art": {
+    "arch": "spell",
+    "spell": "quake",
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "pr21",
+   "name": "Pluie de Météorites",
+   "type": "spell",
+   "family": "cosmiques",
+   "element": "feu",
+   "rarity": "SR",
+   "cost": 6,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_enemies",
+     "value": 3
+    }
+   ],
+   "lore": "Le ciel est tombé le jour où les géants ont disparu.",
+   "art": {
+    "arch": "spell",
+    "spell": "meteor",
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "pr22",
+   "name": "Âge Glaciaire",
+   "type": "spell",
+   "family": "antiques",
+   "element": "glace",
+   "rarity": "SR",
+   "cost": 5,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_enemies",
+     "value": 1
+    },
+    {
+     "on": "cast",
+     "do": "freeze",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Il a duré cent mille ans. Le vôtre durera un tour.",
+   "art": {
+    "arch": "spell",
+    "spell": "ice_prison",
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "pr23",
+   "name": "Ambre Éternelle",
+   "type": "spell",
+   "family": "antiques",
+   "element": "terre",
+   "rarity": "R",
+   "cost": 3,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "shield",
+     "target": "choose_ally_creature"
+    },
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "choose_ally_creature",
+     "value": 1,
+     "value2": 2
+    }
+   ],
+   "lore": "Figé dans l'ambre, rien ne peut plus vous atteindre.",
+   "art": {
+    "arch": "spell",
+    "spell": "holy",
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "pr24",
+   "name": "Rugissement Primal",
+   "type": "spell",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "C",
+   "cost": 2,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "all_allies",
+     "value": 1,
+     "value2": 0
+    }
+   ],
+   "lore": "Un cri venu du fond des âges. Toute la meute répond.",
+   "art": {
+    "arch": "spell",
+    "spell": "firebolt",
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "pr25",
+   "name": "Esprit-Loup Fantôme",
+   "type": "creature",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 3,
+   "hp": 2,
+   "keywords": [
+    "furtif",
+    "celerite"
+   ],
+   "lore": "Le dernier loup de la meute originelle hurle encore les nuits de pleine lune.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "horns": "none",
+    "ears": true,
+    "spikes": false,
+    "mane": true,
+    "mane_c": [
+     210,
+     180,
+     255
+    ],
+    "bulk": 0.85,
+    "leg_len": 1.2,
+    "head": 1.35,
+    "c1": [
+     150,
+     130,
+     200
+    ],
+    "c2": [
+     220,
+     210,
+     255
+    ],
+    "eye": [
+     255,
+     120,
+     240
+    ],
+    "glow": [
+     220,
+     150,
+     255
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "pr26",
+   "name": "Monolithe Gardien",
+   "type": "creature",
+   "family": "antiques",
+   "element": "terre",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 3,
+   "hp": 7,
+   "keywords": [
+    "garde",
+    "bouclier"
+   ],
+   "lore": "Personne ne sait qui l'a dressé. Lui non plus.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.3,
+    "c1": [
+     120,
+     120,
+     130
+    ],
+    "glow": [
+     120,
+     220,
+     255
+    ],
+    "eye": [
+     140,
+     230,
+     255
+    ],
+    "crystals": [
+     [
+      0,
+      -30,
+      26
+     ]
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "pr27",
+   "name": "Magmaterra, Tortue-Volcan",
+   "type": "creature",
+   "family": "antiques",
+   "element": "feu",
+   "rarity": "SR",
+   "cost": 7,
+   "atk": 4,
+   "hp": 10,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "damage",
+     "target": "all_enemies",
+     "value": 1
+    }
+   ],
+   "lore": "Sur son dos, un volcan entier entre en éruption à chaque battement de cœur.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "horns": "none",
+    "spikes": false,
+    "shell": true,
+    "shell_c": [
+     80,
+     40,
+     30
+    ],
+    "shell_glow": true,
+    "bulk": 1.25,
+    "head": 1.1,
+    "neck": 0.4,
+    "leg_len": 0.6,
+    "tail": 0.3,
+    "c1": [
+     110,
+     80,
+     60
+    ],
+    "c2": [
+     200,
+     160,
+     120
+    ],
+    "glow": [
+     255,
+     120,
+     40
+    ],
+    "scene": "volcano",
+    "scale": 0.92
+   }
+  },
+  {
+   "id": "pr28",
+   "name": "Seiche Abyssale Antique",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "ombre",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 3,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "silence",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Son encre efface les sortilèges comme la nuit efface les étoiles.",
+   "art": {
+    "arch": "kraken",
+    "c1": [
+     90,
+     60,
+     120
+    ],
+    "c2": [
+     255,
+     200,
+     230
+    ],
+    "eye": [
+     255,
+     230,
+     120
+    ],
+    "scene": "abyss",
+    "scale": 0.8,
+    "cy": 150
+   }
+  },
+  {
+   "id": "pr29",
+   "name": "Archéoptéryx Solaire",
+   "type": "creature",
+   "family": "creatures",
+   "element": "lumiere",
+   "rarity": "R",
+   "cost": 3,
+   "atk": 2,
+   "hp": 3,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 2
+    }
+   ],
+   "lore": "Le premier oiseau a appris à voler en suivant le soleil.",
+   "art": {
+    "arch": "bird",
+    "wing_span": 1.0,
+    "tail": 1.0,
+    "c1": [
+     230,
+     180,
+     90
+    ],
+    "c2": [
+     255,
+     240,
+     190
+    ],
+    "c3": [
+     255,
+     120,
+     60
+    ],
+    "wing_glow": true,
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "pr30",
+   "name": "Ombre des Cavernes",
+   "type": "creature",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "keywords": [
+    "furtif"
+   ],
+   "lore": "Elle danse sur les parois quand le feu s'éteint.",
+   "art": {
+    "arch": "spirit",
+    "kind": "ghost",
+    "c1": [
+     70,
+     60,
+     90
+    ],
+    "eye": [
+     255,
+     170,
+     80
+    ],
+    "size": 0.9,
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "pr31",
+   "name": "Ukka, Chaman des Étoiles",
+   "type": "creature",
+   "family": "divinites",
+   "element": "cosmique",
+   "rarity": "SR",
+   "cost": 5,
+   "atk": 3,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "energy",
+     "value": 1
+    }
+   ],
+   "lore": "Elle a appris à lire le ciel avant que les étoiles n'aient de noms.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     50,
+     40,
+     110
+    ],
+    "hood": [
+     40,
+     30,
+     90
+    ],
+    "orb_hand": true,
+    "weapon": "staff",
+    "eye": [
+     255,
+     160,
+     240
+    ],
+    "glow": [
+     255,
+     150,
+     240
+    ],
+    "aura": true,
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "pr32",
+   "name": "Météorite Vivante",
+   "type": "creature",
+   "family": "cosmiques",
+   "element": "cosmique",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 3,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "death",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 2
+    }
+   ],
+   "lore": "Un caillou venu des étoiles, avec un très mauvais caractère.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "craters": true,
+    "size": 0.85,
+    "c1": [
+     120,
+     90,
+     80
+    ],
+    "eye": [
+     255,
+     140,
+     60
+    ],
+    "glow": [
+     255,
+     120,
+     60
+    ],
+    "scene": "nebula",
+    "scale": 1.0
+   }
+  },
+  {
+   "id": "pr33",
+   "name": "Fossile Éveillé",
+   "type": "creature",
+   "family": "mutants",
+   "element": "neant",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 4,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "pr90"
+    }
+   ],
+   "lore": "Le Néant a soufflé sur des os vieux d'un million d'années. Ils se sont levés.",
+   "art": {
+    "arch": "serpent",
+    "thick": 0.8,
+    "horns": "back",
+    "fins": true,
+    "c1": [
+     220,
+     210,
+     190
+    ],
+    "c2": [
+     160,
+     150,
+     130
+    ],
+    "c3": [
+     120,
+     255,
+     200
+    ],
+    "eye": [
+     120,
+     255,
+     200
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "pr34",
+   "name": "Ver des Sables Colossal",
+   "type": "creature",
+   "family": "mutants",
+   "element": "terre",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 6,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "bounce",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Le désert entier ondule au-dessus de lui comme une mer.",
+   "art": {
+    "arch": "larva",
+    "eyes": 0,
+    "c1": [
+     200,
+     160,
+     110
+    ],
+    "glow": [
+     255,
+     190,
+     90
+    ],
+    "scale": 1.15,
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "pr35",
+   "name": "Kesha, Mère des Raptors",
+   "type": "creature",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "E",
+   "cost": 5,
+   "atk": 4,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "summon",
+     "card": "pr01"
+    }
+   ],
+   "lore": "Chaque aube, un nouveau Raptorin rejoint la meute.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "none",
+    "spikes": true,
+    "spike_size": 1.2,
+    "bulk": 0.9,
+    "leg_len": 1.35,
+    "neck": 0.8,
+    "head": 1.5,
+    "tail": 1.4,
+    "c1": [
+     150,
+     90,
+     60
+    ],
+    "c2": [
+     240,
+     200,
+     150
+    ],
+    "c3": [
+     60,
+     40,
+     30
+    ],
+    "mane": true,
+    "mane_c": [
+     255,
+     120,
+     80
+    ],
+    "scene": "forest"
+   }
+  },
+  {
+   "id": "pr36",
+   "name": "Gaïarch, Titanosaure",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "nature",
+   "rarity": "L",
+   "cost": 9,
+   "atk": 9,
+   "hp": 12,
+   "keywords": [
+    "garde",
+    "pietinement"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "buff",
+     "target": "all_allies",
+     "value": 1,
+     "value2": 1
+    }
+   ],
+   "lore": "Son pas creuse des vallées. Sa respiration fait les saisons.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "none",
+    "spikes": true,
+    "spike_size": 1.2,
+    "bulk": 1.55,
+    "neck": 2.1,
+    "head": 1.0,
+    "leg_len": 1.3,
+    "tail": 1.7,
+    "c1": [
+     70,
+     120,
+     80
+    ],
+    "c2": [
+     200,
+     230,
+     170
+    ],
+    "c3": [
+     240,
+     220,
+     140
+    ],
+    "scene": "forest",
+    "scale": 0.8
+   }
+  },
+  {
+   "id": "pr37",
+   "name": "Quetzal, Serpent à Plumes",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "foudre",
+   "rarity": "L",
+   "cost": 7,
+   "atk": 6,
+   "hp": 5,
+   "keywords": [
+    "envol",
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "damage",
+     "target": "enemy_leader",
+     "value": 2
+    }
+   ],
+   "lore": "Ses plumes ont la couleur de chaque orage qu'il a traversé.",
+   "art": {
+    "arch": "serpent",
+    "thick": 1.0,
+    "horns": "crown",
+    "whiskers": true,
+    "fins": true,
+    "fin_c": [
+     120,
+     255,
+     180
+    ],
+    "c1": [
+     60,
+     170,
+     120
+    ],
+    "c2": [
+     255,
+     230,
+     120
+    ],
+    "c3": [
+     255,
+     120,
+     200
+    ],
+    "scene": "storm",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "pr38",
+   "name": "Kraken des Âges",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "eau",
+   "rarity": "L",
+   "cost": 8,
+   "atk": 7,
+   "hp": 8,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "bounce",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Il a vu naître les continents. Il les a vus sombrer.",
+   "art": {
+    "arch": "kraken",
+    "c1": [
+     40,
+     90,
+     110
+    ],
+    "c2": [
+     180,
+     255,
+     230
+    ],
+    "eye": [
+     255,
+     220,
+     80
+    ],
+    "scene": "abyss",
+    "scale": 0.92,
+    "cy": 150
+   }
+  },
+  {
+   "id": "pr39",
+   "name": "Grogg, Chef de Clan",
+   "type": "creature",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "SR",
+   "cost": 4,
+   "atk": 4,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "buff",
+     "target": "all_allies",
+     "value": 1,
+     "value2": 0
+    }
+   ],
+   "lore": "Il a gagné son titre en assommant un mammouth à mains nues.",
+   "art": {
+    "arch": "biped",
+    "kind": "brute",
+    "bulk": 1.35,
+    "skin": [
+     170,
+     120,
+     90
+    ],
+    "horns": true,
+    "c3": [
+     230,
+     220,
+     200
+    ],
+    "weapon": "sword",
+    "eye": [
+     255,
+     200,
+     100
+    ],
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "pr40",
+   "name": "Nyra, Sorcière des Marais",
+   "type": "creature",
+   "family": "esprits",
+   "element": "nature",
+   "rarity": "E",
+   "cost": 5,
+   "atk": 3,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "silence",
+     "target": "choose_enemy_creature"
+    },
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "choose_enemy_creature",
+     "value": 2
+    }
+   ],
+   "lore": "Ses potions bouillonnent dans un crâne de diplodocus.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     50,
+     90,
+     60
+    ],
+    "hair": [
+     160,
+     220,
+     120
+    ],
+    "skin_h": [
+     180,
+     210,
+     170
+    ],
+    "orb_hand": true,
+    "weapon": "staff",
+    "eye": [
+     180,
+     255,
+     120
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "pr41",
+   "name": "Ymir, Géant Originel",
+   "type": "creature",
+   "family": "antiques",
+   "element": "glace",
+   "rarity": "M",
+   "cost": 8,
+   "atk": 8,
+   "hp": 8,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "freeze",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "turn_start",
+     "do": "buff",
+     "target": "self",
+     "value": 0,
+     "value2": 2
+    }
+   ],
+   "lore": "De son corps gelé sont nées les montagnes du monde.",
+   "art": {
+    "arch": "biped",
+    "kind": "brute",
+    "bulk": 1.6,
+    "height": 1.05,
+    "skin": [
+     200,
+     225,
+     245
+    ],
+    "horns": true,
+    "c3": [
+     160,
+     200,
+     240
+    ],
+    "eye": [
+     120,
+     220,
+     255
+    ],
+    "aura": true,
+    "scene": "tundra",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "pr42",
+   "name": "Gaïa-Mère, Cœur du Monde",
+   "type": "creature",
+   "family": "divinites",
+   "element": "nature",
+   "rarity": "P",
+   "cost": 9,
+   "atk": 7,
+   "hp": 10,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 99
+    },
+    {
+     "on": "summon",
+     "do": "shield",
+     "target": "all_allies"
+    },
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 8
+    }
+   ],
+   "lore": "Elle était là avant la première graine. Elle sera là après la dernière.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "robe_c": [
+     60,
+     130,
+     70
+    ],
+    "hair": [
+     200,
+     255,
+     150
+    ],
+    "skin_h": [
+     200,
+     230,
+     180
+    ],
+    "crown": [
+     255,
+     200,
+     90
+    ],
+    "halo": true,
+    "halo_c": [
+     220,
+     255,
+     150
+    ],
+    "wings": "feather",
+    "wing_c": [
+     180,
+     240,
+     150
+    ],
+    "wing_glow": true,
+    "orb_hand": true,
+    "trim": [
+     255,
+     200,
+     90
+    ],
+    "floating": true,
+    "aura": true,
+    "glow": [
+     200,
+     255,
+     140
+    ],
+    "scene": "forest",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "pr43",
+   "name": "Ignar, le Premier Feu",
+   "type": "creature",
+   "family": "esprits",
+   "element": "feu",
+   "rarity": "P",
+   "cost": 8,
+   "atk": 8,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 4
+    }
+   ],
+   "lore": "La première étincelle de l'univers. Elle n'a jamais cessé de brûler.",
+   "art": {
+    "arch": "spirit",
+    "kind": "flame",
+    "size": 1.3,
+    "c1": [
+     200,
+     70,
+     30
+    ],
+    "c2": [
+     255,
+     160,
+     50
+    ],
+    "glow": [
+     255,
+     150,
+     50
+    ],
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "pr44",
+   "name": "L'Œuf du Monde",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "cosmique",
+   "rarity": "P",
+   "cost": 6,
+   "atk": 0,
+   "hp": 12,
+   "keywords": [
+    "garde"
+   ],
+   "lore": "À l'intérieur, un battement. Un seul. Il suffit à faire trembler les étoiles.",
+   "art": {
+    "arch": "egg",
+    "c1": [
+     60,
+     40,
+     110
+    ],
+    "c2": [
+     255,
+     200,
+     120
+    ],
+    "glow": [
+     255,
+     180,
+     255
+    ],
+    "scene": "nebula",
+    "scale": 1.15
+   },
+   "evolve": {
+    "into": "pr45",
+    "turns": 3
+   }
+  },
+  {
+   "id": "pr45",
+   "name": "Aurax, Premier Dragon",
+   "type": "creature",
+   "family": "dragons",
+   "element": "cosmique",
+   "rarity": "P",
+   "cost": 10,
+   "atk": 10,
+   "hp": 10,
+   "keywords": [
+    "envol",
+    "pietinement"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "all_enemies",
+     "value": 3
+    }
+   ],
+   "lore": "Il a éclos de l'Œuf du Monde et ses ailes ont déplié le ciel.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "crown",
+    "wings": true,
+    "wing_span": 1.4,
+    "wing_glow": true,
+    "bulk": 1.2,
+    "neck": 1.3,
+    "breath": true,
+    "spike_size": 1.5,
+    "c1": [
+     80,
+     50,
+     160
+    ],
+    "c2": [
+     255,
+     210,
+     130
+    ],
+    "c3": [
+     255,
+     240,
+     200
+    ],
+    "membrane": [
+     140,
+     60,
+     200
+    ],
+    "glow": [
+     255,
+     190,
+     255
+    ],
+    "rim": [
+     255,
+     200,
+     255
+    ],
+    "scene": "nebula",
+    "scale": 0.85
+   }
+  },
+  {
+   "id": "sw01",
+   "name": "Kaleïdos, Dragon Fractal",
+   "type": "creature",
+   "family": "dragons",
+   "element": "cosmique",
+   "rarity": "SW",
+   "cost": 7,
+   "atk": 7,
+   "hp": 7,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "swap_stats",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Chaque écaille est un miroir. Chaque reflet, un autre monde.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "crown",
+    "wings": true,
+    "wing_span": 1.35,
+    "wing_glow": true,
+    "bulk": 1.1,
+    "neck": 1.2,
+    "spike_size": 1.4,
+    "c1": [
+     60,
+     200,
+     220
+    ],
+    "c2": [
+     255,
+     120,
+     230
+    ],
+    "c3": [
+     255,
+     255,
+     140
+    ],
+    "membrane": [
+     120,
+     80,
+     240
+    ],
+    "glow": [
+     120,
+     255,
+     240
+    ],
+    "rim": [
+     255,
+     140,
+     255
+    ],
+    "scene": "nebula",
+    "scale": 0.88
+   }
+  },
+  {
+   "id": "sw02",
+   "name": "Mirroria, Reine des Reflets",
+   "type": "creature",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "SW",
+   "cost": 6,
+   "atk": 5,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "steal",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Celui qui croise son regard se met à la servir sans savoir pourquoi.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "robe_c": [
+     200,
+     240,
+     255
+    ],
+    "hair": [
+     255,
+     200,
+     255
+    ],
+    "skin_h": [
+     230,
+     240,
+     255
+    ],
+    "crown": [
+     120,
+     255,
+     240
+    ],
+    "halo": true,
+    "halo_c": [
+     120,
+     255,
+     240
+    ],
+    "wings": "feather",
+    "wing_c": [
+     220,
+     250,
+     255
+    ],
+    "wing_glow": true,
+    "orb_hand": true,
+    "trim": [
+     120,
+     255,
+     240
+    ],
+    "floating": true,
+    "aura": true,
+    "glow": [
+     120,
+     255,
+     240
+    ],
+    "scene": "sanctum",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "sw03",
+   "name": "Chronoswap, Gardien du Temps",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "neant",
+   "rarity": "SW",
+   "cost": 8,
+   "atk": 6,
+   "hp": 8,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "swap_leaders"
+    }
+   ],
+   "lore": "Il a inversé la fin et le commencement. Personne n'a remarqué la différence.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "ring": true,
+    "tentacles": 10,
+    "orbiters": 6,
+    "size": 1.05,
+    "c1": [
+     20,
+     40,
+     50
+    ],
+    "ring_c": [
+     120,
+     255,
+     230
+    ],
+    "eye": [
+     120,
+     255,
+     230
+    ],
+    "glow": [
+     120,
+     255,
+     230
+    ],
+    "scene": "void",
+    "scale": 0.88
+   }
+  },
+  {
+   "id": "pr90",
+   "name": "Os Ranimé",
+   "type": "creature",
+   "family": "mutants",
+   "element": "neant",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 1,
+   "lore": "Il ne se souvient plus de ce qu'il était.",
+   "art": {
+    "arch": "serpent",
+    "thick": 0.6,
+    "fins": false,
+    "horns": "none",
+    "c1": [
+     230,
+     220,
+     200
+    ],
+    "c2": [
+     180,
+     170,
+     150
+    ],
+    "eye": [
+     120,
+     255,
+     200
+    ],
+    "path": [
+     [
+      30,
+      120
+     ],
+     [
+      20,
+      60
+     ],
+     [
+      40,
+      0
+     ],
+     [
+      0,
+      -40
+     ]
+    ]
+   },
+   "token": true
+  }
+ ]
+}

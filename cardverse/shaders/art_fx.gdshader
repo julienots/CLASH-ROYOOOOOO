@@ -4,6 +4,7 @@ shader_type canvas_item;
 
 uniform int mode = 0;
 uniform float hue_shift = 0.33;
+uniform vec2 parallax = vec2(0.0);
 uniform vec4 sil_color : source_color = vec4(0.12, 0.08, 0.2, 1.0);
 
 vec3 rgb2hsv(vec3 c) {
@@ -21,7 +22,7 @@ vec3 hsv2rgb(vec3 c) {
 float hash(float x) { return fract(sin(x * 91.7) * 43758.5453); }
 
 void fragment() {
-	vec2 uv = UV;
+	vec2 uv = UV + parallax;
 	if (mode == 4) {
 		uv.x += sin(uv.y * 40.0 + TIME * 2.0) * 0.0018;
 		uv.y += sin(uv.x * 30.0 + TIME * 1.6) * 0.0018;

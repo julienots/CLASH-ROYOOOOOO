@@ -285,7 +285,12 @@ func attack(uid: int, target: Dictionary) -> bool:
 		var d := find_unit(target.uid)
 		var dmg_a := calc(int(a.atk), DB.card(a.id).element, DB.card(d.id).element)
 		var dmg_d := calc(int(d.atk), DB.card(d.id).element, DB.card(a.id).element)
-		damage(target, dmg_a, a, DB.is_strong(DB.card(a.id).element, DB.card(d.id).element))
+		var hp_before := int(d.hp)
+		var dealt := damage(target, dmg_a, a, DB.is_strong(DB.card(a.id).element, DB.card(d.id).element))
+		# Piétinement : l'excédent de dégâts touche le leader adverse
+		if a.kw.get("pietinement", false) and dealt > hp_before:
+			ev({"t": "fx", "kind": "trample", "src": {"k": "unit", "uid": uid}, "targets": [{"k": "leader", "p": opp(int(a.owner))}], "element": DB.card(a.id).element})
+			damage({"k": "leader", "p": opp(int(a.owner))}, dealt - hp_before, a)
 		if dmg_d > 0:
 			damage({"k": "unit", "uid": uid}, dmg_d, d, DB.is_strong(DB.card(d.id).element, DB.card(a.id).element))
 	else:
@@ -392,6 +397,15 @@ func resolve(e: Dictionary, i: int, src: Dictionary, ctx: Dictionary) -> void:
 		"draw":
 			draw(i, v)
 			return
+		"swap_leaders":
+			var l0: Dictionary = pl[0].leader
+			var l1: Dictionary = pl[1].leader
+			var h0 := int(l0.hp)
+			l0.hp = mini(int(l0.max_hp) + 10, int(l1.hp))
+			l1.hp = mini(int(l1.max_hp) + 10, h0)
+			ev({"t": "swap_leaders", "hp0": l0.hp, "hp1": l1.hp})
+			_check_winner()
+			return
 		"energy":
 			pl[i].energy = mini(MAX_ENERGY, int(pl[i].energy) + v)
 			ev({"t": "energy", "p": i, "amount": v})
@@ -450,6 +464,32 @@ func resolve(e: Dictionary, i: int, src: Dictionary, ctx: Dictionary) -> void:
 			"bounce":
 				if t.k == "unit":
 					bounce(t.uid)
+			"swap_stats":
+				if t.k == "unit":
+					var us := find_unit(t.uid)
+					var a0 := int(us.atk)
+					us.atk = int(us.hp)
+					us.hp = a0
+					us.max_hp = maxi(int(us.max_hp), a0)
+					ev({"t": "swap", "uid": us.uid, "unit": us.duplicate(true)})
+			"steal":
+				if t.k == "unit":
+					steal(t.uid, i)
+
+## Prend le contrôle d'une créature ennemie (si le terrain a de la place, sinon elle est détruite).
+func steal(uid: int, new_owner: int) -> void:
+	var u := find_unit(uid)
+	if u.is_empty() or int(u.owner) == new_owner:
+		return
+	pl[int(u.owner)].board.erase(u)
+	if pl[new_owner].board.size() >= MAX_BOARD:
+		ev({"t": "death", "uid": uid, "p": u.owner, "id": u.id})
+		return
+	u.owner = new_owner
+	u.sleep = true
+	u.attacked = false
+	pl[new_owner].board.append(u)
+	ev({"t": "steal", "uid": uid, "p": new_owner, "unit": u.duplicate(true)})
 
 ## Renvoie une créature dans la main de son propriétaire (détruite si la main est pleine).
 func bounce(uid: int) -> void:

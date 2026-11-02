@@ -31,9 +31,13 @@ var _tick_cd := 0.0
 
 const PACK_SIZE := Vector2(330, 510)
 
-func setup(b: Dictionary, res: Array) -> void:
+var piece := {}
+var _piece_done := false
+
+func setup(b: Dictionary, res: Array, pc := {}) -> void:
 	booster = b
 	results = res
+	piece = pc
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
@@ -282,6 +286,10 @@ func _spawn_stack() -> void:
 ## Prépare la carte suivante : anticipation lumineuse selon la rareté.
 func _show_next() -> void:
 	if idx >= results.size():
+		if not piece.is_empty() and not _piece_done:
+			_piece_done = true
+			_puzzle_sequence()
+			return
 		_summary()
 		return
 	current = _stack[idx]
@@ -415,6 +423,95 @@ func _stash(cv: CardView) -> void:
 	if _title:
 		_title.queue_free()
 		_title = null
+
+## Pièce de puzzle SWAP : la pièce vole vers sa place, la carte se reconstitue ; si complète, assemblage final.
+func _puzzle_sequence() -> void:
+	phase = "puzzle"
+	_busy = true
+	hint.text = ""
+	var col := Color("4dffea")
+	var t0 := create_tween()
+	t0.tween_property(dim, "color:a", 0.75, 0.4)
+	Sfx.play("rift")
+	var title := UI.label("PIÈCE DE PUZZLE SWAP !", 40, col, "serif", 800, HORIZONTAL_ALIGNMENT_CENTER)
+	UI.outline(title, 10)
+	title.position = Vector2(0, 70)
+	title.size = Vector2(size.x, 60)
+	add_child(title)
+	UI.pop_in(title, 0.0, 0.3)
+	var before: Array = Profile.pieces(piece.id).duplicate()
+	if not piece.get("dup", false):
+		before.erase(int(piece.piece))
+	var board := CardView.make(piece.id, 0.8, "", "puzzle")
+	board.pieces = before
+	board.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	board.position = size / 2 - Vector2(CardView.W, CardView.H) * 0.4 - Vector2(0, 30)
+	board.modulate.a = 0
+	add_child(board)
+	var glow := UI.glow_rect(Color(col, 0.45), Vector2(900, 900), 1.5, 16.0)
+	glow.position = size / 2 - Vector2(450, 480)
+	add_child(glow)
+	move_child(glow, board.get_index())
+	create_tween().tween_property(board, "modulate:a", 1.0, 0.4)
+	await get_tree().create_timer(0.8).timeout
+	# la pièce vole vers son emplacement
+	var k := int(piece.piece)
+	var slot := board.position + Vector2((k % 3) * CardView.W / 3.0 + CardView.W / 6.0, (k / 3) * CardView.H / 3.0 + CardView.H / 6.0) * 0.8
+	var tile := Panel.new()
+	tile.size = Vector2(CardView.W, CardView.H) / 3.0 * 0.8
+	tile.pivot_offset = tile.size / 2
+	tile.add_theme_stylebox_override("panel", UI.box(Color(col, 0.35), 8, col, 4))
+	var ic := UI.icon_rect("ui_puzzle", 70, Color.WHITE)
+	ic.position = tile.size / 2 - Vector2(35, 35)
+	tile.add_child(ic)
+	tile.position = Vector2(size.x / 2, size.y + 50) - tile.size / 2
+	tile.rotation = 2.5
+	add_child(tile)
+	Sfx.play("whoosh")
+	var t1 := tile.create_tween().set_parallel(true)
+	t1.tween_property(tile, "position", slot - tile.size / 2, 0.7).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	t1.tween_property(tile, "rotation", 0.0, 0.7)
+	await t1.finished
+	UI.burst(self, slot, col, 50, 450, 0.6, 0.8, 0)
+	Sfx.play("reveal_2")
+	tile.queue_free()
+	var info := ""
+	if piece.get("dup", false):
+		info = "Pièce en double : +%d Poussière d'étoile" % int(DB.puzzle_cfg().duplicate_dust)
+	else:
+		board.reveal_piece(k)
+		info = "%s : pièce %d / %d" % [DB.card(piece.id).name, int(piece.count), int(piece.total)]
+	hint.text = info
+	hint.add_theme_color_override("font_color", col)
+	if piece.get("complete", false):
+		await get_tree().create_timer(0.9).timeout
+		# assemblage final
+		Sfx.play("reveal_4")
+		_flash(Color(0.6, 1, 0.95), 0.8)
+		UI.shake(self, 14, 0.7)
+		for i in 6:
+			UI.burst(self, board.position + Vector2(CardView.W, CardView.H) * 0.4 + Vector2(randf_range(-150, 150), randf_range(-200, 200)), Color.from_hsv(randf(), 0.6, 1), 40, 600, 0.7, 1.2, 0)
+		title.text = "CARTE SWAP COMPLÈTE !"
+		hint.text = "%s rejoint ta collection !" % DB.card(piece.id).name
+		var tb := board.create_tween()
+		tb.tween_property(board, "scale", Vector2(0.88, 0.88), 0.2)
+		tb.tween_property(board, "scale", Vector2(0.8, 0.8), 0.4).set_trans(Tween.TRANS_ELASTIC)
+		await tb.finished
+		board.state = "face"
+		board.build()
+	await get_tree().create_timer(0.6).timeout
+	_busy = false
+	var cont := UI.button("Continuer", Color("1e9e8a"), 26, Vector2(300, 84), "ui_check")
+	cont.position = Vector2(size.x / 2 - 150, size.y - 150)
+	add_child(cont)
+	await cont.pressed
+	cont.queue_free()
+	title.queue_free()
+	glow.queue_free()
+	board.queue_free()
+	create_tween().tween_property(dim, "color:a", 0.0, 0.3)
+	hint.add_theme_color_override("font_color", UI.TEXT)
+	_summary()
 
 func _summary() -> void:
 	if phase == "summary":

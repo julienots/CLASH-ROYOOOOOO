@@ -25,6 +25,7 @@ FRAMES = {
     "L":  ((220, 160, 50), (255, 235, 140), (110, 64, 10), (255, 220, 90), "gold"),
     "M":  ((190, 40, 60), (255, 140, 120), (80, 10, 24), (255, 80, 90), "crimson"),
     "A":  ((60, 130, 120), (170, 230, 200), (20, 50, 46), (140, 255, 220), "jade"),
+    "P":  ((150, 110, 70), (255, 200, 120), (60, 36, 20), (255, 150, 40), "primal"),
     "D":  ((240, 225, 190), (255, 255, 245), (170, 130, 70), (255, 240, 170), "divine"),
     "CE": ((140, 190, 250), (240, 250, 255), (40, 70, 140), (180, 230, 255), "celestial"),
     "CO": ((70, 40, 150), (220, 140, 255), (16, 6, 50), (255, 130, 230), "cosmic"),
@@ -32,6 +33,7 @@ FRAMES = {
     "AB": ((30, 26, 36), (230, 190, 90), (6, 4, 10), (255, 210, 100), "obsidian"),
     "O":  ((255, 240, 220), (255, 255, 255), (200, 160, 110), (255, 255, 255), "origin"),
     "X":  ((20, 20, 24), (240, 240, 240), (0, 0, 0), (255, 255, 255), "glitch"),
+    "SW": ((30, 60, 80), (120, 255, 240), (8, 16, 30), (80, 255, 230), "swap"),
 }
 
 # Gabarit (en pixels de grille 150x210)
@@ -50,6 +52,11 @@ def metal(base, light, dark, w, h, pattern, seed=0):
     y, x = np.mgrid[0:h, 0:w].astype(np.float32)
     b, l, d = (np.array(c, np.float32) / 255 for c in (base, light, dark))
     t = 0.5 + 0.5 * np.sin((x * 0.6 + y * 1.0) * 0.08)  # bandes de reflets
+    if pattern == "primal":
+        n = rng.random((h // 2 + 1, w // 2 + 1)).repeat(2, 0).repeat(2, 1)[:h, :w]
+        t = 0.3 + 0.35 * n + 0.25 * (np.sin(y * 0.5) > 0.7)
+    if pattern == "swap":
+        t = 0.5 + 0.5 * np.sin((x + y) * 0.15)
     if pattern in ("stone", "jade", "obsidian"):
         n = rng.random((h // 3 + 1, w // 3 + 1)).repeat(3, 0).repeat(3, 1)[:h, :w]
         t = 0.35 + 0.4 * n
@@ -145,15 +152,37 @@ def frame(rar):
     bevel_rect(arr, tx, dark, light)
     # motifs décoratifs par rareté
     rng = random.Random(rar)
-    if pattern in ("gold", "crimson", "divine", "origin", "obsidian", "jade"):
+    if pattern in ("gold", "crimson", "divine", "origin", "obsidian", "jade", "swap"):
         for k in range(12, W - 12, 6):  # filigrane le long du bas
             arr[H - 5, k] = np.array(light, np.float32) / 255
             arr[3, k] = np.array(light, np.float32) / 255
-    if pattern in ("cosmic", "celestial", "pearl", "origin", "glitch"):
+    if pattern in ("cosmic", "celestial", "pearl", "origin", "glitch", "swap"):
         for _ in range(40):
             px, py = rng.randrange(3, W - 3), rng.randrange(3, H - 3)
             if inside[py, px] and not win[py, px] and not tx[py, px]:
                 arr[py, px] = 1.0
+    if pattern == "primal":  # gravures en zigzag et runes d'ambre
+        amber = np.array((255, 160, 50), np.float32) / 255
+        for yy in range(6, H - 6, 9):
+            for xx in (2, 3, W - 4, W - 3):
+                if inside[yy, xx]:
+                    arr[yy, xx] = amber
+        for k in range(10, W - 10, 8):
+            for dy, yy in enumerate((2, 3, 4)):
+                xx = k + (dy if (k // 8) % 2 else 2 - dy)
+                arr[yy, xx] = np.array(dark, np.float32) / 255
+                arr[H - 1 - yy, xx] = np.array(dark, np.float32) / 255
+    if pattern == "swap":  # coutures de puzzle irisées
+        for gx in (W // 3, 2 * W // 3):
+            for yy in range(2, H - 2):
+                if inside[yy, gx] and not win[yy, gx] and not tx[yy, gx]:
+                    c = 0.5 + 0.5 * np.cos(yy * 0.2 + np.array([0, 2, 4]))
+                    arr[yy, gx] = c
+        for gy in (H // 3, 2 * H // 3):
+            for xx in range(2, W - 2):
+                if inside[gy, xx] and not win[gy, xx] and not tx[gy, xx]:
+                    c = 0.5 + 0.5 * np.cos(xx * 0.2 + np.array([0, 2, 4]))
+                    arr[gy, xx] = c
     if pattern == "glitch":
         for _ in range(14):
             yy = rng.randrange(4, H - 4)
@@ -217,6 +246,7 @@ PACKS = {
     "event": ((160, 30, 90), (255, 200, 90), "f006"),
     "secret": ((10, 10, 14), (120, 255, 210), "v003"),
     "eclipse": ((30, 18, 50), (255, 190, 90), "ec37"),
+    "primal": ((90, 50, 20), (255, 170, 70), "pr45"),
 }
 
 
@@ -408,6 +438,8 @@ def ui_icons():
     im, d = new(); d.ellipse([2, 6, 22, 18], fill=W); d.ellipse([8, 8, 16, 16], fill=(0, 0, 0, 0)); d.ellipse([10, 10, 14, 14], fill=W); out["eye"] = im
     im, d = new(); d.polygon([(2, 14), (8, 6), (14, 4), (22, 3), (18, 8), (21, 9), (16, 13), (18, 15), (10, 17), (4, 20)], fill=W); out["wing"] = im
     im, d = new(); d.ellipse([3, 3, 21, 21], outline=W, width=3); d.line([(6, 18), (18, 6)], fill=W, width=3); out["mute"] = im
+    im, d = new(); d.rectangle([4, 8, 16, 20], fill=W); d.ellipse([7, 3, 13, 9], fill=W); d.ellipse([15, 11, 21, 17], fill=W); d.ellipse([7, 17, 13, 23], fill=(0, 0, 0, 0)); out["puzzle"] = im
+    im, d = new(); d.polygon([(2, 20), (8, 10), (12, 14), (18, 4), (22, 20)], fill=W); out["trample"] = im
     im, d = new(); d.polygon([(12, 2), (21, 6), (20, 14), (12, 22), (4, 14), (3, 6)], fill=W); d.polygon([(12, 5), (18, 8), (17, 13), (12, 19)], fill=(0, 0, 0, 0)); out["shield"] = im
     im, d = new(); d.polygon([(13, 2), (5, 13), (11, 13), (9, 22), (19, 9), (13, 9)], fill=W); out["energy"] = im
     im, d = new(); d.ellipse([3, 3, 21, 21], fill=W); d.polygon([(12, 6), (14, 11), (19, 12), (14, 13), (12, 18), (10, 13), (5, 12), (10, 11)], fill=(0, 0, 0, 0)); out["globe"] = im

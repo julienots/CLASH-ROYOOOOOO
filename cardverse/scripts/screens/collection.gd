@@ -200,7 +200,8 @@ func rebuild() -> void:
 			owned_shown += 1
 		var e := Profile.entry(id)
 		var cell := UI.vbox(2)
-		var h := CardView.holder(id, 0.44, _best_variant(e), "face" if owned else "missing")
+		var is_swap: bool = DB.card(id).rarity == "SW"
+		var h := CardView.holder(id, 0.44, _best_variant(e), "face" if owned else ("auto" if is_swap else "missing"))
 		var cv: CardView = h.get_meta("card")
 		cv.fx_enabled = owned
 		cv.tapped.connect(func(_v): _on_tap(id))
@@ -212,6 +213,9 @@ func rebuild() -> void:
 				info.add_child(UI.icon_rect("ui_heart", 22, Color("ff6fa8")))
 			if not e.get("variants", {}).is_empty():
 				info.add_child(UI.icon_rect("ui_star", 22, UI.GOLD))
+		elif is_swap:
+			info.add_child(UI.icon_rect("ui_puzzle", 22, Color("4dffea")))
+			info.add_child(UI.label("%d/9" % Profile.pieces(id).size(), 18, Color("4dffea"), "num", 400))
 		else:
 			info.add_child(UI.label("Manquante", 18, UI.MUTED, "body", 600))
 		info.add_child(UI.expand(UI.spacer()))
@@ -229,6 +233,9 @@ func _best_variant(e: Dictionary) -> String:
 
 func _on_tap(id: String) -> void:
 	Sfx.play("flip")
+	if DB.card(id).rarity == "SW" and Profile.owned(id) == 0:
+		main.show_card(id, "", [])
+		return
 	if compare_mode:
 		if Profile.owned(id) == 0:
 			main.show_toast("Choisis deux cartes que tu possèdes.", "error")

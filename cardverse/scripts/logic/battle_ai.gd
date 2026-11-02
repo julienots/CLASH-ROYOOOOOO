@@ -62,7 +62,15 @@ func _best_play(g: BattleEngine, me: int, o: int) -> Dictionary:
 		if g.can_play(me, h.hid) != "":
 			continue
 		var c := DB.card(h.id)
-		var score := float(c.cost) * 2.0 + DB.rarity_index(c.rarity) * 0.3
+		var score := float(c.cost) * 2.0 + mini(DB.rarity_index(c.rarity), 10) * 0.3
+		var bad := false
+		for e in c.get("effects", []):
+			if e.do == "swap_leaders" and int(g.pl[me].leader.hp) >= int(g.pl[o].leader.hp):
+				bad = true
+			if e.do == "swap_leaders" and int(g.pl[me].leader.hp) < int(g.pl[o].leader.hp):
+				score += float(int(g.pl[o].leader.hp) - int(g.pl[me].leader.hp))
+		if bad:
+			continue
 		var target = null
 		var tt := g.needs_target(h.id)
 		if tt != "":
@@ -140,7 +148,7 @@ func _pick_target(g: BattleEngine, me: int, o: int, id: String, tt: String) -> D
 			if e.do == "damage":
 				dmg = int(e.value)
 				harmful = true
-			elif e.do in ["freeze", "destroy", "silence", "bounce"]:
+			elif e.do in ["freeze", "destroy", "silence", "bounce", "steal", "swap_stats"]:
 				harmful = true
 	var options := g.targets_for(me, tt)
 	var best := {}

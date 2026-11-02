@@ -49,7 +49,7 @@ func setup(_p: Dictionary) -> void:
 	v.add_child(reset)
 	var cr := UI.panel(Color(0.08, 0.05, 0.16, 0.9))
 	var cv := UI.vbox(6)
-	cv.add_child(UI.label("CARDVERSE · version 0.2", 24, UI.GOLD, "serif", 800))
+	cv.add_child(UI.label("CARDVERSE · version 0.3", 24, UI.GOLD, "serif", 800))
 	var txt := UI.label("Jeu développé avec Godot 4.3. Illustrations pixel art, cadres, icônes, sons et musiques générés par les outils du projet (dossier tools/). Polices Cinzel, Exo 2 et Lilita One sous licence SIL OFL.\n\nSauvegarde locale : %s" % ProjectSettings.globalize_path(Profile.SAVE_PATH), 18, UI.MUTED, "body", 600)
 	txt.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	cv.add_child(txt)

@@ -120,6 +120,37 @@ func run() -> int:
 			if DB.card(x.id).set != "genesis":
 				only_eclipse = false
 	check(only_eclipse, "les boosters de set ne donnent que leur set")
+	print("== Puzzles SWAP")
+	var rng4 := RandomNumberGenerator.new()
+	rng4.seed = 11
+	var st := {"pity": 0, "puzzles": {}}
+	var pgot := 0
+	var pgap := 0
+	var maxgap_p := 0
+	for i in 1000:
+		var pc := BoosterLogic.roll_piece(DB.booster("classic"), st, rng4)
+		if pc.is_empty():
+			pgap += 1
+		else:
+			pgot += 1
+			pgap = 0
+			check(DB.card(pc.id).rarity == "SW" and int(pc.piece) >= 0 and int(pc.piece) < 9, "pièce valide")
+			var have: Array = st.puzzles.get(pc.id, [])
+			if not int(pc.piece) in have:
+				have.append(int(pc.piece))
+			st.puzzles[pc.id] = have
+		maxgap_p = maxi(maxgap_p, pgap)
+	var pdone := 0
+	for id in st.puzzles:
+		if st.puzzles[id].size() == 9:
+			pdone += 1
+	print("  1000 boosters -> %d pièces, écart max %d, puzzles complets %d" % [pgot, maxgap_p, pdone])
+	check(maxgap_p < int(DB.puzzle_cfg().pity), "garantie de pièce respectée")
+	check(pgot > 100 and pgot < 250, "fréquence des pièces plausible")
+	for r in DB.rarity_order:
+		if DB.rarity(r).get("special", false):
+			for b in DB.boosters:
+				check(not BoosterLogic.slot_odds(b).has(r), "rareté spéciale absente des tirages " + b.id)
 	print("== Atelier et passe")
 	for r in DB.forge.evolutions:
 		check(DB.cards.has(r.from) and DB.cards.has(r.to), "recette d'évolution valide " + r.from)
@@ -174,6 +205,29 @@ func _mechanics() -> void:
 	g.resolve({"do": "bounce", "target": "choose_enemy_creature"}, 0, {}, {"chosen": {"k": "unit", "uid": garde.uid}})
 	check(g.find_unit(garde.uid).is_empty(), "Renvoi : la créature quitte le terrain")
 	check(g.pl[1].hand.size() == mini(hand_before + 1, BattleEngine.MAX_HAND), "Renvoi : la carte revient en main")
+	# Piétinement
+	var g2 := BattleEngine.new()
+	g2.setup(filler, "pyra", filler, "thalassa", 6)
+	g2.current = 0
+	var rex := g2.summon(0, "pr15")
+	rex.sleep = false
+	var small := g2.summon(1, "f001")
+	var hp1 := int(g2.pl[1].leader.hp)
+	g2.attack(rex.uid, {"k": "unit", "uid": small.uid})
+	check(int(g2.pl[1].leader.hp) < hp1, "Piétinement : l'excédent touche le leader")
+	# Vol de contrôle, échange de stats, échange des PV
+	var victim := g2.summon(1, "w007")
+	g2.resolve({"do": "steal", "target": "choose_enemy_creature"}, 0, {}, {"chosen": {"k": "unit", "uid": victim.uid}})
+	check(int(victim.owner) == 0 and g2.pl[0].board.has(victim), "Vol : la créature change de camp")
+	var sw := g2.summon(1, "e001")
+	var a0 := int(sw.atk)
+	var h0 := int(sw.hp)
+	g2.resolve({"do": "swap_stats", "target": "all_enemy_creatures"}, 0, {}, {})
+	check(int(sw.atk) == h0 and int(sw.hp) == a0, "SWAP : ATQ et PV échangés")
+	g2.pl[0].leader.hp = 5
+	g2.pl[1].leader.hp = 20
+	g2.resolve({"do": "swap_leaders"}, 0, {}, {})
+	check(int(g2.pl[0].leader.hp) == 20 and int(g2.pl[1].leader.hp) == 5, "Échange des PV des leaders")
 	var e0 := int(g.pl[0].energy)
 	g.resolve({"do": "energy", "value": 1}, 0, {}, {})
 	check(int(g.pl[0].energy) == mini(e0 + 1, 10), "Gain d'énergie")

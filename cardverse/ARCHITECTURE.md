@@ -103,6 +103,8 @@ Les hautes raretés reçoivent des rayons et des particules dans l'illustration,
 | 13 | Absolue | Obsidienne et or | Cosmique | Faille cosmique |
 | 14 | Originelle | Blanc pur prismatique | Cosmique, **numérotée** (tirage de 500) | Faille cosmique |
 | 15 | ??? | Glitch noir et blanc | Illustration glitchée (décalages RGB), numérotée | Faille cosmique |
+| + | **Primitif** (entre Antique et Divine) | Os sculpté et ambre | Runes d'ambre pulsantes sur le cadre | Faille cosmique |
+| + | **SWAP** (spéciale) | Coutures de puzzle irisées | Coutures arc-en-ciel animées | Jamais tirée : se reconstitue avec 9 pièces de puzzle |
 
 **Variantes** (indépendantes de la rareté) : Holographique, Full Art (illustration plein cadre), Alternate Art (teinte alternative), Chromatique (couleurs saturées décalées et scintillements), Animée (illustration ondulante), Prismatique (arc-en-ciel intense), Secret Art (plein cadre et dorure). Les cartes Originelles et ??? sont **numérotées**.
 
@@ -218,7 +220,7 @@ Client Godot ──HTTPS/WebSocket──► Passerelle (Nakama ou service Go)
 
 **Limites actuelles, annoncées honnêtement :**
 - Les illustrations sont du **pixel art procédural**, produit par recette. Chaque carte a sa silhouette et sa palette, mais ce ne sont pas des peintures faites main. Le pipeline permet de les remplacer une à une.
-- 101 cartes (2 sets), pas 2000 : l'architecture est prête, le contenu sera ajouté par sets (étape 4).
+- 149 cartes (3 sets), pas 2000 : l'architecture est prête, le contenu sera ajouté par sets (étape 4).
 - Pas de multijoueur ni de paiement réel (étape 5).
 - L'APK est signé avec une clé de développement (schéma v2, Android 7.0 minimum). Elle n'a pas été testée sur un appareil physique depuis cet environnement.
 
@@ -240,3 +242,21 @@ Client Godot ──HTTPS/WebSocket──► Passerelle (Nakama ou service Go)
 - **Tutoriel** en 5 étapes au premier lancement, fenêtre **Nouveautés** pour les joueurs existants, filtre **par set** dans l'album.
 - **Corrections** : retournement des cartes au toucher (0.1.1) ; créature « fantôme » affichée quand une action en invoquait plusieurs.
 - **Tests ajoutés** : Envol, Garde, Silence, Renvoi, Énergie, exclusivité des boosters de set, recettes de l'Atelier, passe, et une partie automatique jouée uniquement avec des cartes Éclipse.
+
+## 11. Version 0.3
+
+- **Set 3 « Âge Primitif »** (`data/cards/primal.json`) : 45 cartes collectionnables (dont 9 Super Rares, 4 Primitives, 1 Mythique) et 3 SWAP, plus un jeton. Booster Âge Primitif dédié.
+- **Rareté Primitif** : tirable normalement (poids 0,15), avec son propre cadre et ses runes animées.
+- **Rareté SWAP** : exclue des tirages. Chaque booster a 12 % de chances (ajustées par la chance du booster) de contenir une **pièce de puzzle**, avec une garantie tous les 10 boosters. Les pièces manquantes sont privilégiées ; un doublon rapporte 120 Poussières. L'album affiche les cartes SWAP partiellement révélées, et l'ouverture de booster montre la pièce qui vient se placer puis l'assemblage final.
+- **Mécaniques** :
+  - **Piétinement** : l'excédent de dégâts touche le leader.
+  - **Vol de contrôle** d'une créature ennemie.
+  - **Échange ATQ et PV**.
+  - **Échange des PV des deux leaders**.
+- **Effets visuels** (shader `card_fx`) :
+  - particules propres à l'élément dans l'illustration pour toutes les cartes Rares et plus ;
+  - lumière qui court autour du cadre à partir d'Épique ;
+  - relief de l'illustration qui suit l'inclinaison ;
+  - **entrée spectaculaire en combat** des cartes Super Rares et plus (rayons, éclats, titre, tremblement pour Légendaire et plus).
+- **Défilement tactile global** de toutes les listes, sans clic parasite.
+- **Tests** : Piétinement, vol, échanges, fréquence et garantie des pièces, exclusion des raretés spéciales des tirages.

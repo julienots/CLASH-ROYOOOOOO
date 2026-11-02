@@ -82,6 +82,16 @@ func _json(path: String) -> Variant:
 		return {}
 	return v
 
+func puzzle_cfg() -> Dictionary:
+	return _json_cache_get("puzzle")
+
+var _rar_extra := {}
+
+func _json_cache_get(k: String) -> Dictionary:
+	if _rar_extra.is_empty():
+		_rar_extra = _json("res://data/rarities.json")
+	return _rar_extra.get(k, {})
+
 func set_title(id: String) -> String:
 	for s in sets:
 		if s.id == id:
@@ -202,6 +212,9 @@ func effect_text(e: Dictionary) -> String:
 		"summon": s = "Invoque %s." % card(e.card).get("name", "?")
 		"shield": s = "Donne Bouclier à %s." % tgt
 		"destroy": s = "Détruit %s." % tgt
+		"swap_stats": s = "Échange l'ATQ et les PV de %s." % tgt
+		"steal": s = "Prend le contrôle de %s." % tgt
+		"swap_leaders": s = "Échange les PV des deux leaders."
 		"silence": s = "Réduit au silence %s (perd mots-clés et effets)." % tgt
 		"bounce": s = "Renvoie %s dans la main de son propriétaire." % tgt
 		"energy": s = "Gagnez %d énergie ce tour-ci." % v

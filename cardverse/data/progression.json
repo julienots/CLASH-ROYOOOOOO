@@ -267,6 +267,27 @@
     "crystals": 150,
     "tokens": 2
    }
+  },
+  {
+   "id": "a_piece",
+   "text": "Premier fragment",
+   "desc": "Trouve une pièce de puzzle SWAP.",
+   "stat": "puzzle_pieces",
+   "goal": 1,
+   "reward": {
+    "crystals": 15
+   }
+  },
+  {
+   "id": "a_swap",
+   "text": "Maître du SWAP",
+   "desc": "Complète une carte SWAP (9 pièces).",
+   "stat": "swap_completed",
+   "goal": 1,
+   "reward": {
+    "crystals": 120,
+    "tokens": 2
+   }
   }
  ],
  "login_calendar": [

@@ -122,6 +122,8 @@ func refresh(u: Dictionary) -> void:
 		_icons.add_child(UI.icon_rect("ui_star", 26, Color("ff8a4a")))
 	if u.kw.get("celerite", false):
 		_icons.add_child(UI.icon_rect("ui_energy", 26, Color("ffe14a")))
+	if u.kw.get("pietinement", false):
+		_icons.add_child(UI.icon_rect("ui_trample", 28, Color("ffb340")))
 	if u.kw.get("envol", false):
 		_icons.add_child(UI.icon_rect("ui_wing", 28, Color("bfe6ff")))
 	if u.get("silenced", false):

@@ -25,7 +25,8 @@ func new_game() -> void:
 		"shop": {"date": "", "bought": []}, "cosmetics": {"owned": ["back_default", "board_default"], "back": "back_default", "board": "board_default"},
 		"collection_rewards": [], "settings": {"sfx": true, "music": true, "fast": false},
 		"rank": {"points": 0}, "title": "Novice",
-		"free_packs": {}, "pass": {}, "forge_known": [], "tutorial_done": false, "seen_version": "0.2",
+		"free_packs": {}, "pass": {}, "forge_known": [], "tutorial_done": false, "seen_version": "0.3",
+		"puzzles": {}, "puzzle_pity": 0,
 	}
 	for id in st.cards:
 		add_card(id, "", false)
@@ -45,7 +46,8 @@ func load_game() -> void:
 func _migrate() -> void:
 	# compléter les clés absentes (sauvegardes d'anciennes versions du prototype)
 	var defaults := {"dust": 0, "serials": {}, "collection_rewards": [], "rank": {"points": 0}, "title": "Novice", "event": 0,
-		"free_packs": {}, "pass": {}, "forge_known": [], "tutorial_done": true, "seen_version": "0.1"}
+		"free_packs": {}, "pass": {}, "forge_known": [], "tutorial_done": true, "seen_version": "0.1",
+		"puzzles": {}, "puzzle_pity": 0}
 	for k in defaults:
 		if not d.has(k):
 			d[k] = defaults[k]
@@ -93,6 +95,29 @@ func total_free() -> int:
 	for k in d.free_packs:
 		n += int(d.free_packs[k])
 	return n
+
+# ---------------------------------------------------------------- puzzles SWAP
+func pieces(id: String) -> Array:
+	return d.puzzles.get(id, [])
+
+## Ajoute une pièce. Renvoie {"dup": bool, "complete": bool, "count": n, "total": n, "new_card": bool}.
+func add_piece(id: String, piece: int) -> Dictionary:
+	var total := int(DB.rarity("SW").pieces)
+	var have: Array = d.puzzles.get(id, [])
+	var res := {"dup": false, "complete": false, "count": 0, "total": total, "new_card": false}
+	if piece in have:
+		res.dup = true
+		d.dust = get_cur("dust") + int(DB.puzzle_cfg().duplicate_dust)
+	else:
+		have.append(piece)
+		d.puzzles[id] = have
+		if have.size() >= total:
+			res.complete = true
+			res.new_card = add_card(id)
+			stat("swap_completed")
+	stat("puzzle_pieces")
+	res.count = have.size()
+	return res
 
 # ---------------------------------------------------------------- passe de saison
 func pass_data() -> Dictionary:
