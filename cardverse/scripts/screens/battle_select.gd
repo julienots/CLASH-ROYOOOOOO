@@ -42,6 +42,7 @@ func setup(_p: Dictionary) -> void:
 	dh.add_child(eb)
 	dp.add_child(dh)
 	v.add_child(dp)
+	v.add_child(_tower_banner())
 	v.add_child(UI.label("Contre l'IA", 26, UI.TEXT, "serif", 800))
 	for i in OPPONENTS.size():
 		v.add_child(_opp_row(OPPONENTS[i], i))
@@ -132,3 +133,32 @@ func start_with(o: Dictionary) -> void:
 	bv.setup(cfg)
 	Sfx.play("whoosh")
 	main.open_overlay(bv, true)
+
+func _tower_banner() -> Control:
+	var p := PanelContainer.new()
+	var st := UI.box(Color("3a2808"), 24, Color("ffd84a"), 4, 10)
+	st.content_margin_left = 16
+	st.content_margin_right = 16
+	st.content_margin_top = 14
+	st.content_margin_bottom = 14
+	p.add_theme_stylebox_override("panel", st)
+	var h := UI.hbox(14)
+	var hld := CardView.holder("pg01", 0.24)
+	hld.get_meta("card").mouse_filter = Control.MOUSE_FILTER_IGNORE
+	h.add_child(hld)
+	var v := UI.vbox(4)
+	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var t := UI.label("LA TOUR DES DIEUX", 28, Color("ffe7a0"), "serif", 800)
+	UI.outline(t, 6)
+	v.add_child(t)
+	var best := int(Profile.d.tower.get("best", 0))
+	var d := UI.label("20 étages, des règles spéciales et des boss. Une carte GOD t'attend au sommet.", 18, UI.TEXT, "body", 600)
+	d.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	v.add_child(d)
+	v.add_child(UI.label("Étage %d / 20" % mini(best + 1, 20), 22, UI.GOLD, "num", 400))
+	var b := UI.button("GRAVIR", Color("c89a20"), 24, Vector2(0, 70), "ui_trophy")
+	b.pressed.connect(func(): main.goto("tower"))
+	v.add_child(b)
+	h.add_child(v)
+	p.add_child(h)
+	return p

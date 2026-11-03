@@ -1,0 +1,493 @@
+{
+ "name": "La Tour des Dieux",
+ "floors": [
+  {
+   "floor": 1,
+   "name": "Étage 1",
+   "boss": false,
+   "elements": [
+    "nature",
+    "lumiere"
+   ],
+   "leader": "sylva",
+   "hp": 21,
+   "difficulty": 0,
+   "max_rarity": "R",
+   "mods": {},
+   "mods_text": [],
+   "reward": {
+    "coins": 100,
+    "dust": 40,
+    "xp": 45
+   }
+  },
+  {
+   "floor": 2,
+   "name": "Étage 2",
+   "boss": false,
+   "elements": [
+    "eau",
+    "glace"
+   ],
+   "leader": "thalassa",
+   "hp": 22,
+   "difficulty": 0,
+   "max_rarity": "R",
+   "mods": {},
+   "mods_text": [],
+   "reward": {
+    "coins": 120,
+    "dust": 50,
+    "xp": 50
+   }
+  },
+  {
+   "floor": 3,
+   "name": "Étage 3",
+   "boss": false,
+   "elements": [
+    "ombre",
+    "neant"
+   ],
+   "leader": "umbra",
+   "hp": 23,
+   "difficulty": 0,
+   "max_rarity": "R",
+   "mods": {
+    "enemy_shield": true
+   },
+   "mods_text": [
+    "Créatures adverses avec Bouclier"
+   ],
+   "reward": {
+    "coins": 140,
+    "dust": 60,
+    "xp": 55
+   }
+  },
+  {
+   "floor": 4,
+   "name": "Étage 4",
+   "boss": false,
+   "elements": [
+    "feu",
+    "terre"
+   ],
+   "leader": "pyra",
+   "hp": 24,
+   "difficulty": 1,
+   "max_rarity": "E",
+   "mods": {
+    "player_energy": 1
+   },
+   "mods_text": [
+    "Tu commences avec +1 énergie"
+   ],
+   "reward": {
+    "coins": 160,
+    "dust": 70,
+    "xp": 60
+   }
+  },
+  {
+   "floor": 5,
+   "name": "Cerbère, Gardien du Seuil",
+   "boss": true,
+   "elements": [
+    "feu",
+    "ombre"
+   ],
+   "leader": "pyra",
+   "hp": 35,
+   "difficulty": 1,
+   "max_rarity": "E",
+   "mods": {
+    "enemy_atk": 1,
+    "enemy_draw": 1
+   },
+   "mods_text": [
+    "Créatures adverses +1 ATQ",
+    "L'adversaire pioche 1 carte(s) de plus"
+   ],
+   "reward": {
+    "coins": 180,
+    "dust": 80,
+    "xp": 65,
+    "booster": "pantheon"
+   }
+  },
+  {
+   "floor": 6,
+   "name": "Étage 6",
+   "boss": false,
+   "elements": [
+    "nature",
+    "lumiere"
+   ],
+   "leader": "thalassa",
+   "hp": 26,
+   "difficulty": 1,
+   "max_rarity": "E",
+   "mods": {
+    "enemy_shield": true,
+    "enemy_atk": 1
+   },
+   "mods_text": [
+    "Créatures adverses avec Bouclier",
+    "Créatures adverses +1 ATQ"
+   ],
+   "reward": {
+    "coins": 200,
+    "dust": 90,
+    "xp": 70
+   }
+  },
+  {
+   "floor": 7,
+   "name": "Étage 7",
+   "boss": false,
+   "elements": [
+    "eau",
+    "glace"
+   ],
+   "leader": "umbra",
+   "hp": 27,
+   "difficulty": 1,
+   "max_rarity": "E",
+   "mods": {},
+   "mods_text": [],
+   "reward": {
+    "coins": 220,
+    "dust": 100,
+    "xp": 75
+   }
+  },
+  {
+   "floor": 8,
+   "name": "Étage 8",
+   "boss": false,
+   "elements": [
+    "ombre",
+    "neant"
+   ],
+   "leader": "pyra",
+   "hp": 28,
+   "difficulty": 1,
+   "max_rarity": "E",
+   "mods": {
+    "enemy_atk": 1
+   },
+   "mods_text": [
+    "Créatures adverses +1 ATQ"
+   ],
+   "reward": {
+    "coins": 240,
+    "dust": 110,
+    "xp": 80
+   }
+  },
+  {
+   "floor": 9,
+   "name": "Étage 9",
+   "boss": false,
+   "elements": [
+    "feu",
+    "terre"
+   ],
+   "leader": "sylva",
+   "hp": 29,
+   "difficulty": 1,
+   "max_rarity": "L",
+   "mods": {
+    "enemy_shield": true
+   },
+   "mods_text": [
+    "Créatures adverses avec Bouclier"
+   ],
+   "reward": {
+    "coins": 260,
+    "dust": 120,
+    "xp": 85
+   }
+  },
+  {
+   "floor": 10,
+   "name": "Méduse des Abysses",
+   "boss": true,
+   "elements": [
+    "neant",
+    "eau"
+   ],
+   "leader": "umbra",
+   "hp": 40,
+   "difficulty": 1,
+   "max_rarity": "L",
+   "mods": {
+    "enemy_atk": 2,
+    "enemy_draw": 1
+   },
+   "mods_text": [
+    "Créatures adverses +2 ATQ",
+    "L'adversaire pioche 1 carte(s) de plus"
+   ],
+   "reward": {
+    "coins": 280,
+    "dust": 130,
+    "xp": 90,
+    "crystals": 80
+   }
+  },
+  {
+   "floor": 11,
+   "name": "Étage 11",
+   "boss": false,
+   "elements": [
+    "nature",
+    "lumiere"
+   ],
+   "leader": "umbra",
+   "hp": 31,
+   "difficulty": 2,
+   "max_rarity": "L",
+   "mods": {
+    "enemy_atk": 1,
+    "enemy_draw": 1
+   },
+   "mods_text": [
+    "Créatures adverses +1 ATQ",
+    "L'adversaire pioche 1 carte(s) de plus"
+   ],
+   "reward": {
+    "coins": 300,
+    "dust": 140,
+    "xp": 95
+   }
+  },
+  {
+   "floor": 12,
+   "name": "Étage 12",
+   "boss": false,
+   "elements": [
+    "eau",
+    "glace"
+   ],
+   "leader": "pyra",
+   "hp": 32,
+   "difficulty": 2,
+   "max_rarity": "L",
+   "mods": {
+    "enemy_shield": true,
+    "enemy_atk": 1
+   },
+   "mods_text": [
+    "Créatures adverses avec Bouclier",
+    "Créatures adverses +1 ATQ"
+   ],
+   "reward": {
+    "coins": 320,
+    "dust": 150,
+    "xp": 100
+   }
+  },
+  {
+   "floor": 13,
+   "name": "Étage 13",
+   "boss": false,
+   "elements": [
+    "ombre",
+    "neant"
+   ],
+   "leader": "sylva",
+   "hp": 33,
+   "difficulty": 2,
+   "max_rarity": "L",
+   "mods": {},
+   "mods_text": [],
+   "reward": {
+    "coins": 340,
+    "dust": 160,
+    "xp": 105
+   }
+  },
+  {
+   "floor": 14,
+   "name": "Étage 14",
+   "boss": false,
+   "elements": [
+    "feu",
+    "terre"
+   ],
+   "leader": "thalassa",
+   "hp": 34,
+   "difficulty": 2,
+   "max_rarity": "L",
+   "mods": {
+    "enemy_atk": 1
+   },
+   "mods_text": [
+    "Créatures adverses +1 ATQ"
+   ],
+   "reward": {
+    "coins": 360,
+    "dust": 170,
+    "xp": 110
+   }
+  },
+  {
+   "floor": 15,
+   "name": "Kronos, Titan du Temps",
+   "boss": true,
+   "elements": [
+    "neant",
+    "cosmique"
+   ],
+   "leader": "umbra",
+   "hp": 45,
+   "difficulty": 2,
+   "max_rarity": "M",
+   "mods": {
+    "enemy_atk": 2,
+    "enemy_shield": true,
+    "enemy_draw": 1
+   },
+   "mods_text": [
+    "Créatures adverses +2 ATQ",
+    "Créatures adverses avec Bouclier",
+    "L'adversaire pioche 1 carte(s) de plus"
+   ],
+   "reward": {
+    "coins": 380,
+    "dust": 180,
+    "xp": 115,
+    "tokens": 3
+   }
+  },
+  {
+   "floor": 16,
+   "name": "Étage 16",
+   "boss": false,
+   "elements": [
+    "nature",
+    "lumiere"
+   ],
+   "leader": "pyra",
+   "hp": 36,
+   "difficulty": 2,
+   "max_rarity": "M",
+   "mods": {
+    "player_energy": 1
+   },
+   "mods_text": [
+    "Tu commences avec +1 énergie"
+   ],
+   "reward": {
+    "coins": 400,
+    "dust": 190,
+    "xp": 120
+   }
+  },
+  {
+   "floor": 17,
+   "name": "Étage 17",
+   "boss": false,
+   "elements": [
+    "eau",
+    "glace"
+   ],
+   "leader": "sylva",
+   "hp": 37,
+   "difficulty": 2,
+   "max_rarity": "M",
+   "mods": {
+    "enemy_atk": 1,
+    "enemy_draw": 1
+   },
+   "mods_text": [
+    "Créatures adverses +1 ATQ",
+    "L'adversaire pioche 1 carte(s) de plus"
+   ],
+   "reward": {
+    "coins": 420,
+    "dust": 200,
+    "xp": 125
+   }
+  },
+  {
+   "floor": 18,
+   "name": "Étage 18",
+   "boss": false,
+   "elements": [
+    "ombre",
+    "neant"
+   ],
+   "leader": "thalassa",
+   "hp": 38,
+   "difficulty": 2,
+   "max_rarity": "M",
+   "mods": {
+    "enemy_shield": true,
+    "enemy_atk": 1
+   },
+   "mods_text": [
+    "Créatures adverses avec Bouclier",
+    "Créatures adverses +1 ATQ"
+   ],
+   "reward": {
+    "coins": 440,
+    "dust": 210,
+    "xp": 130
+   }
+  },
+  {
+   "floor": 19,
+   "name": "Étage 19",
+   "boss": false,
+   "elements": [
+    "feu",
+    "terre"
+   ],
+   "leader": "umbra",
+   "hp": 39,
+   "difficulty": 2,
+   "max_rarity": "M",
+   "mods": {},
+   "mods_text": [],
+   "reward": {
+    "coins": 460,
+    "dust": 220,
+    "xp": 135
+   }
+  },
+  {
+   "floor": 20,
+   "name": "L'Avatar des Dieux",
+   "boss": true,
+   "elements": [
+    "lumiere",
+    "foudre",
+    "cosmique"
+   ],
+   "leader": "thalassa",
+   "hp": 50,
+   "difficulty": 2,
+   "max_rarity": "G",
+   "mods": {
+    "enemy_atk": 3,
+    "enemy_shield": true,
+    "enemy_draw": 1
+   },
+   "mods_text": [
+    "Créatures adverses +3 ATQ",
+    "Créatures adverses avec Bouclier",
+    "L'adversaire pioche 1 carte(s) de plus"
+   ],
+   "reward": {
+    "coins": 480,
+    "dust": 230,
+    "xp": 140,
+    "god_card": true,
+    "crystals": 150
+   }
+  }
+ ]
+}

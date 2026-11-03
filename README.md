@@ -1,6 +1,6 @@
 # 🃏 Nouveau : CARDVERSE — Ultimate TCG Collection
 
-Jeu mobile de cartes à collectionner en portrait (Godot 4.3) : 242 cartes originales en 5 générations, 17 raretés (dont Primitif et SWAP en puzzle), boosters animés avec faille cosmique, album, combats stratégiques contre l'IA, Atelier d'évolutions, passe de saison, missions, événement.
+Jeu mobile de cartes à collectionner en portrait (Godot 4.3) : 289 cartes originales en 6 générations, rareté GOD, Tour des Dieux, 17 raretés (dont Primitif et SWAP en puzzle), boosters animés avec faille cosmique, album, combats stratégiques contre l'IA, Atelier d'évolutions, passe de saison, missions, événement.
 
 - 📲 APK Android : **[`dist/Cardverse.apk`](dist/Cardverse.apk)**
 - 📖 Présentation et utilisation : [`cardverse/README.md`](cardverse/README.md)

@@ -91,6 +91,13 @@ vec3 element_fx(vec2 p, float t, float lvl) {
 		float tw = pow(max(0.0, sin(t * (1.0 + h * 3.0) + h * 40.0)), 16.0);
 		c += vec3(1.0) * tw * step(0.88, h) * 1.4;
 		c += hue(fract(p.x * 0.6 + t * 0.05)) * field(p, vec2(10.0, 8.0), vec2(0.15, 0.05), t, 0.12, 0.35, 0.0) * 0.8;
+	} else if (element == 10) { // GOD : poussière d'or ascendante et pluie d'étincelles
+		vec2 w = p + vec2(sin(t * 0.9 + p.y * 7.0) * 0.012, 0.0);
+		float a = field(w, vec2(16.0, 12.0), vec2(0.0, 0.9), t, 0.12, 0.55, 0.0);
+		float b = field(w, vec2(28.0, 20.0), vec2(0.1, 1.6), t, 0.09, 0.45, 0.0);
+		c += vec3(1.0, 0.82, 0.3) * a * 1.3 + vec3(1.0, 0.97, 0.75) * b * 1.2;
+		float ray = pow(max(0.0, sin((p.x + p.y * 0.3) * 7.0 - t * 0.9)), 14.0);
+		c += vec3(1.0, 0.85, 0.45) * ray * 0.35;
 	} else if (element == 9) { // néant : particules spectrales et glitch
 		c += vec3(0.4, 1.0, 0.8) * field(p, vec2(14.0, 10.0), vec2(0.0, 0.8), t, 0.1, 0.4, 0.0);
 		float band = step(0.96, hash(vec2(floor(p.y * 40.0), floor(t * 6.0))));
@@ -133,6 +140,17 @@ void fragment() {
 		float k = uv.x + uv.y + tilt.x;
 		c += hue(fract(k * 0.7 + t * 0.03)) * 0.12;
 	}
+	if (mode == 7) {
+		float k = (uv.x * 0.7 - uv.y) * 5.0 + tilt.x * 2.5 + tilt.y * 1.5 + t * 0.35;
+		c += vec3(1.0, 0.82, 0.38) * (0.12 + 0.14 * sin(k * 2.5));
+		c += hue(fract(uv.x * 0.8 + uv.y * 0.5 + t * 0.06 + tilt.x)) * 0.07;
+		vec2 g = floor(uv * vec2(30.0, 42.0));
+		float h = hash(g + 7.0);
+		float tw = pow(max(0.0, sin(t * (2.0 + h * 3.0) + h * 50.0)), 22.0);
+		vec2 f = fract(uv * vec2(30.0, 42.0)) - 0.5;
+		float star = smoothstep(0.2, 0.0, abs(f.x) * abs(f.y) * 14.0 + length(f) * 0.5);
+		c += vec3(1.0, 0.95, 0.7) * tw * star * step(0.8, h) * 1.6;
+	}
 	if (mode == 6) {
 		float k = (uv.x - uv.y) * 6.0 + tilt.x * 2.0 + t * 0.4;
 		c += vec3(1.0, 0.8, 0.35) * (0.18 + 0.18 * sin(k * 3.0));
@@ -157,6 +175,30 @@ void fragment() {
 	} else if (border == 2) {
 		float runes = step(0.5, fract(ang * 48.0)) * (0.55 + 0.45 * sin(t * 2.5 + ang * 30.0));
 		c += vec3(1.0, 0.55, 0.15) * bandb * (0.35 + runes * 0.9);
+	} else if (border == 4) {
+		// contour d'or liquide, épais et vivant
+		float band4 = smoothstep(30.0, 8.0, ed) * smoothstep(0.0, 2.0, ed);
+		float flow = 0.5 + 0.5 * sin(ang * 6.2831 * 18.0 - t * 4.0 + sin(ed * 0.4 + t * 2.0) * 1.5);
+		float n4 = noise(vec2(ang * 60.0 - t * 1.5, ed * 0.15 + t * 0.5));
+		vec3 gold = mix(vec3(0.75, 0.42, 0.05), vec3(1.0, 0.86, 0.35), flow * 0.7 + n4 * 0.3);
+		c += gold * band4 * 1.15;
+		// deux comètes de lumière qui font le tour
+		for (int i = 0; i < 2; i++) {
+			float ph = fract(ang - t * 0.18 + float(i) * 0.5);
+			float com = smoothstep(0.07, 0.0, min(ph, 1.0 - ph)) + smoothstep(0.18, 0.0, ph) * 0.5 * step(ph, 0.5);
+			c += vec3(1.0, 0.98, 0.85) * com * band4 * 2.2;
+		}
+		// éclats scintillants sur le cadre
+		vec2 g4 = floor(px / 9.0);
+		float h4 = hash(g4 + 3.3);
+		float tw4 = pow(max(0.0, sin(t * (2.5 + h4 * 4.0) + h4 * 70.0)), 26.0);
+		c += vec3(1.0, 1.0, 0.85) * tw4 * step(0.86, h4) * band4 * 3.0;
+		// liseré intérieur qui pulse
+		float inner = smoothstep(2.5, 0.0, abs(ed - 36.0));
+		c += vec3(1.0, 0.8, 0.35) * inner * (0.5 + 0.5 * sin(t * 3.0 + ang * 25.0)) * 0.8;
+		// rayons divins qui balaient la carte
+		float sweep = pow(max(0.0, sin((uv.x * 1.2 - uv.y * 0.8) * 4.0 + t * 0.7)), 18.0);
+		c += vec3(1.0, 0.9, 0.55) * sweep * 0.22;
 	} else if (border == 3) {
 		c += hue(fract(ang * 2.0 - t * 0.3)) * bandb * 1.1;
 		float sx = min(abs(uv.x - 0.3333), abs(uv.x - 0.6667));

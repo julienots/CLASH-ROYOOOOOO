@@ -26,7 +26,7 @@ func new_game() -> void:
 		"collection_rewards": [], "settings": {"sfx": true, "music": true, "fast": false},
 		"rank": {"points": 0}, "title": "Novice",
 		"free_packs": {}, "pass": {}, "forge_known": [], "tutorial_done": false, "seen_version": "0.5",
-		"puzzles": {}, "puzzle_pity": 0, "displays": [], "gifts": ["v05", "v06"],
+		"puzzles": {}, "puzzle_pity": 0, "displays": [], "gifts": ["v05", "v06", "v07"], "tower": {"floor": 1, "best": 0},
 	}
 	for id in st.cards:
 		add_card(id, "", false)
@@ -58,6 +58,12 @@ func _migrate() -> void:
 		for k in {"eclipse": 1, "primal": 2, "mecanica": 3}:
 			add_free(k, {"eclipse": 1, "primal": 2, "mecanica": 3}[k])
 		d["pending_gift"] = true
+	if not d.has("tower"):
+		d.tower = {"floor": 1, "best": 0}
+	if not "v07" in d.gifts:
+		d.gifts.append("v07")
+		add_free("pantheon", 3)
+		d["pending_gift7"] = true
 	if not "v06" in d.gifts:
 		d.gifts.append("v06")
 		add_free("songes", 3)
@@ -106,6 +112,44 @@ func total_free() -> int:
 	for k in d.free_packs:
 		n += int(d.free_packs[k])
 	return n
+
+# ---------------------------------------------------------------- Tour des Dieux
+## Valide un étage gagné : récompenses (premier passage complet, rejouer = pièces seulement). Renvoie {text, god_card?}.
+func tower_win(n: int) -> Dictionary:
+	var T: Array = DB.tower.floors
+	var fl: Dictionary = T[clampi(n, 1, T.size()) - 1]
+	var first: bool = n > int(d.tower.get("best", 0))
+	var out := {}
+	var parts := []
+	if first:
+		var rew: Dictionary = fl.reward.duplicate()
+		var god := rew.has("god_card")
+		rew.erase("god_card")
+		give(rew, true)
+		for k in rew:
+			if k == "booster":
+				parts.append("1 %s" % DB.booster(rew.booster).name)
+			elif k != "xp":
+				parts.append("+%d %s" % [int(rew[k]), cur_name(k, int(rew[k]))])
+		if god:
+			var gods := []
+			for id in DB.card_order:
+				if DB.card(id).rarity == "G":
+					gods.append(id)
+			var missing := gods.filter(func(x): return owned(x) == 0)
+			var pick: String = (missing if not missing.is_empty() else gods).pick_random()
+			add_card(pick)
+			out.god_card = pick
+			parts.append("CARTE GOD : %s !" % DB.card(pick).name)
+		d.tower.best = n
+		d.tower.floor = mini(n + 1, T.size())
+		stat("tower_floors")
+	else:
+		give({"coins": 60 + 5 * n}, true)
+		parts.append("+%d Pièces (étage déjà franchi)" % (60 + 5 * n))
+	out.text = " · ".join(parts)
+	save_game()
+	return out
 
 # ---------------------------------------------------------------- puzzles SWAP
 func pieces(id: String) -> Array:

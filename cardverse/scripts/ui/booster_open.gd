@@ -297,7 +297,7 @@ func _show_next() -> void:
 	var c := DB.card(r.id)
 	var fx := int(DB.rarity(c.rarity).fx)
 	var col := DB.rarity_color(c.rarity)
-	_glow.material.set_shader_parameter("color", Color(col, 0.25 + fx * 0.12) if fx > 0 else Color(1, 1, 1, 0.12))
+	_glow.material.set_shader_parameter("color", Color(col, minf(0.6, 0.25 + fx * 0.12)) if fx > 0 else Color(1, 1, 1, 0.12))
 	if fx >= 1:
 		var t := current.create_tween().set_loops(3)
 		t.tween_property(current, "modulate", Color(1.0 + fx * 0.15, 1.0 + fx * 0.1, 1.0 + fx * 0.15), 0.25)
@@ -327,6 +327,8 @@ func _reveal(cv: CardView, r: Dictionary) -> void:
 	var ri := DB.rarity_index(c.rarity)
 	if ri >= DB.rarity_index("M"):
 		await _cosmic_sequence(cv, c, col)
+	if c.rarity == "G":
+		await _god_sequence(cv)
 	cv.set_pivot(Vector2(CardView.W, CardView.H) / 2)
 	Sfx.play("flip")
 	var t := cv.create_tween()
@@ -353,6 +355,51 @@ func _reveal(cv: CardView, r: Dictionary) -> void:
 	if fx >= 3:
 		UI.aura_particles(cv, Rect2(Vector2.ZERO, Vector2(CardView.W, CardView.H)), col, 30)
 	_label_for(c, r, col, fx)
+
+## Révélation GOD : l'écran vire à l'or, une colonne de lumière descend, pluie d'or et titre géant.
+func _god_sequence(cv: CardView) -> void:
+	var gold := Color(1.0, 0.82, 0.3)
+	var veil := ColorRect.new()
+	veil.color = Color(1.0, 0.85, 0.4, 0.0)
+	veil.size = size
+	veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(veil)
+	var col_l := UI.glow_rect(Color(1.0, 0.95, 0.7, 1.0), Vector2(520, size.y * 2.2), 0.8, 0.0)
+	col_l.position = Vector2(size.x / 2 - 260, -size.y * 0.6)
+	col_l.modulate.a = 0
+	add_child(col_l)
+	Sfx.play("reveal_4", 0.8)
+	var t := create_tween().set_parallel(true)
+	t.tween_property(veil, "color:a", 0.3, 0.8)
+	t.tween_property(col_l, "modulate:a", 0.6, 0.8)
+	UI.shake(self, 16, 1.4)
+	for i in 8:
+		UI.burst(self, Vector2(randf_range(40, size.x - 40), -20), gold.lightened(randf() * 0.4), 30, 500, 0.6, 1.8, 900)
+		await get_tree().create_timer(0.1).timeout
+	var big := UI.label("G O D", 130, Color(1.0, 0.78, 0.2), "title", 700, HORIZONTAL_ALIGNMENT_CENTER)
+	UI.outline(big, 22, Color(0.22, 0.1, 0.0))
+	big.add_theme_constant_override("shadow_offset_y", 8)
+	big.add_theme_color_override("font_shadow_color", Color(0.1, 0.03, 0.0, 0.8))
+	big.position = Vector2(0, size.y / 2 - 120)
+	big.size = Vector2(size.x, 200)
+	add_child(big)
+	big.pivot_offset = big.size / 2
+	big.scale = Vector2(3, 3)
+	big.modulate.a = 0
+	var tb := big.create_tween().set_parallel(true)
+	tb.tween_property(big, "scale", Vector2.ONE, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tb.tween_property(big, "modulate:a", 1.0, 0.3)
+	Sfx.play("flash")
+	_flash(Color(1, 0.95, 0.75, 0.6), 0.5)
+	await get_tree().create_timer(1.5).timeout
+	var t2 := create_tween().set_parallel(true)
+	t2.tween_property(big, "modulate:a", 0.0, 0.4)
+	t2.tween_property(veil, "color:a", 0.0, 1.2)
+	t2.tween_property(col_l, "modulate:a", 0.0, 1.5)
+	await t2.finished
+	big.queue_free()
+	veil.queue_free()
+	get_tree().create_timer(4.0).timeout.connect(col_l.queue_free)
 
 func _label_for(c: Dictionary, r: Dictionary, col: Color, fx: int) -> void:
 	if _title:

@@ -114,6 +114,8 @@ func setup(_p: Dictionary) -> void:
 	# connexion quotidienne, tutoriel, nouveautés
 	if Profile.d.get("pending_gift", false):
 		_gift_popup.call_deferred()
+	elif Profile.d.get("pending_gift7", false):
+		_gift7_popup.call_deferred()
 	elif Profile.d.get("pending_gift6", false):
 		_gift6_popup.call_deferred()
 	elif not Profile.d.get("tutorial_done", true):
@@ -301,6 +303,20 @@ func _gift6_popup() -> void:
 	main.modal("Royaume des Songes", l, [["Plus tard", Color("4a3a6a"), func():
 		Profile.d.pending_gift6 = false
 		Profile.save_game()], ["Ouvrir mes boosters", UI.GOOD.darkened(0.2), func():
+		Profile.d.pending_gift6 = false
+		Profile.save_game()
+		main.goto("shop", {"tab": "boosters"})]])
+
+func _gift7_popup() -> void:
+	var l := UI.label("Nouveautés 0.7 :\n• NOUVELLE RARETÉ « GOD », la plus haute de toutes : cadre en or massif, contour d'or liquide animé, éclats, rayons divins et révélation spéciale.\n• GÉNÉRATION 6 « PANTHÉON CÉLESTE » : 47 cartes de dieux, titans et bêtes sacrées, dont 3 cartes GOD (Zeus, Solaris, Æther), et la mécanique RÉSURRECTION.\n• LA TOUR DES DIEUX (onglet Combat) : 20 étages de défis avec des règles spéciales et des boss. Une carte GOD est garantie au sommet !\n\nCadeau : 3 Boosters Panthéon t'attendent dans la Boutique.", 20, UI.TEXT, "body", 600)
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	l.custom_minimum_size = Vector2(560, 0)
+	main.modal("L'ère des Dieux", l, [["La Tour", Color("c89a20"), func():
+		Profile.d.pending_gift7 = false
+		Profile.d.pending_gift6 = false
+		Profile.save_game()
+		main.goto("tower")], ["Mes boosters", UI.GOOD.darkened(0.2), func():
+		Profile.d.pending_gift7 = false
 		Profile.d.pending_gift6 = false
 		Profile.save_game()
 		main.goto("shop", {"tab": "boosters"})]])

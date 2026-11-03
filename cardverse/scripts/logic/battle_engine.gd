@@ -17,7 +17,10 @@ var _hid := 0
 var stats := {"cards_played": 0, "creatures_summoned": 0, "spells_cast": 0, "leader_damage": 0, "evolutions": 0}
 
 # ======================================================================= mise en place
-func setup(deck0: Array, leader0: String, deck1: Array, leader1: String, seed_v := 0, enemy_hp := 0) -> void:
+var mods := {}
+
+func setup(deck0: Array, leader0: String, deck1: Array, leader1: String, seed_v := 0, enemy_hp := 0, mods_v := {}) -> void:
+	mods = mods_v
 	rng.seed = seed_v if seed_v != 0 else randi()
 	for i in 2:
 		var ld: Dictionary = DB.leader(leader0 if i == 0 else leader1)
@@ -25,10 +28,11 @@ func setup(deck0: Array, leader0: String, deck1: Array, leader1: String, seed_v 
 		var deck: Array = (deck0 if i == 0 else deck1).duplicate()
 		_shuffle(deck)
 		pl[i] = {"leader": {"id": ld.id, "name": ld.name, "element": ld.element, "hp": hp, "max_hp": hp, "power": ld.power, "power_used": false},
-			"deck": deck, "hand": [], "board": [], "energy": 0, "max_energy": 0, "fatigue": 0}
+			"deck": deck, "hand": [], "board": [], "energy": 0, "max_energy": 0, "fatigue": 0, "grave": []}
 	current = rng.randi_range(0, 1)
+	pl[0].max_energy = int(mods.get("player_energy", 0))
 	for i in 2:
-		draw(i, 3 if i == current else 4)
+		draw(i, (3 if i == current else 4) + (int(mods.get("enemy_draw", 0)) if i == 1 else 0))
 	start_turn()
 
 func _shuffle(a: Array) -> void:
@@ -256,6 +260,10 @@ func summon(i: int, id: String) -> Dictionary:
 	_uid += 1
 	var u := {"uid": _uid, "id": id, "owner": i, "atk": int(c.atk), "hp": int(c.hp), "max_hp": int(c.hp), "kw": _kw(c),
 		"frozen": 0, "sleep": true, "attacked": false, "age": 0}
+	if i == 1:  # modificateurs de la Tour des Dieux
+		u.atk = int(u.atk) + int(mods.get("enemy_atk", 0))
+		if mods.get("enemy_shield", false):
+			u.kw["bouclier"] = true
 	pl[i].board.append(u)
 	if i == 0:
 		stats.creatures_summoned += 1
@@ -399,6 +407,15 @@ func resolve(e: Dictionary, i: int, src: Dictionary, ctx: Dictionary) -> void:
 			return
 		"add_card":
 			add_to_hand(i, e.card)
+			return
+		"revive":
+			for k in maxi(1, v):
+				var gr: Array = pl[i].grave
+				if gr.is_empty() or pl[i].board.size() >= MAX_BOARD:
+					break
+				var rid: String = gr.pop_back()
+				ev({"t": "fx", "kind": "revive", "src": src_ref, "element": DB.card(rid).element})
+				summon(i, rid)
 			return
 		"swap_leaders":
 			var l0: Dictionary = pl[0].leader
@@ -576,6 +593,8 @@ func cleanup() -> void:
 			break
 		for u in dead:
 			pl[u.owner].board.erase(u)
+			if not DB.card(u.id).get("token", false):
+				pl[u.owner].grave.append(u.id)
 			ev({"t": "death", "uid": u.uid, "p": u.owner, "id": u.id})
 		for u in dead:
 			_trigger(u, "death", {})

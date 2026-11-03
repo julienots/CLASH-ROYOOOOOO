@@ -56,6 +56,17 @@
    "color": "#a07ae8"
   },
   {
+   "id": "display_pantheon",
+   "name": "Display Panthéon Céleste",
+   "booster": "pantheon",
+   "count": 12,
+   "price": {
+    "coins": 1450
+   },
+   "guarantee": "L",
+   "color": "#e8b830"
+  },
+  {
    "id": "display_multiverse",
    "name": "Display Multivers",
    "booster": "multiverse",
@@ -154,6 +165,23 @@
     "variant": "fullart"
    },
    "color": "#a07ae8"
+  },
+  {
+   "id": "box_pantheon",
+   "name": "Coffret de l'Olympe",
+   "desc": "La carte promo Héra en Secret Art, 6 boosters Panthéon et 3 jetons spéciaux.",
+   "price": {
+    "coins": 2600
+   },
+   "boosters": {
+    "pantheon": 6
+   },
+   "tokens": 3,
+   "promo": {
+    "card": "pc39",
+    "variant": "secret"
+   },
+   "color": "#e8b830"
   },
   {
    "id": "box_elements",

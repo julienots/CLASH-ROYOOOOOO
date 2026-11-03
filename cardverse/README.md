@@ -1,6 +1,6 @@
 # CARDVERSE : Ultimate TCG Collection
 
-Jeu mobile de cartes à collectionner en **portrait** (Godot 4.3). Il propose 242 cartes originales en 5 générations (Genèse, Éclipse, Âge Primitif, Mécanica, Royaume des Songes) réparties sur 17 raretés, dont Primitif et SWAP, une rareté à reconstituer avec des pièces de puzzle,, des boosters spectaculaires, un album complet, des combats stratégiques contre l'IA, un Atelier d'évolutions, un passe de saison, des missions et un événement.
+Jeu mobile de cartes à collectionner en **portrait** (Godot 4.3). Il propose 289 cartes originales en 6 générations (Genèse, Éclipse, Âge Primitif, Mécanica, Royaume des Songes, Panthéon Céleste) réparties sur 18 raretés, dont GOD (la plus haute), Primitif et SWAP (à reconstituer avec des pièces de puzzle), des boosters spectaculaires, un album complet, des combats stratégiques contre l'IA, un Atelier d'évolutions, un passe de saison, des missions et un événement.
 
 📄 Architecture, direction artistique et feuille de route : [ARCHITECTURE.md](ARCHITECTURE.md)
 
@@ -21,6 +21,7 @@ Jeu mobile de cartes à collectionner en **portrait** (Godot 4.3). Il propose 24
 - **Combat** : touche une carte de ta main pour l'agrandir, puis **JOUER** (choisis une cible si besoin). Touche une de tes créatures prêtes (contour vert), puis une cible ennemie pour attaquer. Les créatures avec **Garde** doivent être attaquées en premier. Un élément favorable inflige des dégâts x1,5. Le pouvoir du leader coûte 2 énergie.
 - **Atelier** (accueil) : fais évoluer tes créatures (3 exemplaires et de la Poussière d'étoile), découvre les transformations secrètes, crée des cartes ou applique des variantes.
 - **Passe** (accueil) : 30 paliers de récompenses gagnés en jouant, voie Élite débloquable avec des Cristaux.
+- **Combat → La Tour des Dieux** : gravis 20 étages de défis aux règles spéciales et aux boss ; une carte GOD t'attend au sommet.
 - **Decks** : choisis ton leader, ajoute ou retire des cartes (20 exactement) ou utilise *Remplir auto*.
 
 ## 🛠️ Développement

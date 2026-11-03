@@ -21,6 +21,7 @@ var events: Array = []
 var layout := {}
 var forge := {}
 var products := {}
+var tower := {}
 var season := {}
 
 var _tex_cache := {}
@@ -44,6 +45,7 @@ func _ready() -> void:
 	layout = _json("res://data/card_layout.json")
 	forge = _json("res://data/forge.json")
 	products = _json("res://data/products.json")
+	tower = _json("res://data/tower.json")
 	season = _json("res://data/season.json")
 	var files := []
 	for f in _list("res://data/cards", ".json"):
@@ -222,6 +224,7 @@ func effect_text(e: Dictionary) -> String:
 		"heal": s = ("Soigne entièrement %s." % tgt) if v >= 99 else ("Rend %d PV à %s." % [v, tgt])
 		"buff": s = "Donne +%d/+%d à %s." % [v, int(e.get("value2", 0)), tgt]
 		"freeze": s = "Gèle %s." % tgt
+		"revive": s = ("Ressuscite votre dernière créature morte." if v <= 1 else "Ressuscite vos %d dernières créatures mortes." % v)
 		"sleep": s = "Endort %s (ne peut pas attaquer pendant 2 tours)." % tgt
 		"draw": s = "Piochez %d carte%s." % [v, "s" if v > 1 else ""]
 		"summon": s = "Invoque %s." % card(e.card).get("name", "?")

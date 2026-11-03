@@ -177,6 +177,47 @@ func run() -> int:
 		check(DB.cards.has(bx.promo.card) and DB.variants.has(bx.promo.variant), "promo valide " + bx.id)
 		for k in bx.boosters:
 			check(not DB.booster(k).is_empty(), "booster du coffret existant " + k)
+	print("== Tour des Dieux, GOD et Résurrection")
+	check(DB.tower.floors.size() == 20, "20 étages")
+	for fl in DB.tower.floors:
+		check(not DB.leader(fl.leader).is_empty() and fl.elements.size() > 0, "étage valide %d" % fl.floor)
+	var rng6 := RandomNumberGenerator.new()
+	rng6.seed = 5
+	var gt := BattleEngine.new()
+	var fill2 := []
+	for i in 20:
+		fill2.append("w007")
+	gt.setup(fill2, "pyra", fill2, "thalassa", 9, 30, {"enemy_atk": 2, "enemy_shield": true, "player_energy": 1})
+	var eu := gt.summon(1, "w007")
+	check(int(eu.atk) == int(DB.card("w007").atk) + 2 and eu.kw.get("bouclier", false), "modificateurs de la Tour appliqués")
+	check(int(gt.pl[1].leader.hp) == 30, "PV du boss")
+	# Résurrection
+	var mine := gt.summon(0, "f004")
+	mine.hp = 0
+	gt.cleanup()
+	check(gt.pl[0].grave.has("f004"), "cimetière")
+	gt.resolve({"do": "revive", "value": 1}, 0, {}, {})
+	var back := false
+	for u in gt.pl[0].board:
+		if u.id == "f004":
+			back = true
+	check(back, "Résurrection ramène la créature")
+	# GOD : uniquement dans les boosters qui en contiennent
+	var gods := 0
+	for id in DB.card_order:
+		if DB.card(id).rarity == "G":
+			gods += 1
+	check(gods >= 3, "au moins 3 cartes GOD")
+	check(not BoosterLogic.slot_odds(DB.booster("classic")).has("G"), "pas de GOD dans le booster Genèse")
+	check(BoosterLogic.slot_odds(DB.booster("pantheon")).has("G"), "GOD possible dans le booster Panthéon")
+	# sommet de la tour
+	var saved_best := int(Profile.d.tower.best)
+	Profile.d.tower.best = 19
+	var res: Dictionary = Profile.tower_win(20)
+	check(res.has("god_card") and DB.card(res.god_card).rarity == "G", "carte GOD au sommet")
+	Profile.d.tower.best = saved_best
+	Profile.d.tower.floor = saved_best + 1
+	Profile.save_game()
 	print("== Atelier et passe")
 	for r in DB.forge.evolutions:
 		check(DB.cards.has(r.from) and DB.cards.has(r.to), "recette d'évolution valide " + r.from)

@@ -192,7 +192,7 @@ func _build_leaders() -> void:
 func _start() -> void:
 	g = BattleEngine.new()
 	ai = BattleAI.new(int(cfg.get("difficulty", 1)))
-	g.setup(cfg.deck, cfg.leader, cfg.enemy_deck, cfg.enemy_leader, 0, int(cfg.get("enemy_hp", 0)))
+	g.setup(cfg.deck, cfg.leader, cfg.enemy_deck, cfg.enemy_leader, 0, int(cfg.get("enemy_hp", 0)), cfg.get("mods", {}))
 	busy = true
 	_sync(true)
 	await _wait(0.3)
@@ -881,6 +881,11 @@ func _effect_fx(e: Dictionary) -> void:
 			for t in e.targets:
 				UI.burst(fx_layer, _ref_pos(t), UI.GOOD, 24, 200, 0.45, 0.8, -150)
 			await _wait(0.15)
+		"revive":
+			Sfx.play("heal", 1.2)
+			_flash(Color(1.0, 0.95, 0.7, 0.4), 0.5)
+			UI.float_text(fx_layer, _ref_pos(e.src) - Vector2(0, 60), "Résurrection !", Color("fff0a8"), 32)
+			await _wait(0.3)
 		"trample":
 			Sfx.play("hit_big")
 			UI.shake(self, 8, 0.25)
@@ -987,6 +992,9 @@ func _end_battle() -> void:
 		if int(g.stats[k]) > 0:
 			Profile.stat(k, int(g.stats[k]))
 	Profile.give(rew, true)
+	var tower_res := {}
+	if won and cfg.has("tower_floor"):
+		tower_res = Profile.tower_win(int(cfg.tower_floor))
 	Profile.save_game()
 	Sfx.play("victory" if won else "defeat")
 	await _wait(0.6)
@@ -1019,6 +1027,20 @@ func _end_battle() -> void:
 		UI.outline(amount, 6)
 		h.add_child(amount)
 		v.add_child(h)
+	if not tower_res.is_empty():
+		var tl := UI.label("ÉTAGE %d FRANCHI !" % int(cfg.tower_floor), 34, UI.GOLD, "serif", 800, HORIZONTAL_ALIGNMENT_CENTER)
+		UI.outline(tl, 8)
+		v.add_child(tl)
+		var tt := UI.label(tower_res.get("text", ""), 22, Color.WHITE, "body", 700, HORIZONTAL_ALIGNMENT_CENTER)
+		tt.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		v.add_child(tt)
+		if tower_res.has("god_card"):
+			var gcv := CardView.make(tower_res.god_card, 0.4)
+			var gh := Control.new()
+			gh.custom_minimum_size = Vector2(CardView.W, CardView.H) * 0.4
+			gh.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+			gh.add_child(gcv)
+			v.add_child(gh)
 	root.add_child(v)
 	var b := UI.button("Continuer", UI.ACCENT, 30, Vector2(360, 96), "ui_check")
 	b.position = Vector2(size.x / 2 - 180, 900)

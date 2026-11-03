@@ -220,7 +220,7 @@ Client Godot ──HTTPS/WebSocket──► Passerelle (Nakama ou service Go)
 
 **Limites actuelles, annoncées honnêtement :**
 - Les illustrations sont du **pixel art procédural**, produit par recette. Chaque carte a sa silhouette et sa palette, mais ce ne sont pas des peintures faites main. Le pipeline permet de les remplacer une à une.
-- 242 cartes (5 sets), pas 2000 : l'architecture est prête, le contenu sera ajouté par sets (étape 4).
+- 289 cartes (6 sets), pas 2000 : l'architecture est prête, le contenu sera ajouté par sets (étape 4).
 - Pas de multijoueur ni de paiement réel (étape 5).
 - L'APK est signé avec une clé de développement (schéma v2, Android 7.0 minimum). Elle n'a pas été testée sur un appareil physique depuis cet environnement.
 
@@ -289,3 +289,22 @@ Client Godot ──HTTPS/WebSocket──► Passerelle (Nakama ou service Go)
   - L'état « couvercle ouvert » est sauvegardé avec le display en cours.
 - **Tests** : Sommeil (bloque 2 tours puis se réveille), parcours du display 3D en touchers réels.
 - Total : **242 cartes collectionnables** sur 5 générations.
+
+## 15. Version 0.7 : l'ère des Dieux
+
+- **Rareté GOD** (`G`), la plus haute de toutes (poids 0,0004, uniquement dans les boosters qui contiennent ses cartes) :
+  - cadre en or poli avec filigrane gravé, couronne solaire et quatre gemmes ;
+  - shader `card_fx` en mode surface 7 (lustre doré, irisation, scintillements) et en contour 4 :
+    - bande d'or liquide épaisse qui ondule tout autour de la carte ;
+    - deux comètes de lumière qui en font le tour ;
+    - éclats scintillants sur le cadre, liseré intérieur pulsant et rayons divins qui balaient la carte ;
+  - poussière d'or ascendante dans l'illustration (élément spécial 10) et halo doré pulsant derrière la carte ;
+  - **révélation dédiée** à l'ouverture d'un booster : voile doré, colonne de lumière, pluie d'or, titre « G O D » géant, puis la faille cosmique.
+- **Génération 6 « Panthéon Céleste »** (`data/cards/pantheon.json`) : 47 cartes collectionnables (9 Super Rares, 4 Épiques, 3 Légendaires, 1 Mythique, 1 Divine, 1 Absolue) dont **3 cartes GOD** (Zeus, Solaris, Æther). Nouvelle mécanique **Résurrection** (effet `revive`) : chaque joueur a un cimetière (`grave`), et l'effet ramène la ou les dernières créatures alliées mortes, jetons exclus. Booster, Display 3D et Coffret dédiés (promo Héra en Secret Art).
+- **La Tour des Dieux** (`data/tower.json`, écran `tower.gd`) : 20 étages de combat contre l'IA.
+  - La difficulté, la rareté maximale des decks adverses et les PV du leader adverse augmentent à chaque étage.
+  - Des **modificateurs** s'appliquent dans le moteur (`BattleEngine.setup(..., mods)`) : créatures adverses avec +ATQ ou Bouclier, énergie de départ bonus, pioche adverse supplémentaire.
+  - Des **boss** gardent les étages 5, 10, 15 et 20.
+  - Récompenses au premier passage (pièces, poussière, XP, booster à l'étage 5, cristaux à l'étage 10, jetons à l'étage 15) et **carte GOD garantie à l'étage 20**, choisie de préférence parmi celles qu'on ne possède pas. Rejouer un étage rapporte des pièces.
+- **Tests** : étages valides, modificateurs appliqués, PV du boss, cimetière et Résurrection, GOD absente du booster Genèse et présente dans le booster Panthéon, carte GOD remise au sommet.
+- Total : **289 cartes collectionnables** sur 6 générations, 18 raretés.

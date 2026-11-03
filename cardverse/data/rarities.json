@@ -16,6 +16,7 @@
   "AB",
   "O",
   "X",
+  "G",
   "SW"
  ],
  "rarities": {
@@ -156,6 +157,14 @@
    "deck_max": 1,
    "special": true,
    "pieces": 9
+  },
+  "G": {
+   "name": "GOD",
+   "color": "#ffd84a",
+   "weight": 0.0004,
+   "dust": 50000,
+   "fx": 5,
+   "deck_max": 1
   }
  },
  "variants": {

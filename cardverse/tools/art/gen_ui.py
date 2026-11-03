@@ -33,6 +33,7 @@ FRAMES = {
     "AB": ((30, 26, 36), (230, 190, 90), (6, 4, 10), (255, 210, 100), "obsidian"),
     "O":  ((255, 240, 220), (255, 255, 255), (200, 160, 110), (255, 255, 255), "origin"),
     "X":  ((20, 20, 24), (240, 240, 240), (0, 0, 0), (255, 255, 255), "glitch"),
+    "G":  ((230, 170, 40), (255, 250, 200), (110, 60, 5), (255, 255, 230), "god"),
     "SW": ((30, 60, 80), (120, 255, 240), (8, 16, 30), (80, 255, 230), "swap"),
 }
 
@@ -52,6 +53,8 @@ def metal(base, light, dark, w, h, pattern, seed=0):
     y, x = np.mgrid[0:h, 0:w].astype(np.float32)
     b, l, d = (np.array(c, np.float32) / 255 for c in (base, light, dark))
     t = 0.5 + 0.5 * np.sin((x * 0.6 + y * 1.0) * 0.08)  # bandes de reflets
+    if pattern == "god":
+        t = 0.45 + 0.55 * np.abs(np.sin(x * 0.11 + y * 0.07)) ** 3
     if pattern == "primal":
         n = rng.random((h // 2 + 1, w // 2 + 1)).repeat(2, 0).repeat(2, 1)[:h, :w]
         t = 0.3 + 0.35 * n + 0.25 * (np.sin(y * 0.5) > 0.7)
@@ -172,6 +175,22 @@ def frame(rar):
                 xx = k + (dy if (k // 8) % 2 else 2 - dy)
                 arr[yy, xx] = np.array(dark, np.float32) / 255
                 arr[H - 1 - yy, xx] = np.array(dark, np.float32) / 255
+    if pattern == "god":  # filigrane gravé, double liseré, couronne solaire et gemmes
+        gold_l = np.array((255, 248, 200), np.float32) / 255
+        gold_d = np.array((120, 70, 10), np.float32) / 255
+        for k in range(10, W - 10, 5):
+            for yy in (2, H - 3):
+                arr[yy, k] = gold_l if (k // 5) % 2 else gold_d
+        for k in range(10, H - 10, 5):
+            for xx in (2, W - 3):
+                arr[k, xx] = gold_l if (k // 5) % 2 else gold_d
+        cxs, cys = W // 2, 4
+        for a in range(-60, 61, 15):
+            import math as _m
+            for r in range(3, 9):
+                px, py = int(cxs + _m.sin(_m.radians(a)) * r), int(cys + _m.cos(_m.radians(a)) * r * 0.6)
+                if 0 <= px < W and 0 <= py < H and not win[py, px]:
+                    arr[py, px] = gold_l
     if pattern == "swap":  # coutures de puzzle irisées
         for gx in (W // 3, 2 * W // 3):
             for yy in range(2, H - 2):
@@ -191,6 +210,9 @@ def frame(rar):
     # coins décoratifs (gemmes)
     for cx, cy in ((5, H - 5), (W - 5, H - 5)) if rar not in ("C", "U") else ():
         gem(arr, alpha, cx, cy, 2, gemc)
+    if pattern == "god":
+        for cx, cy in ((5, 5), (W - 5, 5), (5, H - 5), (W - 5, H - 5)):
+            gem(arr, alpha, cx, cy, 3, (255, 90, 90) if cx < W // 2 else (90, 200, 255))
     # gemme de coût, badges ATK/PV, gemme de rareté
     gem(arr, alpha, COST[0], COST[1], COST[2], (70, 150, 255) if rar != "X" else (255, 255, 255))
     gem(arr, alpha, ATK[0], ATK[1], ATK[2], (230, 90, 60))
@@ -250,6 +272,7 @@ PACKS = {
     "multiverse": ((50, 40, 140), (160, 200, 255), "c004"),
     "mecanica": ((40, 70, 90), (120, 220, 255), "mc41"),
     "songes": ((60, 40, 110), (255, 190, 250), "sg40"),
+    "pantheon": ((150, 100, 20), (255, 240, 170), "pg01"),
 }
 
 

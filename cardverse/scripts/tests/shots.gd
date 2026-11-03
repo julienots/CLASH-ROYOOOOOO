@@ -308,6 +308,39 @@ func run(main: Control, arg: String) -> void:
 			main.current.filt.preview = true
 			main.current.filt.set = "mecanica"
 			main.current.rebuild()],
+		["god_detail", func(): _clear(main); Profile.add_card("pg01", "", false); main.show_card("pg01", "", [])],
+		["god_reveal", func():
+			_clear(main)
+			var b := DB.booster("pantheon")
+			var res := [{"id": "pc01", "variant": "", "new": false}, {"id": "pc02", "variant": "", "new": false}, {"id": "pc03", "variant": "", "new": false}, {"id": "pc10", "variant": "", "new": false}, {"id": "pg02", "variant": "", "new": true}]
+			for r in res:
+				Profile.add_card(r.id, "", false)
+			var o = load("res://scripts/ui/booster_open.gd").new()
+			o.setup(b, res, {})
+			main.open_overlay(o, true)
+			await _wait(1.2)
+			o.auto_tear()
+			await _wait(2.5)
+			for k in 8:
+				o._advance()
+				await _wait(1.0 if k % 2 == 0 else 0.4)
+			o._advance()
+			await _wait(4.6)
+			main.get_viewport().get_texture().get_image().save_png("/tmp/claude-0/shots/god_reveal_mid.png")
+			await _wait(4.5)],
+		["tower", func(): _clear(main); Profile.d.tower = {"floor": 4, "best": 3}; main.goto("battle_select"); await _wait(0.5); main.goto("tower")],
+		["tower_win", func():
+			Profile.d.settings.fast = true
+			main.current._fight(DB.tower.floors[int(Profile.d.tower.best)])
+			var b = _ov(main)
+			var tmax := 300.0
+			while is_instance_valid(b) and not b._finished and tmax > 0:
+				b.autoplay_step()
+				await _wait(0.25)
+				tmax -= 0.25
+			print("tour : vainqueur=", b.g.winner, " étage=", b.cfg.tower_floor, " meilleur=", Profile.d.tower.best, " mods=", b.g.mods)
+			Profile.d.settings.fast = false
+			await _wait(2.5)],
 		["shop_offers", func(): _clear(main); main.goto("shop", {"tab": "offers"})],
 		["shop_singles", func(): main.goto("shop", {"tab": "singles"})],
 		["shop_style", func(): main.goto("shop", {"tab": "cosmetics"})],

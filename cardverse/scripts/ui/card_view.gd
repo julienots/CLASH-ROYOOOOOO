@@ -74,6 +74,15 @@ func build() -> void:
 	var rcol := DB.rarity_color(rar)
 	var filt := CanvasItem.TEXTURE_FILTER_NEAREST if scale.x >= 0.7 else CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
 
+	# halo doré pulsant (rareté GOD)
+	if rar == "G" and state in ["face", "preview"] and fx_enabled:
+		var halo := UI.glow_rect(Color(1.0, 0.78, 0.25, 0.5), size + Vector2(140, 140), 1.5, 16.0)
+		halo.position = Vector2(-70, -70)
+		halo.name = "god_halo"
+		_root.add_child(halo)
+		var th := halo.create_tween().set_loops()
+		th.tween_property(halo, "modulate:a", 0.55, 1.1).set_trans(Tween.TRANS_SINE)
+		th.tween_property(halo, "modulate:a", 1.0, 1.1).set_trans(Tween.TRANS_SINE)
 	# illustration
 	_art = TextureRect.new()
 	_art.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -253,7 +262,9 @@ func build() -> void:
 	var fm := ShaderMaterial.new()
 	fm.shader = load("res://shaders/card_fx.gdshader")
 	var fxl := int(DB.rarity(rar).fx)
-	var mode: int = [0, 1, 2, 3, 4][fxl]
+	var mode: int = [0, 1, 2, 3, 4, 4][mini(fxl, 5)]
+	if rar == "G":
+		mode = 7
 	match variant:
 		"holo": mode = max(mode, 2)
 		"prisma": mode = 5
@@ -276,6 +287,9 @@ func build() -> void:
 		bord = 2
 	if fx_on and rar == "SW":
 		bord = 3
+	if fx_on and rar == "G":
+		bord = 4
+		fm.set_shader_parameter("element", 10)
 	fm.set_shader_parameter("border", bord)
 	if full:
 		fm.set_shader_parameter("win", Vector4(0.03, 0.03, 0.97, 0.6))

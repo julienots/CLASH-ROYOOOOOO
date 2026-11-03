@@ -1,0 +1,2397 @@
+{
+ "set": "pantheon",
+ "name": "Panthéon Céleste",
+ "gen": 6,
+ "cards": [
+  {
+   "id": "pc01",
+   "name": "Prêtresse du Temple",
+   "type": "creature",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 1,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 3
+    }
+   ],
+   "lore": "Elle entretient la flamme sacrée depuis l'enfance.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     240,
+     230,
+     210
+    ],
+    "hair": [
+     200,
+     150,
+     90
+    ],
+    "skin_h": [
+     240,
+     215,
+     190
+    ],
+    "orb_hand": true,
+    "trim": [
+     255,
+     200,
+     90
+    ],
+    "eye": [
+     255,
+     220,
+     140
+    ],
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "pc02",
+   "name": "Hoplite Céleste",
+   "type": "creature",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "C",
+   "cost": 3,
+   "atk": 2,
+   "hp": 4,
+   "keywords": [
+    "garde"
+   ],
+   "lore": "Son bouclier porte les armoiries d'une cité disparue dans les nuages.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     180,
+     60,
+     50
+    ],
+    "armor": [
+     230,
+     190,
+     90
+    ],
+    "hood": [
+     200,
+     160,
+     80
+    ],
+    "weapon": "sword",
+    "eye": [
+     255,
+     220,
+     160
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "pc03",
+   "name": "Chouette de Sagesse",
+   "type": "creature",
+   "family": "creatures",
+   "element": "cosmique",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 1,
+   "hp": 2,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Elle conseille les dieux. Ils ne l'écoutent presque jamais.",
+   "art": {
+    "arch": "bird",
+    "wing_span": 0.9,
+    "tail": 0.6,
+    "c1": [
+     160,
+     140,
+     110
+    ],
+    "c2": [
+     240,
+     230,
+     200
+    ],
+    "c3": [
+     255,
+     220,
+     120
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "pc04",
+   "name": "Satyre Flûtiste",
+   "type": "creature",
+   "family": "creatures",
+   "element": "nature",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "sleep",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Sa mélodie fait danser les arbres et dormir les monstres.",
+   "art": {
+    "arch": "biped",
+    "kind": "imp",
+    "horns": true,
+    "skin": [
+     180,
+     130,
+     90
+    ],
+    "c3": [
+     240,
+     220,
+     180
+    ],
+    "scale": 1.05,
+    "scene": "forest"
+   }
+  },
+  {
+   "id": "pc05",
+   "name": "Nymphe des Sources",
+   "type": "creature",
+   "family": "esprits",
+   "element": "eau",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 2,
+   "effects": [
+    {
+     "on": "death",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 3
+    }
+   ],
+   "lore": "Elle vit dans chaque goutte de la source sacrée.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     80,
+     170,
+     220
+    ],
+    "hair": [
+     160,
+     240,
+     255
+    ],
+    "skin_h": [
+     200,
+     235,
+     245
+    ],
+    "floating": true,
+    "eye": [
+     160,
+     240,
+     255
+    ],
+    "scene": "ocean"
+   }
+  },
+  {
+   "id": "pc06",
+   "name": "Sanglier d'Érymanthe",
+   "type": "creature",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "C",
+   "cost": 4,
+   "atk": 4,
+   "hp": 3,
+   "keywords": [
+    "pietinement"
+   ],
+   "lore": "Il a ravagé trois royaumes avant le petit-déjeuner.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "horns": "none",
+    "tusks": true,
+    "ears": true,
+    "spikes": true,
+    "spike_size": 1.3,
+    "bulk": 1.2,
+    "head": 1.45,
+    "neck": 0.3,
+    "tail": 0.3,
+    "c1": [
+     110,
+     80,
+     60
+    ],
+    "c2": [
+     170,
+     140,
+     110
+    ],
+    "c3": [
+     240,
+     230,
+     210
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "pc07",
+   "name": "Éclair Divin",
+   "type": "spell",
+   "family": "divinites",
+   "element": "foudre",
+   "rarity": "C",
+   "cost": 2,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "choose_enemy",
+     "value": 3
+    }
+   ],
+   "lore": "Les dieux n'ont jamais été réputés pour leur patience.",
+   "art": {
+    "arch": "spell",
+    "spell": "lightning",
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "pc08",
+   "name": "Offrande",
+   "type": "spell",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "C",
+   "cost": 1,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "choose_ally_creature",
+     "value": 1,
+     "value2": 2
+    }
+   ],
+   "lore": "Une coupe de miel, une prière, et la faveur d'un dieu.",
+   "art": {
+    "arch": "spell",
+    "spell": "holy",
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "pc09",
+   "name": "Âme Errante",
+   "type": "creature",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 1,
+   "keywords": [
+    "furtif"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "revive"
+    }
+   ],
+   "lore": "Elle cherche encore le chemin des Enfers. Elle préfère rester ici.",
+   "art": {
+    "arch": "spirit",
+    "kind": "ghost",
+    "c1": [
+     150,
+     160,
+     190
+    ],
+    "eye": [
+     200,
+     230,
+     255
+    ],
+    "size": 0.85,
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "pc10",
+   "name": "Pégase",
+   "type": "creature",
+   "family": "creatures",
+   "element": "lumiere",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 3,
+   "hp": 4,
+   "keywords": [
+    "envol",
+    "celerite"
+   ],
+   "lore": "Né de l'écume et du vent, il n'a jamais touché terre.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "horns": "none",
+    "ears": true,
+    "spikes": false,
+    "mane": true,
+    "mane_c": [
+     255,
+     240,
+     200
+    ],
+    "wings": true,
+    "wing_span": 1.0,
+    "neck": 1.3,
+    "leg_len": 1.4,
+    "bulk": 0.85,
+    "c1": [
+     250,
+     250,
+     255
+    ],
+    "c2": [
+     230,
+     230,
+     250
+    ],
+    "c3": [
+     255,
+     220,
+     140
+    ],
+    "membrane": [
+     255,
+     255,
+     255
+    ],
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "pc11",
+   "name": "Griffon Royal",
+   "type": "creature",
+   "family": "creatures",
+   "element": "foudre",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 4,
+   "hp": 3,
+   "keywords": [
+    "envol"
+   ],
+   "lore": "Mi-aigle, mi-lion, entièrement fier.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "none",
+    "ears": true,
+    "spikes": false,
+    "wings": true,
+    "wing_span": 1.0,
+    "neck": 0.8,
+    "head": 1.3,
+    "bulk": 1.0,
+    "c1": [
+     200,
+     160,
+     80
+    ],
+    "c2": [
+     255,
+     240,
+     200
+    ],
+    "c3": [
+     255,
+     220,
+     120
+    ],
+    "membrane": [
+     240,
+     220,
+     180
+    ],
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "pc12",
+   "name": "Cerbère",
+   "type": "creature",
+   "family": "demons",
+   "element": "feu",
+   "rarity": "U",
+   "cost": 5,
+   "atk": 4,
+   "hp": 5,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "damage",
+     "target": "random_enemy_creature",
+     "value": 1
+    }
+   ],
+   "lore": "Trois têtes, une seule consigne : personne ne sort.",
+   "art": {
+    "arch": "quadruped",
+    "heads": 3,
+    "snout": "beast",
+    "horns": "none",
+    "ears": true,
+    "spikes": true,
+    "bulk": 1.1,
+    "head": 1.0,
+    "neck": 0.8,
+    "c1": [
+     60,
+     40,
+     40
+    ],
+    "c2": [
+     150,
+     80,
+     60
+    ],
+    "c3": [
+     255,
+     140,
+     60
+    ],
+    "eye": [
+     255,
+     80,
+     40
+    ],
+    "scene": "volcano",
+    "scale": 0.88
+   }
+  },
+  {
+   "id": "pc13",
+   "name": "Oracle de Delphes",
+   "type": "creature",
+   "family": "divinites",
+   "element": "cosmique",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 1,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Elle voit l'avenir. Elle a vu celui-ci, et elle soupire.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     90,
+     70,
+     150
+    ],
+    "hood": [
+     70,
+     50,
+     120
+    ],
+    "orb_hand": true,
+    "eye": [
+     255,
+     200,
+     255
+    ],
+    "aura": true,
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "pc14",
+   "name": "Minotaure",
+   "type": "creature",
+   "family": "mutants",
+   "element": "terre",
+   "rarity": "U",
+   "cost": 5,
+   "atk": 6,
+   "hp": 4,
+   "keywords": [
+    "rage"
+   ],
+   "lore": "Il connaît chaque couloir du labyrinthe. Il n'en sortira jamais.",
+   "art": {
+    "arch": "biped",
+    "kind": "brute",
+    "bulk": 1.4,
+    "skin": [
+     130,
+     80,
+     60
+    ],
+    "horns": true,
+    "c3": [
+     240,
+     230,
+     200
+    ],
+    "eye": [
+     255,
+     80,
+     60
+    ],
+    "weapon": "sword",
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "pc15",
+   "name": "Harpie",
+   "type": "creature",
+   "family": "demons",
+   "element": "foudre",
+   "rarity": "U",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "keywords": [
+    "envol",
+    "celerite"
+   ],
+   "lore": "Elle vole tout ce qui brille, y compris les éclairs.",
+   "art": {
+    "arch": "bird",
+    "wing_span": 0.9,
+    "tail": 0.8,
+    "c1": [
+     110,
+     90,
+     130
+    ],
+    "c2": [
+     200,
+     180,
+     210
+    ],
+    "c3": [
+     255,
+     220,
+     90
+    ],
+    "eye": [
+     255,
+     80,
+     80
+    ],
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "pc16",
+   "name": "Ambroisie",
+   "type": "spell",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "U",
+   "cost": 3,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 99
+    },
+    {
+     "on": "cast",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 4
+    }
+   ],
+   "lore": "La nourriture des dieux. Une bouchée suffit à guérir toutes les blessures.",
+   "art": {
+    "arch": "spell",
+    "spell": "blessing",
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "pc17",
+   "name": "Retour des Enfers",
+   "type": "spell",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "U",
+   "cost": 4,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "revive",
+     "value": 2
+    }
+   ],
+   "lore": "La porte s'ouvre dans les deux sens, pour qui connaît la chanson.",
+   "art": {
+    "arch": "spell",
+    "spell": "dark_pact",
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "pc18",
+   "name": "Méduse aux Serpents",
+   "type": "creature",
+   "family": "mutants",
+   "element": "neant",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 3,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "sleep",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Ne la regardez pas dans les yeux. Ne la regardez pas du tout.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     60,
+     110,
+     80
+    ],
+    "hair": [
+     80,
+     200,
+     120
+    ],
+    "skin_h": [
+     170,
+     210,
+     170
+    ],
+    "eye": [
+     200,
+     255,
+     120
+    ],
+    "aura": true,
+    "scene": "void"
+   }
+  },
+  {
+   "id": "pc19",
+   "name": "Hydre de Lerne",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "eau",
+   "rarity": "R",
+   "cost": 6,
+   "atk": 4,
+   "hp": 7,
+   "keywords": [
+    "rage"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "revive"
+    }
+   ],
+   "lore": "Coupez une tête, elle revient. Coupez-les toutes, elle revient quand même.",
+   "art": {
+    "arch": "quadruped",
+    "heads": 3,
+    "snout": "reptile",
+    "horns": "back",
+    "neck": 1.4,
+    "bulk": 1.15,
+    "head": 1.0,
+    "c1": [
+     40,
+     110,
+     120
+    ],
+    "c2": [
+     160,
+     230,
+     210
+    ],
+    "c3": [
+     230,
+     240,
+     200
+    ],
+    "scene": "abyss",
+    "scale": 0.86
+   }
+  },
+  {
+   "id": "pc20",
+   "name": "Héros Aux Mille Travaux",
+   "type": "creature",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 5,
+   "hp": 5,
+   "keywords": [
+    "pietinement"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "choose_enemy_creature",
+     "value": 3
+    }
+   ],
+   "lore": "Il a accompli douze exploits. Il en prépare un treizième.",
+   "art": {
+    "arch": "biped",
+    "kind": "brute",
+    "bulk": 1.3,
+    "skin": [
+     220,
+     170,
+     130
+    ],
+    "c3": [
+     230,
+     200,
+     120
+    ],
+    "weapon": "sword",
+    "eye": [
+     255,
+     220,
+     160
+    ],
+    "mane_c": [
+     180,
+     120,
+     60
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "pc21",
+   "name": "Charon, Passeur des Âmes",
+   "type": "creature",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 2,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "revive"
+    }
+   ],
+   "lore": "Une pièce pour traverser. Deux pour revenir.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     30,
+     30,
+     40
+    ],
+    "hood": [
+     20,
+     20,
+     30
+    ],
+    "weapon": "scythe",
+    "eye": [
+     140,
+     255,
+     220
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "pc22",
+   "name": "Phénix Solaire",
+   "type": "creature",
+   "family": "esprits",
+   "element": "feu",
+   "rarity": "R",
+   "cost": 6,
+   "atk": 5,
+   "hp": 4,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "revive"
+    }
+   ],
+   "lore": "Il renaît de ses cendres, et ramène avec lui un ami.",
+   "art": {
+    "arch": "bird",
+    "flame": true,
+    "wing_span": 1.15,
+    "tail": 1.1,
+    "c1": [
+     255,
+     170,
+     50
+    ],
+    "c2": [
+     255,
+     240,
+     150
+    ],
+    "c3": [
+     255,
+     100,
+     40
+    ],
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "pc23",
+   "name": "Sphinx de l'Énigme",
+   "type": "creature",
+   "family": "antiques",
+   "element": "lumiere",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 4,
+   "hp": 6,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "silence",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Réponds à son énigme ou rends-lui ta voix.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "horns": "crown",
+    "ears": false,
+    "spikes": false,
+    "mane": true,
+    "mane_c": [
+     230,
+     190,
+     90
+    ],
+    "bulk": 1.2,
+    "leg_len": 0.9,
+    "head": 1.4,
+    "neck": 0.5,
+    "c1": [
+     220,
+     180,
+     110
+    ],
+    "c2": [
+     250,
+     230,
+     180
+    ],
+    "c3": [
+     255,
+     220,
+     120
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "pc24",
+   "name": "Muse Inspiratrice",
+   "type": "creature",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "R",
+   "cost": 3,
+   "atk": 2,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "add_random",
+     "value": 1,
+     "min_rarity": "SR"
+    }
+   ],
+   "lore": "Elle chuchote aux artistes, et le monde s'en souvient pour toujours.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     250,
+     220,
+     240
+    ],
+    "hair": [
+     255,
+     210,
+     150
+    ],
+    "skin_h": [
+     245,
+     225,
+     210
+    ],
+    "orb_hand": true,
+    "halo": true,
+    "eye": [
+     255,
+     200,
+     240
+    ],
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "pc25",
+   "name": "Chimère Divine",
+   "type": "creature",
+   "family": "mutants",
+   "element": "feu",
+   "rarity": "R",
+   "cost": 6,
+   "atk": 5,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "attack",
+     "do": "damage",
+     "target": "enemy_leader",
+     "value": 2
+    }
+   ],
+   "lore": "Lion, chèvre et serpent, et pourtant parfaitement d'accord sur une chose : brûler.",
+   "art": {
+    "arch": "quadruped",
+    "heads": 2,
+    "snout": "beast",
+    "horns": "ram",
+    "mane": true,
+    "mane_c": [
+     255,
+     140,
+     60
+    ],
+    "spikes": false,
+    "bulk": 1.1,
+    "c1": [
+     200,
+     140,
+     70
+    ],
+    "c2": [
+     255,
+     220,
+     150
+    ],
+    "c3": [
+     240,
+     230,
+     210
+    ],
+    "tail": 1.1,
+    "tail_tip": "flame",
+    "breath": true,
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "pc26",
+   "name": "Titan Atlante",
+   "type": "creature",
+   "family": "antiques",
+   "element": "terre",
+   "rarity": "SR",
+   "cost": 8,
+   "atk": 6,
+   "hp": 10,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "shield",
+     "target": "all_allies"
+    }
+   ],
+   "lore": "Il porte le ciel sur ses épaules depuis le début des temps.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.7,
+    "c1": [
+     150,
+     130,
+     110
+    ],
+    "glow": [
+     255,
+     210,
+     120
+    ],
+    "eye": [
+     255,
+     210,
+     120
+    ],
+    "crystals": [
+     [
+      -16,
+      -32,
+      22
+     ],
+     [
+      16,
+      -32,
+      22
+     ]
+    ],
+    "aura": true,
+    "scene": "storm",
+    "scale": 0.88
+   }
+  },
+  {
+   "id": "pc27",
+   "name": "Néréide, Reine des Vagues",
+   "type": "creature",
+   "family": "divinites",
+   "element": "eau",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 4,
+   "hp": 7,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "bounce",
+     "target": "choose_enemy_creature"
+    },
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 1
+    }
+   ],
+   "lore": "Les marins lui offrent leurs chants ; elle leur offre des vents favorables.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "robe_c": [
+     40,
+     140,
+     190
+    ],
+    "hair": [
+     140,
+     240,
+     255
+    ],
+    "skin_h": [
+     200,
+     235,
+     245
+    ],
+    "crown": [
+     200,
+     255,
+     255
+    ],
+    "floating": true,
+    "orb_hand": true,
+    "trim": [
+     200,
+     255,
+     255
+    ],
+    "eye": [
+     160,
+     240,
+     255
+    ],
+    "scene": "ocean"
+   }
+  },
+  {
+   "id": "pc28",
+   "name": "Forge d'Héphaïstos",
+   "type": "spell",
+   "family": "antiques",
+   "element": "feu",
+   "rarity": "SR",
+   "cost": 5,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "all_allies",
+     "value": 2,
+     "value2": 2
+    },
+    {
+     "on": "cast",
+     "do": "shield",
+     "target": "all_allies"
+    }
+   ],
+   "lore": "Il forge les armes des dieux. Parfois, il en prête une.",
+   "art": {
+    "arch": "spell",
+    "spell": "meteor",
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "pc29",
+   "name": "Kronos Déchu",
+   "type": "creature",
+   "family": "antiques",
+   "element": "neant",
+   "rarity": "SR",
+   "cost": 7,
+   "atk": 6,
+   "hp": 7,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "sleep",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "summon",
+     "do": "energy",
+     "value": 2
+    }
+   ],
+   "lore": "Le titan du temps. Il a dévoré ses enfants. Ils ont fini par le lui rendre.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "robe_c": [
+     40,
+     40,
+     50
+    ],
+    "hair": [
+     200,
+     200,
+     200
+    ],
+    "skin_h": [
+     170,
+     170,
+     180
+    ],
+    "crown": [
+     150,
+     255,
+     220
+    ],
+    "weapon": "scythe",
+    "floating": true,
+    "eye": [
+     150,
+     255,
+     220
+    ],
+    "aura": true,
+    "scene": "void",
+    "scale": 0.92
+   }
+  },
+  {
+   "id": "pc30",
+   "name": "Valkyrie Dorée",
+   "type": "creature",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "SR",
+   "cost": 5,
+   "atk": 5,
+   "hp": 4,
+   "keywords": [
+    "envol",
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "revive"
+    }
+   ],
+   "lore": "Elle emporte les héros tombés… puis les renvoie au combat.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     230,
+     220,
+     200
+    ],
+    "armor": [
+     255,
+     210,
+     90
+    ],
+    "hair": [
+     255,
+     230,
+     150
+    ],
+    "wings": "feather",
+    "wing_c": [
+     255,
+     250,
+     235
+    ],
+    "wing_glow": true,
+    "weapon": "sword",
+    "floating": true,
+    "eye": [
+     255,
+     230,
+     150
+    ],
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "pc31",
+   "name": "Typhon, Père des Monstres",
+   "type": "creature",
+   "family": "mutants",
+   "element": "foudre",
+   "rarity": "SR",
+   "cost": 8,
+   "atk": 7,
+   "hp": 8,
+   "keywords": [
+    "rage",
+    "pietinement"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 3
+    }
+   ],
+   "lore": "Ses cent têtes de serpent hurlent toutes en même temps.",
+   "art": {
+    "arch": "kraken",
+    "c1": [
+     80,
+     70,
+     100
+    ],
+    "c2": [
+     255,
+     230,
+     120
+    ],
+    "eye": [
+     255,
+     240,
+     120
+    ],
+    "glow": [
+     150,
+     220,
+     255
+    ],
+    "scene": "storm",
+    "scale": 0.88,
+    "cy": 150
+   }
+  },
+  {
+   "id": "pc32",
+   "name": "Chevaux du Soleil",
+   "type": "creature",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 6,
+   "hp": 5,
+   "keywords": [
+    "celerite",
+    "envol"
+   ],
+   "lore": "Ils tirent le char du soleil d'un horizon à l'autre.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "horns": "none",
+    "ears": true,
+    "spikes": false,
+    "mane": true,
+    "mane_c": [
+     255,
+     180,
+     60
+    ],
+    "wings": true,
+    "wing_span": 1.1,
+    "wing_glow": true,
+    "neck": 1.3,
+    "leg_len": 1.4,
+    "bulk": 0.95,
+    "c1": [
+     255,
+     200,
+     90
+    ],
+    "c2": [
+     255,
+     240,
+     170
+    ],
+    "c3": [
+     255,
+     140,
+     40
+    ],
+    "membrane": [
+     255,
+     200,
+     100
+    ],
+    "tail_tip": "flame",
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "pc33",
+   "name": "Lyre d'Orphée",
+   "type": "spell",
+   "family": "esprits",
+   "element": "lumiere",
+   "rarity": "SR",
+   "cost": 5,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "revive",
+     "value": 3
+    }
+   ],
+   "lore": "Sa musique a ému la Mort elle-même.",
+   "art": {
+    "arch": "spell",
+    "spell": "solar",
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "pc34",
+   "name": "Gorgone Ancestrale",
+   "type": "creature",
+   "family": "mutants",
+   "element": "neant",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 4,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "sleep",
+     "target": "random_enemy_creature"
+    },
+    {
+     "on": "turn_start",
+     "do": "damage",
+     "target": "random_enemy",
+     "value": 1
+    }
+   ],
+   "lore": "Les statues de son jardin ont toutes été des héros.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "tentacles": 10,
+    "size": 0.9,
+    "c1": [
+     60,
+     100,
+     80
+    ],
+    "eye": [
+     200,
+     255,
+     120
+    ],
+    "glow": [
+     150,
+     255,
+     150
+    ],
+    "scene": "void",
+    "scale": 0.95
+   }
+  },
+  {
+   "id": "pc35",
+   "name": "Athéna, Stratège Céleste",
+   "type": "creature",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 4,
+   "hp": 7,
+   "keywords": [
+    "garde",
+    "bouclier"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "buff",
+     "target": "all_allies",
+     "value": 1,
+     "value2": 2
+    }
+   ],
+   "lore": "Elle ne gagne pas les batailles : elle les a gagnées avant qu'elles commencent.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "floating": true,
+    "halo": true,
+    "aura": true,
+    "robe_c": [
+     230,
+     230,
+     240
+    ],
+    "armor": [
+     230,
+     200,
+     120
+    ],
+    "hair": [
+     180,
+     140,
+     90
+    ],
+    "crown": [
+     255,
+     220,
+     120
+    ],
+    "weapon": "sword",
+    "trim": [
+     255,
+     210,
+     90
+    ],
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "pc36",
+   "name": "Poséidon des Abysses",
+   "type": "creature",
+   "family": "divinites",
+   "element": "eau",
+   "rarity": "E",
+   "cost": 7,
+   "atk": 6,
+   "hp": 7,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "bounce",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "D'un coup de trident, il rend les mers et reprend les rivages.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "floating": true,
+    "halo": true,
+    "aura": true,
+    "robe_c": [
+     30,
+     110,
+     160
+    ],
+    "hair": [
+     220,
+     240,
+     255
+    ],
+    "skin_h": [
+     200,
+     225,
+     240
+    ],
+    "crown": [
+     160,
+     255,
+     240
+    ],
+    "weapon": "staff",
+    "trim": [
+     160,
+     255,
+     240
+    ],
+    "eye": [
+     160,
+     240,
+     255
+    ],
+    "scene": "abyss"
+   }
+  },
+  {
+   "id": "pc37",
+   "name": "Hadès, Seigneur des Morts",
+   "type": "creature",
+   "family": "divinites",
+   "element": "ombre",
+   "rarity": "E",
+   "cost": 7,
+   "atk": 5,
+   "hp": 8,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "revive",
+     "value": 2
+    },
+    {
+     "on": "turn_start",
+     "do": "revive"
+    }
+   ],
+   "lore": "Tout finit par lui revenir. Absolument tout.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "floating": true,
+    "halo": true,
+    "aura": true,
+    "robe_c": [
+     30,
+     20,
+     40
+    ],
+    "hair": [
+     60,
+     60,
+     80
+    ],
+    "skin_h": [
+     190,
+     180,
+     200
+    ],
+    "crown": [
+     140,
+     255,
+     220
+    ],
+    "weapon": "scythe",
+    "trim": [
+     140,
+     255,
+     220
+    ],
+    "eye": [
+     140,
+     255,
+     220
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "pc38",
+   "name": "Arès, Furie Guerrière",
+   "type": "creature",
+   "family": "divinites",
+   "element": "feu",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 7,
+   "hp": 5,
+   "keywords": [
+    "rage",
+    "celerite"
+   ],
+   "lore": "Il aime la guerre pour elle-même. Personne ne l'aime vraiment en retour.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "floating": true,
+    "halo": true,
+    "aura": true,
+    "robe_c": [
+     140,
+     30,
+     30
+    ],
+    "armor": [
+     200,
+     80,
+     40
+    ],
+    "hair": [
+     60,
+     30,
+     20
+    ],
+    "crown": [
+     255,
+     140,
+     60
+    ],
+    "weapon": "sword",
+    "trim": [
+     255,
+     140,
+     60
+    ],
+    "eye": [
+     255,
+     90,
+     60
+    ],
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "pc39",
+   "name": "Héra, Reine de l'Olympe",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "cosmique",
+   "rarity": "L",
+   "cost": 8,
+   "atk": 6,
+   "hp": 9,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "shield",
+     "target": "all_allies"
+    },
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 8
+    },
+    {
+     "on": "turn_start",
+     "do": "buff",
+     "target": "all_allies",
+     "value": 0,
+     "value2": 1
+    }
+   ],
+   "lore": "Ses paons portent mille yeux qui surveillent le monde.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "floating": true,
+    "halo": true,
+    "aura": true,
+    "robe_c": [
+     90,
+     60,
+     170
+    ],
+    "hair": [
+     60,
+     40,
+     40
+    ],
+    "skin_h": [
+     240,
+     220,
+     210
+    ],
+    "crown": [
+     255,
+     220,
+     120
+    ],
+    "wings": "feather",
+    "wing_c": [
+     120,
+     200,
+     220
+    ],
+    "wing_span": 1.2,
+    "wing_glow": true,
+    "orb_hand": true,
+    "trim": [
+     255,
+     210,
+     90
+    ],
+    "scene": "nebula",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "pc40",
+   "name": "Apollon, Archer Solaire",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "lumiere",
+   "rarity": "L",
+   "cost": 7,
+   "atk": 6,
+   "hp": 6,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "damage",
+     "target": "random_enemy",
+     "value": 3
+    }
+   ],
+   "lore": "Chacune de ses flèches est un rayon du soleil.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "floating": true,
+    "halo": true,
+    "aura": true,
+    "robe_c": [
+     255,
+     220,
+     140
+    ],
+    "hair": [
+     255,
+     230,
+     120
+    ],
+    "skin_h": [
+     250,
+     225,
+     195
+    ],
+    "crown": [
+     255,
+     240,
+     160
+    ],
+    "wings": "feather",
+    "wing_c": [
+     255,
+     240,
+     200
+    ],
+    "wing_glow": true,
+    "weapon": "staff",
+    "trim": [
+     255,
+     200,
+     90
+    ],
+    "scene": "temple",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "pc41",
+   "name": "Artémis, Chasseresse Lunaire",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "glace",
+   "rarity": "L",
+   "cost": 7,
+   "atk": 6,
+   "hp": 5,
+   "keywords": [
+    "furtif",
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "sleep",
+     "target": "attack_target"
+    }
+   ],
+   "lore": "Elle chasse au clair de lune. Sa proie ne voit jamais venir la flèche.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "floating": true,
+    "halo": true,
+    "aura": true,
+    "robe_c": [
+     180,
+     200,
+     230
+    ],
+    "hair": [
+     220,
+     230,
+     255
+    ],
+    "skin_h": [
+     230,
+     235,
+     245
+    ],
+    "crown": [
+     220,
+     240,
+     255
+    ],
+    "weapon": "staff",
+    "trim": [
+     200,
+     230,
+     255
+    ],
+    "eye": [
+     180,
+     230,
+     255
+    ],
+    "scene": "tundra",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "pc42",
+   "name": "Le Jugement Final",
+   "type": "spell",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "M",
+   "cost": 9,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "destroy",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "cast",
+     "do": "revive",
+     "value": 3
+    },
+    {
+     "on": "cast",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 10
+    }
+   ],
+   "lore": "Chacun sera pesé. La plupart seront trouvés trop légers.",
+   "art": {
+    "arch": "spell",
+    "spell": "holy",
+    "scene": "sanctum"
+   }
+  },
+  {
+   "id": "pc43",
+   "name": "Gaïa Primordiale",
+   "type": "creature",
+   "family": "divinites",
+   "element": "nature",
+   "rarity": "D",
+   "cost": 9,
+   "atk": 7,
+   "hp": 12,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 99
+    },
+    {
+     "on": "turn_start",
+     "do": "summon",
+     "card": "pc05"
+    },
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 2
+    }
+   ],
+   "lore": "La Terre elle-même, réveillée et en colère.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "floating": true,
+    "halo": true,
+    "aura": true,
+    "robe_c": [
+     60,
+     140,
+     70
+    ],
+    "hair": [
+     160,
+     240,
+     120
+    ],
+    "skin_h": [
+     200,
+     225,
+     180
+    ],
+    "crown": [
+     255,
+     220,
+     120
+    ],
+    "wings": "feather",
+    "wing_c": [
+     150,
+     230,
+     140
+    ],
+    "wing_glow": true,
+    "orb_hand": true,
+    "trim": [
+     255,
+     220,
+     120
+    ],
+    "scene": "forest",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "pc44",
+   "name": "Le Chaos Originel",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "neant",
+   "rarity": "AB",
+   "cost": 10,
+   "atk": 10,
+   "hp": 10,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "swap_stats",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "summon",
+     "do": "silence",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "turn_start",
+     "do": "damage",
+     "target": "all_enemies",
+     "value": 2
+    }
+   ],
+   "lore": "Avant les dieux, il n'y avait que lui. Il aimerait que ça recommence.",
+   "art": {
+    "arch": "maw",
+    "eyes": 12,
+    "c1": [
+     20,
+     10,
+     30
+    ],
+    "glow": [
+     180,
+     255,
+     220
+    ],
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "scale": 0.85,
+    "scene": "void"
+   }
+  },
+  {
+   "id": "pg01",
+   "name": "ZEUS, Souverain de la Foudre",
+   "type": "creature",
+   "family": "divinites",
+   "element": "foudre",
+   "rarity": "G",
+   "cost": 10,
+   "atk": 10,
+   "hp": 12,
+   "keywords": [
+    "envol",
+    "bouclier"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "all_enemies",
+     "value": 4
+    },
+    {
+     "on": "summon",
+     "do": "shield",
+     "target": "all_allies"
+    },
+    {
+     "on": "turn_start",
+     "do": "damage",
+     "target": "random_enemy",
+     "value": 4
+    }
+   ],
+   "lore": "Le roi des dieux. Quand il lève la main, le ciel entier retient son souffle.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "floating": true,
+    "halo": true,
+    "aura": true,
+    "robe_c": [
+     240,
+     235,
+     220
+    ],
+    "armor": [
+     255,
+     215,
+     80
+    ],
+    "hair": [
+     250,
+     250,
+     250
+    ],
+    "skin_h": [
+     245,
+     225,
+     200
+    ],
+    "crown": [
+     255,
+     220,
+     80
+    ],
+    "halo_c": [
+     255,
+     230,
+     120
+    ],
+    "wings": "feather",
+    "wing_c": [
+     255,
+     240,
+     190
+    ],
+    "wing_span": 1.4,
+    "wing_glow": true,
+    "weapon": "staff",
+    "orb_hand": true,
+    "trim": [
+     255,
+     215,
+     80
+    ],
+    "glow": [
+     255,
+     230,
+     120
+    ],
+    "eye": [
+     160,
+     230,
+     255
+    ],
+    "scene": "storm",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "pg02",
+   "name": "SOLARIS, Dieu-Soleil Absolu",
+   "type": "creature",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "G",
+   "cost": 10,
+   "atk": 9,
+   "hp": 13,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "destroy",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 15
+    },
+    {
+     "on": "turn_start",
+     "do": "buff",
+     "target": "all_allies",
+     "value": 2,
+     "value2": 2
+    }
+   ],
+   "lore": "Il ne se lève pas avec le soleil. Le soleil se lève avec lui.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "floating": true,
+    "halo": true,
+    "aura": true,
+    "robe_c": [
+     255,
+     240,
+     200
+    ],
+    "armor": [
+     255,
+     200,
+     60
+    ],
+    "hair": [
+     255,
+     220,
+     120
+    ],
+    "skin_h": [
+     255,
+     230,
+     200
+    ],
+    "crown": [
+     255,
+     200,
+     60
+    ],
+    "halo_c": [
+     255,
+     200,
+     80
+    ],
+    "wings": "feather",
+    "wing_c": [
+     255,
+     230,
+     150
+    ],
+    "wing_span": 1.45,
+    "wing_glow": true,
+    "orb_hand": true,
+    "trim": [
+     255,
+     200,
+     60
+    ],
+    "glow": [
+     255,
+     210,
+     90
+    ],
+    "pose": "raise",
+    "scene": "sanctum",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "pg03",
+   "name": "ÆTHER, Créateur des Mondes",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "cosmique",
+   "rarity": "G",
+   "cost": 10,
+   "atk": 11,
+   "hp": 11,
+   "keywords": [
+    "envol",
+    "pietinement"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "revive",
+     "value": 3
+    },
+    {
+     "on": "summon",
+     "do": "add_random",
+     "value": 2,
+     "min_rarity": "CE"
+    },
+    {
+     "on": "turn_start",
+     "do": "energy",
+     "value": 2
+    }
+   ],
+   "lore": "Il a imaginé le Cardverse un matin d'ennui. Il n'a jamais regretté.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "crown",
+    "wings": true,
+    "wing_span": 1.5,
+    "wing_glow": true,
+    "bulk": 1.25,
+    "neck": 1.35,
+    "breath": true,
+    "spike_size": 1.6,
+    "c1": [
+     255,
+     200,
+     70
+    ],
+    "c2": [
+     255,
+     250,
+     210
+    ],
+    "c3": [
+     255,
+     255,
+     255
+    ],
+    "membrane": [
+     255,
+     220,
+     120
+    ],
+    "glow": [
+     255,
+     230,
+     140
+    ],
+    "rim": [
+     255,
+     240,
+     180
+    ],
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "scene": "sanctum",
+    "scale": 0.85
+   }
+  },
+  {
+   "id": "pc90",
+   "name": "Écho Sacré",
+   "type": "creature",
+   "family": "esprits",
+   "element": "lumiere",
+   "rarity": "U",
+   "cost": 1,
+   "atk": 1,
+   "hp": 1,
+   "lore": "Un murmure de prière, devenu créature.",
+   "art": {
+    "arch": "spirit",
+    "kind": "light",
+    "c1": [
+     255,
+     240,
+     180
+    ],
+    "scale": 0.9
+   },
+   "token": true
+  }
+ ]
+}
