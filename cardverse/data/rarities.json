@@ -4,14 +4,17 @@
   "U",
   "R",
   "SR",
+  "NE",
   "E",
   "L",
   "M",
+  "IN",
   "A",
   "P",
   "D",
   "CE",
   "CO",
+  "MI",
   "T",
   "AB",
   "O",
@@ -164,6 +167,30 @@
    "weight": 0.0004,
    "dust": 50000,
    "fx": 5,
+   "deck_max": 1
+  },
+  "NE": {
+   "name": "Néon",
+   "color": "#3dfcff",
+   "weight": 3.0,
+   "dust": 70,
+   "fx": 2,
+   "deck_max": 2
+  },
+  "IN": {
+   "name": "Infernale",
+   "color": "#ff4a1c",
+   "weight": 0.3,
+   "dust": 650,
+   "fx": 3,
+   "deck_max": 1
+  },
+  "MI": {
+   "name": "Mirage",
+   "color": "#d2a8ff",
+   "weight": 0.04,
+   "dust": 2500,
+   "fx": 4,
    "deck_max": 1
   }
  },

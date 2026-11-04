@@ -70,6 +70,13 @@ func start_turn() -> void:
 		var c := DB.card(u.id)
 		if c.has("evolve") and int(u.age) >= int(c.evolve.turns) and u.hp > 0 and not u.get("silenced", false):
 			_evolve(u, c.evolve.into)
+	# brûlure : 1 dégât par tour tant que le compteur dure
+	for u in P.board.duplicate():
+		if int(u.get("burn", 0)) > 0 and u.hp > 0:
+			u.burn = int(u.burn) - 1
+			ev({"t": "burn_tick", "uid": u.uid, "left": u.burn})
+			damage({"k": "unit", "uid": u.uid}, 1, null)
+	cleanup()
 	# effets de début de tour
 	for u in P.board.duplicate():
 		if u.hp > 0:
@@ -488,6 +495,27 @@ func resolve(e: Dictionary, i: int, src: Dictionary, ctx: Dictionary) -> void:
 			"bounce":
 				if t.k == "unit":
 					bounce(t.uid)
+			"burn":
+				if t.k == "unit":
+					var ub := find_unit(t.uid)
+					ub.burn = int(ub.get("burn", 0)) + maxi(1, v)
+					ev({"t": "ignite", "uid": t.uid, "turns": ub.burn})
+			"polymorph":
+				if t.k == "unit":
+					var up := find_unit(t.uid)
+					var into: String = e.get("card", "cx90")
+					var cc := DB.card(into)
+					up.id = into
+					up.atk = int(cc.atk)
+					up.hp = int(cc.hp)
+					up.max_hp = int(cc.hp)
+					up.kw = _kw(cc)
+					up.burn = 0
+					up.silenced = false
+					ev({"t": "polymorph", "uid": up.uid, "unit": up.duplicate(true)})
+			"copy":
+				if t.k == "unit":
+					add_to_hand(i, find_unit(t.uid).id)
 			"swap_stats":
 				if t.k == "unit":
 					var us := find_unit(t.uid)

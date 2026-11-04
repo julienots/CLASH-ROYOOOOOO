@@ -881,6 +881,32 @@ func _effect_fx(e: Dictionary) -> void:
 			for t in e.targets:
 				UI.burst(fx_layer, _ref_pos(t), UI.GOOD, 24, 200, 0.45, 0.8, -150)
 			await _wait(0.15)
+		"ignite":
+			Sfx.play("fire")
+			if units.has(int(e.uid)):
+				var vb2: UnitView = units[int(e.uid)]
+				UI.float_text(fx_layer, vb2.position + UnitView.SZ / 2, "Brûlure (%d)" % int(e.turns), Color("ff8a3a"), 28)
+				UI.burst(fx_layer, vb2.position + UnitView.SZ / 2, Color(1.0, 0.45, 0.1), 30, 260, 0.5, 0.7, -260)
+				var db2 := vb2.data.duplicate(true)
+				db2.burn = int(e.turns)
+				vb2.refresh(db2)
+			await _wait(0.15)
+		"burn_tick":
+			if units.has(int(e.uid)):
+				UI.burst(fx_layer, units[int(e.uid)].position + UnitView.SZ / 2, Color(1.0, 0.45, 0.1), 20, 200, 0.4, 0.6, -240)
+			Sfx.play("fire", 1.2)
+			await _wait(0.1)
+		"polymorph":
+			Sfx.play("pop", 0.7)
+			if units.has(int(e.uid)):
+				var vp2: UnitView = units[int(e.uid)]
+				var tp := vp2.create_tween()
+				tp.tween_property(vp2, "scale", Vector2(0.2, 0.2), 0.2)
+				tp.tween_callback(func(): vp2.refresh(e.unit))
+				tp.tween_property(vp2, "scale", Vector2.ONE, 0.3).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
+				UI.burst(fx_layer, vp2.position + UnitView.SZ / 2, Color(0.5, 1.0, 0.4), 40, 350, 0.5, 0.7, 0)
+				UI.float_text(fx_layer, vp2.position + UnitView.SZ / 2 - Vector2(0, 40), "Métamorphose !", Color("8dff6a"), 28)
+			await _wait(0.45)
 		"revive":
 			Sfx.play("heal", 1.2)
 			_flash(Color(1.0, 0.95, 0.7, 0.4), 0.5)
@@ -892,7 +918,7 @@ func _effect_fx(e: Dictionary) -> void:
 			for t in e.targets:
 				UI.float_text(fx_layer, _ref_pos(t) - Vector2(0, 60), "Piétinement !", Color("ffb340"), 28)
 			await _wait(0.15)
-		"freeze", "sleep", "shield", "buff", "silence", "bounce", "steal", "swap_stats":
+		"freeze", "sleep", "shield", "buff", "silence", "bounce", "steal", "swap_stats", "burn", "polymorph", "copy":
 			for t in e.targets:
 				UI.burst(fx_layer, _ref_pos(t), col, 18, 200, 0.4, 0.6, -80)
 			await _wait(0.1)

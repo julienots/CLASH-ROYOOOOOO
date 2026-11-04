@@ -175,6 +175,38 @@ void fragment() {
 	} else if (border == 2) {
 		float runes = step(0.5, fract(ang * 48.0)) * (0.55 + 0.45 * sin(t * 2.5 + ang * 30.0));
 		c += vec3(1.0, 0.55, 0.15) * bandb * (0.35 + runes * 0.9);
+	} else if (border == 5) {
+		// Néon : deux tubes qui grésillent, segments qui s'allument, clignotement d'enseigne
+		float flick = 0.75 + 0.25 * step(0.08, fract(sin(floor(t * 9.0) * 12.9898) * 43758.5));
+		float tube1 = smoothstep(4.0, 0.0, abs(ed - 10.0));
+		float tube2 = smoothstep(3.0, 0.0, abs(ed - 18.0));
+		float halo1 = exp(-abs(ed - 10.0) * 0.25);
+		float seg = step(0.2, fract(ang * 24.0 - t * 0.8));
+		vec3 cy = vec3(0.25, 1.0, 1.0);
+		vec3 mg = vec3(1.0, 0.25, 0.85);
+		c += (cy * (tube1 * 1.6 + halo1 * 0.35) + mg * tube2 * 1.3 * seg) * flick;
+		float scan = step(0.97, fract(uv.y * 60.0 - t * 2.0));
+		c += cy * scan * 0.08;
+	} else if (border == 6) {
+		// Infernale : flammes qui lèchent le cadre, braises, chaleur
+		vec2 q = vec2(ang * 40.0, ed * 0.08 - t * 1.8);
+		float fl = noise(q) * 0.6 + noise(q * 2.3 + 4.0) * 0.4;
+		float height = 26.0 + fl * 34.0;
+		float flame = smoothstep(height, height * 0.3, ed) * smoothstep(0.0, 2.0, ed);
+		vec3 fire = mix(vec3(0.9, 0.12, 0.02), vec3(1.0, 0.85, 0.3), smoothstep(height, 0.0, ed));
+		c += fire * flame * (1.1 + 0.3 * sin(t * 10.0 + ang * 30.0));
+		vec2 g6 = floor(px / 7.0);
+		float h6 = hash(g6 + floor(t * 3.0));
+		c += vec3(1.0, 0.6, 0.15) * step(0.985, h6) * smoothstep(60.0, 0.0, ed) * 2.0;
+		c += vec3(1.0, 0.3, 0.05) * 0.06 * (0.5 + 0.5 * sin(uv.y * 30.0 + t * 6.0));
+	} else if (border == 7) {
+		// Mirage : arc-en-ciel ondoyant qui déforme la lumière comme une chaleur
+		float wav = sin(uv.y * 22.0 + t * 2.0 + sin(uv.x * 9.0 + t) * 2.0);
+		float band7 = smoothstep(28.0, 4.0, ed) * smoothstep(0.0, 2.0, ed);
+		c += hue(fract(ang * 1.5 + wav * 0.08 - t * 0.12)) * band7 * 1.2;
+		float shimmer = pow(max(0.0, sin((uv.x + uv.y) * 16.0 + wav * 1.5 - t * 1.5)), 8.0);
+		c += hue(fract(uv.x * 0.5 + uv.y * 0.3 + t * 0.05)) * shimmer * 0.3;
+		c += vec3(1.0) * smoothstep(1.5, 0.0, abs(ed - 30.0)) * (0.4 + 0.4 * sin(t * 4.0 + ang * 40.0));
 	} else if (border == 4) {
 		// contour d'or liquide, épais et vivant
 		float band4 = smoothstep(30.0, 8.0, ed) * smoothstep(0.0, 2.0, ed);

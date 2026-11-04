@@ -112,7 +112,9 @@ func setup(_p: Dictionary) -> void:
 	cp.add_child(cb)
 	col.add_child(cp)
 	# connexion quotidienne, tutoriel, nouveautés
-	if Profile.d.get("pending_gift", false):
+	if Profile.d.get("pending_gift8", false):
+		_gift8_popup.call_deferred()
+	elif Profile.d.get("pending_gift", false):
 		_gift_popup.call_deferred()
 	elif Profile.d.get("pending_gift7", false):
 		_gift7_popup.call_deferred()
@@ -319,4 +321,20 @@ func _gift7_popup() -> void:
 		Profile.d.pending_gift7 = false
 		Profile.d.pending_gift6 = false
 		Profile.save_game()
+		main.goto("shop", {"tab": "boosters"})]])
+
+func _gift8_popup() -> void:
+	var l := UI.label("Nouveautés 0.8 :\n• 91 NOUVELLES CARTES : Gén. 7 « Corsaires Astraux » et Gén. 8 « Jungle Sauvage », avec une nouvelle carte GOD (Gaïarugh).\n• 3 NOUVELLES RARETÉS : Néon (tubes lumineux), Infernale (flammes) et Mirage (reflets ondulants).\n• NOUVEAUX EFFETS : Brûlure, Métamorphose et Copie.\n• NOUVELLE ÉDITION : Booster Prestige (8 cartes, variante garantie) et Mini-Booster.\n• BOUTIQUE : Roue de la Fortune (1 tour gratuit par jour), Marché Noir et Packs groupés.\n• SAISON 2 : Corsaires des Étoiles, avec un dos et un plateau exclusifs.\n\nCadeau : 2 Boosters Corsaires, 2 Boosters Jungle et 1 Booster Prestige t'attendent dans la Boutique.", 19, UI.TEXT, "body", 600)
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	l.custom_minimum_size = Vector2(560, 0)
+	var close := func():
+		Profile.d.pending_gift8 = false
+		for k in ["pending_gift", "pending_gift6", "pending_gift7"]:
+			Profile.d[k] = false
+		Profile.d.seen_version = "0.8"
+		Profile.save_game()
+	main.modal("Corsaires & Jungle", l, [["La Roue", Color("c89a20"), func():
+		close.call()
+		main.goto("shop", {"tab": "wheel"})], ["Mes boosters", UI.GOOD.darkened(0.2), func():
+		close.call()
 		main.goto("shop", {"tab": "boosters"})]])

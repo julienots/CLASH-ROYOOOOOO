@@ -33,6 +33,9 @@ FRAMES = {
     "AB": ((30, 26, 36), (230, 190, 90), (6, 4, 10), (255, 210, 100), "obsidian"),
     "O":  ((255, 240, 220), (255, 255, 255), (200, 160, 110), (255, 255, 255), "origin"),
     "X":  ((20, 20, 24), (240, 240, 240), (0, 0, 0), (255, 255, 255), "glitch"),
+    "NE": ((20, 20, 40), (60, 255, 255), (5, 5, 15), (255, 60, 220), "neon"),
+    "IN": ((120, 20, 10), (255, 160, 40), (30, 5, 5), (255, 90, 20), "infernal"),
+    "MI": ((180, 150, 230), (255, 240, 255), (90, 70, 150), (220, 180, 255), "mirage"),
     "G":  ((230, 170, 40), (255, 250, 200), (110, 60, 5), (255, 255, 230), "god"),
     "SW": ((30, 60, 80), (120, 255, 240), (8, 16, 30), (80, 255, 230), "swap"),
 }
@@ -53,6 +56,13 @@ def metal(base, light, dark, w, h, pattern, seed=0):
     y, x = np.mgrid[0:h, 0:w].astype(np.float32)
     b, l, d = (np.array(c, np.float32) / 255 for c in (base, light, dark))
     t = 0.5 + 0.5 * np.sin((x * 0.6 + y * 1.0) * 0.08)  # bandes de reflets
+    if pattern == "neon":
+        t = 0.2 + 0.1 * np.sin(y * 0.6)
+    if pattern == "infernal":
+        n = rng.random((h // 2 + 1, w // 2 + 1)).repeat(2, 0).repeat(2, 1)[:h, :w]
+        t = 0.25 + 0.6 * n * (y / h)
+    if pattern == "mirage":
+        t = 0.5 + 0.5 * np.sin(x * 0.2 + np.sin(y * 0.15) * 3.0)
     if pattern == "god":
         t = 0.45 + 0.55 * np.abs(np.sin(x * 0.11 + y * 0.07)) ** 3
     if pattern == "primal":
@@ -175,6 +185,20 @@ def frame(rar):
                 xx = k + (dy if (k // 8) % 2 else 2 - dy)
                 arr[yy, xx] = np.array(dark, np.float32) / 255
                 arr[H - 1 - yy, xx] = np.array(dark, np.float32) / 255
+    if pattern == "neon":  # double tube néon cyan / magenta
+        cyan = np.array((60, 255, 255), np.float32) / 255
+        mag = np.array((255, 60, 220), np.float32) / 255
+        for k in range(3, W - 3):
+            arr[3, k] = cyan
+            arr[H - 4, k] = mag
+        for k in range(3, H - 3):
+            arr[k, 3] = mag
+            arr[k, W - 4] = cyan
+    if pattern == "infernal":  # braises sur le cadre
+        for _ in range(80):
+            px, py = rng.randrange(2, W - 2), rng.randrange(2, H - 2)
+            if inside[py, px] and not win[py, px] and not tx[py, px]:
+                arr[py, px] = np.array(rng.choice([(255, 200, 60), (255, 110, 30), (255, 240, 150)]), np.float32) / 255
     if pattern == "god":  # filigrane gravé, double liseré, couronne solaire et gemmes
         gold_l = np.array((255, 248, 200), np.float32) / 255
         gold_d = np.array((120, 70, 10), np.float32) / 255
@@ -273,6 +297,10 @@ PACKS = {
     "mecanica": ((40, 70, 90), (120, 220, 255), "mc41"),
     "songes": ((60, 40, 110), (255, 190, 250), "sg40"),
     "pantheon": ((150, 100, 20), (255, 240, 170), "pg01"),
+    "corsaires": ((10, 40, 90), (80, 240, 255), "cx42"),
+    "jungle": ((20, 70, 25), (190, 255, 110), "jg34"),
+    "prestige": ((25, 18, 8), (255, 215, 110), "cx45"),
+    "mini": ((120, 30, 80), (255, 170, 220), "jg17"),
 }
 
 

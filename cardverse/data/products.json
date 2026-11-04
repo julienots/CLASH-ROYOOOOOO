@@ -67,6 +67,28 @@
    "color": "#e8b830"
   },
   {
+   "id": "display_corsaires",
+   "name": "Display Corsaires Astraux",
+   "booster": "corsaires",
+   "count": 12,
+   "price": {
+    "coins": 1550
+   },
+   "guarantee": "L",
+   "color": "#3dd6ff"
+  },
+  {
+   "id": "display_jungle",
+   "name": "Display Jungle Sauvage",
+   "booster": "jungle",
+   "count": 12,
+   "price": {
+    "coins": 1550
+   },
+   "guarantee": "L",
+   "color": "#4ac86a"
+  },
+  {
    "id": "display_multiverse",
    "name": "Display Multivers",
    "booster": "multiverse",
@@ -76,6 +98,17 @@
    },
    "guarantee": "M",
    "color": "#7a6cff"
+  },
+  {
+   "id": "display_prestige",
+   "name": "Display Prestige",
+   "booster": "prestige",
+   "count": 10,
+   "price": {
+    "crystals": 950
+   },
+   "guarantee": "M",
+   "color": "#ffd36e"
   }
  ],
  "boxes": [
@@ -184,6 +217,40 @@
    "color": "#e8b830"
   },
   {
+   "id": "box_corsaires",
+   "name": "Coffret du Capitaine Stellaire",
+   "desc": "La carte promo Nebulossa en Secret Art, 6 boosters Corsaires et 3 jetons spéciaux.",
+   "price": {
+    "coins": 2800
+   },
+   "boosters": {
+    "corsaires": 6
+   },
+   "tokens": 3,
+   "promo": {
+    "card": "cx46",
+    "variant": "secret"
+   },
+   "color": "#3dd6ff"
+  },
+  {
+   "id": "box_jungle",
+   "name": "Coffret du Totem Sauvage",
+   "desc": "Une carte promo Infernale de la Jungle en Full Art, 6 boosters Jungle et 3 jetons.",
+   "price": {
+    "coins": 2800
+   },
+   "boosters": {
+    "jungle": 6
+   },
+   "tokens": 3,
+   "promo": {
+    "card": "jg34",
+    "variant": "fullart"
+   },
+   "color": "#4ac86a"
+  },
+  {
    "id": "box_elements",
    "name": "Coffret des 10 Éléments",
    "desc": "Un booster de chaque type, la carte promo Licorne Prismatique en Prismatique et 4 jetons.",
@@ -208,6 +275,98 @@
     "variant": "prisma"
    },
    "color": "#7a6cff"
+  }
+ ],
+ "bundles": [
+  {
+   "id": "bd_starter",
+   "name": "Pack Explorateur",
+   "desc": "3 Mini-Boosters, 2 Boosters Multivers et 200 Poussières.",
+   "price": {
+    "coins": 420
+   },
+   "reward": {
+    "boosters": {
+     "mini": 3,
+     "multiverse": 2
+    },
+    "dust": 200
+   },
+   "limit": "week",
+   "color": "#ff7ab8"
+  },
+  {
+   "id": "bd_new",
+   "name": "Pack Nouvelles Générations",
+   "desc": "3 Boosters Corsaires, 3 Boosters Jungle et 1 Jeton.",
+   "price": {
+    "coins": 850
+   },
+   "reward": {
+    "boosters": {
+     "corsaires": 3,
+     "jungle": 3
+    },
+    "tokens": 1
+   },
+   "limit": "week",
+   "color": "#3dd6ff"
+  },
+  {
+   "id": "bd_prestige",
+   "name": "Pack Prestige",
+   "desc": "2 Boosters Édition Prestige, 500 Pièces et 2 Jetons.",
+   "price": {
+    "crystals": 220
+   },
+   "reward": {
+    "boosters": {
+     "prestige": 2
+    },
+    "coins": 500,
+    "tokens": 2
+   },
+   "limit": "week",
+   "color": "#ffd36e"
+  },
+  {
+   "id": "bd_dust",
+   "name": "Sac de l'Artisan",
+   "desc": "800 Poussières d'étoile pour l'Atelier et 2 Mini-Boosters.",
+   "price": {
+    "crystals": 90
+   },
+   "reward": {
+    "dust": 800,
+    "boosters": {
+     "mini": 2
+    }
+   },
+   "limit": "week",
+   "color": "#8a7aff"
+  },
+  {
+   "id": "bd_legend",
+   "name": "Malle du Légendaire",
+   "desc": "Une carte Légendaire au hasard (Gén. 7 ou 8), 3 Boosters Prestige et un dos de carte exclusif.",
+   "price": {
+    "crystals": 480
+   },
+   "reward": {
+    "random_card": {
+     "rarity": "L",
+     "sets": [
+      "corsaires",
+      "jungle"
+     ]
+    },
+    "boosters": {
+     "prestige": 3
+    },
+    "cosmetic": "back_nebula"
+   },
+   "limit": "once",
+   "color": "#ff4a1c"
   }
  ]
 }

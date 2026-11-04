@@ -24,7 +24,7 @@ from spells import spell  # noqa: E402
 ARCH = {"quadruped": quadruped, "serpent": serpent, "biped": biped, "bird": bird, "fish": fish, "jelly": jelly,
         "kraken": kraken, "crab": crab, "plant": plant, "insect": insect, "orb": orb, "spirit": spirit, "maw": maw,
         "egg": egg, "larva": larva}
-EPIC = {"C": 0, "U": 0, "R": 1, "SR": 1, "E": 1, "L": 2, "M": 2, "A": 2, "D": 3, "CE": 3, "CO": 3, "T": 3, "AB": 3, "O": 3, "X": 3, "P": 3, "SW": 3, "G": 3}
+EPIC = {"C": 0, "U": 0, "R": 1, "SR": 1, "E": 1, "L": 2, "M": 2, "A": 2, "D": 3, "CE": 3, "CO": 3, "T": 3, "AB": 3, "O": 3, "X": 3, "P": 3, "SW": 3, "G": 3, "NE": 1, "IN": 2, "MI": 3}
 VERSION = "4"
 
 

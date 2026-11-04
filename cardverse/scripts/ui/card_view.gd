@@ -216,6 +216,7 @@ func build() -> void:
 		rt.fit_content = false
 		rt.clip_contents = true
 		_root.add_child(rt)
+		_fit_text.call_deferred(rt, 18 if body.length() > 230 else 21)
 	elif missing:
 		var q := UI.label("Carte non découverte", 22, UI.MUTED, "body", 600, HORIZONTAL_ALIGNMENT_CENTER)
 		q.position = Vector2(tx2[0] * sc, (tx2[1] + tx2[3]) * 0.5 * sc - 20)
@@ -287,6 +288,12 @@ func build() -> void:
 		bord = 2
 	if fx_on and rar == "SW":
 		bord = 3
+	if fx_on and rar == "NE":
+		bord = 5
+	if fx_on and rar == "IN":
+		bord = 6
+	if fx_on and rar == "MI":
+		bord = 7
 	if fx_on and rar == "G":
 		bord = 4
 		fm.set_shader_parameter("element", 10)
@@ -310,7 +317,7 @@ func build() -> void:
 	bm.shader = load("res://shaders/art_fx.gdshader")
 	var back_id: String = Profile.d.get("cosmetics", {}).get("back", "back_default")
 	bm.set_shader_parameter("mode", 0 if back_id == "back_default" else 1)
-	bm.set_shader_parameter("hue_shift", {"back_ember": 0.62, "back_jade": 0.35, "back_gold": 0.83, "back_eclipse": 0.12}.get(back_id, 0.0))
+	bm.set_shader_parameter("hue_shift", load("res://scripts/screens/shop.gd").BACK_HUES.get(back_id, 0.0))
 	_back.material = bm
 	add_child(_back)
 
@@ -378,3 +385,17 @@ func set_pivot(p: Vector2) -> void:
 
 func set_dim(v: bool) -> void:
 	modulate = Color(0.45, 0.45, 0.5) if v else Color.WHITE
+
+## Réduit la police du texte de capacité jusqu'à ce qu'il tienne dans son cadre.
+func _fit_text(rt: RichTextLabel, fs: int) -> void:
+	for k in 8:
+		if not is_instance_valid(rt) or not rt.is_inside_tree():
+			return
+		await get_tree().process_frame
+		if not is_instance_valid(rt):
+			return
+		if rt.get_content_height() <= rt.size.y + 2 or fs <= 13:
+			return
+		fs -= 1
+		for key in ["normal_font_size", "bold_font_size", "italics_font_size"]:
+			rt.add_theme_font_size_override(key, fs if key != "italics_font_size" else fs - 2)

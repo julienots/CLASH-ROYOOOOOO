@@ -230,6 +230,81 @@ func run() -> int:
 	var xp0 := int(pd.xp)
 	Profile.add_xp(int(DB.season.xp_per_tier))
 	check(int(Profile.pass_data().xp) == xp0 + int(DB.season.xp_per_tier), "l'XP alimente le passe")
+	print("== Version 0.8 : raretés, effets, édition Prestige, boutique")
+	for r in ["NE", "IN", "MI"]:
+		var nr := 0
+		for id in DB.card_order:
+			if DB.card(id).rarity == r:
+				nr += 1
+		check(nr >= 2, "cartes de rareté " + r)
+		check(BoosterLogic.slot_odds(DB.booster("multiverse")).has(r), "rareté %s tirable (Multivers)" % r)
+	check(BoosterLogic.slot_odds(DB.booster("jungle")).has("G"), "GOD possible dans le booster Jungle")
+	var gb := BattleEngine.new()
+	gb.setup(fill2, "pyra", fill2, "thalassa", 11)
+	gb.current = 0
+	var burnt := gb.summon(1, "w007")
+	var bh := int(burnt.hp)
+	gb.resolve({"do": "burn", "value": 2, "target": "choose_enemy_creature"}, 0, {}, {"chosen": {"k": "unit", "uid": burnt.uid}})
+	check(int(burnt.get("burn", 0)) == 2, "Brûlure appliquée")
+	gb.end_turn()
+	check(int(burnt.hp) == bh - 1 and int(burnt.burn) == 1, "Brûlure : 1 dégât au début du tour")
+	gb.end_turn()
+	gb.end_turn()
+	check(int(burnt.get("burn", 0)) == 0 and int(burnt.hp) == bh - 2, "Brûlure : s'éteint")
+	var frog := gb.summon(1, "f004")
+	gb.resolve({"do": "polymorph", "target": "choose_enemy_creature", "card": "cx90"}, 1 - int(frog.owner), {}, {"chosen": {"k": "unit", "uid": frog.uid}})
+	var fu := gb.find_unit(frog.uid)
+	check(not fu.is_empty() and fu.id == "cx90", "Métamorphose en Crapaud Astral")
+	var hs: int = gb.pl[0].hand.size()
+	var cpy := gb.summon(1, "e001")
+	gb.resolve({"do": "copy", "target": "choose_enemy_creature"}, 0, {}, {"chosen": {"k": "unit", "uid": cpy.uid}})
+	check(gb.pl[0].hand.size() == mini(hs + 1, BattleEngine.MAX_HAND) and gb.pl[0].hand[-1].id == "e001", "Copie : la carte arrive en main")
+	var rngp := RandomNumberGenerator.new()
+	rngp.seed = 77
+	var pb := DB.booster("prestige")
+	var pity_p := {}
+	var var_ok := true
+	var rare_ok := true
+	for k in 300:
+		var resp := BoosterLogic.open(pb, pity_p, rngp)
+		check(resp.size() == 8, "Prestige : 8 cartes")
+		var nv := 0
+		var nr2 := 0
+		for x in resp:
+			if x.variant != "":
+				nv += 1
+			if DB.rarity_index(DB.card(x.id).rarity) >= DB.rarity_index("R"):
+				nr2 += 1
+		var_ok = var_ok and nv >= 1
+		rare_ok = rare_ok and nr2 >= 2
+	check(var_ok, "Prestige : variante toujours garantie")
+	check(rare_ok, "Prestige : au moins 2 Rares ou mieux")
+	check(BoosterLogic.open(DB.booster("mini"), {}, rngp).size() == 3, "Mini-Booster : 3 cartes")
+	var wc := {}
+	for k in 4000:
+		var wi := ShopLogic.wheel_roll(rngp)
+		wc[wi] = int(wc.get(wi, 0)) + 1
+	check(wc.size() == ShopLogic.WHEEL.size(), "Roue : toutes les cases sortent")
+	var tot_ch := 0.0
+	for i in ShopLogic.WHEEL.size():
+		tot_ch += ShopLogic.wheel_chance(i)
+	check(absf(tot_ch - 100.0) < 0.01, "Roue : chances totales 100 %%")
+	var wd := {}
+	var ws := ShopLogic.wheel_state(wd, "2026-01-01")
+	ws.free_used = true
+	check(not ShopLogic.wheel_state(wd, "2026-01-02").free_used, "Roue : tour gratuit renouvelé chaque jour")
+	var mo := ShopLogic.market_offers(1234)
+	check(mo.size() >= 3 and str(mo) == str(ShopLogic.market_offers(1234)), "Marché Noir : offres stables par rotation")
+	var has_l := false
+	for o in mo:
+		check(DB.card(o.id).rarity in ShopLogic.MARKET_RARITIES, "Marché Noir : rareté autorisée")
+		has_l = has_l or DB.rarity_index(DB.card(o.id).rarity) >= DB.rarity_index("L")
+	check(has_l, "Marché Noir : au moins une Légendaire+")
+	for bd in DB.products.bundles:
+		for bid in bd.reward.get("boosters", {}):
+			check(not DB.booster(bid).is_empty(), "pack groupé : booster valide " + bid)
+	for dsp in DB.products.displays:
+		check(not DB.booster(dsp.booster).is_empty(), "display valide " + dsp.id)
 	print("== Profil")
 	var pr: Node = Profile
 	var before: int = pr.unique_count()

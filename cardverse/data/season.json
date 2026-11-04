@@ -1,7 +1,7 @@
 {
- "id": "s1",
- "name": "Saison 1 : L'Éclipse",
- "end": "2026-12-31",
+ "id": "s2",
+ "name": "Saison 2 : Corsaires des Étoiles",
+ "end": "2027-02-28",
  "xp_per_tier": 120,
  "elite_price": {
   "crystals": 400
@@ -10,19 +10,19 @@
   {
    "tier": 1,
    "free": {
-    "coins": 100
+    "coins": 120
    },
    "elite": {
-    "coins": 200
+    "coins": 250
    }
   },
   {
    "tier": 2,
    "free": {
-    "dust": 60
+    "dust": 80
    },
    "elite": {
-    "dust": 150
+    "dust": 180
    }
   },
   {
@@ -31,134 +31,135 @@
     "crystals": 10
    },
    "elite": {
-    "booster": "eclipse"
+    "booster": "corsaires"
    }
   },
   {
    "tier": 4,
    "free": {
-    "dust": 60
+    "booster": "mini"
    },
    "elite": {
-    "dust": 150
+    "tokens": 1
    }
   },
   {
    "tier": 5,
    "free": {
-    "booster": "classic"
+    "coins": 150
    },
    "elite": {
-    "coins": 200
+    "booster": "jungle"
    }
   },
   {
    "tier": 6,
    "free": {
-    "crystals": 10
+    "coins": 120
    },
    "elite": {
-    "booster": "eclipse"
+    "coins": 250
    }
   },
   {
    "tier": 7,
    "free": {
-    "coins": 100
+    "dust": 80
    },
    "elite": {
-    "coins": 200
+    "dust": 180
    }
   },
   {
    "tier": 8,
    "free": {
-    "dust": 60
+    "crystals": 10
    },
    "elite": {
-    "dust": 150
+    "booster": "corsaires"
    }
   },
   {
    "tier": 9,
    "free": {
-    "crystals": 10
+    "booster": "mini"
    },
    "elite": {
-    "booster": "eclipse"
+    "tokens": 1
    }
   },
   {
    "tier": 10,
    "free": {
-    "booster": "classic"
+    "booster": "corsaires"
    },
    "elite": {
-    "tokens": 1,
+    "booster": "prestige",
     "crystals": 30
    }
   },
   {
    "tier": 11,
    "free": {
-    "coins": 100
+    "coins": 120
    },
    "elite": {
-    "coins": 200
+    "coins": 250
    }
   },
   {
    "tier": 12,
    "free": {
-    "crystals": 10
+    "dust": 80
    },
    "elite": {
-    "booster": "eclipse"
+    "dust": 180
    }
   },
   {
    "tier": 13,
    "free": {
-    "coins": 100
+    "crystals": 10
    },
    "elite": {
-    "coins": 200
+    "booster": "corsaires"
    }
   },
   {
    "tier": 14,
    "free": {
-    "dust": 60
+    "booster": "mini"
    },
    "elite": {
-    "dust": 150
+    "tokens": 1
    }
   },
   {
    "tier": 15,
    "free": {
-    "tokens": 1
+    "coins": 150
    },
    "elite": {
-    "booster": "eclipse"
+    "cosmetic": "board_nebula",
+    "crystals": 30
    }
   },
   {
    "tier": 16,
    "free": {
-    "dust": 60
+    "coins": 120
    },
    "elite": {
-    "dust": 150
+    "coins": 250
    }
   },
   {
    "tier": 17,
    "free": {
-    "coins": 100
+    "dust": 80
    },
    "elite": {
-    "coins": 200
+    "dust": 180
    }
   },
   {
@@ -167,117 +168,117 @@
     "crystals": 10
    },
    "elite": {
-    "booster": "eclipse"
+    "booster": "corsaires"
    }
   },
   {
    "tier": 19,
    "free": {
-    "coins": 100
+    "booster": "mini"
    },
    "elite": {
-    "coins": 200
+    "tokens": 1
    }
   },
   {
    "tier": 20,
    "free": {
-    "booster": "classic"
+    "booster": "jungle"
    },
    "elite": {
-    "tokens": 1,
+    "booster": "prestige",
     "crystals": 30
    }
   },
   {
    "tier": 21,
    "free": {
-    "crystals": 10
+    "coins": 120
    },
    "elite": {
-    "booster": "eclipse"
+    "coins": 250
    }
   },
   {
    "tier": 22,
    "free": {
-    "dust": 60
+    "dust": 80
    },
    "elite": {
-    "dust": 150
+    "dust": 180
    }
   },
   {
    "tier": 23,
    "free": {
-    "coins": 100
+    "crystals": 10
    },
    "elite": {
-    "coins": 200
+    "booster": "corsaires"
    }
   },
   {
    "tier": 24,
    "free": {
-    "crystals": 10
+    "booster": "mini"
    },
    "elite": {
-    "booster": "eclipse"
+    "tokens": 1
    }
   },
   {
    "tier": 25,
    "free": {
-    "booster": "classic"
+    "booster": "prestige"
    },
    "elite": {
-    "coins": 200
+    "booster": "jungle"
    }
   },
   {
    "tier": 26,
    "free": {
-    "dust": 60
+    "coins": 120
    },
    "elite": {
-    "dust": 150
+    "coins": 250
    }
   },
   {
    "tier": 27,
    "free": {
-    "crystals": 10
+    "dust": 80
    },
    "elite": {
-    "booster": "eclipse"
+    "dust": 180
    }
   },
   {
    "tier": 28,
    "free": {
-    "dust": 60
+    "crystals": 10
    },
    "elite": {
-    "dust": 150
+    "booster": "corsaires"
    }
   },
   {
    "tier": 29,
    "free": {
-    "coins": 100
+    "booster": "mini"
    },
    "elite": {
-    "coins": 200
+    "tokens": 1
    }
   },
   {
    "tier": 30,
    "free": {
-    "booster": "classic"
+    "booster": "prestige"
    },
    "elite": {
-    "cosmetic": "back_eclipse",
-    "crystals": 100
+    "cosmetic": "back_corsair",
+    "crystals": 120
    }
   }
  ]

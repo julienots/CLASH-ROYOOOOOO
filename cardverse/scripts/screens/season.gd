@@ -108,7 +108,11 @@ func _row(td: Dictionary, tier: int, pd: Dictionary) -> Control:
 					txt = DB.booster(rew.booster).get("name", "Booster")
 				"cosmetic":
 					ic = "ui_star"
-					txt = "Dos Éclipse (exclusif)"
+					var cos: Dictionary = {}
+					for cc in load("res://scripts/screens/shop.gd").COSMETICS:
+						if cc.id == rew.cosmetic:
+							cos = cc
+					txt = "%s (exclusif)" % cos.get("name", "Cosmétique")
 				_:
 					if txt == "":
 						ic = {"coins": "coin", "crystals": "crystal", "tokens": "token", "dust": "dust", "event": "event"}.get(k, "coin")

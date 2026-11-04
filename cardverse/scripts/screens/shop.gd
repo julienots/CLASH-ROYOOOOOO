@@ -6,19 +6,24 @@ var tab := "boosters"
 var body: VBoxContainer
 var _tabs := {}
 
-const TABS := [["boosters", "Boosters"], ["products", "Displays"], ["offers", "Offres"], ["singles", "Cartes"], ["cosmetics", "Style"], ["premium", "Cristaux"]]
-const BACK_HUES := {"back_ember": 0.62, "back_jade": 0.35, "back_gold": 0.83, "back_eclipse": 0.12}
+const TABS := [["boosters", "Boosters"], ["products", "Displays"], ["bundles", "Packs"], ["wheel", "Roue"], ["market", "Marché"], ["offers", "Offres"], ["singles", "Cartes"], ["cosmetics", "Style"], ["premium", "Cristaux"]]
+const BACK_HUES := {"back_ember": 0.62, "back_jade": 0.35, "back_gold": 0.83, "back_eclipse": 0.12, "back_corsair": 0.5, "back_nebula": 0.92, "back_neon": 0.42}
 const SINGLE_PRICE := {"C": 40, "U": 80, "R": 180, "SR": 350, "E": 700, "L": 1800}
 const COSMETICS := [
 	{"id": "back_default", "type": "back", "name": "Dos Nébuleuse", "price": {}},
 	{"id": "back_ember", "type": "back", "name": "Dos Braise", "price": {"crystals": 60}},
 	{"id": "back_jade", "type": "back", "name": "Dos Jade", "price": {"crystals": 60}},
 	{"id": "back_gold", "type": "back", "name": "Dos Aurore", "price": {"crystals": 120}},
-	{"id": "back_eclipse", "type": "back", "name": "Dos Éclipse", "price": {}, "exclusive": "Passe Élite, palier 30"},
+	{"id": "back_eclipse", "type": "back", "name": "Dos Éclipse", "price": {}, "exclusive": "Saison 1"},
+	{"id": "back_neon", "type": "back", "name": "Dos Néon", "price": {"crystals": 90}},
+	{"id": "back_corsair", "type": "back", "name": "Dos Corsaire", "price": {}, "exclusive": "Passe S2 · 30"},
+	{"id": "back_nebula", "type": "back", "name": "Dos Nébuleuse Pourpre", "price": {}, "exclusive": "Malle (Packs)"},
 	{"id": "board_default", "type": "board", "name": "Arène Astrale", "price": {}, "colors": ["0b0716", "3a1466", "0d4070"]},
 	{"id": "board_volcano", "type": "board", "name": "Arène Volcanique", "price": {"crystals": 80}, "colors": ["160505", "6a1a08", "8a3a10"]},
 	{"id": "board_abyss", "type": "board", "name": "Arène Abyssale", "price": {"crystals": 80}, "colors": ["02101a", "06404a", "0a2a60"]},
 	{"id": "board_sanctum", "type": "board", "name": "Sanctuaire Doré", "price": {"crystals": 150}, "colors": ["160e04", "6a4a10", "4a2a60"]},
+	{"id": "board_jungle", "type": "board", "name": "Arène de la Jungle", "price": {"crystals": 100}, "colors": ["03140a", "0e4a22", "3a6a10"]},
+	{"id": "board_nebula", "type": "board", "name": "Pont du Vaisseau Astral", "price": {}, "colors": ["05051a", "1a1060", "0a6a8a"], "exclusive": "Passe S2 · 15"},
 ]
 
 func setup(p: Dictionary) -> void:
@@ -33,8 +38,13 @@ func setup(p: Dictionary) -> void:
 	var t := UI.label("Boutique", 40, UI.GOLD, "serif", 800)
 	UI.outline(t, 6)
 	root.add_child(t)
+	# onglets sur deux rangées (9 onglets)
+	var rows := UI.vbox(6)
 	var th := UI.hbox(6)
 	for td in TABS:
+		if th.get_child_count() == 5:
+			rows.add_child(th)
+			th = UI.hbox(6)
 		var b := Button.new()
 		b.text = td[1]
 		b.focus_mode = Control.FOCUS_NONE
@@ -45,8 +55,11 @@ func setup(p: Dictionary) -> void:
 		var k: String = td[0]
 		b.pressed.connect(func(): Sfx.play("click"); tab = k; _build())
 		_tabs[k] = b
+		if k in ["wheel", "market"]:
+			b.add_theme_color_override("font_color", UI.GOLD)
 		th.add_child(b)
-	root.add_child(th)
+	rows.add_child(th)
+	root.add_child(rows)
 	var sc := ScrollContainer.new()
 	sc.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	sc.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
@@ -70,6 +83,9 @@ func _build() -> void:
 	match tab:
 		"boosters": _boosters()
 		"products": _products()
+		"bundles": _bundles()
+		"wheel": _wheel()
+		"market": _market()
 		"offers": _offers()
 		"singles": _singles()
 		"cosmetics": _cosmetics()
@@ -82,7 +98,7 @@ func _boosters() -> void:
 		int(DB.pity.legendary_plus.hard) - int(pity.get("legendary_plus", 0)), int(DB.pity.mythic_plus.hard) - int(pity.get("mythic_plus", 0))], 19, UI.ACCENT2, "body", 700)
 	info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	body.add_child(info)
-	for grp in [["gen", "Par génération", "Gén. 1 Genèse · Gén. 2 Éclipse · Gén. 3 Âge Primitif · Multivers"], ["type", "Par type", "Uniquement les cartes d'un élément, toutes générations"], ["special", "Boosters spéciaux", "Thèmes, chances accrues, événement"]]:
+	for grp in [["edition", "Nouvelle édition", "Booster Prestige (8 cartes, variante garantie) et Mini-Booster (3 cartes)"], ["gen", "Par génération", "Gén. 1 à Gén. 8, et Multivers (toutes générations)"], ["type", "Par type", "Uniquement les cartes d'un élément, toutes générations"], ["special", "Boosters spéciaux", "Thèmes, chances accrues, événement"]]:
 		body.add_child(_section(grp[1], grp[2]))
 		for b in DB.boosters:
 			if b.get("group", "special") != grp[0]:
@@ -116,7 +132,13 @@ func _booster_row(b: Dictionary) -> Control:
 	var d := UI.label(b.desc, 20, UI.TEXT, "body", 600)
 	d.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	v.add_child(d)
-	v.add_child(UI.label("%d cartes · la 5e est Rare ou mieux" % int(b.cards), 18, UI.MUTED, "body", 600))
+	var rs := int(b.get("rare_slots", 1))
+	var info_txt := "%d cartes · %s Rare ou mieux" % [int(b.cards), "la dernière est" if rs == 1 else "les %d dernières sont" % rs]
+	if b.get("guaranteed_variant", false):
+		info_txt += " · variante garantie"
+	var il := UI.label(info_txt, 18, UI.ACCENT2 if b.get("group", "") == "edition" else UI.MUTED, "body", 700)
+	il.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	v.add_child(il)
 	var bh := UI.hbox(10)
 	var locked: bool = int(b.get("min_level", 0)) > int(Profile.d.level)
 	var free: bool = Profile.free_count(b.id) > 0
@@ -187,7 +209,10 @@ func _show_odds(b: Dictionary) -> void:
 	g.columns = 3
 	g.add_theme_constant_override("h_separation", 24)
 	g.add_theme_constant_override("v_separation", 4)
-	for hd in ["Rareté", "Cartes 1 à 4", "Carte 5"]:
+	var nc := int(b.get("cards", 5))
+	var rs := int(b.get("rare_slots", 1))
+	var heads := ["Rareté", "Cartes 1 à %d" % (nc - rs), ("Carte %d" % nc) if rs == 1 else ("Cartes %d à %d" % [nc - rs + 1, nc])]
+	for hd in heads:
 		g.add_child(UI.label(hd, 20, UI.MUTED, "body", 800))
 	for line in BoosterLogic.odds_lines(b):
 		var l := UI.label(DB.rarity(line.rarity).name, 21, DB.rarity_color(line.rarity), "body", 800)
@@ -344,7 +369,9 @@ func _section(t: String, sub: String) -> Control:
 	var l := UI.label(t, 28, UI.TEXT, "serif", 800)
 	v.add_child(l)
 	if sub != "":
-		v.add_child(UI.label(sub, 18, UI.MUTED, "body", 600))
+		var sl := UI.label(sub, 18, UI.MUTED, "body", 600)
+		sl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		v.add_child(sl)
 	return v
 
 func _offer_row(o: Dictionary, key: String) -> Control:
@@ -483,7 +510,9 @@ func _cosmetics() -> void:
 		m2.set_shader_parameter("res", Vector2(140, 90))
 		sw.material = m2
 		h.add_child(sw)
-		h.add_child(UI.expand(UI.label(c.name, 24, Color.WHITE, "body", 800)))
+		var bl := UI.label(c.name, 24, Color.WHITE, "body", 800)
+		bl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		h.add_child(UI.expand(bl))
 		h.add_child(_cosmetic_button(c, "board"))
 		p.add_child(h)
 		body.add_child(p)
@@ -536,3 +565,218 @@ func _premium() -> void:
 		h.add_child(b)
 		p.add_child(h)
 		body.add_child(p)
+
+# ---------------------------------------------------------------- packs groupés
+func _bundles() -> void:
+	body.add_child(_section("Packs groupés", "Plusieurs boosters et ressources à prix réduit · renouvelés chaque semaine"))
+	var wk := Profile._period_key(true)
+	for bd in DB.products.get("bundles", []):
+		var key: String = ("BD_" + bd.id) if bd.get("limit", "week") == "once" else (wk + "_" + bd.id)
+		body.add_child(_bundle_row(bd, key))
+
+func _bundle_row(bd: Dictionary, key: String) -> Control:
+	var col := Color(bd.color)
+	var p := PanelContainer.new()
+	var st := UI.box(col.darkened(0.75), 24, col, 3, 8)
+	for side in ["left", "right", "top", "bottom"]:
+		st.set("content_margin_" + side, 14)
+	p.add_theme_stylebox_override("panel", st)
+	var v := UI.vbox(10)
+	var n := UI.label(bd.name, 28, Color.WHITE, "serif", 800)
+	UI.outline(n, 6)
+	v.add_child(n)
+	# éventail des boosters inclus
+	var fan := UI.hbox(-30)
+	var rew: Dictionary = bd.reward
+	for bid in rew.get("boosters", {}):
+		for k in mini(int(rew.boosters[bid]), 3):
+			var t := TextureRect.new()
+			t.texture = DB.tex("res://assets/ui/packs/%s.png" % bid)
+			t.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			t.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+			t.custom_minimum_size = Vector2(76, 118)
+			t.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			fan.add_child(t)
+	for cur in ["coins", "crystals", "dust", "tokens"]:
+		if rew.has(cur):
+			var cv := UI.vbox(0)
+			cv.add_child(UI.spacer(36))
+			cv.add_child(UI.icon_rect(cur if cur != "tokens" else "token", 56))
+			cv.add_child(UI.label("+%d" % int(rew[cur]), 20, Color.WHITE, "num", 400, HORIZONTAL_ALIGNMENT_CENTER))
+			fan.add_child(UI.spacer(0, 40))
+			fan.add_child(cv)
+	if rew.has("random_card"):
+		fan.add_child(UI.spacer(0, 40))
+		var q := UI.label("?", 70, DB.rarity_color(rew.random_card.rarity), "serif", 900, HORIZONTAL_ALIGNMENT_CENTER)
+		UI.outline(q, 8)
+		q.custom_minimum_size = Vector2(80, 118)
+		q.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		fan.add_child(q)
+	v.add_child(fan)
+	var d := UI.label(bd.desc, 19, UI.TEXT, "body", 600)
+	d.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	v.add_child(d)
+	var lim := UI.label("Achat unique" if bd.get("limit", "week") == "once" else "1 par semaine", 16, UI.MUTED, "body", 700)
+	v.add_child(lim)
+	var b: Button
+	if _bought_key(key):
+		b = UI.button("Acheté", Color("3a3350"), 22, Vector2(0, 70), "ui_check")
+		b.disabled = true
+	else:
+		b = UI.price_button(bd.price, col.darkened(0.25), 26)
+	b.pressed.connect(func():
+		if not Profile.pay(bd.price):
+			main.show_toast("Pas assez de ressources.", "error")
+			return
+		Profile.d.shop_once.append(key)
+		Sfx.play("buy")
+		Profile.give(rew)
+		Profile.save_game()
+		_build())
+	v.add_child(b)
+	p.add_child(v)
+	return p
+
+func _bought_key(key: String) -> bool:
+	if not Profile.d.has("shop_once"):
+		Profile.d["shop_once"] = []
+	return key in Profile.d.shop_once
+
+# ---------------------------------------------------------------- roue de la fortune
+var _wheel_view: WheelView
+var wheel_last := -1
+
+func _wheel() -> void:
+	body.add_child(_section("Roue de la Fortune", "Un tour gratuit chaque jour · %d tours bonus maximum" % ShopLogic.EXTRA_SPINS_PER_DAY))
+	var ws := ShopLogic.wheel_state(Profile.d, _today())
+	var c := CenterContainer.new()
+	_wheel_view = WheelView.new()
+	c.add_child(_wheel_view)
+	body.add_child(c)
+	var b: Button
+	if not ws.free_used:
+		b = UI.button("TOURNER GRATUITEMENT", UI.GOOD.darkened(0.2), 28, Vector2(0, 90), "ui_gift")
+	elif int(ws.extra) < ShopLogic.EXTRA_SPINS_PER_DAY:
+		b = UI.price_button(ShopLogic.EXTRA_SPIN_PRICE, Color("b8283c"), 28)
+		b.text = "Tour bonus (%d/%d)  " % [int(ws.extra) + 1, ShopLogic.EXTRA_SPINS_PER_DAY] + b.text
+	else:
+		b = UI.button("Reviens demain !", Color("3a3350"), 26, Vector2(0, 90), "ui_calendar")
+		b.disabled = true
+	b.pressed.connect(func(): spin_wheel(b))
+	body.add_child(b)
+	var odds := UI.vbox(2)
+	odds.add_child(UI.label("Chances de chaque case", 20, UI.MUTED, "body", 800))
+	for i in ShopLogic.WHEEL.size():
+		var s: Dictionary = ShopLogic.WHEEL[i]
+		var txt := _wheel_text(s.reward)
+		odds.add_child(UI.label("%s : %s" % [txt, BoosterLogic.fmt_pct(ShopLogic.wheel_chance(i))], 17, UI.TEXT, "body", 600))
+	body.add_child(odds)
+
+func _wheel_text(rew: Dictionary) -> String:
+	for k in rew:
+		match k:
+			"booster":
+				return "1 " + DB.booster(rew.booster).name
+			"random_card":
+				return "1 carte %s au hasard" % DB.rarity(rew.random_card.rarity).name
+			_:
+				return "%d %s" % [int(rew[k]), Profile.cur_name(k, int(rew[k]))]
+	return ""
+
+## Lance la roue (payée si besoin) ; la récompense est donnée à l'arrêt.
+func spin_wheel(btn: Button = null, fast := false) -> int:
+	var ws := ShopLogic.wheel_state(Profile.d, _today())
+	if _wheel_view == null or _wheel_view.spinning:
+		return -1
+	if ws.free_used:
+		if int(ws.extra) >= ShopLogic.EXTRA_SPINS_PER_DAY:
+			return -1
+		if not Profile.pay(ShopLogic.EXTRA_SPIN_PRICE):
+			main.show_toast("Pas assez de Cristaux.", "error")
+			return -1
+		ws.extra = int(ws.extra) + 1
+	else:
+		ws.free_used = true
+	var rng := RandomNumberGenerator.new()
+	rng.randomize()
+	var i := ShopLogic.wheel_roll(rng)
+	wheel_last = i
+	Profile.save_game()
+	if btn:
+		btn.disabled = true
+	Sfx.play("whoosh")
+	_wheel_view.finished.connect(func(idx):
+		var rew: Dictionary = ShopLogic.WHEEL[idx].reward
+		Sfx.play("reveal_3" if ShopLogic.WHEEL[idx].w <= 6.0 else "coin")
+		UI.burst(self, _wheel_view.global_position + Vector2(250, 60), Color(ShopLogic.WHEEL[idx].color).lightened(0.4), 60)
+		Profile.give(rew, true)
+		Profile.stat("wheel_spins")
+		Profile.save_game()
+		if fast:
+			_build.call_deferred()
+			return
+		var rv := UI.vbox(10)
+		var ic := UI.icon_rect(ShopLogic.WHEEL[idx].icon, 110, UI.GOLD if ShopLogic.WHEEL[idx].icon.begins_with("ui_") else Color.WHITE)
+		ic.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+		rv.add_child(ic)
+		var rl := UI.label(_wheel_text(rew), 30, Color.WHITE, "serif", 800, HORIZONTAL_ALIGNMENT_CENTER)
+		UI.outline(rl, 6)
+		rl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		rl.custom_minimum_size = Vector2(480, 0)
+		rv.add_child(rl)
+		if rew.has("random_card") and Profile.last_given_card != "":
+			var ch := CardView.holder(Profile.last_given_card, 0.5)
+			ch.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+			rv.add_child(ch)
+		var hint := "Le booster t'attend dans l'onglet Boosters (GRATUIT)." if rew.has("booster") else ("Ajoutée à ta collection." if rew.has("random_card") else "")
+		if hint != "":
+			rv.add_child(UI.label(hint, 18, UI.MUTED, "body", 600, HORIZONTAL_ALIGNMENT_CENTER))
+		main.modal("Gagné !", rv, [["Super !", UI.GOOD.darkened(0.2), func(): _build()]]), CONNECT_ONE_SHOT)
+	_wheel_view.spin(i, fast)
+	return i
+
+# ---------------------------------------------------------------- marché noir
+func _market() -> void:
+	var now := Time.get_unix_time_from_system()
+	var period := ShopLogic.market_period(now)
+	var left := ShopLogic.market_seconds_left(now)
+	body.add_child(_section("Marché Noir", "Cartes rares (Épique à Mythique) contre Poussière ou Cristaux · nouveau stock dans %dh%02d" % [left / 3600, (left % 3600) / 60]))
+	var info := UI.label("Le marchand masqué ne vend chaque carte qu'une fois par rotation. Poussière : %d" % int(Profile.d.dust), 18, UI.ACCENT2, "body", 700)
+	info.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	body.add_child(info)
+	var g := GridContainer.new()
+	g.columns = 2
+	g.add_theme_constant_override("h_separation", 20)
+	g.add_theme_constant_override("v_separation", 22)
+	for o in ShopLogic.market_offers(period):
+		var id: String = o.id
+		var key := "M%d_%s" % [period, id]
+		var v := UI.vbox(6)
+		var h := CardView.holder(id, 0.66)
+		h.get_meta("card").tapped.connect(func(_c): main.show_card(id))
+		v.add_child(h)
+		var owned: bool = Profile.owned(id) > 0
+		v.add_child(UI.label(("Possédée" if owned else "NOUVELLE") + " · " + DB.rarity(DB.card(id).rarity).name, 16, UI.MUTED if owned else UI.GOOD, "body", 800, HORIZONTAL_ALIGNMENT_CENTER))
+		if _bought_key(key):
+			var bb := UI.button("Vendue", Color("3a3350"), 22, Vector2(0, 62), "ui_check")
+			bb.disabled = true
+			v.add_child(bb)
+		else:
+			for cur in ["dust", "crystals"]:
+				var price := {cur: int(o[cur])}
+				var b := UI.price_button(price, Color("4a2a6a") if cur == "dust" else Color("2a4a8a"), 22)
+				b.custom_minimum_size.y = 60
+				b.pressed.connect(func():
+					if not Profile.pay(price):
+						main.show_toast("Pas assez de %s." % Profile.cur_name(cur, 2), "error")
+						return
+					Profile.d.shop_once.append(key)
+					var is_new := Profile.add_card(id)
+					Profile.check_collection_rewards()
+					Profile.save_game()
+					Sfx.play("buy")
+					main.show_toast("%s achetée au Marché Noir%s" % [DB.card(id).name, " (nouvelle !)" if is_new else ""], "reward")
+					_build())
+				v.add_child(b)
+		g.add_child(v)
+	body.add_child(g)

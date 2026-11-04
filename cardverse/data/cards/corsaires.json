@@ -1,0 +1,2034 @@
+{
+ "set": "corsaires",
+ "name": "Corsaires Astraux",
+ "gen": 7,
+ "cards": [
+  {
+   "id": "cx01",
+   "name": "Mousse des Étoiles",
+   "type": "creature",
+   "family": "creatures",
+   "element": "cosmique",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 2,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Il récure le pont d'un vaisseau qui navigue entre les galaxies.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     60,
+     80,
+     140
+    ],
+    "hood": [
+     200,
+     60,
+     60
+    ],
+    "eye": [
+     255,
+     220,
+     140
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "cx02",
+   "name": "Perroquet Quantique",
+   "type": "creature",
+   "family": "creatures",
+   "element": "foudre",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 1,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "copy",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Il répète tout. Même ce qui n'a pas encore été dit.",
+   "art": {
+    "arch": "bird",
+    "wing_span": 0.8,
+    "tail": 1.0,
+    "c1": [
+     60,
+     200,
+     90
+    ],
+    "c2": [
+     255,
+     220,
+     60
+    ],
+    "c3": [
+     230,
+     60,
+     60
+    ],
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "cx03",
+   "name": "Canonnier Rouillé",
+   "type": "creature",
+   "family": "robots",
+   "element": "feu",
+   "rarity": "C",
+   "cost": 3,
+   "atk": 3,
+   "hp": 2,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "random_enemy",
+     "value": 2
+    }
+   ],
+   "lore": "Il vise mal, mais il tire beaucoup.",
+   "art": {
+    "arch": "biped",
+    "kind": "mech",
+    "bulk": 1.05,
+    "c1": [
+     140,
+     90,
+     60
+    ],
+    "c3": [
+     255,
+     160,
+     60
+    ],
+    "eye": [
+     255,
+     120,
+     40
+    ],
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "cx04",
+   "name": "Crabe Trésorier",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 1,
+   "hp": 4,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "add_random",
+     "value": 1,
+     "min_rarity": "U"
+    }
+   ],
+   "lore": "Il garde une pièce d'or sous chaque pince.",
+   "art": {
+    "arch": "crab",
+    "c1": [
+     220,
+     140,
+     60
+    ],
+    "c3": [
+     255,
+     220,
+     100
+    ],
+    "scene": "ocean",
+    "scale": 0.95,
+    "cy": 160
+   }
+  },
+  {
+   "id": "cx05",
+   "name": "Moussaillonne Agile",
+   "type": "creature",
+   "family": "creatures",
+   "element": "eau",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "keywords": [
+    "celerite"
+   ],
+   "lore": "Elle grimpe aux haubans plus vite que le vent.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     40,
+     120,
+     160
+    ],
+    "hair": [
+     255,
+     140,
+     80
+    ],
+    "skin_h": [
+     240,
+     210,
+     180
+    ],
+    "weapon": "daggers",
+    "eye": [
+     120,
+     220,
+     255
+    ],
+    "scene": "ocean"
+   }
+  },
+  {
+   "id": "cx06",
+   "name": "Abordage",
+   "type": "spell",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "C",
+   "cost": 2,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "choose_enemy_creature",
+     "value": 2
+    },
+    {
+     "on": "cast",
+     "do": "burn",
+     "target": "choose_enemy_creature",
+     "value": 2
+    }
+   ],
+   "lore": "À l'abordage ! Et mettez le feu aux voiles !",
+   "art": {
+    "arch": "spell",
+    "spell": "firebolt",
+    "scene": "ocean"
+   }
+  },
+  {
+   "id": "cx07",
+   "name": "Méduse Fantôme",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "keywords": [
+    "furtif"
+   ],
+   "lore": "Les marins la prennent pour un reflet de lune. Une seule fois.",
+   "art": {
+    "arch": "jelly",
+    "tentacles": 7,
+    "c1": [
+     150,
+     140,
+     200
+    ],
+    "c2": [
+     200,
+     160,
+     255
+    ],
+    "glow": [
+     200,
+     180,
+     255
+    ],
+    "scene": "abyss"
+   }
+  },
+  {
+   "id": "cx08",
+   "name": "Sabre d'Abordage",
+   "type": "spell",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "C",
+   "cost": 1,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "choose_ally_creature",
+     "value": 2,
+     "value2": 1
+    }
+   ],
+   "lore": "Un bon sabre vaut mieux qu'une longue négociation.",
+   "art": {
+    "arch": "spell",
+    "spell": "quake",
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "cx09",
+   "name": "Tonneau de Poudre",
+   "type": "creature",
+   "family": "machines",
+   "element": "feu",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 0,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "death",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 2
+    }
+   ],
+   "lore": "N'approchez pas avec une torche. N'approchez pas du tout.",
+   "art": {
+    "arch": "egg",
+    "c1": [
+     120,
+     80,
+     50
+    ],
+    "c2": [
+     255,
+     140,
+     40
+    ],
+    "glow": [
+     255,
+     120,
+     40
+    ],
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "cx10",
+   "name": "Mouette Stellaire",
+   "type": "creature",
+   "family": "creatures",
+   "element": "lumiere",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 1,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 2
+    }
+   ],
+   "lore": "Elle annonce les ports. Elle vole aussi les frites.",
+   "art": {
+    "arch": "bird",
+    "wing_span": 0.9,
+    "tail": 0.5,
+    "c1": [
+     240,
+     240,
+     250
+    ],
+    "c2": [
+     255,
+     255,
+     255
+    ],
+    "c3": [
+     255,
+     200,
+     60
+    ],
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "cx11",
+   "name": "Quartier-Maître Borgne",
+   "type": "creature",
+   "family": "creatures",
+   "element": "ombre",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 3,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "copy",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Il n'a qu'un œil, mais il voit tout ce qu'il peut voler.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     60,
+     40,
+     40
+    ],
+    "hood": [
+     30,
+     20,
+     20
+    ],
+    "weapon": "sword",
+    "eye": [
+     255,
+     80,
+     80
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cx12",
+   "name": "Requin-Scie Spatial",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 4,
+   "hp": 3,
+   "keywords": [
+    "pietinement"
+   ],
+   "lore": "Il tranche les astéroïdes comme du pain.",
+   "art": {
+    "arch": "fish",
+    "teeth": true,
+    "length": 1.2,
+    "c1": [
+     90,
+     100,
+     140
+    ],
+    "c2": [
+     200,
+     210,
+     230
+    ],
+    "c3": [
+     60,
+     70,
+     110
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "cx13",
+   "name": "Sirène des Astres",
+   "type": "creature",
+   "family": "esprits",
+   "element": "cosmique",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 2,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "sleep",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Son chant traverse le vide. Les équipages s'endorment, et ne se réveillent jamais à bord.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     90,
+     60,
+     170
+    ],
+    "hair": [
+     255,
+     140,
+     220
+    ],
+    "skin_h": [
+     200,
+     220,
+     250
+    ],
+    "floating": true,
+    "orb_hand": true,
+    "eye": [
+     255,
+     180,
+     255
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "cx14",
+   "name": "Navire Fantôme Hurleur",
+   "type": "creature",
+   "family": "machines",
+   "element": "ombre",
+   "rarity": "U",
+   "cost": 5,
+   "atk": 4,
+   "hp": 5,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "revive"
+    }
+   ],
+   "lore": "Il a sombré trois fois. Il navigue encore.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "ring": true,
+    "size": 0.85,
+    "c1": [
+     60,
+     70,
+     90
+    ],
+    "ring_c": [
+     180,
+     255,
+     220
+    ],
+    "eye": [
+     140,
+     255,
+     220
+    ],
+    "scene": "haunted",
+    "scale": 0.95
+   }
+  },
+  {
+   "id": "cx15",
+   "name": "Malédiction du Crapaud",
+   "type": "spell",
+   "family": "esprits",
+   "element": "nature",
+   "rarity": "U",
+   "cost": 4,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "polymorph",
+     "target": "choose_enemy_creature",
+     "card": "cx90"
+    }
+   ],
+   "lore": "Le capitaine a insulté la sorcière. Le capitaine coasse désormais.",
+   "art": {
+    "arch": "spell",
+    "spell": "blessing",
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cx16",
+   "name": "Kraken Néon",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "foudre",
+   "rarity": "NE",
+   "cost": 4,
+   "atk": 4,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "attack",
+     "do": "damage",
+     "target": "random_enemy_creature",
+     "value": 2
+    }
+   ],
+   "lore": "Ses ventouses s'illuminent avant chaque décharge.",
+   "art": {
+    "arch": "kraken",
+    "c1": [
+     30,
+     30,
+     70
+    ],
+    "c2": [
+     60,
+     255,
+     255
+    ],
+    "eye": [
+     255,
+     60,
+     220
+    ],
+    "glow": [
+     60,
+     255,
+     255
+    ],
+    "scene": "storm",
+    "scale": 0.85,
+    "cy": 150
+   }
+  },
+  {
+   "id": "cx17",
+   "name": "Hackeuse des Ondes",
+   "type": "creature",
+   "family": "robots",
+   "element": "foudre",
+   "rarity": "NE",
+   "cost": 3,
+   "atk": 2,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "copy",
+     "target": "choose_enemy_creature"
+    },
+    {
+     "on": "summon",
+     "do": "silence",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Elle pirate les vaisseaux, puis leur vole leurs meilleurs tours.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     20,
+     20,
+     40
+    ],
+    "hair": [
+     60,
+     255,
+     255
+    ],
+    "skin_h": [
+     220,
+     210,
+     240
+    ],
+    "orb_hand": true,
+    "eye": [
+     255,
+     60,
+     220
+    ],
+    "glow": [
+     60,
+     255,
+     255
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "cx18",
+   "name": "Drone Pirate Néon",
+   "type": "creature",
+   "family": "robots",
+   "element": "foudre",
+   "rarity": "NE",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "keywords": [
+    "envol",
+    "celerite"
+   ],
+   "lore": "Petit, rapide, illuminé comme une enseigne de taverne spatiale.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "size": 0.7,
+    "orbiters": 4,
+    "c1": [
+     30,
+     30,
+     50
+    ],
+    "eye": [
+     60,
+     255,
+     255
+    ],
+    "glow": [
+     255,
+     60,
+     220
+    ],
+    "scene": "void",
+    "scale": 1.05
+   }
+  },
+  {
+   "id": "cx19",
+   "name": "Gouvernail Stellaire",
+   "type": "creature",
+   "family": "antiques",
+   "element": "cosmique",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 0,
+   "hp": 6,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "energy",
+     "value": 1
+    }
+   ],
+   "lore": "Celui qui tient la barre tient le destin.",
+   "art": {
+    "arch": "orb",
+    "face": "cute",
+    "ring": true,
+    "orbiters": 8,
+    "size": 0.8,
+    "c1": [
+     150,
+     110,
+     70
+    ],
+    "ring_c": [
+     255,
+     220,
+     140
+    ],
+    "scene": "nebula",
+    "scale": 1.0
+   }
+  },
+  {
+   "id": "cx20",
+   "name": "Capitaine Barbe-Comète",
+   "type": "creature",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 5,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "burn",
+     "target": "all_enemy_creatures",
+     "value": 2
+    }
+   ],
+   "lore": "Sa barbe est en feu. Elle l'a toujours été.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     140,
+     30,
+     30
+    ],
+    "hood": [
+     60,
+     20,
+     20
+    ],
+    "hair": [
+     255,
+     120,
+     40
+    ],
+    "skin_h": [
+     230,
+     190,
+     160
+    ],
+    "weapon": "sword",
+    "eye": [
+     255,
+     200,
+     80
+    ],
+    "aura": true,
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "cx21",
+   "name": "Leviathan des Nébuleuses",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "cosmique",
+   "rarity": "R",
+   "cost": 7,
+   "atk": 6,
+   "hp": 7,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "bounce",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Il avale des vaisseaux entiers et recrache les étoiles.",
+   "art": {
+    "arch": "serpent",
+    "thick": 1.15,
+    "horns": "crown",
+    "whiskers": true,
+    "c1": [
+     70,
+     50,
+     160
+    ],
+    "c2": [
+     200,
+     180,
+     255
+    ],
+    "c3": [
+     255,
+     140,
+     220
+    ],
+    "scene": "nebula",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "cx22",
+   "name": "Carte au Trésor",
+   "type": "spell",
+   "family": "antiques",
+   "element": "terre",
+   "rarity": "R",
+   "cost": 2,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "add_random",
+     "value": 2,
+     "min_rarity": "R"
+    }
+   ],
+   "lore": "X marque l'endroit. Les monstres aussi.",
+   "art": {
+    "arch": "spell",
+    "spell": "solar",
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "cx23",
+   "name": "Navigatrice Aveugle",
+   "type": "creature",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 2,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Elle n'a jamais vu les étoiles. Elle les entend.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     230,
+     220,
+     200
+    ],
+    "hood": [
+     200,
+     180,
+     150
+    ],
+    "orb_hand": true,
+    "halo": true,
+    "eye": [
+     255,
+     240,
+     200
+    ],
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "cx24",
+   "name": "Golem de Cale",
+   "type": "creature",
+   "family": "machines",
+   "element": "terre",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 4,
+   "hp": 7,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "cx09"
+    }
+   ],
+   "lore": "Il transporte la cargaison. Et ce qui explose dedans.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.35,
+    "c1": [
+     130,
+     100,
+     70
+    ],
+    "glow": [
+     255,
+     150,
+     60
+    ],
+    "eye": [
+     255,
+     150,
+     60
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "cx25",
+   "name": "Pieuvre Copiste",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 3,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "copy",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Elle imite tout ce qu'elle voit, en huit exemplaires.",
+   "art": {
+    "arch": "kraken",
+    "c1": [
+     200,
+     80,
+     120
+    ],
+    "c2": [
+     255,
+     200,
+     220
+    ],
+    "eye": [
+     255,
+     240,
+     120
+    ],
+    "scene": "ocean",
+    "scale": 0.8,
+    "cy": 150
+   }
+  },
+  {
+   "id": "cx26",
+   "name": "Sorcière des Marées",
+   "type": "creature",
+   "family": "esprits",
+   "element": "eau",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 3,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "polymorph",
+     "target": "choose_enemy_creature",
+     "card": "cx90"
+    }
+   ],
+   "lore": "Elle transforme les marins en crapauds. Ils s'en plaignent rarement.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     30,
+     90,
+     100
+    ],
+    "hair": [
+     120,
+     255,
+     220
+    ],
+    "skin_h": [
+     190,
+     220,
+     210
+    ],
+    "weapon": "staff",
+    "orb_hand": true,
+    "eye": [
+     120,
+     255,
+     220
+    ],
+    "scene": "abyss"
+   }
+  },
+  {
+   "id": "cx27",
+   "name": "Bordée de Canons",
+   "type": "spell",
+   "family": "machines",
+   "element": "feu",
+   "rarity": "R",
+   "cost": 4,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_enemies",
+     "value": 2
+    },
+    {
+     "on": "cast",
+     "do": "burn",
+     "target": "random_enemy_creature",
+     "value": 2
+    }
+   ],
+   "lore": "Feu à volonté !",
+   "art": {
+    "arch": "spell",
+    "spell": "meteor",
+    "scene": "ocean"
+   }
+  },
+  {
+   "id": "cx28",
+   "name": "Frégate Céleste",
+   "type": "creature",
+   "family": "machines",
+   "element": "lumiere",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 5,
+   "hp": 6,
+   "keywords": [
+    "envol",
+    "bouclier"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "shield",
+     "target": "all_allies"
+    }
+   ],
+   "lore": "Ses voiles sont tissées de lumière solaire.",
+   "art": {
+    "arch": "bird",
+    "wing_span": 1.25,
+    "wing_glow": true,
+    "tail": 1.0,
+    "c1": [
+     230,
+     220,
+     200
+    ],
+    "c2": [
+     255,
+     250,
+     230
+    ],
+    "c3": [
+     255,
+     200,
+     90
+    ],
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "cx29",
+   "name": "Dragon des Mers Astrales",
+   "type": "creature",
+   "family": "dragons",
+   "element": "eau",
+   "rarity": "SR",
+   "cost": 7,
+   "atk": 6,
+   "hp": 6,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "freeze",
+     "target": "attack_target"
+    }
+   ],
+   "lore": "Il nage dans le vide aussi bien que dans l'océan.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "back",
+    "wings": true,
+    "wing_span": 1.2,
+    "bulk": 1.05,
+    "neck": 1.2,
+    "c1": [
+     40,
+     120,
+     180
+    ],
+    "c2": [
+     180,
+     240,
+     255
+    ],
+    "c3": [
+     220,
+     255,
+     255
+    ],
+    "membrane": [
+     60,
+     160,
+     220
+    ],
+    "scene": "abyss",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "cx30",
+   "name": "Amiral Spectral Morgane",
+   "type": "creature",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 5,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "revive",
+     "value": 2
+    }
+   ],
+   "lore": "Elle commande une flotte de vaisseaux engloutis.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     40,
+     40,
+     70
+    ],
+    "hood": [
+     30,
+     30,
+     50
+    ],
+    "weapon": "sword",
+    "eye": [
+     140,
+     255,
+     220
+    ],
+    "aura": true,
+    "floating": true,
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cx31",
+   "name": "Tempête Cosmique",
+   "type": "spell",
+   "family": "cosmiques",
+   "element": "foudre",
+   "rarity": "SR",
+   "cost": 6,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 3
+    },
+    {
+     "on": "cast",
+     "do": "sleep",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Même les pirates ont peur de certaines tempêtes.",
+   "art": {
+    "arch": "spell",
+    "spell": "lightning",
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "cx32",
+   "name": "Mécha-Corsaire Rouge",
+   "type": "creature",
+   "family": "robots",
+   "element": "feu",
+   "rarity": "SR",
+   "cost": 5,
+   "atk": 5,
+   "hp": 4,
+   "keywords": [
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "burn",
+     "target": "attack_target",
+     "value": 2
+    }
+   ],
+   "lore": "Il pille au lance-flammes. C'est plus rapide.",
+   "art": {
+    "arch": "biped",
+    "kind": "mech",
+    "bulk": 1.2,
+    "c1": [
+     160,
+     40,
+     40
+    ],
+    "c3": [
+     255,
+     180,
+     60
+    ],
+    "eye": [
+     255,
+     220,
+     80
+    ],
+    "weapon": "sword",
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "cx33",
+   "name": "Baleine-Cargo",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "SR",
+   "cost": 7,
+   "atk": 4,
+   "hp": 10,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 2
+    }
+   ],
+   "lore": "Un équipage entier vit dans son ventre, et paie un loyer en chansons.",
+   "art": {
+    "arch": "fish",
+    "length": 1.45,
+    "fin": 0.9,
+    "c1": [
+     70,
+     110,
+     150
+    ],
+    "c2": [
+     210,
+     230,
+     240
+    ],
+    "c3": [
+     160,
+     120,
+     80
+    ],
+    "eye": [
+     255,
+     230,
+     150
+    ],
+    "scene": "ocean",
+    "scale": 0.95
+   }
+  },
+  {
+   "id": "cx34",
+   "name": "Voleur de Visages",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "SR",
+   "cost": 4,
+   "atk": 3,
+   "hp": 3,
+   "keywords": [
+    "furtif"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "copy",
+     "target": "choose_enemy_creature"
+    },
+    {
+     "on": "summon",
+     "do": "copy",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Il vous vole le visage, puis vos meilleurs souvenirs.",
+   "art": {
+    "arch": "spirit",
+    "kind": "ghost",
+    "c1": [
+     120,
+     110,
+     140
+    ],
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "size": 1.0,
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cx35",
+   "name": "Kraken Infernal",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "feu",
+   "rarity": "IN",
+   "cost": 7,
+   "atk": 7,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "burn",
+     "target": "all_enemy_creatures",
+     "value": 3
+    },
+    {
+     "on": "turn_start",
+     "do": "damage",
+     "target": "random_enemy",
+     "value": 1
+    }
+   ],
+   "lore": "Né dans une fosse volcanique sous-marine, il fait bouillir l'océan.",
+   "art": {
+    "arch": "kraken",
+    "c1": [
+     120,
+     20,
+     10
+    ],
+    "c2": [
+     255,
+     180,
+     60
+    ],
+    "eye": [
+     255,
+     240,
+     120
+    ],
+    "glow": [
+     255,
+     90,
+     20
+    ],
+    "scene": "volcano",
+    "scale": 0.88,
+    "cy": 150
+   }
+  },
+  {
+   "id": "cx36",
+   "name": "Capitaine des Flammes Noires",
+   "type": "creature",
+   "family": "demons",
+   "element": "feu",
+   "rarity": "IN",
+   "cost": 6,
+   "atk": 6,
+   "hp": 5,
+   "keywords": [
+    "rage"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "burn",
+     "target": "attack_target",
+     "value": 3
+    }
+   ],
+   "lore": "Il a vendu son ombre pour un vaisseau qui ne coule jamais.",
+   "art": {
+    "arch": "biped",
+    "kind": "demon",
+    "bulk": 1.3,
+    "horns": true,
+    "tail": true,
+    "skin": [
+     80,
+     20,
+     20
+    ],
+    "c3": [
+     255,
+     160,
+     60
+    ],
+    "eye": [
+     255,
+     120,
+     40
+    ],
+    "weapon": "sword",
+    "aura": true,
+    "glow": [
+     255,
+     100,
+     30
+    ],
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "cx37",
+   "name": "Contrebandière Ylva",
+   "type": "creature",
+   "family": "creatures",
+   "element": "ombre",
+   "rarity": "E",
+   "cost": 5,
+   "atk": 4,
+   "hp": 5,
+   "keywords": [
+    "furtif"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "add_random",
+     "value": 2,
+     "min_rarity": "SR"
+    }
+   ],
+   "lore": "Elle connaît chaque passage secret entre les galaxies.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     50,
+     30,
+     60
+    ],
+    "hood": [
+     40,
+     20,
+     50
+    ],
+    "weapon": "daggers",
+    "eye": [
+     255,
+     200,
+     90
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "cx38",
+   "name": "Sirène Abyssale Neris",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 4,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "steal",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Ceux qui l'écoutent rejoignent son équipage, pour l'éternité.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     20,
+     80,
+     120
+    ],
+    "hair": [
+     80,
+     240,
+     255
+    ],
+    "skin_h": [
+     170,
+     220,
+     230
+    ],
+    "floating": true,
+    "orb_hand": true,
+    "eye": [
+     80,
+     240,
+     255
+    ],
+    "aura": true,
+    "scene": "abyss"
+   }
+  },
+  {
+   "id": "cx39",
+   "name": "Le Hollandais Stellaire",
+   "type": "creature",
+   "family": "machines",
+   "element": "ombre",
+   "rarity": "E",
+   "cost": 7,
+   "atk": 6,
+   "hp": 7,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "revive",
+     "value": 2
+    },
+    {
+     "on": "death",
+     "do": "revive",
+     "value": 2
+    }
+   ],
+   "lore": "Un vaisseau maudit dont l'équipage ne meurt jamais tout à fait.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "ring": true,
+    "tentacles": 6,
+    "size": 1.0,
+    "c1": [
+     40,
+     50,
+     60
+    ],
+    "ring_c": [
+     140,
+     255,
+     220
+    ],
+    "eye": [
+     140,
+     255,
+     220
+    ],
+    "scene": "haunted",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "cx40",
+   "name": "Forgeron de Canons Divins",
+   "type": "creature",
+   "family": "antiques",
+   "element": "feu",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 5,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "buff",
+     "target": "all_allies",
+     "value": 2,
+     "value2": 1
+    }
+   ],
+   "lore": "Ses canons tirent des soleils miniatures.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.4,
+    "c1": [
+     110,
+     60,
+     40
+    ],
+    "glow": [
+     255,
+     170,
+     60
+    ],
+    "eye": [
+     255,
+     170,
+     60
+    ],
+    "crystals": [
+     [
+      0,
+      -28,
+      20
+     ]
+    ],
+    "aura": true,
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "cx41",
+   "name": "Barbe-d'Or, Roi des Pirates",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "lumiere",
+   "rarity": "L",
+   "cost": 8,
+   "atk": 7,
+   "hp": 8,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "add_random",
+     "value": 3,
+     "min_rarity": "E"
+    },
+    {
+     "on": "summon",
+     "do": "copy",
+     "target": "strongest_enemy_creature"
+    }
+   ],
+   "lore": "Il a pillé chaque trésor de l'univers. Il en cherche un dernier : le vôtre.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     160,
+     40,
+     40
+    ],
+    "hood": [
+     100,
+     20,
+     20
+    ],
+    "hair": [
+     255,
+     210,
+     80
+    ],
+    "skin_h": [
+     230,
+     190,
+     150
+    ],
+    "weapon": "sword",
+    "crown": [
+     255,
+     210,
+     80
+    ],
+    "aura": true,
+    "eye": [
+     255,
+     220,
+     120
+    ],
+    "scene": "sanctum"
+   }
+  },
+  {
+   "id": "cx42",
+   "name": "Kraken Primordial des Étoiles",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "cosmique",
+   "rarity": "L",
+   "cost": 9,
+   "atk": 8,
+   "hp": 10,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "bounce",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "attack",
+     "do": "sleep",
+     "target": "attack_target"
+    }
+   ],
+   "lore": "Il a enroulé ses tentacules autour d'une galaxie entière.",
+   "art": {
+    "arch": "kraken",
+    "c1": [
+     60,
+     30,
+     120
+    ],
+    "c2": [
+     255,
+     150,
+     230
+    ],
+    "eye": [
+     255,
+     230,
+     120
+    ],
+    "glow": [
+     220,
+     120,
+     255
+    ],
+    "scene": "nebula",
+    "scale": 0.92,
+    "cy": 150
+   }
+  },
+  {
+   "id": "cx43",
+   "name": "Vaisseau-Monde Arcadia",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "lumiere",
+   "rarity": "L",
+   "cost": 8,
+   "atk": 5,
+   "hp": 12,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "summon",
+     "card": "cx01"
+    },
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 2
+    }
+   ],
+   "lore": "Une ville entière flotte à son bord, et chante en naviguant.",
+   "art": {
+    "arch": "bird",
+    "wing_span": 1.4,
+    "wing_glow": true,
+    "tail": 1.2,
+    "c1": [
+     240,
+     230,
+     210
+    ],
+    "c2": [
+     255,
+     250,
+     230
+    ],
+    "c3": [
+     120,
+     200,
+     255
+    ],
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "cx44",
+   "name": "L'Ancre du Destin",
+   "type": "spell",
+   "family": "antiques",
+   "element": "terre",
+   "rarity": "M",
+   "cost": 7,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "polymorph",
+     "target": "all_enemy_creatures",
+     "card": "cx90"
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "value": 2
+    }
+   ],
+   "lore": "Quand elle tombe, plus personne ne bouge. Ni ne reste lui-même.",
+   "art": {
+    "arch": "spell",
+    "spell": "quake",
+    "scene": "sanctum"
+   }
+  },
+  {
+   "id": "cx45",
+   "name": "Mirage du Trésor Perdu",
+   "type": "creature",
+   "family": "antiques",
+   "element": "cosmique",
+   "rarity": "MI",
+   "cost": 7,
+   "atk": 5,
+   "hp": 8,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "add_random",
+     "value": 3,
+     "min_rarity": "L"
+    },
+    {
+     "on": "turn_start",
+     "do": "copy",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Ceux qui le voient passent leur vie à le chercher. Personne ne l'a jamais touché.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "ring": true,
+    "orbiters": 10,
+    "size": 1.0,
+    "c1": [
+     200,
+     170,
+     240
+    ],
+    "ring_c": [
+     255,
+     240,
+     255
+    ],
+    "eye": [
+     255,
+     220,
+     140
+    ],
+    "glow": [
+     220,
+     190,
+     255
+    ],
+    "scene": "nebula",
+    "scale": 0.95
+   }
+  },
+  {
+   "id": "cx46",
+   "name": "Nebulossa, Reine Corsaire Céleste",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "cosmique",
+   "rarity": "CE",
+   "cost": 10,
+   "atk": 9,
+   "hp": 9,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "steal",
+     "target": "strongest_enemy_creature"
+    },
+    {
+     "on": "summon",
+     "do": "burn",
+     "target": "all_enemy_creatures",
+     "value": 2
+    },
+    {
+     "on": "turn_start",
+     "do": "add_random",
+     "value": 1,
+     "min_rarity": "E"
+    }
+   ],
+   "lore": "Elle règne sur les mers d'étoiles depuis un trône taillé dans une comète.",
+   "art": {
+    "arch": "biped",
+    "kind": "deity",
+    "robe_c": [
+     60,
+     40,
+     140
+    ],
+    "hair": [
+     255,
+     180,
+     240
+    ],
+    "skin_h": [
+     230,
+     220,
+     250
+    ],
+    "crown": [
+     255,
+     220,
+     140
+    ],
+    "halo": true,
+    "halo_c": [
+     255,
+     160,
+     240
+    ],
+    "wings": "feather",
+    "wing_c": [
+     180,
+     150,
+     255
+    ],
+    "wing_span": 1.3,
+    "wing_glow": true,
+    "weapon": "sword",
+    "floating": true,
+    "aura": true,
+    "trim": [
+     255,
+     210,
+     90
+    ],
+    "scene": "nebula",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "cx90",
+   "name": "Crapaud Astral",
+   "type": "creature",
+   "family": "creatures",
+   "element": "nature",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 1,
+   "lore": "Coâ. (Il était sûrement quelqu'un d'important.)",
+   "art": {
+    "arch": "quadruped",
+    "snout": "cute",
+    "eyes_style": "cute",
+    "horns": "none",
+    "spikes": false,
+    "bulk": 0.8,
+    "leg_len": 0.5,
+    "head": 1.6,
+    "tail": 0,
+    "c1": [
+     110,
+     190,
+     90
+    ],
+    "c2": [
+     220,
+     240,
+     160
+    ],
+    "scene": "forest",
+    "scale": 1.1,
+    "cy": 165
+   },
+   "token": true
+  }
+ ]
+}

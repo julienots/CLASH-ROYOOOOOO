@@ -90,8 +90,9 @@ static func open(b: Dictionary, pity: Dictionary, rng: RandomNumberGenerator) ->
 	var pm: Dictionary = DB.pity.mythic_plus
 	var got_l := false
 	var got_m := false
+	var rare_from := n - maxi(1, int(b.get("rare_slots", 1)))
 	for i in n:
-		var odds: Dictionary = last_odds if i == n - 1 else base_odds
+		var odds: Dictionary = last_odds if i >= rare_from else base_odds
 		# pity douce : augmente progressivement les chances de Légendaire+ sur le dernier emplacement
 		var pc := int(pity.get("legendary_plus", 0))
 		if i == n - 1 and pc >= int(pl.soft):
@@ -111,6 +112,19 @@ static func open(b: Dictionary, pity: Dictionary, rng: RandomNumberGenerator) ->
 			got_m = true
 		var id := _pick_card(b, r, rng)
 		res.append({"id": id, "variant": _roll_variant(rng, float(b.get("luck", 1.0))), "pity": forced})
+	# édition Prestige : au moins une variante garantie (sur la meilleure carte)
+	if b.get("guaranteed_variant", false):
+		var has_v := false
+		for x in res:
+			if x.variant != "":
+				has_v = true
+		if not has_v:
+			var best := 0
+			for k in res.size():
+				if DB.rarity_index(DB.card(res[k].id).rarity) > DB.rarity_index(DB.card(res[best].id).rarity):
+					best = k
+			var vs := ["holo", "holo", "fullart", "alt", "chroma", "animated"]
+			res[best].variant = vs[rng.randi_range(0, vs.size() - 1)]
 	pity["legendary_plus"] = 0 if got_l else int(pity.get("legendary_plus", 0)) + 1
 	pity["mythic_plus"] = 0 if got_m else int(pity.get("mythic_plus", 0)) + 1
 	res.sort_custom(func(a, c): return DB.rarity_index(DB.card(a.id).rarity) < DB.rarity_index(DB.card(c.id).rarity))

@@ -127,6 +127,8 @@ func refresh(u: Dictionary) -> void:
 		_icons.add_child(UI.icon_rect("ui_trample", 28, Color("ffb340")))
 	if u.kw.get("envol", false):
 		_icons.add_child(UI.icon_rect("ui_wing", 28, Color("bfe6ff")))
+	if int(u.get("burn", 0)) > 0:
+		_icons.add_child(UI.icon_rect("ui_flame", 28, Color("ff7a2a")))
 	if u.get("silenced", false):
 		_icons.add_child(UI.icon_rect("ui_mute", 28, Color("c9c2d8")))
 	_art.modulate = Color(0.7, 0.7, 0.75) if u.get("silenced", false) else Color.WHITE

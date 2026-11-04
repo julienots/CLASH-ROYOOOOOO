@@ -341,6 +341,50 @@ func run(main: Control, arg: String) -> void:
 			print("tour : vainqueur=", b.g.winner, " étage=", b.cfg.tower_floor, " meilleur=", Profile.d.tower.best, " mods=", b.g.mods)
 			Profile.d.settings.fast = false
 			await _wait(2.5)],
+		["gift8", func(): _clear(main); Profile.d.tutorial_done = true; Profile.d.pending_gift8 = true; main.goto("home", {"r": 11})],
+		["shop_edition", func(): _clear(main); main.goto("shop", {"tab": "boosters"})],
+		["shop_bundles", func(): main.goto("shop", {"tab": "bundles"})],
+		["shop_market", func(): Profile.d.dust = 5000; main.goto("shop", {"tab": "market"})],
+		["shop_wheel", func():
+			Profile.d.erase("wheel")
+			main.goto("shop", {"tab": "wheel"})
+			await _wait(0.8)
+			var target: Button = null
+			for n in main.current.find_children("*", "Button", true, false):
+				if n.text.begins_with("TOURNER"):
+					target = n
+			print("bouton roue : ", target != null)
+			if target:
+				_tap(main, target.get_global_rect().get_center())
+			await _wait(1.5)
+			main.get_viewport().get_texture().get_image().save_png("/tmp/claude-0/shots/shop_wheel_spin.png")
+			await _wait(4.5)
+			var rot: float = main.current._wheel_view.disc.rotation
+			var n := ShopLogic.WHEEL.size()
+			var under := int(floor(fposmod(-rot, TAU) / (TAU / n)))
+			print("roue : ", Profile.d.wheel, " tiré=", main.current.wheel_last, " case sous le pointeur=", under, " ", ShopLogic.WHEEL[under].reward)],
+		["rar_ne", func(): _clear(main); Profile.add_card("cx16", "", false); main.show_card("cx16", "", [])],
+		["rar_in", func(): _clear(main); Profile.add_card("jg34", "", false); main.show_card("jg34", "", [])],
+		["rar_mi", func(): _clear(main); Profile.add_card("cx45", "", false); main.show_card("cx45", "", [])],
+		["god_jungle", func(): _clear(main); Profile.add_card("jg45", "", false); main.show_card("jg45", "", [])],
+		["prestige_open", func():
+			_clear(main)
+			var o = load("res://scripts/screens/shop.gd").open_pack(main, DB.booster("prestige"))
+			await _wait(1.2)
+			o.auto_tear()
+			await _wait(2.5)
+			for k in 40:
+				if not is_instance_valid(o) or o.get("phase") == "summary":
+					break
+				if o.phase == "puzzle":
+					var pc := _find_button(o, "Continuer")
+					if pc:
+						await _tap(main, pc.global_position + pc.size / 2)
+				else:
+					await _tap(main, main.get_viewport_rect().size / 2)
+				await _wait(0.6)
+			print("prestige : ", o.get_meta("results").map(func(x): return x.id + ":" + x.variant))
+			await _wait(1.5)],
 		["shop_offers", func(): _clear(main); main.goto("shop", {"tab": "offers"})],
 		["shop_singles", func(): main.goto("shop", {"tab": "singles"})],
 		["shop_style", func(): main.goto("shop", {"tab": "cosmetics"})],

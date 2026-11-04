@@ -308,3 +308,35 @@ Client Godot ──HTTPS/WebSocket──► Passerelle (Nakama ou service Go)
   - Récompenses au premier passage (pièces, poussière, XP, booster à l'étage 5, cristaux à l'étage 10, jetons à l'étage 15) et **carte GOD garantie à l'étage 20**, choisie de préférence parmi celles qu'on ne possède pas. Rejouer un étage rapporte des pièces.
 - **Tests** : étages valides, modificateurs appliqués, PV du boss, cimetière et Résurrection, GOD absente du booster Genèse et présente dans le booster Panthéon, carte GOD remise au sommet.
 - Total : **289 cartes collectionnables** sur 6 générations, 18 raretés.
+
+## 16. Version 0.8 : Corsaires, Jungle et nouvelle boutique
+
+- **3 nouvelles raretés** (`data/rarities.json`, 21 raretés au total) :
+  - **Néon** (`NE`, entre Super Rare et Épique, poids 3) : cadre à tubes lumineux, contour shader 5 (tubes cyan/magenta qui clignotent, reflets) ;
+  - **Infernale** (`IN`, entre Mythique et Ancestrale, poids 0,3) : cadre de roche et de braises, contour shader 6 (flammes animées qui montent des bords) ;
+  - **Mirage** (`MI`, entre Céleste et Transcendante, poids 0,04) : cadre nacré, contour shader 7 (reflets ondulants et chromatiques).
+- **Génération 7 « Corsaires Astraux »** (`data/cards/corsaires.json`) : 46 cartes collectionnables et un jeton (Crapaud Astral, cible de la Métamorphose).
+- **Génération 8 « Jungle Sauvage »** (`data/cards/jungle.json`) : 45 cartes collectionnables, 3 jetons, et la 4e carte GOD (Gaïarugh).
+- Chaque génération a son booster, son Display 3D et son Coffret.
+- **Nouveaux effets** dans le moteur :
+  - `burn` (Brûlure) : 1 dégât au début de chaque tour du propriétaire, pendant N tours. L'événement s'appelle `ignite`, car `burn` désigne déjà une carte détruite quand la main est pleine. Une icône de flamme s'affiche sur la créature.
+  - `polymorph` (Métamorphose) : la créature devient le jeton `card` (Crapaud Astral par défaut), avec ses statistiques et sans ses mots-clés.
+  - `copy` (Copie) : une copie de la créature ciblée arrive dans la main.
+- **Nouvelle édition de paquets** (groupe `edition` de `boosters.json`) :
+  - **Booster Prestige** : 8 cartes des Gén. 6 à 8. Les 2 derniers emplacements sont Rare ou mieux (`rare_slots`) et une variante est garantie (`guaranteed_variant`) ; les deux sont gérés dans `BoosterLogic.open`. Il existe aussi un Display Prestige (Mythique garanti).
+  - **Mini-Booster** : 3 cartes pour 45 pièces.
+- **Boutique** (9 onglets sur 2 rangées), règles dans `scripts/logic/shop_logic.gd` :
+  - **Roue de la Fortune** (`wheel_view.gd`, dessinée et animée) : 9 cases pondérées dont les chances sont affichées, 1 tour gratuit par jour et 3 tours bonus à 25 cristaux.
+  - **Marché Noir** : 4 cartes, de l'Épique à la Mythique, payables en Poussière ou en Cristaux. Le stock tourne toutes les 6 heures, avec au moins une Légendaire ou mieux, et chaque carte n'est vendue qu'une fois par rotation.
+  - **Packs groupés** (`products.json` → `bundles`) : boosters et ressources, limités à 1 par semaine ou à 1 achat unique. La Malle du Légendaire contient une Légendaire Gén. 7/8 au hasard et un dos exclusif.
+- **Saison 2 « Corsaires des Étoiles »** (`season.json`, id `s2`) : 30 nouveaux paliers. Le palier 15 de la voie Élite donne le plateau « Pont du Vaisseau Astral », et le palier 30 le dos « Corsaire ». La progression de la saison 1 est remise à zéro, comme pour tout changement de saison.
+- **Cosmétiques** : dos Néon, Corsaire et Nébuleuse Pourpre, plateau Jungle.
+- **Cadeau de mise à jour** : 2 boosters Corsaires, 2 boosters Jungle et 1 booster Prestige.
+- **Tests** :
+  - raretés NE, IN et MI présentes et tirables ; GOD possible dans le booster Jungle ;
+  - Brûlure (application, dégât par tour, extinction), Métamorphose, Copie ;
+  - 300 boosters Prestige (8 cartes, variante et 2 Rares+ toujours présentes), Mini-Booster ;
+  - roue (toutes les cases sortent, total 100 %, tour gratuit quotidien) ;
+  - marché (stable par rotation, raretés autorisées, Légendaire+ présente) ;
+  - validité des packs groupés et des displays.
+- Total : **380 cartes collectionnables** sur 8 générations, 21 raretés.

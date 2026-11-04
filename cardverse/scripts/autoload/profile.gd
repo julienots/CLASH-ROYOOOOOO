@@ -26,7 +26,7 @@ func new_game() -> void:
 		"collection_rewards": [], "settings": {"sfx": true, "music": true, "fast": false},
 		"rank": {"points": 0}, "title": "Novice",
 		"free_packs": {}, "pass": {}, "forge_known": [], "tutorial_done": false, "seen_version": "0.5",
-		"puzzles": {}, "puzzle_pity": 0, "displays": [], "gifts": ["v05", "v06", "v07"], "tower": {"floor": 1, "best": 0},
+		"puzzles": {}, "puzzle_pity": 0, "displays": [], "gifts": ["v05", "v06", "v07", "v08"], "shop_once": [], "wheel": {}, "tower": {"floor": 1, "best": 0},
 	}
 	for id in st.cards:
 		add_card(id, "", false)
@@ -64,6 +64,14 @@ func _migrate() -> void:
 		d.gifts.append("v07")
 		add_free("pantheon", 3)
 		d["pending_gift7"] = true
+	if not "v08" in d.gifts:
+		d.gifts.append("v08")
+		add_free("corsaires", 2)
+		add_free("jungle", 2)
+		add_free("prestige", 1)
+		d["pending_gift8"] = true
+	if not d.has("shop_once"):
+		d["shop_once"] = []
 	if not "v06" in d.gifts:
 		d.gifts.append("v06")
 		add_free("songes", 3)
@@ -232,6 +240,8 @@ func pay(price: Dictionary) -> bool:
 	save_game()
 	return true
 
+var last_given_card := ""
+
 func give(rew: Dictionary, silent := false) -> void:
 	var parts := []
 	for k in rew:
@@ -242,6 +252,21 @@ func give(rew: Dictionary, silent := false) -> void:
 				var bid: String = rew.booster if rew.booster is String else "classic"
 				add_free(bid, 1)
 				parts.append("1 %s gratuit" % DB.booster(bid).get("name", "booster"))
+			"boosters":
+				for bid in rew.boosters:
+					add_free(bid, int(rew.boosters[bid]))
+					parts.append("%d %s" % [int(rew.boosters[bid]), DB.booster(bid).get("name", "booster")])
+			"random_card":
+				var pool := []
+				for id in DB.card_order:
+					var c := DB.card(id)
+					if c.rarity == rew.random_card.rarity and (not rew.random_card.has("sets") or c.set in rew.random_card.sets):
+						pool.append(id)
+				if not pool.is_empty():
+					var pick: String = pool[randi() % pool.size()]
+					add_card(pick)
+					last_given_card = pick
+					parts.append(DB.card(pick).name)
 			"cosmetic":
 				if not rew.cosmetic in d.cosmetics.owned:
 					d.cosmetics.owned.append(rew.cosmetic)

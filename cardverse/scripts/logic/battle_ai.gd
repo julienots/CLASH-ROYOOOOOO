@@ -148,7 +148,7 @@ func _pick_target(g: BattleEngine, me: int, o: int, id: String, tt: String) -> D
 			if e.do == "damage":
 				dmg = int(e.value)
 				harmful = true
-			elif e.do in ["freeze", "sleep", "destroy", "silence", "bounce", "steal", "swap_stats"]:
+			elif e.do in ["freeze", "sleep", "destroy", "silence", "bounce", "steal", "swap_stats", "burn", "polymorph"]:
 				harmful = true
 	var options := g.targets_for(me, tt)
 	var best := {}

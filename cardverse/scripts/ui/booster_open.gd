@@ -570,10 +570,16 @@ func _summary() -> void:
 		var cv: CardView = _done_cards[i]
 		var col := i % 3
 		var row := i / 3
-		var target := Vector2(30 + col * 228 + (114 if row == 1 else 0), 160 + row * 330)
+		# 3 cartes par rangée, rangées centrées ; plus petites au-delà de 6 cartes (édition Prestige)
+		var n_all := _done_cards.size()
+		var sc := 0.46 if n_all <= 6 else 0.4
+		var step := 228.0 * sc / 0.46
+		var in_row := mini(3, n_all - row * 3)
+		var x0 := 30.0 + 3.0 * (228.0 - step) / 2.0 + (3 - in_row) * step / 2.0
+		var target := Vector2(x0 + col * step, 160 + row * (330 if n_all <= 6 else 280))
 		var t := cv.create_tween().set_parallel(true)
 		t.tween_property(cv, "position", target, 0.45).set_delay(i * 0.05).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-		t.tween_property(cv, "scale", Vector2(0.46, 0.46), 0.45).set_delay(i * 0.05)
+		t.tween_property(cv, "scale", Vector2(sc, sc), 0.45).set_delay(i * 0.05)
 		t.tween_property(cv, "rotation", 0.0, 0.3)
 		cv.mouse_filter = Control.MOUSE_FILTER_STOP
 		var id: String = results[i].id
