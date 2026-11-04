@@ -301,6 +301,7 @@ PACKS = {
     "jungle": ((20, 70, 25), (190, 255, 110), "jg34"),
     "prestige": ((25, 18, 8), (255, 215, 110), "cx45"),
     "mini": ((120, 30, 80), (255, 170, 220), "jg17"),
+    "ultime": ((50, 15, 90), (230, 170, 255), "ty12"),
 }
 
 
@@ -443,6 +444,115 @@ def icons():
     return {k: v.resize((S * 3, S * 3), Image.NEAREST) for k, v in res.items()}
 
 
+# ---------------------------------------------------------------- forme TITAN : illustration grand format
+# L'illustration occupe toute la carte ; le cadre n'est qu'un liseré, un bandeau de nom
+# et une zone de texte vitrée plus basse et plus petite.
+T_TYPE = (10, 135, 140, 144)
+T_TEXT = (8, 145, 142, 193)
+
+
+def titan_frame(rar):
+    base, light, dark, gemc, pattern = FRAMES[rar]
+    W, H = GW, GH
+    arr = metal(base, light, dark, W, H, pattern, seed=hash(rar) % 1000 + 7)
+    alpha = np.zeros((H, W), np.float32)
+    ink = np.array((14, 10, 22), np.float32) / 255
+    y, x = np.mgrid[0:H, 0:W]
+    # coins biseautés (style anguleux, différent des cadres classiques arrondis)
+    cut = 6
+    outside = (x + y < cut) | ((W - 1 - x) + y < cut) | (x + (H - 1 - y) < cut) | ((W - 1 - x) + (H - 1 - y) < cut)
+    border = ((x < 4) | (x > W - 5) | (y < 4) | (y > H - 5)) & ~outside
+    # biseaux intérieurs aux coins
+    inner_cut = ((x + y < cut + 8) | ((W - 1 - x) + y < cut + 8) | (x + (H - 1 - y) < cut + 8) | ((W - 1 - x) + (H - 1 - y) < cut + 8)) & ~outside
+    border |= inner_cut
+    alpha[border] = 1
+    edge = np.zeros((H, W), bool)
+    edge[1:-1, 1:-1] = border[1:-1, 1:-1] & ~(border[:-2, 1:-1] & border[2:, 1:-1] & border[1:-1, :-2] & border[1:-1, 2:])
+    arr[edge] = ink
+    # liseré lumineux intérieur
+    lit = (((x == 4) | (x == W - 5)) & (y > 4) & (y < H - 5)) | (((y == 4) | (y == H - 5)) & (x > 4) & (x < W - 5))
+    lit &= ~inner_cut
+    arr[lit] = np.array(light, np.float32) / 255
+    alpha[lit] = 1
+    # stries d'énergie diagonales sur le liseré
+    stripe = (((x + y) % 11) < 2) & border & ~edge
+    arr[stripe] = np.minimum(1, arr[stripe] + 0.25)
+    # bandeau du nom : verre sombre avec une pointe à droite
+    nm = (y >= NAME[1]) & (y < NAME[3]) & (x >= NAME[0] - 2) & (x < NAME[2] - (y - NAME[1]) // 2)
+    arr[nm] = np.array((12, 8, 24), np.float32) / 255
+    alpha[nm] = 0.78
+    arr[nm & (y == NAME[3] - 1)] = np.array(light, np.float32) / 255
+    alpha[nm & (y == NAME[3] - 1)] = 1
+    # ligne de type et zone de texte vitrées
+    tm = rect_mask(W, H, T_TYPE)
+    arr[tm] = np.array(dark, np.float32) / 255 * 0.8
+    alpha[tm] = 0.9
+    bevel_rect(arr, tm, light, ink * 255)
+    tx = rect_mask(W, H, T_TEXT)
+    hexa = ((x // 3 + (y // 3) % 2) % 3 == 0) & tx
+    arr[tx] = np.array((14, 10, 26), np.float32) / 255
+    arr[hexa] = np.array((24, 18, 44), np.float32) / 255
+    alpha[tx] = 0.8
+    bevel_rect(arr, tx, dark, light)
+    # gemmes
+    gem(arr, alpha, COST[0], COST[1], COST[2], (70, 150, 255))
+    gem(arr, alpha, ATK[0], ATK[1], ATK[2], (230, 90, 60))
+    gem(arr, alpha, HP[0], HP[1], HP[2], (80, 200, 110))
+    gem(arr, alpha, 75, 196, 5, gemc)
+    out = np.dstack([np.clip(arr, 0, 1), alpha])
+    im = Image.fromarray((out * 255).astype(np.uint8), "RGBA")
+    return im.resize((GW * SC, GH * SC), Image.NEAREST)
+
+
+def badge(kind):
+    """Logos de forme placés à côté du nom : Ω (Oméga) et TITAN. Pixel art, agrandi x3."""
+    from PIL import ImageFont
+    if kind == "omega":
+        w, h = 30, 22
+        im = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        d = ImageDraw.Draw(im)
+        hexa = [(6, 0), (w - 7, 0), (w - 1, h // 2), (w - 7, h - 1), (6, h - 1), (0, h // 2)]
+        d.polygon(hexa, fill=(20, 10, 40, 255))
+        arr = np.array(im).astype(np.float32) / 255
+        yy, xx = np.mgrid[0:h, 0:w]
+        grad = np.stack([0.55 + 0.45 * np.cos(xx * 0.25 + 0), 0.55 + 0.45 * np.cos(xx * 0.25 + 2.1), 0.75 + 0.25 * np.cos(xx * 0.25 + 4.2)], -1)
+        inner = Image.new("L", (w, h), 0)
+        ImageDraw.Draw(inner).polygon([(7, 2), (w - 8, 2), (w - 3, h // 2), (w - 8, h - 3), (7, h - 3), (2, h // 2)], fill=255)
+        m = np.array(inner) > 0
+        shade = (0.35 + 0.35 * (1 - yy / h))[..., None]
+        arr[..., :3][m] = (grad * shade)[m]
+        im = Image.fromarray((arr * 255).astype(np.uint8), "RGBA")
+        d = ImageDraw.Draw(im)
+        d.fontmode = "1"
+        f = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf", 19)
+        for ox, oy in ((-1, 0), (1, 0), (0, -1), (0, 1), (1, 1)):
+            d.text((w // 2 + ox, h // 2 + oy), "Ω", font=f, fill=(20, 8, 30, 255), anchor="mm")
+        d.text((w // 2, h // 2), "Ω", font=f, fill=(255, 245, 200, 255), anchor="mm")
+        d.point([(w // 2 - 4, 6), (w // 2 - 5, 7)], fill=(255, 255, 255, 255))
+    else:
+        w, h = 52, 18
+        im = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        d = ImageDraw.Draw(im)
+        d.polygon([(5, 0), (w - 1, 0), (w - 6, h - 1), (0, h - 1)], fill=(30, 12, 6, 255))
+        arr = np.array(im).astype(np.float32) / 255
+        yy, xx = np.mgrid[0:h, 0:w]
+        inner = Image.new("L", (w, h), 0)
+        ImageDraw.Draw(inner).polygon([(6, 2), (w - 4, 2), (w - 7, h - 3), (3, h - 3)], fill=255)
+        m = np.array(inner) > 0
+        top = np.array((255, 220, 90), np.float32) / 255
+        bot = np.array((200, 50, 20), np.float32) / 255
+        t = (yy / h)[..., None]
+        arr[..., :3][m] = (top * (1 - t) + bot * t)[m]
+        im = Image.fromarray((arr * 255).astype(np.uint8), "RGBA")
+        d = ImageDraw.Draw(im)
+        d.fontmode = "1"
+        f = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 12)
+        for ox, oy in ((-1, 0), (1, 0), (0, -1), (0, 1), (1, 1)):
+            d.text((w // 2 + ox, h // 2 + oy), "TITAN", font=f, fill=(40, 10, 0, 255), anchor="mm")
+        d.text((w // 2, h // 2), "TITAN", font=f, fill=(255, 255, 235, 255), anchor="mm")
+    return im.resize((im.width * SC, im.height * SC), Image.NEAREST)
+
+
 def main():
     out = os.path.join(ROOT, "assets", "ui")
     os.makedirs(os.path.join(out, "frames"), exist_ok=True)
@@ -450,13 +560,18 @@ def main():
     os.makedirs(os.path.join(out, "icons"), exist_ok=True)
     for r in FRAMES:
         frame(r).save(os.path.join(out, "frames", r + ".png"), optimize=True)
+    for r in FRAMES:
+        titan_frame(r).save(os.path.join(out, "frames", "titan_" + r + ".png"), optimize=True)
+    os.makedirs(os.path.join(out, "badges"), exist_ok=True)
+    for k in ("omega", "titan"):
+        badge(k).save(os.path.join(out, "badges", k + ".png"), optimize=True)
     card_back().save(os.path.join(out, "card_back.png"), optimize=True)
     type_packs()
     for k in PACKS:
         pack(k).save(os.path.join(out, "packs", k + ".png"), optimize=True)
     for k, im in icons().items():
         im.save(os.path.join(out, "icons", k + ".png"), optimize=True)
-    layout = {"grid": [GW, GH], "scale": SC, "win": WIN, "name": NAME, "type": TYPE, "text": TEXT, "cost": COST, "atk": ATK, "hp": HP}
+    layout = {"grid": [GW, GH], "scale": SC, "win": WIN, "name": NAME, "type": TYPE, "text": TEXT, "titan_type": T_TYPE, "titan_text": T_TEXT, "cost": COST, "atk": ATK, "hp": HP}
     json.dump(layout, open(os.path.join(ROOT, "data", "card_layout.json"), "w"), indent=1)
     print("UI générée")
 

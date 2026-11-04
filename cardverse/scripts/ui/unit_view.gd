@@ -88,6 +88,17 @@ func _ready() -> void:
 			_atk = l
 		else:
 			_hp = l
+	# logo de forme (Ω / TITAN) en bas au centre de l'illustration
+	var form: String = DB.card(data.get("id", "")).get("form", "")
+	if form != "":
+		var bd := TextureRect.new()
+		bd.texture = DB.tex("res://assets/ui/badges/%s.png" % form)
+		bd.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		bd.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		bd.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		bd.size = Vector2(44, 32) if form == "omega" else Vector2(56, 19)
+		bd.position = Vector2((SZ.x - bd.size.x) / 2, SZ.y - bd.size.y - 6)
+		add_child(bd)
 	_sleep = UI.label("z z", 26, Color(0.8, 0.85, 1), "num", 400, HORIZONTAL_ALIGNMENT_RIGHT)
 	UI.outline(_sleep, 5)
 	_sleep.position = Vector2(SZ.x - 70, 2)

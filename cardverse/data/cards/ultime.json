@@ -1,0 +1,1318 @@
+{
+ "set": "ultime",
+ "name": "Formes Ultimes",
+ "gen": 9,
+ "cards": [
+  {
+   "id": "ux01",
+   "name": "Lynx Fulgurant",
+   "type": "creature",
+   "family": "creatures",
+   "element": "foudre",
+   "rarity": "R",
+   "cost": 3,
+   "atk": 3,
+   "hp": 3,
+   "form": "omega",
+   "keywords": [
+    "celerite"
+   ],
+   "omega": [
+    {
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 2
+    }
+   ],
+   "lore": "Il ne court pas : il se téléporte d'un éclair à l'autre.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "mane": true,
+    "mane_c": [
+     120,
+     220,
+     255
+    ],
+    "bulk": 0.9,
+    "leg_len": 1.2,
+    "tail": 1.2,
+    "c1": [
+     230,
+     210,
+     60
+    ],
+    "c2": [
+     255,
+     250,
+     180
+    ],
+    "c3": [
+     60,
+     200,
+     255
+    ],
+    "eye": [
+     120,
+     240,
+     255
+    ],
+    "aura": true,
+    "glow": [
+     120,
+     220,
+     255
+    ],
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "ux02",
+   "name": "Tortue-Forteresse",
+   "type": "creature",
+   "family": "antiques",
+   "element": "terre",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 2,
+   "hp": 7,
+   "form": "omega",
+   "keywords": [
+    "garde"
+   ],
+   "omega": [
+    {
+     "do": "shield",
+     "target": "all_allies"
+    },
+    {
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 5
+    }
+   ],
+   "lore": "Sur sa carapace, un village entier a oublié qu'il voyageait.",
+   "art": {
+    "arch": "crab",
+    "c1": [
+     110,
+     140,
+     80
+    ],
+    "c3": [
+     200,
+     180,
+     120
+    ],
+    "scene": "canyon",
+    "scale": 1.05,
+    "cy": 160
+   }
+  },
+  {
+   "id": "ux03",
+   "name": "Phénix Cendré",
+   "type": "creature",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "SR",
+   "cost": 5,
+   "atk": 4,
+   "hp": 4,
+   "form": "omega",
+   "keywords": [
+    "envol"
+   ],
+   "omega": [
+    {
+     "do": "burn",
+     "target": "all_enemy_creatures",
+     "value": 3
+    }
+   ],
+   "lore": "Chaque fois qu'il renaît, ses cendres brûlent un peu plus fort.",
+   "art": {
+    "arch": "bird",
+    "wing_span": 1.3,
+    "wing_glow": true,
+    "tail": 1.4,
+    "c1": [
+     80,
+     60,
+     60
+    ],
+    "c2": [
+     255,
+     140,
+     40
+    ],
+    "c3": [
+     255,
+     230,
+     120
+    ],
+    "aura": true,
+    "glow": [
+     255,
+     120,
+     30
+    ],
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "ux04",
+   "name": "Sirène Polaire",
+   "type": "creature",
+   "family": "esprits",
+   "element": "glace",
+   "rarity": "SR",
+   "cost": 4,
+   "atk": 3,
+   "hp": 5,
+   "form": "omega",
+   "omega": [
+    {
+     "do": "freeze",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Son chant fige la mer en plein vol des vagues.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     150,
+     200,
+     240
+    ],
+    "hair": [
+     230,
+     250,
+     255
+    ],
+    "skin_h": [
+     210,
+     230,
+     250
+    ],
+    "floating": true,
+    "orb_hand": true,
+    "eye": [
+     160,
+     240,
+     255
+    ],
+    "aura": true,
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "ux05",
+   "name": "Golem Runique",
+   "type": "creature",
+   "family": "machines",
+   "element": "terre",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 5,
+   "hp": 7,
+   "form": "omega",
+   "omega": [
+    {
+     "do": "buff",
+     "target": "all_allies",
+     "value": 2,
+     "value2": 2
+    }
+   ],
+   "lore": "Chaque rune gravée sur lui est un ordre. Il les connaît toutes.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.3,
+    "c1": [
+     110,
+     100,
+     130
+    ],
+    "glow": [
+     120,
+     255,
+     200
+    ],
+    "eye": [
+     120,
+     255,
+     200
+    ],
+    "crystals": [
+     [
+      0,
+      -28,
+      16
+     ]
+    ],
+    "aura": true,
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "ux06",
+   "name": "Spectre Avide",
+   "type": "creature",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "SR",
+   "cost": 5,
+   "atk": 4,
+   "hp": 3,
+   "form": "omega",
+   "keywords": [
+    "furtif"
+   ],
+   "omega": [
+    {
+     "do": "steal",
+     "target": "strongest_enemy_creature"
+    }
+   ],
+   "lore": "Il ne vole pas les âmes. Il les emprunte, et oublie de les rendre.",
+   "art": {
+    "arch": "spirit",
+    "kind": "ghost",
+    "c1": [
+     90,
+     60,
+     130
+    ],
+    "eye": [
+     255,
+     80,
+     200
+    ],
+    "size": 1.1,
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "ux07",
+   "name": "Druidesse des Racines",
+   "type": "creature",
+   "family": "vegetaux",
+   "element": "nature",
+   "rarity": "E",
+   "cost": 5,
+   "atk": 3,
+   "hp": 6,
+   "form": "omega",
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 1
+    }
+   ],
+   "omega": [
+    {
+     "do": "summon",
+     "card": "jg92"
+    },
+    {
+     "do": "summon",
+     "card": "jg92"
+    },
+    {
+     "do": "heal",
+     "target": "all_allies",
+     "value": 3
+    }
+   ],
+   "lore": "Elle parle aux racines, et les racines parlent aux abeilles.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     60,
+     120,
+     50
+    ],
+    "hood": [
+     40,
+     90,
+     30
+    ],
+    "weapon": "staff",
+    "eye": [
+     180,
+     255,
+     120
+    ],
+    "aura": true,
+    "glow": [
+     160,
+     255,
+     90
+    ],
+    "scene": "forest"
+   }
+  },
+  {
+   "id": "ux08",
+   "name": "Dragon Prismatique",
+   "type": "creature",
+   "family": "dragons",
+   "element": "lumiere",
+   "rarity": "E",
+   "cost": 7,
+   "atk": 6,
+   "hp": 6,
+   "form": "omega",
+   "keywords": [
+    "envol"
+   ],
+   "omega": [
+    {
+     "do": "damage",
+     "target": "all_enemies",
+     "value": 3
+    }
+   ],
+   "lore": "Ses écailles décomposent la lumière en sept armes différentes.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "back",
+    "wings": true,
+    "wing_span": 1.3,
+    "bulk": 1.1,
+    "neck": 1.2,
+    "c1": [
+     230,
+     230,
+     250
+    ],
+    "c2": [
+     255,
+     180,
+     250
+    ],
+    "c3": [
+     120,
+     240,
+     255
+    ],
+    "membrane": [
+     255,
+     200,
+     250
+    ],
+    "aura": true,
+    "scene": "temple",
+    "scale": 0.95
+   }
+  },
+  {
+   "id": "ux09",
+   "name": "Archiviste du Néant",
+   "type": "creature",
+   "family": "antiques",
+   "element": "neant",
+   "rarity": "E",
+   "cost": 5,
+   "atk": 4,
+   "hp": 5,
+   "form": "omega",
+   "omega": [
+    {
+     "do": "draw",
+     "value": 3
+    },
+    {
+     "do": "silence",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Il a lu tous les livres qui n'ont jamais été écrits.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     30,
+     30,
+     40
+    ],
+    "hood": [
+     20,
+     20,
+     30
+    ],
+    "orb_hand": true,
+    "eye": [
+     200,
+     120,
+     255
+    ],
+    "aura": true,
+    "glow": [
+     180,
+     100,
+     255
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "ux10",
+   "name": "Requin-Comète",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 4,
+   "hp": 3,
+   "form": "omega",
+   "omega": [
+    {
+     "do": "damage",
+     "target": "enemy_leader",
+     "value": 4
+    }
+   ],
+   "lore": "Il a traversé l'atmosphère pour mordre une étoile filante.",
+   "art": {
+    "arch": "fish",
+    "teeth": true,
+    "length": 1.25,
+    "c1": [
+     60,
+     90,
+     160
+    ],
+    "c2": [
+     220,
+     230,
+     250
+    ],
+    "c3": [
+     255,
+     160,
+     60
+    ],
+    "eye": [
+     255,
+     230,
+     120
+    ],
+    "scene": "ocean"
+   }
+  },
+  {
+   "id": "ux11",
+   "name": "Valkyrie d'Orage",
+   "type": "creature",
+   "family": "divinites",
+   "element": "foudre",
+   "rarity": "L",
+   "cost": 7,
+   "atk": 7,
+   "hp": 6,
+   "form": "omega",
+   "keywords": [
+    "envol"
+   ],
+   "omega": [
+    {
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 3
+    },
+    {
+     "do": "energy",
+     "value": 2
+    }
+   ],
+   "lore": "Elle choisit les héros. Elle choisit aussi la foudre qui les frappe.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     200,
+     200,
+     230
+    ],
+    "hair": [
+     255,
+     230,
+     120
+    ],
+    "skin_h": [
+     240,
+     220,
+     200
+    ],
+    "weapon": "sword",
+    "halo": true,
+    "eye": [
+     120,
+     240,
+     255
+    ],
+    "aura": true,
+    "glow": [
+     120,
+     220,
+     255
+    ],
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "ux12",
+   "name": "Seigneur Kraken",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "eau",
+   "rarity": "L",
+   "cost": 8,
+   "atk": 7,
+   "hp": 8,
+   "form": "omega",
+   "effects": [
+    {
+     "on": "attack",
+     "do": "freeze",
+     "target": "attack_target"
+    }
+   ],
+   "omega": [
+    {
+     "do": "bounce",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Les abysses lui doivent obéissance, et les marins un tribut.",
+   "art": {
+    "arch": "kraken",
+    "c1": [
+     30,
+     70,
+     110
+    ],
+    "c2": [
+     140,
+     240,
+     255
+    ],
+    "eye": [
+     255,
+     220,
+     80
+    ],
+    "glow": [
+     100,
+     220,
+     255
+    ],
+    "scene": "abyss",
+    "scale": 0.95,
+    "cy": 150
+   }
+  },
+  {
+   "id": "ux13",
+   "name": "Faucheuse Astrale",
+   "type": "creature",
+   "family": "cosmiques",
+   "element": "cosmique",
+   "rarity": "M",
+   "cost": 8,
+   "atk": 8,
+   "hp": 6,
+   "form": "omega",
+   "omega": [
+    {
+     "do": "destroy",
+     "target": "strongest_enemy_creature"
+    },
+    {
+     "do": "draw",
+     "value": 2
+    }
+   ],
+   "lore": "Elle moissonne les étoiles mourantes, une par une.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     40,
+     20,
+     70
+    ],
+    "hood": [
+     20,
+     10,
+     40
+    ],
+    "weapon": "staff",
+    "eye": [
+     255,
+     120,
+     255
+    ],
+    "floating": true,
+    "aura": true,
+    "glow": [
+     220,
+     120,
+     255
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "ux14",
+   "name": "Chimère des Mirages",
+   "type": "creature",
+   "family": "mutants",
+   "element": "cosmique",
+   "rarity": "MI",
+   "cost": 7,
+   "atk": 6,
+   "hp": 6,
+   "form": "omega",
+   "omega": [
+    {
+     "do": "polymorph",
+     "target": "all_enemy_creatures",
+     "card": "cx90"
+    }
+   ],
+   "lore": "Personne ne la voit deux fois sous la même forme.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "horns": "crown",
+    "wings": true,
+    "wing_span": 1.1,
+    "bulk": 1.1,
+    "tail": 1.3,
+    "c1": [
+     200,
+     170,
+     250
+    ],
+    "c2": [
+     255,
+     230,
+     255
+    ],
+    "c3": [
+     140,
+     255,
+     230
+    ],
+    "aura": true,
+    "scene": "nebula",
+    "scale": 0.95
+   }
+  },
+  {
+   "id": "ty01",
+   "name": "Basaltor",
+   "type": "creature",
+   "family": "antiques",
+   "element": "terre",
+   "rarity": "R",
+   "cost": 6,
+   "atk": 4,
+   "hp": 10,
+   "form": "titan",
+   "keywords": [
+    "garde"
+   ],
+   "lore": "Une montagne qui a décidé de se lever.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.5,
+    "c1": [
+     70,
+     60,
+     60
+    ],
+    "glow": [
+     255,
+     120,
+     40
+    ],
+    "eye": [
+     255,
+     140,
+     60
+    ],
+    "scene": "canyon",
+    "scale": 1.25
+   }
+  },
+  {
+   "id": "ty02",
+   "name": "Glacius",
+   "type": "creature",
+   "family": "antiques",
+   "element": "glace",
+   "rarity": "R",
+   "cost": 6,
+   "atk": 5,
+   "hp": 9,
+   "form": "titan",
+   "effects": [
+    {
+     "on": "summon",
+     "do": "freeze",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Là où il marche, l'hiver ne finit jamais.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.45,
+    "c1": [
+     150,
+     190,
+     220
+    ],
+    "glow": [
+     200,
+     250,
+     255
+    ],
+    "eye": [
+     160,
+     240,
+     255
+    ],
+    "crystals": [
+     [
+      0,
+      -30,
+      18
+     ]
+    ],
+    "scene": "tundra",
+    "scale": 1.25
+   }
+  },
+  {
+   "id": "ty03",
+   "name": "Forgeflamme",
+   "type": "creature",
+   "family": "machines",
+   "element": "feu",
+   "rarity": "SR",
+   "cost": 7,
+   "atk": 6,
+   "hp": 9,
+   "form": "titan",
+   "effects": [
+    {
+     "on": "attack",
+     "do": "burn",
+     "target": "attack_target",
+     "value": 2
+    }
+   ],
+   "lore": "Son cœur est une forge qui n'a jamais refroidi.",
+   "art": {
+    "arch": "biped",
+    "kind": "mech",
+    "bulk": 1.45,
+    "c1": [
+     120,
+     50,
+     30
+    ],
+    "c3": [
+     255,
+     170,
+     60
+    ],
+    "eye": [
+     255,
+     220,
+     80
+    ],
+    "glow": [
+     255,
+     120,
+     30
+    ],
+    "aura": true,
+    "scene": "volcano",
+    "scale": 1.25
+   }
+  },
+  {
+   "id": "ty04",
+   "name": "Maréos",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "SR",
+   "cost": 7,
+   "atk": 5,
+   "hp": 10,
+   "form": "titan",
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 2
+    }
+   ],
+   "lore": "Quand il respire, l'océan monte et descend.",
+   "art": {
+    "arch": "serpent",
+    "thick": 1.4,
+    "horns": "crown",
+    "whiskers": true,
+    "c1": [
+     30,
+     100,
+     150
+    ],
+    "c2": [
+     150,
+     230,
+     255
+    ],
+    "c3": [
+     255,
+     240,
+     160
+    ],
+    "scene": "ocean",
+    "scale": 1.25
+   }
+  },
+  {
+   "id": "ty05",
+   "name": "Sylvarbre",
+   "type": "creature",
+   "family": "vegetaux",
+   "element": "nature",
+   "rarity": "SR",
+   "cost": 7,
+   "atk": 5,
+   "hp": 11,
+   "form": "titan",
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "summon",
+     "card": "jg92"
+    }
+   ],
+   "lore": "Une forêt entière vit dans ses branches.",
+   "art": {
+    "arch": "plant",
+    "kind": "treant",
+    "c1": [
+     70,
+     130,
+     50
+    ],
+    "bloom": [
+     255,
+     200,
+     90
+    ],
+    "eye": [
+     255,
+     230,
+     120
+    ],
+    "scene": "forest",
+    "scale": 1.2,
+    "cy": 150
+   }
+  },
+  {
+   "id": "ty06",
+   "name": "Ébonar",
+   "type": "creature",
+   "family": "demons",
+   "element": "ombre",
+   "rarity": "E",
+   "cost": 8,
+   "atk": 7,
+   "hp": 10,
+   "form": "titan",
+   "keywords": [
+    "rage"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 3
+    }
+   ],
+   "lore": "Son ombre est plus lourde que lui.",
+   "art": {
+    "arch": "biped",
+    "kind": "demon",
+    "bulk": 1.5,
+    "horns": true,
+    "tail": true,
+    "skin": [
+     40,
+     30,
+     50
+    ],
+    "c3": [
+     200,
+     120,
+     255
+    ],
+    "eye": [
+     255,
+     80,
+     200
+    ],
+    "aura": true,
+    "glow": [
+     160,
+     80,
+     255
+    ],
+    "scene": "haunted",
+    "scale": 1.25
+   }
+  },
+  {
+   "id": "ty07",
+   "name": "Tonnerrax",
+   "type": "creature",
+   "family": "divinites",
+   "element": "foudre",
+   "rarity": "E",
+   "cost": 8,
+   "atk": 7,
+   "hp": 9,
+   "form": "titan",
+   "keywords": [
+    "pietinement"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "damage",
+     "target": "random_enemy",
+     "value": 2
+    }
+   ],
+   "lore": "Il porte un orage sur les épaules, comme une cape.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.45,
+    "c1": [
+     60,
+     70,
+     110
+    ],
+    "glow": [
+     120,
+     230,
+     255
+    ],
+    "eye": [
+     200,
+     250,
+     255
+    ],
+    "aura": true,
+    "scene": "storm",
+    "scale": 1.25
+   }
+  },
+  {
+   "id": "ty08",
+   "name": "Solarion",
+   "type": "creature",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "E",
+   "cost": 8,
+   "atk": 6,
+   "hp": 12,
+   "form": "titan",
+   "keywords": [
+    "bouclier"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 6
+    }
+   ],
+   "lore": "Il s'est forgé dans le cœur d'un soleil couchant.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.45,
+    "c1": [
+     230,
+     190,
+     90
+    ],
+    "glow": [
+     255,
+     240,
+     160
+    ],
+    "eye": [
+     255,
+     255,
+     220
+    ],
+    "crystals": [
+     [
+      0,
+      -30,
+      18
+     ]
+    ],
+    "aura": true,
+    "scene": "temple",
+    "scale": 1.25
+   }
+  },
+  {
+   "id": "ty09",
+   "name": "Omnicron",
+   "type": "creature",
+   "family": "robots",
+   "element": "terre",
+   "rarity": "L",
+   "cost": 9,
+   "atk": 8,
+   "hp": 12,
+   "form": "titan",
+   "keywords": [
+    "pietinement"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 2
+    }
+   ],
+   "lore": "Mille ingénieurs l'ont construit. Aucun ne sait l'arrêter.",
+   "art": {
+    "arch": "biped",
+    "kind": "mech",
+    "bulk": 1.55,
+    "c1": [
+     90,
+     100,
+     120
+    ],
+    "c3": [
+     255,
+     200,
+     60
+    ],
+    "eye": [
+     255,
+     60,
+     60
+    ],
+    "glow": [
+     255,
+     80,
+     60
+    ],
+    "scene": "canyon",
+    "scale": 1.25
+   }
+  },
+  {
+   "id": "ty10",
+   "name": "Néantor",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "neant",
+   "rarity": "L",
+   "cost": 9,
+   "atk": 8,
+   "hp": 11,
+   "form": "titan",
+   "effects": [
+    {
+     "on": "summon",
+     "do": "silence",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Il n'a pas de visage, seulement un silence.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.5,
+    "c1": [
+     25,
+     25,
+     35
+    ],
+    "glow": [
+     180,
+     120,
+     255
+    ],
+    "eye": [
+     220,
+     180,
+     255
+    ],
+    "aura": true,
+    "scene": "void",
+    "scale": 1.25
+   }
+  },
+  {
+   "id": "ty11",
+   "name": "Gaïos le Primordial",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "nature",
+   "rarity": "M",
+   "cost": 10,
+   "atk": 10,
+   "hp": 14,
+   "form": "titan",
+   "keywords": [
+    "pietinement",
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "buff",
+     "target": "self",
+     "value": 1,
+     "value2": 1
+    }
+   ],
+   "lore": "Le premier de tous les titans. Il grandit encore.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "back",
+    "bulk": 1.5,
+    "neck": 0.9,
+    "c1": [
+     90,
+     110,
+     60
+    ],
+    "c2": [
+     200,
+     230,
+     140
+    ],
+    "c3": [
+     255,
+     220,
+     120
+    ],
+    "aura": true,
+    "scene": "forest",
+    "scale": 1.25
+   }
+  },
+  {
+   "id": "ty12",
+   "name": "Ouranos le Céleste",
+   "type": "creature",
+   "family": "divinites",
+   "element": "cosmique",
+   "rarity": "CE",
+   "cost": 10,
+   "atk": 9,
+   "hp": 15,
+   "form": "titan",
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "all_enemies",
+     "value": 3
+    },
+    {
+     "on": "attack",
+     "do": "freeze",
+     "target": "attack_target"
+    }
+   ],
+   "lore": "Le ciel est son armure, les étoiles ses clous.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     40,
+     40,
+     110
+    ],
+    "hair": [
+     200,
+     220,
+     255
+    ],
+    "skin_h": [
+     150,
+     170,
+     240
+    ],
+    "crown": [
+     255,
+     230,
+     140
+    ],
+    "floating": true,
+    "aura": true,
+    "glow": [
+     160,
+     180,
+     255
+    ],
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "bulk": 1.3,
+    "scene": "nebula",
+    "scale": 1.25
+   }
+  }
+ ]
+}

@@ -89,6 +89,17 @@
    "color": "#4ac86a"
   },
   {
+   "id": "display_ultime",
+   "name": "Display Formes Ultimes",
+   "booster": "ultime",
+   "count": 12,
+   "price": {
+    "coins": 1750
+   },
+   "guarantee": "L",
+   "color": "#b46cff"
+  },
+  {
    "id": "display_multiverse",
    "name": "Display Multivers",
    "booster": "multiverse",
@@ -249,6 +260,23 @@
     "variant": "fullart"
    },
    "color": "#4ac86a"
+  },
+  {
+   "id": "box_ultime",
+   "name": "Coffret Ω Valkyrie d'Orage",
+   "desc": "La carte promo Valkyrie d'Orage Ω en Full Art, 6 boosters Formes Ultimes et 3 jetons spéciaux.",
+   "price": {
+    "coins": 3000
+   },
+   "boosters": {
+    "ultime": 6
+   },
+   "tokens": 3,
+   "promo": {
+    "card": "ux11",
+    "variant": "fullart"
+   },
+   "color": "#b46cff"
   },
   {
    "id": "box_elements",

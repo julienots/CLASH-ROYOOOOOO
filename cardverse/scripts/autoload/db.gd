@@ -198,10 +198,26 @@ func ability_text(c: Dictionary) -> String:
 	c_id_hint = c.get("id", "")
 	for e in c.get("effects", []):
 		lines.append(effect_text(e))
+	if c.has("omega"):
+		var ot := []
+		for e in c.omega:
+			var e2: Dictionary = e.duplicate()
+			e2["on"] = "cast"
+			ot.append(effect_text(e2).trim_suffix("."))
+		lines.append("[color=#d9b8ff][b]Ω Déchaînement[/b] (1 fois par partie, à sa 1re attaque) : %s.[/color]" % "; ".join(ot))
+	match c.get("form", ""):
+		"omega":
+			lines.append("[color=#c9c2d8]Contrecoup %d : s'il est détruit, votre leader subit %d dégâts.[/color]" % [FORM_BACKLASH.omega, FORM_BACKLASH.omega])
+		"titan":
+			lines.append("[color=#ffc98a][b]Titan[/b] : insensible au Gel, au Sommeil, à la Métamorphose et au Vol. Contrecoup %d.[/color]" % FORM_BACKLASH.titan)
 	if c.has("evolve"):
 		var into := card(c.evolve.into)
 		lines.append("[b]Évolution[/b] : après %d tours, devient %s." % [c.evolve.turns, into.get("name", "?")])
 	return "\n".join(lines)
+
+## Formes ultimes : dégâts subis par le leader quand la créature est détruite.
+const FORM_BACKLASH := {"omega": 2, "titan": 3}
+const TITAN_IMMUNE := ["freeze", "sleep", "polymorph", "steal"]
 
 const TRIGGERS := {"summon": "Invocation", "death": "Dernier souffle", "turn_start": "Début de tour", "attack": "Attaque", "cast": ""}
 const TARGETS := {

@@ -162,6 +162,8 @@ func _pick_target(g: BattleEngine, me: int, o: int, id: String, tt: String) -> D
 				continue
 		else:
 			var u := g.find_unit(t.uid)
+			if DB.card(u.id).get("form", "") == "titan" and c.get("effects", []).any(func(ef): return ef.do in DB.TITAN_IMMUNE and str(ef.get("target", "")) == tt):
+				continue
 			if harmful and u.owner == o:
 				if dmg > 0:
 					s = (g.unit_value(u) + 2.0) if dmg >= int(u.hp) and not u.kw.get("bouclier", false) else float(dmg) * 0.4

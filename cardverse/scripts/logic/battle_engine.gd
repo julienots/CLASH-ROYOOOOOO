@@ -313,8 +313,21 @@ func attack(uid: int, target: Dictionary) -> bool:
 		damage(target, calc(int(a.atk), DB.card(a.id).element, lel), a, DB.is_strong(DB.card(a.id).element, lel))
 	if a.hp > 0 or true:
 		_trigger(a, "attack", {"attack_target": target})
+	_omega(a, target)
 	cleanup()
 	return true
+
+## Ω Déchaînement : une fois par partie et par joueur, à la première attaque d'une créature Oméga.
+func _omega(a: Dictionary, target: Dictionary) -> void:
+	var c := DB.card(a.id)
+	var p := int(a.owner)
+	if c.get("form", "") != "omega" or a.get("silenced", false) or pl[p].get("omega_used", false) or winner >= 0:
+		return
+	pl[p]["omega_used"] = true
+	ev({"t": "omega", "uid": a.uid, "p": p, "id": a.id})
+	for e in c.get("omega", []):
+		resolve(e, p, a, {"attack_target": target})
+		cleanup()
 
 func calc(atk: int, att_el: String, def_el: String) -> int:
 	return int(ceil(atk * 1.5)) if DB.is_strong(att_el, def_el) else atk
@@ -456,6 +469,9 @@ func resolve(e: Dictionary, i: int, src: Dictionary, ctx: Dictionary) -> void:
 		return
 	ev({"t": "fx", "kind": e.do, "src": src_ref, "targets": targets, "element": DB.card(src.id).element if not src.is_empty() else pl[i].leader.element})
 	for t in targets:
+		if t.k == "unit" and e.do in DB.TITAN_IMMUNE and DB.card(find_unit(t.uid).get("id", "")).get("form", "") == "titan":
+			ev({"t": "immune", "uid": t.uid})
+			continue
 		match e.do:
 			"damage":
 				damage(t, v, null)
@@ -626,6 +642,12 @@ func cleanup() -> void:
 			ev({"t": "death", "uid": u.uid, "p": u.owner, "id": u.id})
 		for u in dead:
 			_trigger(u, "death", {})
+		# Contrecoup des formes ultimes (Ω et Titan)
+		for u in dead:
+			var bl := int(DB.FORM_BACKLASH.get(DB.card(u.id).get("form", ""), 0))
+			if bl > 0:
+				ev({"t": "backlash", "p": int(u.owner), "value": bl, "id": u.id})
+				damage({"k": "leader", "p": int(u.owner)}, bl, null)
 	_check_winner()
 
 func _check_winner() -> void:

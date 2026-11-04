@@ -70,6 +70,8 @@ func build() -> void:
 	var lay: Dictionary = DB.layout
 	var sc := float(lay.scale)
 	var full := variant in ["fullart", "secret"]
+	var form: String = c.get("form", "")
+	var big := form == "titan" and not full  # Titan : illustration grand format sur toute la carte
 	var rar: String = c.rarity
 	var rcol := DB.rarity_color(rar)
 	var filt := CanvasItem.TEXTURE_FILTER_NEAREST if scale.x >= 0.7 else CanvasItem.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
@@ -88,7 +90,7 @@ func build() -> void:
 	_art.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_art.texture_filter = filt
 	var tex := DB.card_art(card_id)
-	if full:
+	if full or big:
 		_art.texture = tex
 		_art.size = size
 	else:
@@ -152,7 +154,7 @@ func build() -> void:
 				_root.add_child(g)
 	else:
 		var fr := TextureRect.new()
-		fr.texture = DB.frame_tex(rar)
+		fr.texture = DB.tex("res://assets/ui/frames/titan_%s.png" % rar) if big else DB.frame_tex(rar)
 		fr.size = size
 		fr.texture_filter = filt
 		fr.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -178,11 +180,32 @@ func build() -> void:
 	nl.size = Vector2((nm2[2] - nm2[0]) * sc - 8, (nm2[3] - nm2[1]) * sc)
 	nl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	nl.clip_text = true
-	UI.fit(nl, nl.size.x - 4, fs, 16)
+	# logo de forme (Ω / TITAN) collé à droite du nom
+	var bsz := Vector2.ZERO
+	if form != "" and not missing:
+		bsz = Vector2(90, 66) if form == "omega" else Vector2(130, 45)
+	UI.fit(nl, nl.size.x - 4 - bsz.x - 6, fs, 16)
 	_root.add_child(nl)
+	if bsz != Vector2.ZERO:
+		var fnt: Font = nl.get_theme_font("font")
+		var tw := fnt.get_string_size(name_txt, HORIZONTAL_ALIGNMENT_LEFT, -1, nl.get_theme_font_size("font_size")).x
+		var bd := TextureRect.new()
+		bd.texture = DB.tex("res://assets/ui/badges/%s.png" % form)
+		bd.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		bd.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		bd.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		bd.size = bsz
+		var bx := minf(nl.position.x + tw + 8, nm2[2] * sc - bsz.x - 4)
+		bd.position = Vector2(bx, (nm2[1] + nm2[3]) * 0.5 * sc - bsz.y / 2)
+		bd.name = "form_badge"
+		_root.add_child(bd)
+		if fx_enabled and state == "face":
+			var bt := bd.create_tween().set_loops()
+			bt.tween_property(bd, "modulate", Color(1.35, 1.35, 1.35), 0.9).set_trans(Tween.TRANS_SINE)
+			bt.tween_property(bd, "modulate", Color.WHITE, 0.9).set_trans(Tween.TRANS_SINE)
 	# ligne de type
-	var tp: Array = lay.type
-	var type_txt := "%s · %s" % ["Sort" if c.type == "spell" else DB.family_name(c.family), DB.rarity(rar).name]
+	var tp: Array = lay.titan_type if big else lay.type
+	var type_txt := "%s%s · %s" % ["Sort" if c.type == "spell" else DB.family_name(c.family), {"omega": " Ω", "titan": " Titan"}.get(form, ""), DB.rarity(rar).name]
 	var tl := UI.label(type_txt if not missing else DB.rarity(rar).name, 19, rcol.lightened(0.35), "body", 700)
 	UI.outline(tl, 4)
 	tl.position = Vector2(tp[0] * sc + 8, tp[1] * sc)
@@ -199,7 +222,7 @@ func build() -> void:
 	eli.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_root.add_child(eli)
 	# texte de capacité
-	var tx2: Array = lay.text
+	var tx2: Array = lay.titan_text if big else lay.text
 	if not compact and not missing:
 		var rt := UI.rich("", 21, Color("ece6ff"))
 		var body := DB.ability_text(c)

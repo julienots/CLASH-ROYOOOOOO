@@ -137,6 +137,23 @@
    "gen": 8
   },
   {
+   "id": "ultime",
+   "name": "Booster Formes Ultimes · Gén. 9",
+   "desc": "Cartes Ω (Déchaînement une fois par partie) et Titans en illustration grand format. Une forme ultime garantie dans chaque booster.",
+   "price": {
+    "coins": 180
+   },
+   "cards": 5,
+   "sets": [
+    "ultime"
+   ],
+   "focus": {},
+   "luck": 1.3,
+   "color": "#b46cff",
+   "group": "gen",
+   "gen": 9
+  },
+  {
    "id": "multiverse",
    "name": "Booster Multivers",
    "desc": "Toutes les générations mélangées. Idéal pour compléter l'album.",
@@ -454,7 +471,8 @@
    "sets": [
     "pantheon",
     "corsaires",
-    "jungle"
+    "jungle",
+    "ultime"
    ],
    "focus": {},
    "luck": 1.6,

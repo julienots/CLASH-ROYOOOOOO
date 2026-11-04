@@ -385,6 +385,45 @@ func run(main: Control, arg: String) -> void:
 				await _wait(0.6)
 			print("prestige : ", o.get_meta("results").map(func(x): return x.id + ":" + x.variant))
 			await _wait(1.5)],
+		["gift9", func(): _clear(main); Profile.d.tutorial_done = true; Profile.d.pending_gift9 = true; main.goto("home", {"r": 12})],
+		["omega_detail", func(): _clear(main); Profile.add_card("ux11", "", false); main.show_card("ux11", "", [])],
+		["titan_detail", func(): _clear(main); Profile.add_card("ty12", "", false); main.show_card("ty12", "", [])],
+		["titan_detail2", func(): _clear(main); Profile.add_card("ty09", "", false); main.show_card("ty09", "", [])],
+		["album_ultime", func():
+			_clear(main)
+			main.goto("collection")
+			await _wait(0.5)
+			main.current.filt.preview = true
+			main.current.filt.set = "ultime"
+			main.current.rebuild()],
+		["battle_omega", func():
+			_clear(main)
+			await _wait(0.3)
+			main.goto("battle_select")
+			await _wait(0.4)
+			main.current.start_battle(0)
+			var b = _ov(main)
+			await _wait(4.0)
+			while b.busy:
+				await _wait(0.3)
+			b.g.current = 0
+			var e1: Dictionary = b.g.summon(1, "w007")
+			var e2: Dictionary = b.g.summon(1, "ty02")
+			var om: Dictionary = b.g.summon(0, "ux11")
+			var ti: Dictionary = b.g.summon(0, "ty08")
+			om.sleep = false
+			await b._play(b.g.take_events())
+			b._sync()
+			await _wait(0.6)
+			main.get_viewport().get_texture().get_image().save_png("/tmp/claude-0/shots/battle_omega_board.png")
+			b.g.attack(om.uid, {"k": "unit", "uid": e1.uid})
+			var evs: Array = b.g.take_events()
+			main.get_tree().create_timer(0.9).timeout.connect(func(): main.get_viewport().get_texture().get_image().save_png("/tmp/claude-0/shots/battle_omega_fx.png"))
+			await b._play(evs)
+			b.g.resolve({"do": "freeze", "target": "choose_enemy_creature"}, 1, {}, {"chosen": {"k": "unit", "uid": ti.uid}})
+			await b._play(b.g.take_events())
+			b._sync()
+			print("Ω combat : événements=", evs.map(func(x): return x.t), " Ω utilisé=", b.g.pl[0].get("omega_used", false), " animés=", b.anim_seen)],
 		["shop_offers", func(): _clear(main); main.goto("shop", {"tab": "offers"})],
 		["shop_singles", func(): main.goto("shop", {"tab": "singles"})],
 		["shop_style", func(): main.goto("shop", {"tab": "cosmetics"})],

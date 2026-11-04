@@ -829,6 +829,28 @@ func _anim(e: Dictionary) -> void:
 			Sfx.play("coin")
 			UI.float_text(fx_layer, _ref_pos({"k": "leader", "p": e.p}) - Vector2(0, 80), "+%d énergie" % int(e.amount), Color("8fd8ff"), 30)
 			_sync()
+		"omega":
+			Sfx.play("rift")
+			UI.shake(self, 14, 0.4)
+			var vo: UnitView = units.get(int(e.uid))
+			if vo:
+				var c0 := vo.position + UnitView.SZ / 2
+				UI.burst(fx_layer, c0, Color(0.85, 0.6, 1.0), 70, 520, 0.7, 0.9, -80)
+				UI.burst(fx_layer, c0, Color(1.0, 0.9, 0.5), 40, 340, 0.5, 0.8, -200)
+				var pt := vo.create_tween()
+				pt.tween_property(vo, "scale", Vector2(1.25, 1.25), 0.15)
+				pt.tween_property(vo, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_BACK)
+			await _show_banner("Ω DÉCHAÎNEMENT", Color("e2b8ff"))
+			UI.float_text(fx_layer, Vector2(size.x / 2, 560), DB.card(e.id).name, Color("fff1c8"), 30)
+		"backlash":
+			Sfx.play("hit_big", 0.8)
+			UI.float_text(fx_layer, _ref_pos({"k": "leader", "p": e.p}) - Vector2(0, 90), "Contrecoup -%d" % int(e.value), Color("ff7a6a"), 30)
+			await _wait(0.15)
+		"immune":
+			if units.has(int(e.uid)):
+				UI.float_text(fx_layer, units[int(e.uid)].position + Vector2(UnitView.SZ.x / 2, 10), "Insensible !", Color("ffc98a"), 26)
+				Sfx.play("shield")
+			await _wait(0.1)
 		"destroy":
 			if units.has(int(e.uid)):
 				UI.burst(fx_layer, units[int(e.uid)].position + UnitView.SZ / 2, Color(0.7, 0.3, 1.0), 40, 400)

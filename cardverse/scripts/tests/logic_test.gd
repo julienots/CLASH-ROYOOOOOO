@@ -305,6 +305,45 @@ func run() -> int:
 			check(not DB.booster(bid).is_empty(), "pack groupé : booster valide " + bid)
 	for dsp in DB.products.displays:
 		check(not DB.booster(dsp.booster).is_empty(), "display valide " + dsp.id)
+	print("== Version 0.9 : formes ultimes (Ω, Titans, Contrecoup)")
+	var nf := {"omega": 0, "titan": 0}
+	for id in DB.card_order:
+		var fm: String = DB.card(id).get("form", "")
+		if nf.has(fm):
+			nf[fm] += 1
+	check(nf.omega >= 10 and nf.titan >= 10, "cartes Ω et Titans présentes")
+	var go := BattleEngine.new()
+	go.setup(fill2, "pyra", fill2, "thalassa", 13)
+	go.current = 0
+	var ea := go.summon(1, "w007")
+	var eb := go.summon(1, "w007")
+	var om := go.summon(0, "ux01")
+	om.sleep = false
+	var hp_a := int(ea.hp)
+	go.attack(om.uid, {"k": "unit", "uid": ea.uid})
+	check(go.pl[0].get("omega_used", false), "Ω : Déchaînement déclenché à la 1re attaque")
+	check(go.find_unit(eb.uid).is_empty() or int(eb.hp) == int(DB.card("w007").hp) - 2, "Ω : effet appliqué à toutes les créatures ennemies")
+	var om2 := go.summon(0, "ux10")
+	om2.sleep = false
+	go.take_events()
+	var tgt2: Dictionary = go.attack_targets(om2.uid)[0]
+	check(go.attack(om2.uid, tgt2), "Ω : 2e créature Ω attaque")
+	check(not go.take_events().any(func(x): return x.t == "omega"), "Ω : une seule fois par partie (pas de 2e Déchaînement)")
+	var ti := go.summon(1, "ty01")
+	for d in ["freeze", "sleep", "polymorph", "steal"]:
+		go.resolve({"do": d, "target": "choose_enemy_creature", "card": "cx90"}, 0, {}, {"chosen": {"k": "unit", "uid": ti.uid}})
+	var tiu := go.find_unit(ti.uid)
+	check(not tiu.is_empty() and tiu.id == "ty01" and int(tiu.owner) == 1 and int(tiu.frozen) == 0, "Titan : insensible au Gel, Sommeil, Métamorphose et Vol")
+	var lh1 := int(go.pl[1].leader.hp)
+	tiu.hp = 0
+	go.cleanup()
+	check(int(go.pl[1].leader.hp) == lh1 - 3, "Titan : Contrecoup de 3")
+	var lh0 := int(go.pl[0].leader.hp)
+	om2.hp = 0
+	go.cleanup()
+	check(int(go.pl[0].leader.hp) == lh0 - 2, "Ω : Contrecoup de 2")
+	check(DB.ability_text(DB.card("ux11")).contains("Déchaînement"), "texte du Déchaînement Ω")
+	check(BoosterLogic.slot_odds(DB.booster("ultime")).size() > 3, "booster Formes Ultimes tirable")
 	print("== Profil")
 	var pr: Node = Profile
 	var before: int = pr.unique_count()

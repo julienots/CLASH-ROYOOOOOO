@@ -340,3 +340,27 @@ Client Godot ──HTTPS/WebSocket──► Passerelle (Nakama ou service Go)
   - marché (stable par rotation, raretés autorisées, Légendaire+ présente) ;
   - validité des packs groupés et des displays.
 - Total : **380 cartes collectionnables** sur 8 générations, 21 raretés.
+
+## 17. Version 0.9 : Formes Ultimes
+
+Un nouveau style de carte, en deux formes (champ `form` d'une carte), dans l'extension Gén. 9 « Formes Ultimes » (`data/cards/ultime.json`, 26 cartes) :
+
+- **Ω Oméga** (`form: "omega"`) : logo Ω à côté du nom.
+  - Le logo, comme celui des Titans, est généré par `gen_ui.py` dans `assets/ui/badges/` ; il pulse légèrement sur la carte et apparaît aussi sur la créature en combat.
+  - Le champ `omega` liste les effets du **Déchaînement Ω**. Ils se déclenchent automatiquement à la première attaque d'une créature Ω, **une seule fois par partie et par joueur** (`pl[i].omega_used`, `BattleEngine._omega`).
+  - Le Déchaînement a son animation (bannière, explosion, secousse) et fonctionne aussi pour l'IA.
+- **Titan** (`form: "titan"`) : **illustration grand format**.
+  - L'illustration occupe toute la carte, avec un cadre spécifique `frames/titan_<rareté>.png` : liseré à coins biseautés, bandeau de nom vitré, ligne de type et zone de texte plus basses (`titan_type`, `titan_text` dans `card_layout.json`).
+  - Logo TITAN à côté du nom.
+  - Insensible au Gel, au Sommeil, à la Métamorphose et au Vol (`DB.TITAN_IMMUNE`, événement `immune`). L'IA ne gaspille pas ces effets sur un Titan.
+- **Contrecoup** : quand une forme ultime est détruite, son leader subit des dégâts (`DB.FORM_BACKLASH` : 2 pour Ω, 3 pour un Titan). C'est le prix de leur puissance.
+- Le nom du logo s'ajoute à la ligne de type (« Divinité Ω », « Robot Titan »).
+- Le texte de capacité affiche le Déchaînement et les règles de forme.
+- Booster, Display 3D et Coffret dédiés. L'extension est aussi incluse dans le Booster Prestige.
+- Cadeau de mise à jour : 3 boosters Formes Ultimes.
+- **Tests** :
+  - Déchaînement déclenché à la première attaque et une seule fois par partie ;
+  - immunités du Titan ;
+  - Contrecoup Ω (2) et Titan (3) ;
+  - un combat réel où l'animation du Déchaînement et l'insensibilité sont jouées.
+- Total : **406 cartes collectionnables** sur 9 générations.
