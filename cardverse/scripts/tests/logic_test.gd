@@ -344,6 +344,17 @@ func run() -> int:
 	check(int(go.pl[0].leader.hp) == lh0 - 2, "Ω : Contrecoup de 2")
 	check(DB.ability_text(DB.card("ux11")).contains("Déchaînement"), "texte du Déchaînement Ω")
 	check(BoosterLogic.slot_odds(DB.booster("ultime")).size() > 3, "booster Formes Ultimes tirable")
+	print("== Version 0.10 : Gén. 10 Sables Éternels")
+	var nsb := 0
+	for id in DB.card_order:
+		if DB.card(id).set == "sables":
+			nsb += 1
+			for e in DB.card(id).get("effects", []):
+				if e.has("card"):
+					check(DB.cards.has(e.card), "jeton valide " + e.card)
+	check(nsb == 48, "48 cartes Sables Éternels (%d)" % nsb)
+	var so := BoosterLogic.slot_odds(DB.booster("sables"))
+	check(so.has("D") and so.has("NE") and so.has("MI"), "booster Sables : Divine, Néon et Mirage tirables")
 	print("== Profil")
 	var pr: Node = Profile
 	var before: int = pr.unique_count()

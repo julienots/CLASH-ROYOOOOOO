@@ -154,6 +154,23 @@
    "gen": 9
   },
   {
+   "id": "sables",
+   "name": "Booster Sables Éternels · Gén. 10",
+   "desc": "Set 10 : pharaons, momies, djinns et sphinx. Contient une carte Divine (Solkhet), des formes Ω et le Titan Sphinxar.",
+   "price": {
+    "coins": 170
+   },
+   "cards": 5,
+   "sets": [
+    "sables"
+   ],
+   "focus": {},
+   "luck": 1.3,
+   "color": "#e0a84a",
+   "group": "gen",
+   "gen": 10
+  },
+  {
    "id": "multiverse",
    "name": "Booster Multivers",
    "desc": "Toutes les générations mélangées. Idéal pour compléter l'album.",
@@ -472,7 +489,8 @@
     "pantheon",
     "corsaires",
     "jungle",
-    "ultime"
+    "ultime",
+    "sables"
    ],
    "focus": {},
    "luck": 1.6,

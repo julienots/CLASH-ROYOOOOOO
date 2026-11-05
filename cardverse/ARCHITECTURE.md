@@ -364,3 +364,17 @@ Un nouveau style de carte, en deux formes (champ `form` d'une carte), dans l'ext
   - Contrecoup Ω (2) et Titan (3) ;
   - un combat réel où l'animation du Déchaînement et l'insensibilité sont jouées.
 - Total : **406 cartes collectionnables** sur 9 générations.
+
+## 18. Version 0.10 : Sables Éternels
+
+- **Génération 10 « Sables Éternels »** (`data/cards/sables.json`) : 48 cartes collectionnables sur le thème des pharaons, des momies, des djinns, des sphinx et des scarabées, plus 2 jetons (Momie Errante, Scarabée Maudit).
+  - **Raretés** :
+    - 12 Communes, 8 Peu communes, 8 Rares, 6 Super Rares ;
+    - 2 Néon, 4 Épiques, 1 Infernale ;
+    - 1 Légendaire, 1 Mythique, 1 Mirage et 1 Divine (Solkhet, Dieu-Soleil des Sables).
+  - **Formes ultimes** : 2 cartes Ω (Anoukhet, Ifrahim) et 1 Titan (Sphinxar).
+  - Aucun nouvel effet : le set combine les mécaniques existantes (momies qui se relèvent en jetons, Résurrection, Métamorphose en scarabée, Brûlure, Sommeil, Copie).
+- Booster, Display 3D et Coffret dédiés (promo Ramessh en Secret Art). Le set est aussi inclus dans le Booster Prestige.
+- Cadeau de mise à jour : 3 boosters Sables Éternels.
+- **Tests** : 48 cartes, jetons référencés valides, raretés Divine, Néon et Mirage tirables dans le booster.
+- Total : **454 cartes collectionnables** sur 10 générations.

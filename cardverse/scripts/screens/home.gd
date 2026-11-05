@@ -112,7 +112,9 @@ func setup(_p: Dictionary) -> void:
 	cp.add_child(cb)
 	col.add_child(cp)
 	# connexion quotidienne, tutoriel, nouveautés
-	if Profile.d.get("pending_gift9", false):
+	if Profile.d.get("pending_gift10", false):
+		_gift10_popup.call_deferred()
+	elif Profile.d.get("pending_gift9", false):
 		_gift9_popup.call_deferred()
 	elif Profile.d.get("pending_gift8", false):
 		_gift8_popup.call_deferred()
@@ -358,5 +360,25 @@ func _gift9_popup() -> void:
 		Profile.d.seen_version = "0.9"
 		Profile.save_game()
 	main.modal("Formes Ultimes", v, [["Plus tard", Color("4a3a6a"), close], ["Mes boosters", UI.GOOD.darkened(0.2), func():
+		close.call()
+		main.goto("shop", {"tab": "boosters"})]])
+
+func _gift10_popup() -> void:
+	var v := UI.vbox(12)
+	var row := UI.hbox(16)
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	for id in ["sb48", "sb44"]:
+		row.add_child(CardView.holder(id, 0.42))
+	v.add_child(row)
+	var l := UI.label("Nouveautés 0.10 : GÉNÉRATION 10 « SABLES ÉTERNELS », 48 nouvelles cartes : pharaons, momies qui se relèvent, djinns, sphinx et scarabées.\n• Une carte Divine (Solkhet, Dieu-Soleil des Sables), 2 nouvelles cartes Ω et le Titan Sphinxar en grand format.\n• Booster, Display 3D et Coffret dédiés ; les Sables sont aussi dans le Booster Prestige.\n\nCadeau : 3 Boosters Sables Éternels t'attendent dans la Boutique.", 18, UI.TEXT, "body", 600)
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	l.custom_minimum_size = Vector2(560, 0)
+	v.add_child(l)
+	var close := func():
+		for k in ["pending_gift10", "pending_gift9", "pending_gift8", "pending_gift", "pending_gift6", "pending_gift7"]:
+			Profile.d[k] = false
+		Profile.d.seen_version = "0.10"
+		Profile.save_game()
+	main.modal("Sables Éternels", v, [["Plus tard", Color("4a3a6a"), close], ["Mes boosters", UI.GOOD.darkened(0.2), func():
 		close.call()
 		main.goto("shop", {"tab": "boosters"})]])

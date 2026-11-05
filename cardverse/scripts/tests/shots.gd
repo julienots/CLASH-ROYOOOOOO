@@ -385,6 +385,33 @@ func run(main: Control, arg: String) -> void:
 				await _wait(0.6)
 			print("prestige : ", o.get_meta("results").map(func(x): return x.id + ":" + x.variant))
 			await _wait(1.5)],
+		["gift10", func(): _clear(main); Profile.d.tutorial_done = true; Profile.d.pending_gift10 = true; main.goto("home", {"r": 13})],
+		["album_sables", func():
+			_clear(main)
+			main.goto("collection")
+			await _wait(0.5)
+			main.current.filt.preview = true
+			main.current.filt.set = "sables"
+			main.current.rebuild()],
+		["sables_open", func():
+			_clear(main)
+			var o = load("res://scripts/screens/shop.gd").open_pack(main, DB.booster("sables"))
+			await _wait(1.2)
+			o.auto_tear()
+			await _wait(2.5)
+			for k in 30:
+				if not is_instance_valid(o) or o.get("phase") == "summary":
+					break
+				if o.phase == "puzzle":
+					var pc := _find_button(o, "Continuer")
+					if pc:
+						await _tap(main, pc.global_position + pc.size / 2)
+				else:
+					await _tap(main, main.get_viewport_rect().size / 2)
+				await _wait(0.6)
+			await _wait(1.5)],
+		["detail_sb48", func(): _clear(main); main.show_card("sb48", "", [])],
+		["detail_sb44", func(): _clear(main); main.show_card("sb44", "", [])],
 		["gift9", func(): _clear(main); Profile.d.tutorial_done = true; Profile.d.pending_gift9 = true; main.goto("home", {"r": 12})],
 		["omega_detail", func(): _clear(main); Profile.add_card("ux11", "", false); main.show_card("ux11", "", [])],
 		["titan_detail", func(): _clear(main); Profile.add_card("ty12", "", false); main.show_card("ty12", "", [])],

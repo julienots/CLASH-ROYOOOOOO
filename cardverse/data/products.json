@@ -100,6 +100,17 @@
    "color": "#b46cff"
   },
   {
+   "id": "display_sables",
+   "name": "Display Sables Éternels",
+   "booster": "sables",
+   "count": 12,
+   "price": {
+    "coins": 1650
+   },
+   "guarantee": "L",
+   "color": "#e0a84a"
+  },
+  {
    "id": "display_multiverse",
    "name": "Display Multivers",
    "booster": "multiverse",
@@ -277,6 +288,23 @@
     "variant": "fullart"
    },
    "color": "#b46cff"
+  },
+  {
+   "id": "box_sables",
+   "name": "Coffret du Pharaon Solaire",
+   "desc": "La carte promo Ramessh en Secret Art, 6 boosters Sables Éternels et 3 jetons spéciaux.",
+   "price": {
+    "coins": 2900
+   },
+   "boosters": {
+    "sables": 6
+   },
+   "tokens": 3,
+   "promo": {
+    "card": "sb45",
+    "variant": "secret"
+   },
+   "color": "#e0a84a"
   },
   {
    "id": "box_elements",

@@ -1,0 +1,2261 @@
+{
+ "set": "sables",
+ "name": "Sables Éternels",
+ "gen": 10,
+ "cards": [
+  {
+   "id": "sb01",
+   "name": "Scarabée des Dunes",
+   "type": "creature",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 2,
+   "keywords": [
+    "garde"
+   ],
+   "lore": "Il roule son trésor d'une dune à l'autre depuis mille ans.",
+   "art": {
+    "arch": "insect",
+    "c1": [
+     60,
+     90,
+     120
+    ],
+    "c2": [
+     140,
+     220,
+     255
+    ],
+    "c3": [
+     230,
+     190,
+     90
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sb02",
+   "name": "Chacal du Désert",
+   "type": "creature",
+   "family": "creatures",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "keywords": [
+    "celerite"
+   ],
+   "lore": "Il rit la nuit, quand les caravanes s'égarent.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 0.95,
+    "leg_len": 1.2,
+    "tail": 1.0,
+    "c1": [
+     170,
+     120,
+     70
+    ],
+    "c2": [
+     230,
+     200,
+     150
+    ],
+    "c3": [
+     40,
+     30,
+     20
+    ],
+    "eye": [
+     255,
+     220,
+     90
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sb03",
+   "name": "Porteuse d'Eau",
+   "type": "creature",
+   "family": "creatures",
+   "element": "eau",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 1,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 3
+    }
+   ],
+   "lore": "Une seule gourde, et tout un village survit.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     60,
+     120,
+     170
+    ],
+    "hood": [
+     230,
+     220,
+     190
+    ],
+    "skin_h": [
+     200,
+     150,
+     110
+    ],
+    "eye": [
+     120,
+     220,
+     255
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sb04",
+   "name": "Momie Bandelette",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 3,
+   "atk": 2,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "sb90"
+    }
+   ],
+   "lore": "Défaites une bandelette, il en reste toujours une autre.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     215,
+     200,
+     165
+    ],
+    "hood": [
+     190,
+     175,
+     140
+    ],
+    "skin_h": [
+     200,
+     185,
+     150
+    ],
+    "eye": [
+     120,
+     255,
+     180
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sb05",
+   "name": "Vautour Charognard",
+   "type": "creature",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 1,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Il tourne en rond au-dessus de vous. Patiemment.",
+   "art": {
+    "arch": "bird",
+    "wing_span": 1.0,
+    "tail": 0.6,
+    "c1": [
+     70,
+     50,
+     40
+    ],
+    "c2": [
+     230,
+     210,
+     190
+    ],
+    "c3": [
+     200,
+     90,
+     70
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sb06",
+   "name": "Serpent des Sables",
+   "type": "creature",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 1,
+   "hp": 2,
+   "keywords": [
+    "poison"
+   ],
+   "lore": "On ne le voit jamais. On voit seulement la trace qu'il laisse.",
+   "art": {
+    "arch": "serpent",
+    "thick": 0.85,
+    "horns": "none",
+    "fins": false,
+    "c1": [
+     200,
+     170,
+     110
+    ],
+    "c2": [
+     240,
+     220,
+     170
+    ],
+    "c3": [
+     120,
+     80,
+     40
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sb07",
+   "name": "Tempête de Sable",
+   "type": "spell",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "C",
+   "cost": 2,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 1
+    }
+   ],
+   "lore": "Fermez les yeux. Fermez la bouche. Priez.",
+   "art": {
+    "arch": "spell",
+    "spell": "quake",
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sb08",
+   "name": "Mirage d'Oasis",
+   "type": "spell",
+   "family": "esprits",
+   "element": "eau",
+   "rarity": "C",
+   "cost": 1,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 3
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "L'eau n'existe pas. La fraîcheur, si.",
+   "art": {
+    "arch": "spell",
+    "spell": "wave",
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sb09",
+   "name": "Garde du Pharaon",
+   "type": "creature",
+   "family": "creatures",
+   "element": "lumiere",
+   "rarity": "C",
+   "cost": 3,
+   "atk": 2,
+   "hp": 4,
+   "keywords": [
+    "garde"
+   ],
+   "lore": "Il a juré de protéger le tombeau. Même après sa propre mort.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     230,
+     200,
+     90
+    ],
+    "hood": [
+     40,
+     60,
+     140
+    ],
+    "skin_h": [
+     190,
+     140,
+     100
+    ],
+    "weapon": "staff",
+    "eye": [
+     255,
+     230,
+     140
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sb10",
+   "name": "Scorpion Rouge",
+   "type": "creature",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "effects": [
+    {
+     "on": "attack",
+     "do": "burn",
+     "target": "attack_target",
+     "value": 1
+    }
+   ],
+   "lore": "Sa piqûre brûle comme le sable à midi.",
+   "art": {
+    "arch": "crab",
+    "c1": [
+     190,
+     50,
+     30
+    ],
+    "c3": [
+     255,
+     170,
+     80
+    ],
+    "scene": "volcano",
+    "scale": 0.9,
+    "cy": 160
+   }
+  },
+  {
+   "id": "sb11",
+   "name": "Lézard Cornu",
+   "type": "creature",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 2,
+   "hp": 1,
+   "lore": "Il crache du sang par les yeux. Personne ne veut savoir pourquoi.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "back",
+    "bulk": 0.8,
+    "leg_len": 0.7,
+    "tail": 1.3,
+    "c1": [
+     190,
+     130,
+     70
+    ],
+    "c2": [
+     240,
+     200,
+     140
+    ],
+    "c3": [
+     120,
+     60,
+     30
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sb12",
+   "name": "Pilleur de Tombes",
+   "type": "creature",
+   "family": "creatures",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 1,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "add_random",
+     "value": 1,
+     "min_rarity": "U"
+    }
+   ],
+   "lore": "Il connaît tous les pièges. Sauf un.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     90,
+     70,
+     50
+    ],
+    "hood": [
+     60,
+     40,
+     30
+    ],
+    "weapon": "daggers",
+    "eye": [
+     255,
+     210,
+     90
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sb13",
+   "name": "Malédiction du Scarabée",
+   "type": "spell",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "U",
+   "cost": 4,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "polymorph",
+     "target": "choose_enemy_creature",
+     "card": "sb91"
+    }
+   ],
+   "lore": "Profaner un tombeau a un prix : six pattes et une carapace.",
+   "art": {
+    "arch": "spell",
+    "spell": "dark_pact",
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "sb14",
+   "name": "Prêtresse des Chacals",
+   "type": "creature",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 2,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "revive"
+    }
+   ],
+   "lore": "Elle pèse les cœurs. Les plus légers reviennent.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     30,
+     30,
+     40
+    ],
+    "hood": [
+     200,
+     170,
+     80
+    ],
+    "skin_h": [
+     150,
+     110,
+     80
+    ],
+    "weapon": "staff",
+    "eye": [
+     255,
+     220,
+     90
+    ],
+    "aura": true,
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "sb15",
+   "name": "Sphinx Gardien",
+   "type": "creature",
+   "family": "antiques",
+   "element": "lumiere",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 3,
+   "hp": 5,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "silence",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Réponds à l'énigme, ou tais-toi pour toujours.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "mane": true,
+    "bulk": 1.15,
+    "leg_len": 0.9,
+    "tail": 1.1,
+    "c1": [
+     220,
+     180,
+     110
+    ],
+    "c2": [
+     250,
+     230,
+     180
+    ],
+    "c3": [
+     60,
+     90,
+     180
+    ],
+    "mane_c": [
+     60,
+     90,
+     180
+    ],
+    "eye": [
+     120,
+     200,
+     255
+    ],
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "sb16",
+   "name": "Djinn Facétieux",
+   "type": "creature",
+   "family": "esprits",
+   "element": "foudre",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 3,
+   "hp": 2,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "copy",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Il exauce les vœux. De travers.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "floating": true,
+    "aura": true,
+    "orb_hand": true,
+    "robe_c": [
+     60,
+     60,
+     170
+    ],
+    "hair": [
+     60,
+     255,
+     255
+    ],
+    "skin_h": [
+     90,
+     140,
+     240
+    ],
+    "eye": [
+     255,
+     255,
+     140
+    ],
+    "glow": [
+     120,
+     220,
+     255
+    ],
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "sb17",
+   "name": "Chameau de Bât",
+   "type": "creature",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 2,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 1
+    }
+   ],
+   "lore": "Il porte la caravane, et son mauvais caractère.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 1.2,
+    "leg_len": 1.4,
+    "neck": 1.4,
+    "tail": 0.6,
+    "c1": [
+     200,
+     160,
+     100
+    ],
+    "c2": [
+     240,
+     210,
+     160
+    ],
+    "c3": [
+     90,
+     60,
+     30
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sb18",
+   "name": "Obélisque Vivant",
+   "type": "creature",
+   "family": "machines",
+   "element": "lumiere",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 0,
+   "hp": 7,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "damage",
+     "target": "random_enemy",
+     "value": 1
+    }
+   ],
+   "lore": "Ses hiéroglyphes s'allument avant chaque rayon.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 0.9,
+    "c1": [
+     200,
+     180,
+     140
+    ],
+    "glow": [
+     255,
+     220,
+     120
+    ],
+    "eye": [
+     255,
+     230,
+     140
+    ],
+    "crystals": [
+     [
+      0,
+      -30,
+      14
+     ]
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sb19",
+   "name": "Archer des Dunes",
+   "type": "creature",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 3,
+   "hp": 2,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "choose_enemy",
+     "value": 2
+    }
+   ],
+   "lore": "Il tire à travers la tempête, et touche quand même.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     180,
+     140,
+     90
+    ],
+    "hood": [
+     120,
+     80,
+     50
+    ],
+    "skin_h": [
+     170,
+     120,
+     90
+    ],
+    "weapon": "sword",
+    "eye": [
+     255,
+     220,
+     140
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sb20",
+   "name": "Ver des Sables Géant",
+   "type": "creature",
+   "family": "mutants",
+   "element": "terre",
+   "rarity": "U",
+   "cost": 5,
+   "atk": 5,
+   "hp": 4,
+   "keywords": [
+    "pietinement"
+   ],
+   "lore": "Le désert tremble. Ce n'est pas le vent.",
+   "art": {
+    "arch": "larva",
+    "eyes": 3,
+    "c1": [
+     180,
+     140,
+     90
+    ],
+    "glow": [
+     255,
+     190,
+     90
+    ],
+    "scale": 1.1,
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sb21",
+   "name": "Momie Royale",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 4,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "sb90"
+    },
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "sb90"
+    }
+   ],
+   "lore": "Ses serviteurs l'ont suivie dans la tombe. Ils la suivent encore.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     215,
+     200,
+     165
+    ],
+    "hood": [
+     190,
+     175,
+     140
+    ],
+    "skin_h": [
+     200,
+     185,
+     150
+    ],
+    "crown": [
+     255,
+     210,
+     80
+    ],
+    "eye": [
+     120,
+     255,
+     180
+    ],
+    "aura": true,
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sb22",
+   "name": "Gardienne du Sarcophage",
+   "type": "creature",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 3,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "shield",
+     "target": "all_allies"
+    }
+   ],
+   "lore": "Ses ailes dorées replient le temps sur les morts.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     240,
+     220,
+     160
+    ],
+    "hair": [
+     30,
+     40,
+     120
+    ],
+    "skin_h": [
+     200,
+     150,
+     100
+    ],
+    "halo": true,
+    "eye": [
+     255,
+     240,
+     180
+    ],
+    "scene": "sanctum"
+   }
+  },
+  {
+   "id": "sb23",
+   "name": "Djinn de la Lampe",
+   "type": "creature",
+   "family": "esprits",
+   "element": "cosmique",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 3,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "add_random",
+     "value": 2,
+     "min_rarity": "R"
+    }
+   ],
+   "lore": "Trois vœux, c'était la vieille version. Celui-ci en offre deux, mais des bons.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "floating": true,
+    "aura": true,
+    "orb_hand": true,
+    "robe_c": [
+     110,
+     40,
+     160
+    ],
+    "hair": [
+     255,
+     140,
+     255
+    ],
+    "skin_h": [
+     150,
+     110,
+     240
+    ],
+    "eye": [
+     255,
+     230,
+     140
+    ],
+    "glow": [
+     220,
+     120,
+     255
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "sb24",
+   "name": "Scarabée d'Or",
+   "type": "creature",
+   "family": "creatures",
+   "element": "lumiere",
+   "rarity": "R",
+   "cost": 3,
+   "atk": 2,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "death",
+     "do": "add_random",
+     "value": 1,
+     "min_rarity": "SR"
+    }
+   ],
+   "lore": "Écrasez-le, et une fortune s'échappe de sa carapace.",
+   "art": {
+    "arch": "insect",
+    "wings": true,
+    "c1": [
+     240,
+     190,
+     50
+    ],
+    "c2": [
+     255,
+     250,
+     200
+    ],
+    "c3": [
+     60,
+     40,
+     20
+    ],
+    "glow": [
+     255,
+     220,
+     90
+    ],
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "sb25",
+   "name": "Tempête Écarlate",
+   "type": "spell",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "R",
+   "cost": 4,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_enemies",
+     "value": 2
+    },
+    {
+     "on": "cast",
+     "do": "burn",
+     "target": "random_enemy_creature",
+     "value": 2
+    }
+   ],
+   "lore": "Le sable rougit, puis le ciel.",
+   "art": {
+    "arch": "spell",
+    "spell": "meteor",
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sb26",
+   "name": "Vizir Sournois",
+   "type": "creature",
+   "family": "creatures",
+   "element": "ombre",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 3,
+   "hp": 3,
+   "keywords": [
+    "furtif"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "sleep",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Il murmure à l'oreille du roi, et endort ses ennemis.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     60,
+     30,
+     80
+    ],
+    "hood": [
+     40,
+     20,
+     60
+    ],
+    "skin_h": [
+     170,
+     120,
+     90
+    ],
+    "weapon": "staff",
+    "orb_hand": true,
+    "eye": [
+     200,
+     120,
+     255
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sb27",
+   "name": "Sphinx Énigmatique",
+   "type": "creature",
+   "family": "antiques",
+   "element": "cosmique",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 4,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "draw",
+     "value": 2
+    }
+   ],
+   "lore": "Il connaît toutes les réponses, mais ne pose que des questions.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "mane": true,
+    "bulk": 1.15,
+    "leg_len": 0.9,
+    "tail": 1.1,
+    "wings": true,
+    "wing_span": 1.0,
+    "c1": [
+     180,
+     150,
+     220
+    ],
+    "c2": [
+     240,
+     220,
+     255
+    ],
+    "c3": [
+     90,
+     60,
+     160
+    ],
+    "mane_c": [
+     90,
+     60,
+     160
+    ],
+    "eye": [
+     255,
+     230,
+     140
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "sb28",
+   "name": "Sables du Temps",
+   "type": "spell",
+   "family": "antiques",
+   "element": "cosmique",
+   "rarity": "R",
+   "cost": 3,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "bounce",
+     "target": "choose_enemy_creature"
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Retournez le sablier. Recommencez.",
+   "art": {
+    "arch": "spell",
+    "spell": "blackhole",
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sb29",
+   "name": "Khetep, Pharaon Momifié",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 5,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "revive",
+     "value": 2
+    }
+   ],
+   "lore": "Il a régné cent ans. Il compte régner cent de plus.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     215,
+     200,
+     165
+    ],
+    "hood": [
+     190,
+     175,
+     140
+    ],
+    "skin_h": [
+     200,
+     185,
+     150
+    ],
+    "crown": [
+     255,
+     210,
+     80
+    ],
+    "weapon": "staff",
+    "eye": [
+     120,
+     255,
+     180
+    ],
+    "aura": true,
+    "glow": [
+     120,
+     255,
+     180
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sb30",
+   "name": "Grand Scorpion Impérial",
+   "type": "creature",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 5,
+   "hp": 5,
+   "keywords": [
+    "pietinement"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "burn",
+     "target": "attack_target",
+     "value": 2
+    }
+   ],
+   "lore": "Les légions l'utilisaient comme bélier. Il n'a jamais été vaincu.",
+   "art": {
+    "arch": "crab",
+    "c1": [
+     120,
+     30,
+     30
+    ],
+    "c3": [
+     255,
+     200,
+     80
+    ],
+    "scene": "volcano",
+    "scale": 1.1,
+    "cy": 155
+   }
+  },
+  {
+   "id": "sb31",
+   "name": "Faucon Solaire",
+   "type": "creature",
+   "family": "creatures",
+   "element": "lumiere",
+   "rarity": "SR",
+   "cost": 5,
+   "atk": 4,
+   "hp": 4,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 1
+    }
+   ],
+   "lore": "Il vole si près du soleil qu'il en rapporte des éclats.",
+   "art": {
+    "arch": "bird",
+    "wing_span": 1.25,
+    "wing_glow": true,
+    "tail": 0.9,
+    "c1": [
+     230,
+     170,
+     60
+    ],
+    "c2": [
+     255,
+     240,
+     180
+    ],
+    "c3": [
+     60,
+     90,
+     200
+    ],
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "sb32",
+   "name": "Colosse des Sables",
+   "type": "creature",
+   "family": "antiques",
+   "element": "terre",
+   "rarity": "SR",
+   "cost": 7,
+   "atk": 5,
+   "hp": 9,
+   "keywords": [
+    "garde"
+   ],
+   "lore": "Une statue de cent pieds qui a fini par se lasser d'être immobile.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.45,
+    "c1": [
+     210,
+     180,
+     120
+    ],
+    "glow": [
+     90,
+     200,
+     255
+    ],
+    "eye": [
+     90,
+     200,
+     255
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sb33",
+   "name": "Fléau des Sauterelles",
+   "type": "spell",
+   "family": "creatures",
+   "element": "nature",
+   "rarity": "SR",
+   "cost": 6,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 2
+    },
+    {
+     "on": "cast",
+     "do": "sleep",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "D'abord un bourdonnement. Puis plus rien.",
+   "art": {
+    "arch": "spell",
+    "spell": "blessing",
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sb34",
+   "name": "Zahra, Reine des Djinns",
+   "type": "creature",
+   "family": "esprits",
+   "element": "foudre",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 5,
+   "hp": 5,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "choose_enemy",
+     "value": 3
+    }
+   ],
+   "lore": "Les tempêtes lui obéissent, les sultans aussi.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "floating": true,
+    "aura": true,
+    "orb_hand": true,
+    "robe_c": [
+     40,
+     60,
+     140
+    ],
+    "hair": [
+     255,
+     240,
+     180
+    ],
+    "skin_h": [
+     100,
+     150,
+     240
+    ],
+    "crown": [
+     255,
+     210,
+     80
+    ],
+    "eye": [
+     255,
+     255,
+     200
+    ],
+    "glow": [
+     120,
+     220,
+     255
+    ],
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "sb35",
+   "name": "Scarabée Néon",
+   "type": "creature",
+   "family": "creatures",
+   "element": "foudre",
+   "rarity": "NE",
+   "cost": 3,
+   "atk": 3,
+   "hp": 3,
+   "keywords": [
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "damage",
+     "target": "random_enemy_creature",
+     "value": 1
+    }
+   ],
+   "lore": "Dans les ruines, la nuit, ses élytres clignotent comme une enseigne.",
+   "art": {
+    "arch": "insect",
+    "wings": true,
+    "c1": [
+     20,
+     20,
+     40
+    ],
+    "c2": [
+     60,
+     255,
+     255
+    ],
+    "c3": [
+     255,
+     60,
+     220
+    ],
+    "glow": [
+     60,
+     255,
+     255
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "sb36",
+   "name": "Djinn Néon",
+   "type": "creature",
+   "family": "esprits",
+   "element": "cosmique",
+   "rarity": "NE",
+   "cost": 4,
+   "atk": 3,
+   "hp": 4,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "copy",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Il est sorti d'une lampe à néon, pas d'une lampe à huile.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "floating": true,
+    "aura": true,
+    "orb_hand": true,
+    "robe_c": [
+     20,
+     20,
+     40
+    ],
+    "hair": [
+     255,
+     60,
+     220
+    ],
+    "skin_h": [
+     60,
+     200,
+     255
+    ],
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "glow": [
+     255,
+     60,
+     220
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "sb37",
+   "name": "Ankha, Nécromancienne des Sables",
+   "type": "creature",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 4,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "revive",
+     "value": 2
+    },
+    {
+     "on": "turn_start",
+     "do": "summon",
+     "card": "sb90"
+    }
+   ],
+   "lore": "Chaque grain de sable a été quelqu'un. Elle s'en souvient.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     30,
+     20,
+     40
+    ],
+    "hood": [
+     200,
+     170,
+     80
+    ],
+    "skin_h": [
+     150,
+     110,
+     80
+    ],
+    "weapon": "staff",
+    "orb_hand": true,
+    "eye": [
+     120,
+     255,
+     180
+    ],
+    "aura": true,
+    "glow": [
+     120,
+     255,
+     180
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sb38",
+   "name": "Aménophar, Sphinx Doré",
+   "type": "creature",
+   "family": "antiques",
+   "element": "lumiere",
+   "rarity": "E",
+   "cost": 7,
+   "atk": 6,
+   "hp": 7,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "silence",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Son regard fait taire jusqu'aux dieux.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "mane": true,
+    "bulk": 1.15,
+    "leg_len": 0.9,
+    "tail": 1.1,
+    "wings": true,
+    "wing_span": 1.2,
+    "c1": [
+     240,
+     190,
+     60
+    ],
+    "c2": [
+     255,
+     245,
+     200
+    ],
+    "c3": [
+     40,
+     60,
+     160
+    ],
+    "mane_c": [
+     40,
+     60,
+     160
+    ],
+    "eye": [
+     120,
+     220,
+     255
+    ],
+    "scene": "sanctum"
+   }
+  },
+  {
+   "id": "sb39",
+   "name": "Shai'rak, Ver Titanesque",
+   "type": "creature",
+   "family": "mutants",
+   "element": "terre",
+   "rarity": "E",
+   "cost": 7,
+   "atk": 7,
+   "hp": 6,
+   "keywords": [
+    "pietinement"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 2
+    }
+   ],
+   "lore": "Les caravanes disparaissent. Les dunes, elles, se déplacent.",
+   "art": {
+    "arch": "maw",
+    "eyes": 5,
+    "c1": [
+     170,
+     120,
+     70
+    ],
+    "glow": [
+     255,
+     170,
+     80
+    ],
+    "eye": [
+     255,
+     220,
+     120
+    ],
+    "scale": 1.0,
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sb40",
+   "name": "Gardien de la Pyramide",
+   "type": "creature",
+   "family": "machines",
+   "element": "terre",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 3,
+   "hp": 9,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "shield",
+     "target": "all_allies"
+    }
+   ],
+   "lore": "Il est la pyramide. La pyramide est lui.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.4,
+    "c1": [
+     220,
+     190,
+     130
+    ],
+    "glow": [
+     255,
+     230,
+     120
+    ],
+    "eye": [
+     255,
+     240,
+     160
+    ],
+    "crystals": [
+     [
+      0,
+      -30,
+      18
+     ]
+    ],
+    "aura": true,
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sb41",
+   "name": "Phénix des Sables Ardents",
+   "type": "creature",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "IN",
+   "cost": 7,
+   "atk": 6,
+   "hp": 6,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "burn",
+     "target": "all_enemy_creatures",
+     "value": 3
+    }
+   ],
+   "lore": "Là où il se pose, le sable devient verre.",
+   "art": {
+    "arch": "bird",
+    "flame": true,
+    "wing_span": 1.3,
+    "wing_glow": true,
+    "tail": 1.4,
+    "c1": [
+     255,
+     90,
+     30
+    ],
+    "c2": [
+     255,
+     220,
+     90
+    ],
+    "c3": [
+     255,
+     250,
+     200
+    ],
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "sb42",
+   "name": "Anoukhet, Chacal des Âmes",
+   "type": "creature",
+   "family": "divinites",
+   "element": "ombre",
+   "rarity": "L",
+   "cost": 7,
+   "atk": 6,
+   "hp": 6,
+   "form": "omega",
+   "keywords": [
+    "celerite"
+   ],
+   "omega": [
+    {
+     "do": "revive",
+     "value": 3
+    },
+    {
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 2
+    }
+   ],
+   "lore": "Il garde la porte entre les vivants et les morts, et laisse parfois sortir quelqu'un.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 0.95,
+    "leg_len": 1.2,
+    "tail": 1.0,
+    "c1": [
+     30,
+     30,
+     40
+    ],
+    "c2": [
+     200,
+     170,
+     80
+    ],
+    "c3": [
+     255,
+     210,
+     80
+    ],
+    "eye": [
+     255,
+     220,
+     90
+    ],
+    "aura": true,
+    "glow": [
+     255,
+     200,
+     90
+    ],
+    "scene": "sanctum",
+    "scale": 1.0
+   }
+  },
+  {
+   "id": "sb43",
+   "name": "Ifrahim, Djinn Suprême",
+   "type": "creature",
+   "family": "esprits",
+   "element": "feu",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 5,
+   "hp": 5,
+   "form": "omega",
+   "keywords": [
+    "envol"
+   ],
+   "omega": [
+    {
+     "do": "burn",
+     "target": "all_enemy_creatures",
+     "value": 3
+    },
+    {
+     "do": "damage",
+     "target": "enemy_leader",
+     "value": 3
+    }
+   ],
+   "lore": "Il a brûlé la lampe qui l'emprisonnait.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "floating": true,
+    "aura": true,
+    "orb_hand": true,
+    "robe_c": [
+     160,
+     30,
+     20
+    ],
+    "hair": [
+     255,
+     180,
+     60
+    ],
+    "skin_h": [
+     230,
+     90,
+     50
+    ],
+    "crown": [
+     255,
+     210,
+     80
+    ],
+    "eye": [
+     255,
+     255,
+     180
+    ],
+    "glow": [
+     255,
+     120,
+     30
+    ],
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "sb44",
+   "name": "Sphinxar",
+   "type": "creature",
+   "family": "antiques",
+   "element": "terre",
+   "rarity": "L",
+   "cost": 9,
+   "atk": 8,
+   "hp": 12,
+   "form": "titan",
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "sleep",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Un sphinx aussi haut qu'une montagne. Son énigme dure mille ans.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "mane": true,
+    "bulk": 1.15,
+    "leg_len": 0.9,
+    "tail": 1.1,
+    "wings": true,
+    "wing_span": 1.1,
+    "c1": [
+     210,
+     170,
+     100
+    ],
+    "c2": [
+     250,
+     230,
+     180
+    ],
+    "c3": [
+     30,
+     60,
+     150
+    ],
+    "mane_c": [
+     30,
+     60,
+     150
+    ],
+    "eye": [
+     120,
+     220,
+     255
+    ],
+    "aura": true,
+    "scene": "canyon",
+    "scale": 1.25
+   }
+  },
+  {
+   "id": "sb45",
+   "name": "Ramessh, Pharaon Solaire",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "lumiere",
+   "rarity": "L",
+   "cost": 8,
+   "atk": 7,
+   "hp": 8,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "add_random",
+     "value": 2,
+     "min_rarity": "E"
+    },
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 2
+    }
+   ],
+   "lore": "Il a fait bâtir mille temples. Tous regardent vers lui.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     240,
+     220,
+     160
+    ],
+    "hood": [
+     30,
+     50,
+     140
+    ],
+    "skin_h": [
+     190,
+     140,
+     100
+    ],
+    "crown": [
+     255,
+     210,
+     80
+    ],
+    "weapon": "staff",
+    "halo": true,
+    "aura": true,
+    "eye": [
+     255,
+     240,
+     180
+    ],
+    "scene": "canyon"
+   }
+  },
+  {
+   "id": "sb46",
+   "name": "Sablier de l'Éternité",
+   "type": "spell",
+   "family": "antiques",
+   "element": "cosmique",
+   "rarity": "M",
+   "cost": 8,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "bounce",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "value": 2
+    },
+    {
+     "on": "cast",
+     "do": "energy",
+     "value": 2
+    }
+   ],
+   "lore": "Celui qui le retourne reprend le temps à son compte.",
+   "art": {
+    "arch": "spell",
+    "spell": "blackhole",
+    "scene": "sanctum"
+   }
+  },
+  {
+   "id": "sb47",
+   "name": "Mirage de l'Oasis Perdue",
+   "type": "creature",
+   "family": "esprits",
+   "element": "eau",
+   "rarity": "MI",
+   "cost": 6,
+   "atk": 5,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 10
+    },
+    {
+     "on": "summon",
+     "do": "copy",
+     "target": "strongest_enemy_creature"
+    }
+   ],
+   "lore": "Des milliers l'ont cherchée. Ceux qui l'ont trouvée ne sont jamais repartis.",
+   "art": {
+    "arch": "orb",
+    "face": "cute",
+    "ring": true,
+    "orbiters": 6,
+    "size": 0.9,
+    "c1": [
+     90,
+     200,
+     220
+    ],
+    "ring_c": [
+     255,
+     240,
+     180
+    ],
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "scene": "canyon",
+    "scale": 1.0
+   }
+  },
+  {
+   "id": "sb48",
+   "name": "Solkhet, Dieu-Soleil des Sables",
+   "type": "creature",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "D",
+   "cost": 10,
+   "atk": 9,
+   "hp": 10,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "all_enemies",
+     "value": 4
+    },
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 3
+    }
+   ],
+   "lore": "Chaque matin, il se lève. Chaque matin, le désert s'agenouille.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     255,
+     230,
+     150
+    ],
+    "hair": [
+     255,
+     200,
+     80
+    ],
+    "skin_h": [
+     220,
+     170,
+     110
+    ],
+    "crown": [
+     255,
+     220,
+     90
+    ],
+    "halo": true,
+    "aura": true,
+    "floating": true,
+    "eye": [
+     255,
+     255,
+     220
+    ],
+    "glow": [
+     255,
+     210,
+     90
+    ],
+    "scene": "sanctum"
+   }
+  },
+  {
+   "id": "sb90",
+   "name": "Momie Errante",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "token": true,
+   "lore": "Elle ne sait plus où elle va. Elle y va quand même.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     215,
+     200,
+     165
+    ],
+    "hood": [
+     190,
+     175,
+     140
+    ],
+    "skin_h": [
+     200,
+     185,
+     150
+    ],
+    "eye": [
+     120,
+     255,
+     180
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sb91",
+   "name": "Scarabée Maudit",
+   "type": "creature",
+   "family": "creatures",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 1,
+   "token": true,
+   "lore": "Autrefois, c'était quelqu'un d'important.",
+   "art": {
+    "arch": "insect",
+    "c1": [
+     40,
+     40,
+     50
+    ],
+    "c2": [
+     120,
+     255,
+     180
+    ],
+    "c3": [
+     30,
+     30,
+     30
+    ],
+    "scene": "temple"
+   }
+  }
+ ]
+}
