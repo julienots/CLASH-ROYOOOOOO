@@ -385,6 +385,11 @@ func run(main: Control, arg: String) -> void:
 				await _wait(0.6)
 			print("prestige : ", o.get_meta("results").map(func(x): return x.id + ":" + x.variant))
 			await _wait(1.5)],
+		["gift11", func(): _clear(main); Profile.d.tutorial_done = true; Profile.d.pending_gift11 = true; main.goto("home", {"r": 14})],
+		["album_givre", func(): _clear(main); main.goto("collection"); await _wait(0.5); main.current.filt.preview = true; main.current.filt.set = "givre"; main.current.rebuild()],
+		["album_carnaval", func(): _clear(main); main.goto("collection"); await _wait(0.5); main.current.filt.preview = true; main.current.filt.set = "carnaval"; main.current.rebuild()],
+		["detail_cv50", func(): _clear(main); main.show_card("cv50", "", [])],
+		["detail_gv49", func(): _clear(main); main.show_card("gv49", "", [])],
 		["gift10", func(): _clear(main); Profile.d.tutorial_done = true; Profile.d.pending_gift10 = true; main.goto("home", {"r": 13})],
 		["album_sables", func():
 			_clear(main)

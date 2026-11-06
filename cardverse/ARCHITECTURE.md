@@ -378,3 +378,18 @@ Un nouveau style de carte, en deux formes (champ `form` d'une carte), dans l'ext
 - Cadeau de mise à jour : 3 boosters Sables Éternels.
 - **Tests** : 48 cartes, jetons référencés valides, raretés Divine, Néon et Mirage tirables dans le booster.
 - Total : **454 cartes collectionnables** sur 10 générations.
+
+## 19. Version 0.11 : 100 nouvelles cartes
+
+- **Génération 11 « Royaume du Givre »** (`data/cards/givre.json`) : 50 cartes collectionnables.
+  - Thème : yétis, mammouths, loups, ours, sorcières des glaces et esprits de l'aurore. Le Gel y joue un rôle central.
+  - Cartes phares : une carte Cosmique (Nivéa, Étoile Polaire), l'Ω Hrimfang et le Titan Glaciarque.
+  - 2 jetons : Petit Bonhomme de Neige et Loup des Neiges.
+- **Génération 12 « Carnaval des Ombres »** (`data/cards/carnaval.json`) : 50 cartes collectionnables.
+  - Thème : clowns, marionnettes, illusionnistes, voyante et ménagerie hantée. Le set utilise beaucoup l'échange d'ATQ et de PV, la copie, le vol de contrôle et la métamorphose en marionnette.
+  - Cartes phares : la 6e carte GOD (Mascarade, Dieu du Carnaval), l'Ω Arlequine et le Titan Colossal Barnum.
+  - 2 jetons : Marionnette et Fauve Savant.
+- Chaque set a son booster, son Display 3D et son Coffret (promos Boréas en Secret Art et Grimaldo en Full Art). Les deux sets sont aussi inclus dans le Booster Prestige.
+- Cadeau de mise à jour : 2 boosters de chaque nouvelle génération.
+- **Tests** : 50 cartes par set, jetons référencés valides, GOD tirable dans le booster Carnaval, Cosmique tirable dans le booster Givre.
+- Total : **554 cartes collectionnables** sur 12 générations.

@@ -171,6 +171,40 @@
    "gen": 10
   },
   {
+   "id": "givre",
+   "name": "Booster Royaume du Givre · Gén. 11",
+   "desc": "Set 11 : yétis, mammouths, sorcières du froid et aurores. Beaucoup de Gel. Contient une carte Cosmique (Nivéa).",
+   "price": {
+    "coins": 170
+   },
+   "cards": 5,
+   "sets": [
+    "givre"
+   ],
+   "focus": {},
+   "luck": 1.3,
+   "color": "#7ad0ff",
+   "group": "gen",
+   "gen": 11
+  },
+  {
+   "id": "carnaval",
+   "name": "Booster Carnaval des Ombres · Gén. 12",
+   "desc": "Set 12 : clowns, marionnettes, illusionnistes et ménagerie hantée. Contient la carte GOD Mascarade.",
+   "price": {
+    "coins": 180
+   },
+   "cards": 5,
+   "sets": [
+    "carnaval"
+   ],
+   "focus": {},
+   "luck": 1.3,
+   "color": "#e0408a",
+   "group": "gen",
+   "gen": 12
+  },
+  {
    "id": "multiverse",
    "name": "Booster Multivers",
    "desc": "Toutes les générations mélangées. Idéal pour compléter l'album.",
@@ -490,7 +524,9 @@
     "corsaires",
     "jungle",
     "ultime",
-    "sables"
+    "sables",
+    "givre",
+    "carnaval"
    ],
    "focus": {},
    "luck": 1.6,

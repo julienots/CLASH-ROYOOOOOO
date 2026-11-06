@@ -1,0 +1,2360 @@
+{
+ "set": "carnaval",
+ "name": "Carnaval des Ombres",
+ "gen": 12,
+ "cards": [
+  {
+   "id": "cv01",
+   "name": "Marionnette à Fils",
+   "type": "creature",
+   "family": "machines",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 1,
+   "effects": [
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "cv90"
+    }
+   ],
+   "lore": "Coupez les fils. Une autre se lève.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 0.7,
+    "c1": [
+     200,
+     160,
+     120
+    ],
+    "glow": [
+     255,
+     80,
+     80
+    ],
+    "eye": [
+     30,
+     20,
+     20
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv02",
+   "name": "Jongleur Maladroit",
+   "type": "creature",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "random_enemy",
+     "value": 1
+    }
+   ],
+   "lore": "Il lance ses torches. Pas toujours vers le ciel.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     220,
+     60,
+     60
+    ],
+    "hair": [
+     255,
+     200,
+     40
+    ],
+    "skin_h": [
+     250,
+     240,
+     240
+    ],
+    "eye": [
+     60,
+     60,
+     200
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv03",
+   "name": "Ballon Fantôme",
+   "type": "creature",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 1,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Il flotte vers vous en souriant. Ne le crevez pas.",
+   "art": {
+    "arch": "jelly",
+    "tentacles": 4,
+    "c1": [
+     220,
+     80,
+     120
+    ],
+    "c2": [
+     255,
+     180,
+     200
+    ],
+    "glow": [
+     255,
+     140,
+     180
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv04",
+   "name": "Caniche Savant",
+   "type": "creature",
+   "family": "creatures",
+   "element": "lumiere",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 1,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "shield",
+     "target": "choose_ally_creature"
+    }
+   ],
+   "lore": "Il sait compter jusqu'à dix et mordre jusqu'à onze.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 0.7,
+    "leg_len": 1.0,
+    "tail": 0.6,
+    "mane": true,
+    "mane_c": [
+     255,
+     200,
+     230
+    ],
+    "c1": [
+     250,
+     240,
+     245
+    ],
+    "c2": [
+     255,
+     255,
+     255
+    ],
+    "c3": [
+     60,
+     40,
+     60
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv05",
+   "name": "Cracheur de Feu",
+   "type": "creature",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "C",
+   "cost": 3,
+   "atk": 3,
+   "hp": 2,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "burn",
+     "target": "choose_enemy_creature",
+     "value": 2
+    }
+   ],
+   "lore": "Il ne sait pas éteindre. Seulement allumer.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     60,
+     30,
+     30
+    ],
+    "hair": [
+     255,
+     120,
+     40
+    ],
+    "skin_h": [
+     230,
+     190,
+     160
+    ],
+    "eye": [
+     255,
+     200,
+     60
+    ],
+    "aura": true,
+    "glow": [
+     255,
+     120,
+     30
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv06",
+   "name": "Acrobate Funambule",
+   "type": "creature",
+   "family": "creatures",
+   "element": "foudre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 1,
+   "keywords": [
+    "celerite",
+    "envol"
+   ],
+   "lore": "Elle marche sur un fil tendu entre deux éclairs.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     60,
+     60,
+     200
+    ],
+    "hair": [
+     30,
+     30,
+     40
+    ],
+    "skin_h": [
+     240,
+     220,
+     200
+    ],
+    "eye": [
+     255,
+     255,
+     200
+    ],
+    "floating": true,
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "cv07",
+   "name": "Ticket Maudit",
+   "type": "spell",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 1,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "draw",
+     "value": 2
+    },
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "ally_leader",
+     "value": 2
+    }
+   ],
+   "lore": "Entrée gratuite. Sortie payante.",
+   "art": {
+    "arch": "spell",
+    "spell": "dark_pact",
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv08",
+   "name": "Rat de la Ménagerie",
+   "type": "creature",
+   "family": "creatures",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 2,
+   "hp": 1,
+   "keywords": [
+    "poison"
+   ],
+   "lore": "Il s'est échappé de sa cage. Et de toutes les autres.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 0.5,
+    "leg_len": 0.6,
+    "tail": 1.6,
+    "c1": [
+     90,
+     80,
+     90
+    ],
+    "c2": [
+     160,
+     150,
+     160
+    ],
+    "c3": [
+     255,
+     140,
+     160
+    ],
+    "eye": [
+     255,
+     60,
+     60
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv09",
+   "name": "Hercule de Foire",
+   "type": "creature",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "C",
+   "cost": 3,
+   "atk": 3,
+   "hp": 4,
+   "lore": "Il soulève des enclumes. Et des spectateurs.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     200,
+     40,
+     40
+    ],
+    "hair": [
+     30,
+     20,
+     20
+    ],
+    "skin_h": [
+     220,
+     170,
+     130
+    ],
+    "eye": [
+     30,
+     30,
+     40
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv10",
+   "name": "Clown Triste",
+   "type": "creature",
+   "family": "esprits",
+   "element": "eau",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 1,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 1
+    }
+   ],
+   "lore": "Ses larmes sont peintes. Les vraies aussi.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     80,
+     100,
+     200
+    ],
+    "hair": [
+     60,
+     160,
+     255
+    ],
+    "skin_h": [
+     250,
+     250,
+     255
+    ],
+    "eye": [
+     60,
+     120,
+     255
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv11",
+   "name": "Confettis Explosifs",
+   "type": "spell",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "C",
+   "cost": 2,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 1
+    }
+   ],
+   "lore": "Pour la fête ! Et pour le chaos.",
+   "art": {
+    "arch": "spell",
+    "spell": "firebolt",
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv12",
+   "name": "Gardien du Chapiteau",
+   "type": "creature",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "C",
+   "cost": 3,
+   "atk": 2,
+   "hp": 4,
+   "keywords": [
+    "garde"
+   ],
+   "lore": "Personne n'entre sans billet. Personne ne sort sans permission.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     40,
+     40,
+     60
+    ],
+    "hood": [
+     200,
+     40,
+     40
+    ],
+    "skin_h": [
+     220,
+     180,
+     150
+    ],
+    "weapon": "staff",
+    "eye": [
+     255,
+     220,
+     90
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv13",
+   "name": "Illusionniste",
+   "type": "creature",
+   "family": "esprits",
+   "element": "cosmique",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 2,
+   "hp": 3,
+   "keywords": [
+    "furtif"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "copy",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Ce que vous voyez n'est pas là. Ce qui est là, vous ne le voyez pas.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     60,
+     20,
+     90
+    ],
+    "hood": [
+     30,
+     10,
+     40
+    ],
+    "skin_h": [
+     230,
+     220,
+     240
+    ],
+    "orb_hand": true,
+    "eye": [
+     255,
+     120,
+     255
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "cv14",
+   "name": "Dompteur de Lions",
+   "type": "creature",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 3,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "summon",
+     "card": "cv91"
+    }
+   ],
+   "lore": "Un fouet, une chaise, et beaucoup de courage.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     200,
+     40,
+     40
+    ],
+    "hair": [
+     60,
+     40,
+     20
+    ],
+    "skin_h": [
+     220,
+     180,
+     150
+    ],
+    "weapon": "sword",
+    "eye": [
+     255,
+     220,
+     140
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv15",
+   "name": "Diable à Ressort",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 4,
+   "hp": 2,
+   "keywords": [
+    "celerite"
+   ],
+   "lore": "Tournez la manivelle. Courez.",
+   "art": {
+    "arch": "maw",
+    "eyes": 3,
+    "c1": [
+     200,
+     40,
+     80
+    ],
+    "glow": [
+     255,
+     220,
+     90
+    ],
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "scale": 0.85,
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv16",
+   "name": "Diseuse de Bonne Aventure",
+   "type": "creature",
+   "family": "esprits",
+   "element": "cosmique",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 1,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "draw",
+     "value": 2
+    }
+   ],
+   "lore": "Elle voit votre avenir. Elle préfère ne rien dire.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     120,
+     40,
+     120
+    ],
+    "hood": [
+     200,
+     120,
+     40
+    ],
+    "skin_h": [
+     220,
+     180,
+     150
+    ],
+    "orb_hand": true,
+    "eye": [
+     255,
+     220,
+     140
+    ],
+    "aura": true,
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "cv17",
+   "name": "Cheval de Manège",
+   "type": "creature",
+   "family": "machines",
+   "element": "lumiere",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 3,
+   "hp": 4,
+   "keywords": [
+    "envol"
+   ],
+   "lore": "Il s'est détaché du carrousel une nuit de pleine lune.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 1.0,
+    "leg_len": 1.3,
+    "tail": 1.2,
+    "mane": true,
+    "mane_c": [
+     255,
+     180,
+     220
+    ],
+    "c1": [
+     250,
+     240,
+     230
+    ],
+    "c2": [
+     255,
+     255,
+     255
+    ],
+    "c3": [
+     220,
+     170,
+     60
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv18",
+   "name": "Galerie des Glaces",
+   "type": "spell",
+   "family": "esprits",
+   "element": "lumiere",
+   "rarity": "U",
+   "cost": 3,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "copy",
+     "target": "choose_enemy_creature"
+    },
+    {
+     "on": "cast",
+     "do": "copy",
+     "target": "choose_ally_creature"
+    }
+   ],
+   "lore": "Quatre reflets. Lequel est le vrai ?",
+   "art": {
+    "arch": "spell",
+    "spell": "holy",
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv19",
+   "name": "Éléphant de Parade",
+   "type": "creature",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "U",
+   "cost": 5,
+   "atk": 4,
+   "hp": 6,
+   "keywords": [
+    "garde"
+   ],
+   "lore": "Il porte une couronne de plumes et ne s'en plaint jamais.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 1.5,
+    "leg_len": 1.0,
+    "neck": 0.7,
+    "tail": 0.4,
+    "c1": [
+     150,
+     150,
+     170
+    ],
+    "c2": [
+     200,
+     200,
+     215
+    ],
+    "c3": [
+     255,
+     80,
+     140
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv20",
+   "name": "Boniment",
+   "type": "spell",
+   "family": "creatures",
+   "element": "foudre",
+   "rarity": "U",
+   "cost": 2,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "silence",
+     "target": "choose_enemy_creature"
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Approchez, approchez ! Et taisez-vous.",
+   "art": {
+    "arch": "spell",
+    "spell": "lightning",
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv21",
+   "name": "Squelette Contorsionniste",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 3,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "death",
+     "do": "revive"
+    }
+   ],
+   "lore": "Il se plie dans tous les sens. Même le sens de la mort.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     30,
+     30,
+     30
+    ],
+    "hood": [
+     240,
+     240,
+     240
+    ],
+    "skin_h": [
+     240,
+     240,
+     230
+    ],
+    "eye": [
+     120,
+     255,
+     180
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv22",
+   "name": "Monsieur Loyal Spectral",
+   "type": "creature",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 4,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "buff",
+     "target": "all_allies",
+     "value": 1,
+     "value2": 1
+    },
+    {
+     "on": "summon",
+     "do": "shield",
+     "target": "choose_ally_creature"
+    }
+   ],
+   "lore": "Mesdames et messieurs, et vous les morts, bienvenue !",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     160,
+     20,
+     30
+    ],
+    "hood": [
+     20,
+     20,
+     20
+    ],
+    "skin_h": [
+     230,
+     230,
+     240
+    ],
+    "weapon": "staff",
+    "eye": [
+     255,
+     220,
+     90
+    ],
+    "aura": true,
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv23",
+   "name": "Marionnettiste",
+   "type": "creature",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 3,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "steal",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Tout le monde a des fils. Il suffit de les trouver.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     40,
+     30,
+     50
+    ],
+    "hood": [
+     90,
+     30,
+     90
+    ],
+    "skin_h": [
+     220,
+     210,
+     230
+    ],
+    "orb_hand": true,
+    "eye": [
+     255,
+     80,
+     200
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv24",
+   "name": "Lion de Feu du Cerceau",
+   "type": "creature",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 5,
+   "hp": 4,
+   "keywords": [
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "burn",
+     "target": "attack_target",
+     "value": 2
+    }
+   ],
+   "lore": "Il saute dans le cerceau enflammé. Puis le cerceau, c'est lui.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 1.1,
+    "leg_len": 1.1,
+    "tail": 1.3,
+    "mane": true,
+    "mane_c": [
+     255,
+     120,
+     30
+    ],
+    "c1": [
+     230,
+     160,
+     60
+    ],
+    "c2": [
+     255,
+     220,
+     120
+    ],
+    "c3": [
+     60,
+     30,
+     10
+    ],
+    "eye": [
+     255,
+     220,
+     60
+    ],
+    "aura": true,
+    "glow": [
+     255,
+     120,
+     30
+    ],
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "cv25",
+   "name": "Boîte à Musique Hantée",
+   "type": "creature",
+   "family": "machines",
+   "element": "ombre",
+   "rarity": "R",
+   "cost": 3,
+   "atk": 0,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "sleep",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Sa mélodie endort les enfants. Et les adultes. Et les monstres.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "ring": true,
+    "size": 0.7,
+    "c1": [
+     140,
+     90,
+     60
+    ],
+    "ring_c": [
+     255,
+     210,
+     120
+    ],
+    "eye": [
+     255,
+     120,
+     200
+    ],
+    "scene": "haunted",
+    "scale": 1.0
+   }
+  },
+  {
+   "id": "cv26",
+   "name": "Échange de Places",
+   "type": "spell",
+   "family": "cosmiques",
+   "element": "cosmique",
+   "rarity": "R",
+   "cost": 3,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "swap_stats",
+     "target": "choose_enemy_creature"
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Le spectateur monte sur scène. Le monstre s'assoit dans le public.",
+   "art": {
+    "arch": "spell",
+    "spell": "blackhole",
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "cv27",
+   "name": "Femme-Serpent",
+   "type": "creature",
+   "family": "mutants",
+   "element": "nature",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 3,
+   "hp": 4,
+   "keywords": [
+    "poison"
+   ],
+   "lore": "Elle s'enroule autour de la cage. De l'extérieur.",
+   "art": {
+    "arch": "serpent",
+    "thick": 1.0,
+    "horns": "crown",
+    "whiskers": false,
+    "fins": false,
+    "c1": [
+     60,
+     140,
+     80
+    ],
+    "c2": [
+     220,
+     240,
+     160
+    ],
+    "c3": [
+     255,
+     80,
+     160
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv28",
+   "name": "Cabinet des Curiosités",
+   "type": "spell",
+   "family": "antiques",
+   "element": "cosmique",
+   "rarity": "R",
+   "cost": 4,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "add_random",
+     "value": 3,
+     "min_rarity": "U"
+    }
+   ],
+   "lore": "Un œil en bocal, une main de singe, une carte rare.",
+   "art": {
+    "arch": "spell",
+    "spell": "dark_pact",
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "cv29",
+   "name": "Trapéziste Céleste",
+   "type": "creature",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 3,
+   "hp": 3,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "choose_enemy",
+     "value": 3
+    }
+   ],
+   "lore": "Elle lâche le trapèze et rattrape les étoiles.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     250,
+     220,
+     240
+    ],
+    "hair": [
+     255,
+     220,
+     140
+    ],
+    "skin_h": [
+     240,
+     220,
+     200
+    ],
+    "halo": true,
+    "floating": true,
+    "eye": [
+     255,
+     240,
+     200
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "cv30",
+   "name": "Ventriloque",
+   "type": "creature",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 2,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "silence",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Sa poupée parle. Lui, il se tait. Et vous aussi.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     30,
+     30,
+     40
+    ],
+    "hair": [
+     200,
+     200,
+     210
+    ],
+    "skin_h": [
+     220,
+     200,
+     190
+    ],
+    "orb_hand": true,
+    "eye": [
+     200,
+     255,
+     200
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv31",
+   "name": "Grand Chapiteau Vivant",
+   "type": "creature",
+   "family": "machines",
+   "element": "ombre",
+   "rarity": "SR",
+   "cost": 7,
+   "atk": 4,
+   "hp": 10,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "summon",
+     "card": "cv90"
+    }
+   ],
+   "lore": "La tente respire. La tente avale. La tente recrache des marionnettes.",
+   "art": {
+    "arch": "maw",
+    "eyes": 7,
+    "c1": [
+     180,
+     30,
+     40
+    ],
+    "glow": [
+     255,
+     220,
+     90
+    ],
+    "eye": [
+     255,
+     240,
+     140
+    ],
+    "scale": 1.0,
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv32",
+   "name": "Dresseuse de Chimères",
+   "type": "creature",
+   "family": "creatures",
+   "element": "nature",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 4,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "summon",
+     "card": "cv91"
+    },
+    {
+     "on": "summon",
+     "do": "summon",
+     "card": "cv91"
+    }
+   ],
+   "lore": "Ses fauves ont trois têtes. Elle a trois fouets.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     40,
+     120,
+     60
+    ],
+    "hair": [
+     200,
+     40,
+     40
+    ],
+    "skin_h": [
+     220,
+     180,
+     150
+    ],
+    "weapon": "sword",
+    "eye": [
+     255,
+     220,
+     90
+    ],
+    "aura": true,
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv33",
+   "name": "Clown Infernal",
+   "type": "creature",
+   "family": "demons",
+   "element": "feu",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 6,
+   "hp": 4,
+   "keywords": [
+    "rage"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "burn",
+     "target": "attack_target",
+     "value": 2
+    },
+    {
+     "on": "death",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 2
+    }
+   ],
+   "lore": "Il fait rire les gens. Jusqu'à ce qu'ils brûlent.",
+   "art": {
+    "arch": "biped",
+    "kind": "demon",
+    "bulk": 1.1,
+    "horns": true,
+    "tail": false,
+    "skin": [
+     240,
+     240,
+     240
+    ],
+    "c3": [
+     255,
+     40,
+     60
+    ],
+    "eye": [
+     255,
+     60,
+     60
+    ],
+    "aura": true,
+    "glow": [
+     255,
+     60,
+     40
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv34",
+   "name": "Grand Final",
+   "type": "spell",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "SR",
+   "cost": 6,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_enemies",
+     "value": 3
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Feux d'artifice ! Rideau ! Applaudissements ! Ambulances !",
+   "art": {
+    "arch": "spell",
+    "spell": "meteor",
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "cv35",
+   "name": "Funambule des Étoiles",
+   "type": "creature",
+   "family": "cosmiques",
+   "element": "cosmique",
+   "rarity": "SR",
+   "cost": 5,
+   "atk": 4,
+   "hp": 4,
+   "keywords": [
+    "envol",
+    "furtif"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "bounce",
+     "target": "attack_target"
+    }
+   ],
+   "lore": "Elle marche sur le fil qui relie deux galaxies.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     40,
+     30,
+     100
+    ],
+    "hair": [
+     255,
+     140,
+     255
+    ],
+    "skin_h": [
+     200,
+     200,
+     250
+    ],
+    "floating": true,
+    "aura": true,
+    "eye": [
+     255,
+     255,
+     200
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "cv36",
+   "name": "Hydre de Ménagerie",
+   "type": "creature",
+   "family": "mutants",
+   "element": "eau",
+   "rarity": "SR",
+   "cost": 7,
+   "atk": 6,
+   "hp": 7,
+   "effects": [
+    {
+     "on": "attack",
+     "do": "damage",
+     "target": "random_enemy_creature",
+     "value": 2
+    }
+   ],
+   "lore": "Sept têtes, sept cages, un seul appétit.",
+   "art": {
+    "arch": "serpent",
+    "thick": 1.3,
+    "horns": "back",
+    "whiskers": true,
+    "fins": true,
+    "fin_c": [
+     255,
+     120,
+     200
+    ],
+    "c1": [
+     60,
+     90,
+     140
+    ],
+    "c2": [
+     160,
+     220,
+     255
+    ],
+    "c3": [
+     255,
+     120,
+     200
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv37",
+   "name": "Miroir Déformant",
+   "type": "creature",
+   "family": "esprits",
+   "element": "cosmique",
+   "rarity": "SR",
+   "cost": 5,
+   "atk": 3,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "swap_stats",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Le géant devient mince, le petit devient énorme.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "ring": true,
+    "orbiters": 4,
+    "size": 0.9,
+    "c1": [
+     200,
+     200,
+     230
+    ],
+    "ring_c": [
+     255,
+     200,
+     255
+    ],
+    "eye": [
+     255,
+     120,
+     255
+    ],
+    "scene": "nebula",
+    "scale": 1.0
+   }
+  },
+  {
+   "id": "cv38",
+   "name": "Clown Néon",
+   "type": "creature",
+   "family": "creatures",
+   "element": "foudre",
+   "rarity": "NE",
+   "cost": 3,
+   "atk": 3,
+   "hp": 3,
+   "keywords": [
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "copy",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Son nez rouge clignote. Ses dents aussi.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     20,
+     20,
+     40
+    ],
+    "hair": [
+     255,
+     60,
+     220
+    ],
+    "skin_h": [
+     60,
+     255,
+     255
+    ],
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "glow": [
+     255,
+     60,
+     220
+    ],
+    "aura": true,
+    "scene": "void"
+   }
+  },
+  {
+   "id": "cv39",
+   "name": "Grande Roue Néon",
+   "type": "creature",
+   "family": "machines",
+   "element": "foudre",
+   "rarity": "NE",
+   "cost": 5,
+   "atk": 3,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "damage",
+     "target": "random_enemy",
+     "value": 2
+    }
+   ],
+   "lore": "Elle tourne seule, la nuit, avec ses passagers d'autrefois.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "ring": true,
+    "orbiters": 8,
+    "size": 1.0,
+    "c1": [
+     20,
+     20,
+     40
+    ],
+    "ring_c": [
+     60,
+     255,
+     255
+    ],
+    "eye": [
+     255,
+     60,
+     220
+    ],
+    "glow": [
+     255,
+     60,
+     220
+    ],
+    "scene": "void",
+    "scale": 0.95
+   }
+  },
+  {
+   "id": "cv40",
+   "name": "Madame Zéphyra, Voyante",
+   "type": "creature",
+   "family": "esprits",
+   "element": "cosmique",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 4,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "draw",
+     "value": 2
+    },
+    {
+     "on": "summon",
+     "do": "add_random",
+     "value": 1,
+     "min_rarity": "E"
+    }
+   ],
+   "lore": "Elle a vu votre fin dans sa boule de cristal. Elle était drôle.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     90,
+     20,
+     120
+    ],
+    "hood": [
+     255,
+     180,
+     60
+    ],
+    "skin_h": [
+     220,
+     180,
+     150
+    ],
+    "orb_hand": true,
+    "crown": [
+     255,
+     200,
+     80
+    ],
+    "eye": [
+     255,
+     220,
+     255
+    ],
+    "aura": true,
+    "glow": [
+     220,
+     120,
+     255
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "cv41",
+   "name": "Le Maître des Marionnettes",
+   "type": "creature",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "E",
+   "cost": 8,
+   "atk": 5,
+   "hp": 7,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "steal",
+     "target": "strongest_enemy_creature"
+    }
+   ],
+   "lore": "Tout le monde danse quand il tire les fils.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     20,
+     10,
+     30
+    ],
+    "hood": [
+     120,
+     20,
+     60
+    ],
+    "skin_h": [
+     240,
+     230,
+     240
+    ],
+    "weapon": "staff",
+    "orb_hand": true,
+    "eye": [
+     255,
+     60,
+     180
+    ],
+    "aura": true,
+    "glow": [
+     200,
+     40,
+     160
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv42",
+   "name": "Chimère de Ménagerie",
+   "type": "creature",
+   "family": "mutants",
+   "element": "nature",
+   "rarity": "E",
+   "cost": 7,
+   "atk": 6,
+   "hp": 6,
+   "keywords": [
+    "pietinement"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "summon",
+     "card": "cv91"
+    },
+    {
+     "on": "attack",
+     "do": "sleep",
+     "target": "attack_target"
+    }
+   ],
+   "lore": "Lion, bouc, serpent. Et un ticket d'entrée en guise de collier.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 1.3,
+    "leg_len": 1.1,
+    "tail": 1.4,
+    "horns": "back",
+    "mane": true,
+    "mane_c": [
+     255,
+     140,
+     40
+    ],
+    "c1": [
+     200,
+     150,
+     80
+    ],
+    "c2": [
+     240,
+     210,
+     150
+    ],
+    "c3": [
+     60,
+     120,
+     60
+    ],
+    "eye": [
+     255,
+     220,
+     60
+    ],
+    "aura": true,
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv43",
+   "name": "Carrousel des Âmes",
+   "type": "creature",
+   "family": "machines",
+   "element": "ombre",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 3,
+   "hp": 8,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "revive"
+    }
+   ],
+   "lore": "Chaque tour de manège ramène quelqu'un.",
+   "art": {
+    "arch": "orb",
+    "face": "cute",
+    "ring": true,
+    "orbiters": 8,
+    "size": 1.0,
+    "c1": [
+     200,
+     60,
+     90
+    ],
+    "ring_c": [
+     255,
+     220,
+     120
+    ],
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "scene": "haunted",
+    "scale": 0.95
+   }
+  },
+  {
+   "id": "cv44",
+   "name": "Pyromane du Cirque",
+   "type": "creature",
+   "family": "demons",
+   "element": "feu",
+   "rarity": "IN",
+   "cost": 7,
+   "atk": 7,
+   "hp": 5,
+   "keywords": [
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "burn",
+     "target": "all_enemy_creatures",
+     "value": 3
+    },
+    {
+     "on": "attack",
+     "do": "damage",
+     "target": "random_enemy",
+     "value": 2
+    }
+   ],
+   "lore": "Le dernier spectacle du cirque. Personne n'en est revenu.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     80,
+     10,
+     10
+    ],
+    "hair": [
+     255,
+     100,
+     20
+    ],
+    "skin_h": [
+     250,
+     220,
+     200
+    ],
+    "weapon": "staff",
+    "eye": [
+     255,
+     200,
+     40
+    ],
+    "aura": true,
+    "glow": [
+     255,
+     90,
+     20
+    ],
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "cv45",
+   "name": "Grimaldo, Roi des Clowns",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "ombre",
+   "rarity": "L",
+   "cost": 8,
+   "atk": 7,
+   "hp": 8,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "polymorph",
+     "target": "all_enemy_creatures",
+     "card": "cv90"
+    },
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "enemy_leader",
+     "value": 3
+    }
+   ],
+   "lore": "Le dernier rire que vous entendrez.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     200,
+     30,
+     60
+    ],
+    "hair": [
+     60,
+     220,
+     120
+    ],
+    "skin_h": [
+     250,
+     250,
+     250
+    ],
+    "crown": [
+     255,
+     210,
+     80
+    ],
+    "weapon": "staff",
+    "aura": true,
+    "eye": [
+     255,
+     60,
+     60
+    ],
+    "glow": [
+     255,
+     60,
+     120
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv46",
+   "name": "Rideau Final",
+   "type": "spell",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "M",
+   "cost": 8,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "destroy",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "ally_leader",
+     "value": 5
+    }
+   ],
+   "lore": "Le spectacle est terminé. Pour tout le monde.",
+   "art": {
+    "arch": "spell",
+    "spell": "dark_pact",
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv47",
+   "name": "Mirage du Chapiteau Doré",
+   "type": "creature",
+   "family": "esprits",
+   "element": "lumiere",
+   "rarity": "MI",
+   "cost": 6,
+   "atk": 5,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "add_random",
+     "value": 2,
+     "min_rarity": "SR"
+    },
+    {
+     "on": "summon",
+     "do": "shield",
+     "target": "all_allies"
+    }
+   ],
+   "lore": "Un cirque d'or apparaît la nuit des fêtes. Le lendemain, il n'y a que de l'herbe.",
+   "art": {
+    "arch": "orb",
+    "face": "cute",
+    "ring": true,
+    "orbiters": 8,
+    "size": 0.9,
+    "c1": [
+     255,
+     210,
+     90
+    ],
+    "ring_c": [
+     255,
+     120,
+     200
+    ],
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "scene": "nebula",
+    "scale": 1.0
+   }
+  },
+  {
+   "id": "cv48",
+   "name": "Arlequine, Reine des Masques",
+   "type": "creature",
+   "family": "esprits",
+   "element": "cosmique",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 5,
+   "hp": 5,
+   "form": "omega",
+   "keywords": [
+    "furtif"
+   ],
+   "omega": [
+    {
+     "do": "swap_stats",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "do": "copy",
+     "target": "strongest_enemy_creature"
+    },
+    {
+     "do": "draw",
+     "value": 2
+    }
+   ],
+   "lore": "Mille masques, aucun visage.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     200,
+     30,
+     60
+    ],
+    "hair": [
+     30,
+     30,
+     40
+    ],
+    "skin_h": [
+     250,
+     250,
+     250
+    ],
+    "crown": [
+     255,
+     210,
+     80
+    ],
+    "eye": [
+     255,
+     220,
+     90
+    ],
+    "aura": true,
+    "glow": [
+     255,
+     80,
+     160
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "cv49",
+   "name": "Colossal Barnum",
+   "type": "creature",
+   "family": "machines",
+   "element": "terre",
+   "rarity": "L",
+   "cost": 9,
+   "atk": 8,
+   "hp": 12,
+   "form": "titan",
+   "keywords": [
+    "pietinement"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "summon",
+     "card": "cv90"
+    },
+    {
+     "on": "summon",
+     "do": "summon",
+     "card": "cv90"
+    }
+   ],
+   "lore": "Un automate de fête foraine haut comme une grande roue.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.55,
+    "c1": [
+     200,
+     40,
+     60
+    ],
+    "glow": [
+     255,
+     220,
+     90
+    ],
+    "eye": [
+     255,
+     240,
+     140
+    ],
+    "crystals": [
+     [
+      0,
+      -30,
+      18
+     ]
+    ],
+    "aura": true,
+    "scene": "haunted",
+    "scale": 1.25
+   }
+  },
+  {
+   "id": "cv50",
+   "name": "MASCARADE, Dieu du Carnaval",
+   "type": "creature",
+   "family": "divinites",
+   "element": "ombre",
+   "rarity": "G",
+   "cost": 10,
+   "atk": 10,
+   "hp": 10,
+   "keywords": [
+    "envol",
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "swap_stats",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "summon",
+     "do": "polymorph",
+     "target": "random_enemy_creature",
+     "card": "cv90"
+    },
+    {
+     "on": "turn_start",
+     "do": "add_random",
+     "value": 1,
+     "min_rarity": "E"
+    }
+   ],
+   "lore": "Le carnaval ne finit jamais. Il change seulement de spectateurs.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     30,
+     10,
+     40
+    ],
+    "hair": [
+     255,
+     210,
+     80
+    ],
+    "skin_h": [
+     250,
+     250,
+     250
+    ],
+    "crown": [
+     255,
+     220,
+     90
+    ],
+    "halo": true,
+    "floating": true,
+    "aura": true,
+    "orb_hand": true,
+    "eye": [
+     255,
+     240,
+     140
+    ],
+    "glow": [
+     255,
+     200,
+     80
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "cv90",
+   "name": "Marionnette",
+   "type": "creature",
+   "family": "machines",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 1,
+   "token": true,
+   "lore": "Elle danse tant qu'on tire les fils.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 0.7,
+    "c1": [
+     200,
+     160,
+     120
+    ],
+    "glow": [
+     255,
+     80,
+     80
+    ],
+    "eye": [
+     30,
+     20,
+     20
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "cv91",
+   "name": "Fauve Savant",
+   "type": "creature",
+   "family": "creatures",
+   "element": "nature",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "token": true,
+   "lore": "Il fait le beau pour un morceau de viande. Ou pour votre bras.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 0.9,
+    "leg_len": 1.0,
+    "tail": 1.2,
+    "mane": true,
+    "mane_c": [
+     200,
+     120,
+     40
+    ],
+    "c1": [
+     220,
+     170,
+     90
+    ],
+    "c2": [
+     240,
+     210,
+     150
+    ],
+    "c3": [
+     60,
+     40,
+     20
+    ],
+    "scene": "haunted"
+   }
+  }
+ ]
+}

@@ -112,7 +112,9 @@ func setup(_p: Dictionary) -> void:
 	cp.add_child(cb)
 	col.add_child(cp)
 	# connexion quotidienne, tutoriel, nouveautés
-	if Profile.d.get("pending_gift10", false):
+	if Profile.d.get("pending_gift11", false):
+		_gift11_popup.call_deferred()
+	elif Profile.d.get("pending_gift10", false):
 		_gift10_popup.call_deferred()
 	elif Profile.d.get("pending_gift9", false):
 		_gift9_popup.call_deferred()
@@ -380,5 +382,25 @@ func _gift10_popup() -> void:
 		Profile.d.seen_version = "0.10"
 		Profile.save_game()
 	main.modal("Sables Éternels", v, [["Plus tard", Color("4a3a6a"), close], ["Mes boosters", UI.GOOD.darkened(0.2), func():
+		close.call()
+		main.goto("shop", {"tab": "boosters"})]])
+
+func _gift11_popup() -> void:
+	var v := UI.vbox(12)
+	var row := UI.hbox(16)
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	for id in ["gv50", "cv50"]:
+		row.add_child(CardView.holder(id, 0.42))
+	v.add_child(row)
+	var l := UI.label("Nouveautés 0.11 : 100 NOUVELLES CARTES !\n• GÉN. 11 « ROYAUME DU GIVRE » (50 cartes) : yétis, mammouths, loups, sorcières des glaces et aurores, avec la carte Cosmique Nivéa, l'Ω Hrimfang et le Titan Glaciarque.\n• GÉN. 12 « CARNAVAL DES OMBRES » (50 cartes) : clowns, marionnettes, illusionnistes et ménagerie hantée, avec la 6e carte GOD (Mascarade), l'Ω Arlequine et le Titan Colossal Barnum.\n\nCadeau : 2 Boosters Givre et 2 Boosters Carnaval t'attendent dans la Boutique.", 18, UI.TEXT, "body", 600)
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	l.custom_minimum_size = Vector2(560, 0)
+	v.add_child(l)
+	var close := func():
+		for k in ["pending_gift11", "pending_gift10", "pending_gift9", "pending_gift8", "pending_gift", "pending_gift6", "pending_gift7"]:
+			Profile.d[k] = false
+		Profile.d.seen_version = "0.11"
+		Profile.save_game()
+	main.modal("100 nouvelles cartes", v, [["Plus tard", Color("4a3a6a"), close], ["Mes boosters", UI.GOOD.darkened(0.2), func():
 		close.call()
 		main.goto("shop", {"tab": "boosters"})]])

@@ -1,0 +1,2349 @@
+{
+ "set": "givre",
+ "name": "Royaume du Givre",
+ "gen": 11,
+ "cards": [
+  {
+   "id": "gv01",
+   "name": "Pingouin Grognon",
+   "type": "creature",
+   "family": "creatures",
+   "element": "glace",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 2,
+   "keywords": [
+    "garde"
+   ],
+   "lore": "Il garde la banquise. Surtout contre les autres pingouins.",
+   "art": {
+    "arch": "bird",
+    "wing_span": 0.5,
+    "tail": 0.3,
+    "c1": [
+     30,
+     30,
+     40
+    ],
+    "c2": [
+     250,
+     250,
+     250
+    ],
+    "c3": [
+     255,
+     170,
+     40
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv02",
+   "name": "Renard Polaire",
+   "type": "creature",
+   "family": "creatures",
+   "element": "glace",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "keywords": [
+    "celerite"
+   ],
+   "lore": "Il bondit dans la neige et ressort avec le dîner.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 0.8,
+    "leg_len": 1.1,
+    "tail": 1.5,
+    "c1": [
+     240,
+     245,
+     250
+    ],
+    "c2": [
+     255,
+     255,
+     255
+    ],
+    "c3": [
+     60,
+     70,
+     90
+    ],
+    "eye": [
+     90,
+     180,
+     255
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv03",
+   "name": "Phoque Rieur",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 1,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 2
+    }
+   ],
+   "lore": "Son rire réchauffe plus qu'un feu de camp.",
+   "art": {
+    "arch": "fish",
+    "length": 1.1,
+    "fin": 0.6,
+    "c1": [
+     150,
+     160,
+     180
+    ],
+    "c2": [
+     230,
+     235,
+     245
+    ],
+    "c3": [
+     60,
+     70,
+     90
+    ],
+    "eye": [
+     30,
+     30,
+     40
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv04",
+   "name": "Flocon Vivant",
+   "type": "creature",
+   "family": "esprits",
+   "element": "glace",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 1,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "freeze",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Aucun flocon n'est pareil. Celui-ci mord.",
+   "art": {
+    "arch": "orb",
+    "face": "cute",
+    "orbiters": 6,
+    "size": 0.6,
+    "c1": [
+     200,
+     230,
+     255
+    ],
+    "ring_c": [
+     255,
+     255,
+     255
+    ],
+    "eye": [
+     60,
+     120,
+     200
+    ],
+    "scene": "tundra",
+    "scale": 1.0
+   }
+  },
+  {
+   "id": "gv05",
+   "name": "Chasseur des Glaces",
+   "type": "creature",
+   "family": "creatures",
+   "element": "glace",
+   "rarity": "C",
+   "cost": 3,
+   "atk": 3,
+   "hp": 2,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "choose_enemy_creature",
+     "value": 1
+    }
+   ],
+   "lore": "Il lit les traces dans la neige comme un livre.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     120,
+     90,
+     60
+    ],
+    "hood": [
+     230,
+     230,
+     240
+    ],
+    "skin_h": [
+     220,
+     180,
+     150
+    ],
+    "weapon": "sword",
+    "eye": [
+     120,
+     200,
+     255
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv06",
+   "name": "Morse Têtu",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "C",
+   "cost": 3,
+   "atk": 2,
+   "hp": 5,
+   "keywords": [
+    "garde"
+   ],
+   "lore": "Il ne bougera pas. Ni pour vous, ni pour personne.",
+   "art": {
+    "arch": "fish",
+    "length": 1.3,
+    "fin": 0.7,
+    "teeth": true,
+    "c1": [
+     150,
+     110,
+     90
+    ],
+    "c2": [
+     220,
+     190,
+     170
+    ],
+    "c3": [
+     250,
+     250,
+     240
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv07",
+   "name": "Bourrasque Polaire",
+   "type": "spell",
+   "family": "cosmiques",
+   "element": "glace",
+   "rarity": "C",
+   "cost": 2,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "freeze",
+     "target": "random_enemy_creature"
+    },
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "random_enemy_creature",
+     "value": 1
+    }
+   ],
+   "lore": "On ne voit plus ses mains. On ne sent plus ses pieds.",
+   "art": {
+    "arch": "spell",
+    "spell": "wave",
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv08",
+   "name": "Chouette des Neiges",
+   "type": "creature",
+   "family": "creatures",
+   "element": "lumiere",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 1,
+   "hp": 2,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Elle voit tout ce qui bouge sous la neige.",
+   "art": {
+    "arch": "bird",
+    "wing_span": 1.0,
+    "tail": 0.4,
+    "c1": [
+     245,
+     245,
+     250
+    ],
+    "c2": [
+     255,
+     255,
+     255
+    ],
+    "c3": [
+     255,
+     210,
+     60
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv09",
+   "name": "Bonhomme de Neige Farceur",
+   "type": "creature",
+   "family": "esprits",
+   "element": "glace",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "gv90"
+    }
+   ],
+   "lore": "Il change de place quand personne ne regarde.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.0,
+    "c1": [
+     245,
+     248,
+     255
+    ],
+    "glow": [
+     255,
+     140,
+     60
+    ],
+    "eye": [
+     30,
+     30,
+     40
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv10",
+   "name": "Lance de Givre",
+   "type": "spell",
+   "family": "creatures",
+   "element": "glace",
+   "rarity": "C",
+   "cost": 1,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "choose_enemy",
+     "value": 2
+    }
+   ],
+   "lore": "Pointue, froide, et rarement ratée.",
+   "art": {
+    "arch": "spell",
+    "spell": "firebolt",
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv11",
+   "name": "Louveteau des Steppes",
+   "type": "creature",
+   "family": "creatures",
+   "element": "glace",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 2,
+   "hp": 1,
+   "lore": "Il hurle déjà comme un grand. Presque.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 0.7,
+    "leg_len": 0.9,
+    "tail": 1.0,
+    "c1": [
+     170,
+     180,
+     200
+    ],
+    "c2": [
+     230,
+     235,
+     245
+    ],
+    "c3": [
+     50,
+     60,
+     80
+    ],
+    "eye": [
+     120,
+     220,
+     255
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv12",
+   "name": "Pêcheur sur Glace",
+   "type": "creature",
+   "family": "creatures",
+   "element": "eau",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 1,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 1
+    }
+   ],
+   "lore": "Il attend des heures devant un trou. C'est son métier.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     160,
+     60,
+     50
+    ],
+    "hood": [
+     90,
+     60,
+     40
+    ],
+    "skin_h": [
+     220,
+     180,
+     150
+    ],
+    "weapon": "staff",
+    "eye": [
+     255,
+     230,
+     180
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv13",
+   "name": "Yéti des Hauts Sommets",
+   "type": "creature",
+   "family": "creatures",
+   "element": "glace",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 4,
+   "hp": 5,
+   "lore": "On ne l'a jamais photographié. Les photographes non plus.",
+   "art": {
+    "arch": "biped",
+    "kind": "demon",
+    "bulk": 1.3,
+    "horns": false,
+    "tail": false,
+    "skin": [
+     230,
+     235,
+     245
+    ],
+    "c3": [
+     120,
+     180,
+     255
+    ],
+    "eye": [
+     90,
+     170,
+     255
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv14",
+   "name": "Sorcière du Givre",
+   "type": "creature",
+   "family": "esprits",
+   "element": "glace",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 2,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "freeze",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Son baiser fige les cœurs. Littéralement.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     90,
+     150,
+     220
+    ],
+    "hair": [
+     240,
+     250,
+     255
+    ],
+    "skin_h": [
+     200,
+     225,
+     250
+    ],
+    "weapon": "staff",
+    "orb_hand": true,
+    "eye": [
+     160,
+     240,
+     255
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv15",
+   "name": "Ours Blanc Colossal",
+   "type": "creature",
+   "family": "creatures",
+   "element": "glace",
+   "rarity": "U",
+   "cost": 5,
+   "atk": 5,
+   "hp": 5,
+   "keywords": [
+    "pietinement"
+   ],
+   "lore": "Il marche sur la banquise comme sur un tapis.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 1.4,
+    "leg_len": 0.9,
+    "tail": 0.3,
+    "c1": [
+     240,
+     240,
+     245
+    ],
+    "c2": [
+     255,
+     255,
+     255
+    ],
+    "c3": [
+     40,
+     40,
+     50
+    ],
+    "eye": [
+     30,
+     30,
+     40
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv16",
+   "name": "Esprit de l'Aurore",
+   "type": "creature",
+   "family": "esprits",
+   "element": "lumiere",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 2,
+   "hp": 3,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "shield",
+     "target": "choose_ally_creature"
+    }
+   ],
+   "lore": "Il danse dans le ciel du nord et protège les voyageurs.",
+   "art": {
+    "arch": "spirit",
+    "kind": "flame",
+    "c1": [
+     120,
+     255,
+     200
+    ],
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "size": 1.0,
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv17",
+   "name": "Traîneau de Guerre",
+   "type": "creature",
+   "family": "machines",
+   "element": "glace",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 4,
+   "hp": 3,
+   "keywords": [
+    "celerite",
+    "pietinement"
+   ],
+   "lore": "Douze chiens, un conducteur, aucun frein.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.0,
+    "c1": [
+     120,
+     80,
+     50
+    ],
+    "glow": [
+     160,
+     220,
+     255
+    ],
+    "eye": [
+     160,
+     220,
+     255
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv18",
+   "name": "Cristal de Glace",
+   "type": "spell",
+   "family": "antiques",
+   "element": "glace",
+   "rarity": "U",
+   "cost": 3,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "shield",
+     "target": "all_allies"
+    },
+    {
+     "on": "cast",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 1
+    }
+   ],
+   "lore": "Une armure transparente, mais solide.",
+   "art": {
+    "arch": "spell",
+    "spell": "holy",
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv19",
+   "name": "Gardien du Glacier",
+   "type": "creature",
+   "family": "antiques",
+   "element": "glace",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 1,
+   "hp": 8,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "freeze",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Il est là depuis le dernier âge glaciaire. Il attend le prochain.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.3,
+    "c1": [
+     150,
+     200,
+     240
+    ],
+    "glow": [
+     220,
+     250,
+     255
+    ],
+    "eye": [
+     220,
+     250,
+     255
+    ],
+    "crystals": [
+     [
+      0,
+      -28,
+      14
+     ]
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv20",
+   "name": "Loup Alpha des Neiges",
+   "type": "creature",
+   "family": "creatures",
+   "element": "glace",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 3,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "summon",
+     "card": "gv91"
+    }
+   ],
+   "lore": "Il ne chasse jamais seul.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 1.0,
+    "leg_len": 1.2,
+    "tail": 1.2,
+    "mane": true,
+    "mane_c": [
+     240,
+     245,
+     255
+    ],
+    "c1": [
+     150,
+     160,
+     180
+    ],
+    "c2": [
+     230,
+     235,
+     245
+    ],
+    "c3": [
+     40,
+     50,
+     70
+    ],
+    "eye": [
+     90,
+     200,
+     255
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv21",
+   "name": "Avalanche",
+   "type": "spell",
+   "family": "cosmiques",
+   "element": "terre",
+   "rarity": "U",
+   "cost": 5,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_creatures",
+     "value": 3
+    }
+   ],
+   "lore": "Une seule voix trop forte, et la montagne répond.",
+   "art": {
+    "arch": "spell",
+    "spell": "quake",
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv22",
+   "name": "Mammouth Laineux",
+   "type": "creature",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "R",
+   "cost": 6,
+   "atk": 5,
+   "hp": 8,
+   "keywords": [
+    "pietinement"
+   ],
+   "lore": "Le dernier de son espèce, et le plus têtu.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 1.5,
+    "leg_len": 1.0,
+    "neck": 0.8,
+    "horns": "back",
+    "tail": 0.4,
+    "c1": [
+     120,
+     80,
+     50
+    ],
+    "c2": [
+     200,
+     160,
+     120
+    ],
+    "c3": [
+     245,
+     240,
+     225
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv23",
+   "name": "Reine des Neiges Isolde",
+   "type": "creature",
+   "family": "esprits",
+   "element": "glace",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 3,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "freeze",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Son royaume est parfait : rien n'y bouge jamais.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     180,
+     220,
+     255
+    ],
+    "hair": [
+     250,
+     252,
+     255
+    ],
+    "skin_h": [
+     220,
+     235,
+     250
+    ],
+    "crown": [
+     200,
+     240,
+     255
+    ],
+    "weapon": "staff",
+    "eye": [
+     140,
+     230,
+     255
+    ],
+    "aura": true,
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv24",
+   "name": "Drakelet de Givre",
+   "type": "creature",
+   "family": "dragons",
+   "element": "glace",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 3,
+   "hp": 4,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "freeze",
+     "target": "attack_target"
+    }
+   ],
+   "lore": "Il éternue des cristaux de glace.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "back",
+    "wings": true,
+    "wing_span": 0.9,
+    "bulk": 0.8,
+    "c1": [
+     150,
+     210,
+     250
+    ],
+    "c2": [
+     230,
+     250,
+     255
+    ],
+    "c3": [
+     255,
+     255,
+     255
+    ],
+    "membrane": [
+     180,
+     230,
+     255
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv25",
+   "name": "Chaman de l'Aurore",
+   "type": "creature",
+   "family": "esprits",
+   "element": "lumiere",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 2,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 1
+    },
+    {
+     "on": "summon",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Il peint les aurores avec un bâton et beaucoup de patience.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     60,
+     90,
+     70
+    ],
+    "hood": [
+     240,
+     240,
+     230
+    ],
+    "skin_h": [
+     200,
+     150,
+     120
+    ],
+    "weapon": "staff",
+    "eye": [
+     120,
+     255,
+     200
+    ],
+    "aura": true,
+    "glow": [
+     120,
+     255,
+     200
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv26",
+   "name": "Cercueil de Givre",
+   "type": "spell",
+   "family": "antiques",
+   "element": "glace",
+   "rarity": "R",
+   "cost": 3,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "sleep",
+     "target": "choose_enemy_creature"
+    },
+    {
+     "on": "cast",
+     "do": "shield",
+     "target": "choose_ally_creature"
+    }
+   ],
+   "lore": "Ne vous inquiétez pas, il respire. Lentement.",
+   "art": {
+    "arch": "spell",
+    "spell": "ice_prison",
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv27",
+   "name": "Orque des Fjords",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 5,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "attack",
+     "do": "damage",
+     "target": "random_enemy",
+     "value": 1
+    }
+   ],
+   "lore": "Elle chasse en meute, comme les loups, mais en plus grand.",
+   "art": {
+    "arch": "fish",
+    "teeth": true,
+    "length": 1.35,
+    "c1": [
+     20,
+     20,
+     30
+    ],
+    "c2": [
+     250,
+     250,
+     250
+    ],
+    "c3": [
+     30,
+     30,
+     40
+    ],
+    "scene": "ocean"
+   }
+  },
+  {
+   "id": "gv28",
+   "name": "Golem de Permafrost",
+   "type": "creature",
+   "family": "antiques",
+   "element": "terre",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 4,
+   "hp": 7,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "freeze",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Brisez-le, et le froid s'échappe.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.35,
+    "c1": [
+     110,
+     130,
+     150
+    ],
+    "glow": [
+     160,
+     240,
+     255
+    ],
+    "eye": [
+     160,
+     240,
+     255
+    ],
+    "crystals": [
+     [
+      0,
+      -30,
+      16
+     ]
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv29",
+   "name": "Banshee des Tempêtes",
+   "type": "creature",
+   "family": "esprits",
+   "element": "ombre",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 3,
+   "hp": 3,
+   "keywords": [
+    "furtif"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "silence",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Son cri éteint les feux et les sorts.",
+   "art": {
+    "arch": "spirit",
+    "kind": "ghost",
+    "c1": [
+     160,
+     180,
+     220
+    ],
+    "eye": [
+     120,
+     240,
+     255
+    ],
+    "size": 1.0,
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "gv30",
+   "name": "Héritage du Nord",
+   "type": "spell",
+   "family": "antiques",
+   "element": "lumiere",
+   "rarity": "R",
+   "cost": 4,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "add_random",
+     "value": 2,
+     "min_rarity": "R"
+    }
+   ],
+   "lore": "Les anciens ont tout laissé sous la glace. Il suffit de creuser.",
+   "art": {
+    "arch": "spell",
+    "spell": "holy",
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv31",
+   "name": "Valdr, Jarl des Glaces",
+   "type": "creature",
+   "family": "creatures",
+   "element": "glace",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 5,
+   "hp": 6,
+   "keywords": [
+    "rage"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "buff",
+     "target": "all_allies",
+     "value": 1,
+     "value2": 1
+    }
+   ],
+   "lore": "Il a conquis le nord avec une hache et un rire tonitruant.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     100,
+     70,
+     50
+    ],
+    "hair": [
+     230,
+     200,
+     120
+    ],
+    "skin_h": [
+     230,
+     190,
+     160
+    ],
+    "weapon": "sword",
+    "crown": [
+     200,
+     210,
+     220
+    ],
+    "eye": [
+     120,
+     200,
+     255
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv32",
+   "name": "Wyverne Boréale",
+   "type": "creature",
+   "family": "dragons",
+   "element": "glace",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 5,
+   "hp": 5,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "freeze",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Ses ailes reflètent les aurores.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "back",
+    "wings": true,
+    "wing_span": 1.3,
+    "wing_glow": true,
+    "bulk": 1.0,
+    "neck": 1.2,
+    "c1": [
+     90,
+     200,
+     180
+    ],
+    "c2": [
+     200,
+     255,
+     240
+    ],
+    "c3": [
+     255,
+     255,
+     255
+    ],
+    "membrane": [
+     120,
+     255,
+     200
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv33",
+   "name": "Hiver Éternel",
+   "type": "spell",
+   "family": "cosmiques",
+   "element": "glace",
+   "rarity": "SR",
+   "cost": 6,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "freeze",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 2
+    }
+   ],
+   "lore": "Et le printemps ne vint jamais.",
+   "art": {
+    "arch": "spell",
+    "spell": "blackhole",
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv34",
+   "name": "Mère des Ours",
+   "type": "creature",
+   "family": "creatures",
+   "element": "glace",
+   "rarity": "SR",
+   "cost": 7,
+   "atk": 5,
+   "hp": 8,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "summon",
+     "card": "gv91"
+    },
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 3
+    }
+   ],
+   "lore": "Elle protège tous les petits, même ceux qui ne sont pas les siens.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 1.5,
+    "leg_len": 0.9,
+    "tail": 0.3,
+    "c1": [
+     230,
+     230,
+     235
+    ],
+    "c2": [
+     255,
+     255,
+     255
+    ],
+    "c3": [
+     40,
+     40,
+     50
+    ],
+    "eye": [
+     255,
+     200,
+     120
+    ],
+    "aura": true,
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv35",
+   "name": "Oracle des Glaciers",
+   "type": "creature",
+   "family": "antiques",
+   "element": "eau",
+   "rarity": "SR",
+   "cost": 5,
+   "atk": 3,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Elle lit l'avenir dans les fissures de la glace.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     40,
+     80,
+     130
+    ],
+    "hood": [
+     200,
+     230,
+     255
+    ],
+    "skin_h": [
+     200,
+     220,
+     240
+    ],
+    "orb_hand": true,
+    "halo": true,
+    "eye": [
+     200,
+     240,
+     255
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv36",
+   "name": "Mammouth de Guerre Cuirassé",
+   "type": "creature",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "SR",
+   "cost": 8,
+   "atk": 7,
+   "hp": 9,
+   "keywords": [
+    "pietinement"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 1
+    }
+   ],
+   "lore": "On a mis une forteresse sur son dos. Il n'a rien remarqué.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 1.6,
+    "leg_len": 1.0,
+    "horns": "back",
+    "tail": 0.4,
+    "c1": [
+     100,
+     70,
+     50
+    ],
+    "c2": [
+     190,
+     150,
+     110
+    ],
+    "c3": [
+     200,
+     200,
+     210
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv37",
+   "name": "Aurore Glaciale",
+   "type": "creature",
+   "family": "esprits",
+   "element": "lumiere",
+   "rarity": "SR",
+   "cost": 5,
+   "atk": 4,
+   "hp": 4,
+   "keywords": [
+    "envol",
+    "bouclier"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 5
+    }
+   ],
+   "lore": "Une lumière verte qui guérit ce que le froid a brisé.",
+   "art": {
+    "arch": "spirit",
+    "kind": "flame",
+    "c1": [
+     120,
+     255,
+     180
+    ],
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "size": 1.2,
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv38",
+   "name": "Yéti Néon",
+   "type": "creature",
+   "family": "creatures",
+   "element": "foudre",
+   "rarity": "NE",
+   "cost": 4,
+   "atk": 4,
+   "hp": 4,
+   "keywords": [
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "freeze",
+     "target": "attack_target"
+    }
+   ],
+   "lore": "Il a trouvé une enseigne lumineuse dans une station abandonnée. Il ne l'a plus jamais quittée.",
+   "art": {
+    "arch": "biped",
+    "kind": "demon",
+    "bulk": 1.2,
+    "horns": false,
+    "tail": false,
+    "skin": [
+     20,
+     20,
+     40
+    ],
+    "c3": [
+     60,
+     255,
+     255
+    ],
+    "eye": [
+     255,
+     60,
+     220
+    ],
+    "glow": [
+     60,
+     255,
+     255
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "gv39",
+   "name": "Flocon Néon",
+   "type": "creature",
+   "family": "esprits",
+   "element": "glace",
+   "rarity": "NE",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "freeze",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Il clignote en tombant.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "orbiters": 6,
+    "size": 0.6,
+    "c1": [
+     20,
+     20,
+     40
+    ],
+    "ring_c": [
+     255,
+     60,
+     220
+    ],
+    "eye": [
+     60,
+     255,
+     255
+    ],
+    "glow": [
+     60,
+     255,
+     255
+    ],
+    "scene": "void",
+    "scale": 1.0
+   }
+  },
+  {
+   "id": "gv40",
+   "name": "Fenrir de Givre",
+   "type": "creature",
+   "family": "creatures",
+   "element": "glace",
+   "rarity": "E",
+   "cost": 7,
+   "atk": 6,
+   "hp": 6,
+   "keywords": [
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "freeze",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Le loup qui a avalé le soleil de l'hiver.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 1.3,
+    "leg_len": 1.3,
+    "tail": 1.5,
+    "mane": true,
+    "mane_c": [
+     200,
+     240,
+     255
+    ],
+    "c1": [
+     150,
+     190,
+     230
+    ],
+    "c2": [
+     230,
+     245,
+     255
+    ],
+    "c3": [
+     30,
+     40,
+     70
+    ],
+    "eye": [
+     120,
+     240,
+     255
+    ],
+    "aura": true,
+    "glow": [
+     160,
+     230,
+     255
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv41",
+   "name": "Ymira, Géante de Glace",
+   "type": "creature",
+   "family": "antiques",
+   "element": "glace",
+   "rarity": "E",
+   "cost": 8,
+   "atk": 6,
+   "hp": 10,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "freeze",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "turn_start",
+     "do": "shield",
+     "target": "self"
+    }
+   ],
+   "lore": "Les montagnes sont ses frères. Les glaciers, ses larmes.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     120,
+     170,
+     220
+    ],
+    "hair": [
+     240,
+     250,
+     255
+    ],
+    "skin_h": [
+     170,
+     210,
+     240
+    ],
+    "crown": [
+     220,
+     240,
+     255
+    ],
+    "eye": [
+     160,
+     240,
+     255
+    ],
+    "aura": true,
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv42",
+   "name": "Kraken des Banquises",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "E",
+   "cost": 7,
+   "atk": 6,
+   "hp": 7,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "bounce",
+     "target": "choose_enemy_creature"
+    },
+    {
+     "on": "attack",
+     "do": "freeze",
+     "target": "attack_target"
+    }
+   ],
+   "lore": "Il brise la glace par en dessous.",
+   "art": {
+    "arch": "kraken",
+    "c1": [
+     150,
+     200,
+     230
+    ],
+    "c2": [
+     230,
+     250,
+     255
+    ],
+    "eye": [
+     40,
+     120,
+     200
+    ],
+    "glow": [
+     160,
+     230,
+     255
+    ],
+    "scene": "tundra",
+    "scale": 0.9,
+    "cy": 150
+   }
+  },
+  {
+   "id": "gv43",
+   "name": "Ancienne de l'Aurore",
+   "type": "creature",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 4,
+   "hp": 6,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "revive",
+     "value": 2
+    },
+    {
+     "on": "summon",
+     "do": "shield",
+     "target": "all_allies"
+    }
+   ],
+   "lore": "Elle tisse les aurores avec les âmes des héros.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     60,
+     160,
+     140
+    ],
+    "hair": [
+     160,
+     255,
+     220
+    ],
+    "skin_h": [
+     220,
+     240,
+     240
+    ],
+    "halo": true,
+    "floating": true,
+    "eye": [
+     200,
+     255,
+     240
+    ],
+    "aura": true,
+    "glow": [
+     120,
+     255,
+     200
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv44",
+   "name": "Glace Infernale",
+   "type": "creature",
+   "family": "demons",
+   "element": "feu",
+   "rarity": "IN",
+   "cost": 7,
+   "atk": 7,
+   "hp": 5,
+   "keywords": [
+    "rage"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "burn",
+     "target": "all_enemy_creatures",
+     "value": 2
+    },
+    {
+     "on": "summon",
+     "do": "freeze",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Un froid si intense qu'il brûle.",
+   "art": {
+    "arch": "biped",
+    "kind": "demon",
+    "bulk": 1.3,
+    "horns": true,
+    "tail": true,
+    "skin": [
+     60,
+     120,
+     180
+    ],
+    "c3": [
+     255,
+     120,
+     40
+    ],
+    "eye": [
+     255,
+     140,
+     40
+    ],
+    "aura": true,
+    "glow": [
+     255,
+     100,
+     40
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv45",
+   "name": "Boréas, Seigneur de l'Hiver",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "glace",
+   "rarity": "L",
+   "cost": 8,
+   "atk": 7,
+   "hp": 8,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "freeze",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "turn_start",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 1
+    }
+   ],
+   "lore": "Quand il souffle, l'hiver commence.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     200,
+     230,
+     255
+    ],
+    "hair": [
+     255,
+     255,
+     255
+    ],
+    "skin_h": [
+     180,
+     210,
+     240
+    ],
+    "crown": [
+     220,
+     240,
+     255
+    ],
+    "floating": true,
+    "aura": true,
+    "eye": [
+     160,
+     240,
+     255
+    ],
+    "glow": [
+     200,
+     240,
+     255
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv46",
+   "name": "Couronne de Givre",
+   "type": "spell",
+   "family": "antiques",
+   "element": "glace",
+   "rarity": "M",
+   "cost": 7,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "freeze",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "all_allies",
+     "value": 2,
+     "value2": 2
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Celui qui la porte règne sur tout ce qui gèle.",
+   "art": {
+    "arch": "spell",
+    "spell": "holy",
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv47",
+   "name": "Mirage de la Banquise",
+   "type": "creature",
+   "family": "esprits",
+   "element": "glace",
+   "rarity": "MI",
+   "cost": 6,
+   "atk": 4,
+   "hp": 7,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "copy",
+     "target": "strongest_enemy_creature"
+    },
+    {
+     "on": "summon",
+     "do": "freeze",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Un palais de glace apparaît à l'horizon. Il n'y est jamais quand on arrive.",
+   "art": {
+    "arch": "orb",
+    "face": "cute",
+    "ring": true,
+    "orbiters": 8,
+    "size": 0.9,
+    "c1": [
+     200,
+     230,
+     255
+    ],
+    "ring_c": [
+     255,
+     220,
+     255
+    ],
+    "eye": [
+     120,
+     160,
+     255
+    ],
+    "scene": "tundra",
+    "scale": 1.0
+   }
+  },
+  {
+   "id": "gv48",
+   "name": "Hrimfang, Loup de l'Aurore",
+   "type": "creature",
+   "family": "creatures",
+   "element": "glace",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 5,
+   "hp": 5,
+   "form": "omega",
+   "keywords": [
+    "celerite"
+   ],
+   "omega": [
+    {
+     "do": "freeze",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 3
+    }
+   ],
+   "lore": "Il court plus vite que la lumière du nord.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 1.1,
+    "leg_len": 1.3,
+    "tail": 1.5,
+    "mane": true,
+    "mane_c": [
+     160,
+     255,
+     220
+    ],
+    "c1": [
+     200,
+     230,
+     250
+    ],
+    "c2": [
+     255,
+     255,
+     255
+    ],
+    "c3": [
+     30,
+     60,
+     80
+    ],
+    "eye": [
+     120,
+     255,
+     220
+    ],
+    "aura": true,
+    "glow": [
+     120,
+     255,
+     200
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv49",
+   "name": "Glaciarque",
+   "type": "creature",
+   "family": "antiques",
+   "element": "glace",
+   "rarity": "L",
+   "cost": 9,
+   "atk": 7,
+   "hp": 13,
+   "form": "titan",
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "freeze",
+     "target": "all_enemy_creatures"
+    }
+   ],
+   "lore": "Un glacier qui a appris à marcher. Il ne s'arrête plus.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.55,
+    "c1": [
+     150,
+     200,
+     240
+    ],
+    "glow": [
+     230,
+     250,
+     255
+    ],
+    "eye": [
+     230,
+     250,
+     255
+    ],
+    "crystals": [
+     [
+      0,
+      -30,
+      20
+     ]
+    ],
+    "aura": true,
+    "scene": "tundra",
+    "scale": 1.25
+   }
+  },
+  {
+   "id": "gv50",
+   "name": "Nivéa, Étoile Polaire",
+   "type": "creature",
+   "family": "cosmiques",
+   "element": "cosmique",
+   "rarity": "CO",
+   "cost": 9,
+   "atk": 8,
+   "hp": 9,
+   "keywords": [
+    "envol",
+    "bouclier"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "freeze",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 5
+    },
+    {
+     "on": "turn_start",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Elle guide les marins perdus depuis le premier jour du monde.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     40,
+     60,
+     140
+    ],
+    "hair": [
+     230,
+     240,
+     255
+    ],
+    "skin_h": [
+     180,
+     200,
+     250
+    ],
+    "crown": [
+     220,
+     240,
+     255
+    ],
+    "halo": true,
+    "floating": true,
+    "aura": true,
+    "orb_hand": true,
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "glow": [
+     200,
+     220,
+     255
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "gv90",
+   "name": "Petit Bonhomme de Neige",
+   "type": "creature",
+   "family": "esprits",
+   "element": "glace",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 2,
+   "token": true,
+   "lore": "Il fond de plaisir quand on lui sourit.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 0.8,
+    "c1": [
+     245,
+     248,
+     255
+    ],
+    "glow": [
+     255,
+     140,
+     60
+    ],
+    "eye": [
+     30,
+     30,
+     40
+    ],
+    "scene": "tundra"
+   }
+  },
+  {
+   "id": "gv91",
+   "name": "Loup des Neiges",
+   "type": "creature",
+   "family": "creatures",
+   "element": "glace",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 1,
+   "token": true,
+   "lore": "Il suit la meute, toujours un pas derrière.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 0.8,
+    "leg_len": 1.1,
+    "tail": 1.1,
+    "c1": [
+     190,
+     200,
+     215
+    ],
+    "c2": [
+     240,
+     245,
+     250
+    ],
+    "c3": [
+     50,
+     60,
+     80
+    ],
+    "eye": [
+     120,
+     220,
+     255
+    ],
+    "scene": "tundra"
+   }
+  }
+ ]
+}

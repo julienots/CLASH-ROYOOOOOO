@@ -355,6 +355,18 @@ func run() -> int:
 	check(nsb == 48, "48 cartes Sables Éternels (%d)" % nsb)
 	var so := BoosterLogic.slot_odds(DB.booster("sables"))
 	check(so.has("D") and so.has("NE") and so.has("MI"), "booster Sables : Divine, Néon et Mirage tirables")
+	print("== Version 0.11 : Gén. 11 Givre et Gén. 12 Carnaval")
+	for set_id in ["givre", "carnaval"]:
+		var n := 0
+		for id in DB.card_order:
+			if DB.card(id).set == set_id:
+				n += 1
+				for e in DB.card(id).get("effects", []):
+					if e.has("card"):
+						check(DB.cards.has(e.card), "jeton valide " + e.card)
+		check(n == 50, "50 cartes %s (%d)" % [set_id, n])
+	check(BoosterLogic.slot_odds(DB.booster("carnaval")).has("G"), "GOD possible dans le booster Carnaval")
+	check(BoosterLogic.slot_odds(DB.booster("givre")).has("CO"), "Cosmique possible dans le booster Givre")
 	print("== Profil")
 	var pr: Node = Profile
 	var before: int = pr.unique_count()

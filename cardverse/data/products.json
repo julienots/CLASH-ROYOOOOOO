@@ -111,6 +111,28 @@
    "color": "#e0a84a"
   },
   {
+   "id": "display_givre",
+   "name": "Display Royaume du Givre",
+   "booster": "givre",
+   "count": 12,
+   "price": {
+    "coins": 1650
+   },
+   "guarantee": "L",
+   "color": "#7ad0ff"
+  },
+  {
+   "id": "display_carnaval",
+   "name": "Display Carnaval des Ombres",
+   "booster": "carnaval",
+   "count": 12,
+   "price": {
+    "coins": 1750
+   },
+   "guarantee": "L",
+   "color": "#e0408a"
+  },
+  {
    "id": "display_multiverse",
    "name": "Display Multivers",
    "booster": "multiverse",
@@ -305,6 +327,40 @@
     "variant": "secret"
    },
    "color": "#e0a84a"
+  },
+  {
+   "id": "box_givre",
+   "name": "Coffret du Seigneur de l'Hiver",
+   "desc": "La carte promo Boréas en Secret Art, 6 boosters Royaume du Givre et 3 jetons spéciaux.",
+   "price": {
+    "coins": 2900
+   },
+   "boosters": {
+    "givre": 6
+   },
+   "tokens": 3,
+   "promo": {
+    "card": "gv45",
+    "variant": "secret"
+   },
+   "color": "#7ad0ff"
+  },
+  {
+   "id": "box_carnaval",
+   "name": "Coffret du Roi des Clowns",
+   "desc": "La carte promo Grimaldo en Full Art, 6 boosters Carnaval des Ombres et 3 jetons spéciaux.",
+   "price": {
+    "coins": 3000
+   },
+   "boosters": {
+    "carnaval": 6
+   },
+   "tokens": 3,
+   "promo": {
+    "card": "cv45",
+    "variant": "fullart"
+   },
+   "color": "#e0408a"
   },
   {
    "id": "box_elements",
