@@ -142,25 +142,26 @@ func run(m: Node, dir: String) -> void:
 	await _wait(0.4)
 	await _shot("8_deploy")
 	b.essence[0] = 10.0
-	b.deploy(0, "titan", 5.0, 4.0)
-	b.deploy(0, "babydrake", -4.0, 3.0)
+	b.deploy(0, "crystal_golem", 5.0, 4.0)
+	b.deploy(0, "phoenix", -4.0, 3.0)
 	b.essence[0] = 10.0
-	b.deploy(0, "ghost", -5.0, 5.0)
-	b.deploy(0, "tomb", -2.0, 9.0)
+	b.deploy(0, "sky_knight", -5.0, 5.0)
+	b.deploy(0, "cannon", -2.0, 9.0)
 	b.essence[0] = 10.0
-	b.deploy(0, "icemage", 3.0, 6.0)
-	b.deploy(0, "xbow", 2.0, 8.0)
+	b.deploy(0, "ancient_dragon", 3.0, 6.0)
+	b.essence[0] = 10.0
+	b.deploy(0, "shadow_witch", 2.0, 8.0)
 	b.essence[1] = 10.0
-	b.deploy(1, "army", 5.0, -4.0)
+	b.deploy(1, "skeleton_king", 5.0, -4.0)
 	b.deploy(1, "giant_skel", -5.0, -5.0)
 	b.essence[1] = 10.0
 	b.deploy(1, "barracks", 0.0, -8.0)
 	await _wait(9.0)
 	await _shot("9_fight")
 	b.essence[0] = 10.0
-	b.deploy(0, "poison", 5.0, -4.0)
+	b.deploy(0, "comets", 4.0, -6.0)
 	b.essence[0] = 10.0
-	b.deploy(0, "tornado", -5.0, -3.0)
+	b.deploy(0, "aegis", -4.0, 2.0)
 	b.essence[0] = 10.0
 	b.deploy(0, "lightning", 0.0, -8.0)
 	b.essence[0] = 10.0

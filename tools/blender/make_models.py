@@ -661,6 +661,26 @@ def make_chest(kind):
             for z in (0.15, 0.42):
                 stud = prim('uv_sphere', 'Stud', metal, segments=10, ring_count=6, radius=0.05, location=(x, -D / 2 - 0.02, z))
                 parts_body.append(stud)
+    # rainures entre les planches et poignées latérales
+    for i in range(1, 3):
+        for y in (-1, 1):
+            gr = prim('cube', 'Groove', dark, size=1, location=(0, y * (D / 2 - 0.005), i * 0.27 + 0.005))
+            gr.scale = (W - 0.1, 0.02, 0.025)
+            parts_body.append(gr)
+        for x in (-1, 1):
+            gr = prim('cube', 'Groove', dark, size=1, location=(x * (W / 2 - 0.005), 0, i * 0.27 + 0.005))
+            gr.scale = (0.02, D - 0.1, 0.025)
+            parts_body.append(gr)
+    for x in (-1, 1):
+        hd = prim('torus', 'Handle', metal, major_radius=0.13, minor_radius=0.03, location=(x * (W / 2 + 0.06), 0, H * 0.55), rotation=(0, math.radians(90), 0))
+        parts_body.append(hd)
+        mount = prim('cube', 'HandleMount', metal, size=1, location=(x * (W / 2 + 0.02), 0, H * 0.68))
+        mount.scale = (0.05, 0.18, 0.08)
+        parts_body.append(mount)
+    for x in (-W * 0.15, W * 0.15):
+        for z in (0.3, 0.55):
+            stud = prim('uv_sphere', 'FrontStud', metal, segments=8, ring_count=6, radius=0.03, location=(x, -D / 2 - 0.015, z))
+            parts_body.append(stud)
     for o in parts_body:
         smooth(o, 35)
         parent_keep(o, body_pv)
@@ -683,6 +703,11 @@ def make_chest(kind):
         cap.location = (x, 0, H + 0.04)
         cap.scale = (1, 1, 0.8)
         lid_parts.append(cap)
+    for x in (-W * 0.16, W * 0.16):
+        lg = half_cylinder('LidGroove', D / 2 + 0.03, 0.025, dark)
+        lg.location = (x, 0, H + 0.04)
+        lg.scale = (1, 1, 0.8)
+        lid_parts.append(lg)
     lrim = prim('cube', 'LidRim', metal, size=1, location=(0, 0, H + 0.06))
     lrim.scale = (W + 0.06, D + 0.08, 0.06)
     bpy.ops.object.transform_apply(scale=True)
@@ -755,8 +780,260 @@ def make_chests():
         make_chest(k)
 
 
+# ------------------------------------------------------------------ golem de cristal
+def make_crystal_golem():
+    reset()
+    rock = material('Rock', hexc('#8a86b0'), 0.8)
+    rock2 = material('Rock2', hexc('#6c6894'), 0.85)
+    crystal = material('Crystal', hexc('#8fe8ff'), 0.15, 0.1, emit=hexc('#5fd0ff'), emit_strength=2.2)
+    core = material('TeamGlow', hexc('#6fd0ff'), 0.2, emit=hexc('#6fd0ff'), emit_strength=4.0)
+    root = empty('Golem')
+    body = empty('Body', (0, 0, 1.2), root)
+    torso = displaced_rock('Torso', 0.75, 0.22, rock, subdiv=2)
+    torso.location = (0, 0, 1.45)
+    torso.scale = (1.15, 0.85, 1.0)
+    parent_keep(torso, body)
+    gem = prim('ico_sphere', 'Core', core, subdivisions=1, radius=0.22, location=(0, -0.68, 1.5))
+    parent_keep(gem, body)
+    for i, (x, z, s, r) in enumerate(((-0.45, 2.05, 0.9, -0.4), (0.0, 2.2, 1.3, 0.0), (0.45, 2.05, 0.9, 0.4), (-0.7, 1.75, 0.6, -0.9), (0.7, 1.75, 0.6, 0.9))):
+        s *= 1.7
+        c = prim('cylinder', 'Spike', crystal, vertices=6, radius=0.13 * s, depth=0.7 * s, location=(x, 0.15, z))
+        c.rotation_euler = (math.radians(15), r, 0)
+        activate(c)
+        bpy.ops.object.mode_set(mode='EDIT')
+        bm = bmesh.from_edit_mesh(c.data)
+        top = [v for v in bm.verts if v.co.z > 0]
+        bmesh.ops.pointmerge(bm, verts=top, merge_co=Vector((0, 0, 0.35 * s + 0.18 * s)))
+        bmesh.update_edit_mesh(c.data)
+        bpy.ops.object.mode_set(mode='OBJECT')
+        parent_keep(c, body)
+    head = empty('Head', (0, -0.15, 2.2), body)
+    hd = displaced_rock('HeadRock', 0.38, 0.1, rock2, subdiv=2)
+    hd.location = (0, -0.2, 2.25)
+    parent_keep(hd, head)
+    for x in (-0.13, 0.13):
+        e = prim('uv_sphere', 'Eye', core, segments=10, ring_count=6, radius=0.06, location=(x, -0.55, 2.3))
+        parent_keep(e, head)
+    arms = []
+    for side in (-1, 1):
+        sh = empty('ArmL' if side < 0 else 'ArmR', (side * 1.0, 0, 1.85), body)
+        up = displaced_rock('Upper', 0.36, 0.08, rock, subdiv=2)
+        up.location = (side * 1.05, 0, 1.55)
+        parent_keep(up, sh)
+        fist = displaced_rock('Fist', 0.48, 0.1, rock2, subdiv=2)
+        fist.location = (side * 1.12, -0.05, 0.95)
+        parent_keep(fist, sh)
+        for k in range(3):
+            cc = prim('cylinder', 'Knuckle', crystal, vertices=6, radius=0.11, depth=0.45, location=(side * (1.0 + k * 0.14), -0.4, 0.85))
+            cc.rotation_euler = (math.radians(70), 0, 0)
+            parent_keep(cc, sh)
+        pad = prim('ico_sphere', 'Shoulder', crystal, subdivisions=1, radius=0.32, location=(side * 1.05, 0.05, 2.0))
+        pad.scale = (0.8, 0.8, 1.3)
+        parent_keep(pad, sh)
+        arms.append((sh, side))
+    legs = []
+    for side in (-1, 1):
+        lg = empty('LegL' if side < 0 else 'LegR', (side * 0.42, 0, 0.85), root)
+        l1 = displaced_rock('Leg', 0.4, 0.08, rock2, subdiv=2)
+        l1.location = (side * 0.45, 0, 0.45)
+        l1.scale = (0.9, 1.0, 1.1)
+        parent_keep(l1, lg)
+        legs.append((lg, side))
+    for o in bpy.context.scene.objects:
+        if o.type == 'MESH':
+            smooth(o, 30)
+    objs = [root, body, head] + [a for a, _ in arms] + [l for l, _ in legs]
+    rest = {o.name: (o.location.copy(), o.rotation_euler.copy()) for o in objs}
+
+    def base(f):
+        for o in objs:
+            key_loc(o, f, rest[o.name][0])
+            key_rot(o, f, rest[o.name][1])
+    # Idle
+    base(1)
+    key_loc(body, 30, (0, 0, 1.15)); key_rot(head, 30, (0.05, 0, 0.08))
+    base(61)
+    push_track(objs, 'Idle')
+    # Walk
+    for i in range(5):
+        f = 1 + i * 8
+        ph = i / 4 * 2 * math.pi
+        for lg, side in legs:
+            key_rot(lg, f, (0.45 * math.sin(ph) * side, 0, 0))
+        for sh, side in arms:
+            key_rot(sh, f, (-0.35 * math.sin(ph) * side, 0, 0))
+        key_loc(body, f, (0, 0, 1.2 + 0.08 * abs(math.cos(ph))))
+        key_rot(body, f, (0, 0.06 * math.sin(ph), 0))
+    push_track(objs, 'Walk')
+    # Attack : les deux poings s'abattent
+    base(1)
+    for sh, side in arms:
+        key_rot(sh, 1, (0, 0, 0)); key_rot(sh, 10, (2.2, 0, -side * 0.3)); key_rot(sh, 16, (-0.6, 0, 0)); key_rot(sh, 30, (0, 0, 0))
+    key_rot(body, 10, (-0.25, 0, 0)); key_rot(body, 16, (0.35, 0, 0)); key_rot(body, 30, (0, 0, 0))
+    push_track(objs, 'Attack')
+    # Death_A : s'effondre
+    base(1)
+    key_loc(body, 20, (0, 0.2, 0.35)); key_rot(body, 20, (0.9, 0, 0.3))
+    for sh, side in arms:
+        key_rot(sh, 20, (0.3, 0, side * 1.2))
+    for lg, side in legs:
+        key_rot(lg, 20, (0, side * 0.4, side * 0.5))
+    push_track(objs, 'Death_A')
+    export('crystal_golem')
+
+
+# ------------------------------------------------------------------ phénix
+def make_phoenix():
+    reset()
+    fire = material('Fire', hexc('#ff6a1a'), 0.4, emit=hexc('#ff5a10'), emit_strength=1.6)
+    gold = material('Plume', hexc('#ffc23a'), 0.4, emit=hexc('#ffb020'), emit_strength=1.4)
+    red = material('Body', hexc('#d8321e'), 0.5)
+    beak_m = material('Beak', hexc('#ffe08a'), 0.35, 0.3)
+    eye_m = material('Eye', hexc('#ffffff'), 0.2, emit=hexc('#fff3b0'), emit_strength=4.0)
+    team = material('Team', hexc('#ffd24a'), 0.4)
+    root = empty('Phoenix')
+    bp = empty('BodyPivot', (0, 0, 0), root)
+    body = metaball_mesh('Body', [((0, 0, 0), 0.7, (0.85, 1.35, 0.85)), ((0, -0.65, 0.4), 0.5, (0.8, 0.9, 0.9))], 0.06, red)
+    parent_keep(body, bp)
+    chest = metaball_mesh('Chest', [((0, -0.35, -0.1), 0.42, (0.7, 0.9, 0.8))], 0.06, gold)
+    parent_keep(chest, bp)
+    head = empty('Head', (0, -0.95, 0.65), bp)
+    sk = metaball_mesh('Skull', [((0, -1.0, 0.7), 0.3, None)], 0.05, red)
+    parent_keep(sk, head)
+    bk = prim('cone', 'Beak', beak_m, vertices=8, radius1=0.12, depth=0.4, location=(0, -1.35, 0.65))
+    bk.rotation_euler = (math.radians(95), 0, 0)
+    parent_keep(bk, head)
+    for x in (-0.13, 0.13):
+        e = prim('uv_sphere', 'Eye', eye_m, segments=8, ring_count=6, radius=0.05, location=(x, -1.18, 0.8))
+        parent_keep(e, head)
+    for i in range(5):
+        cr = prim('cone', 'Crest', fire, vertices=6, radius1=0.06, depth=0.5, location=(0, -0.9 + i * 0.08, 1.0 + i * 0.02))
+        cr.rotation_euler = (math.radians(-30 - i * 12), 0, 0)
+        parent_keep(cr, head)
+    def membrane(name, verts, mat, parent, origin):
+        mesh = bpy.data.meshes.new(name)
+        bm = bmesh.new()
+        bv = [bm.verts.new(Vector(v) + origin) for v in verts]
+        bm.faces.new(bv)
+        bmesh.ops.triangulate(bm, faces=bm.faces[:])
+        bm.to_mesh(mesh)
+        o = link(bpy.data.objects.new(name, mesh))
+        o.data.materials.append(mat)
+        sol = o.modifiers.new('sol', 'SOLIDIFY')
+        sol.thickness = 0.05
+        sub = o.modifiers.new('sub', 'SUBSURF')
+        sub.levels = 2
+        apply_mods(o)
+        parent_keep(o, parent)
+        return o
+    tail = empty('Tail', (0, 0.7, 0), bp)
+    membrane('TailFan', [(0, 0, 0), (-0.9, 2.2, -0.25), (-0.35, 2.7, -0.3), (0, 2.2, -0.25), (0.35, 2.7, -0.3), (0.9, 2.2, -0.25)], fire, tail, Vector((0, 0.7, 0)))
+    membrane('TailFan2', [(0, 0.1, 0.02), (-0.5, 1.8, -0.15), (0, 2.1, -0.15), (0.5, 1.8, -0.15)], gold, tail, Vector((0, 0.7, 0.03)))
+    wings = []
+    for side in (-1, 1):
+        w = empty('WingL' if side < 0 else 'WingR', (side * 0.45, -0.2, 0.3), bp)
+        outer = [(0, -0.2, 0), (side * 1.0, -0.6, 0.35), (side * 2.2, -0.45, 0.5), (side * 2.6, 0.2, 0.35), (side * 2.15, 0.7, 0.15),
+                 (side * 2.3, 1.3, 0.05), (side * 1.65, 1.2, 0.0), (side * 1.5, 1.7, -0.05), (side * 0.85, 1.4, 0.0), (side * 0.15, 0.9, 0)]
+        membrane('Wing', outer if side > 0 else list(reversed(outer)), fire, w, w.location)
+        inner = [(0, -0.15, 0.03), (side * 0.9, -0.5, 0.36), (side * 1.9, -0.35, 0.46), (side * 1.4, 0.55, 0.2), (side * 0.6, 0.7, 0.05)]
+        membrane('WingGold', inner if side > 0 else list(reversed(inner)), gold, w, w.location + Vector((0, 0, 0.03)))
+        edge = [(side * 0.2, -0.3, 0.06), (side * 1.0, -0.68, 0.42), (side * 2.3, -0.52, 0.56), (side * 1.0, -0.52, 0.38)]
+        membrane('WingTeam', edge if side > 0 else list(reversed(edge)), team, w, w.location + Vector((0, 0, 0.04)))
+        wings.append((w, side))
+    for o in bpy.context.scene.objects:
+        if o.type == 'MESH':
+            smooth(o, 50)
+    objs = [root, bp, head, tail] + [w for w, _ in wings]
+    rest = {o.name: (o.location.copy(), o.rotation_euler.copy()) for o in objs}
+
+    def flap(f0, length, amp):
+        for i in range(9):
+            f = f0 + i * length / 8
+            ph = i / 8 * 2 * math.pi
+            for w, side in wings:
+                key_rot(w, f, (0, side * amp * math.sin(ph), 0))
+            key_loc(bp, f, (0, 0, -0.15 * math.sin(ph)))
+            key_rot(tail, f, (0.15 * math.sin(ph + 1), 0, 0))
+    flap(1, 36, 0.6)
+    push_track(objs, 'Idle')
+    flap(1, 20, 0.95)
+    key_rot(head, 1, (-0.15, 0, 0)); key_rot(head, 21, (-0.15, 0, 0))
+    push_track(objs, 'Fly')
+    flap(1, 30, 0.7)
+    key_rot(head, 1, (0, 0, 0)); key_rot(head, 9, (0.4, 0, 0)); key_rot(head, 15, (-0.5, 0, 0)); key_rot(head, 30, (0, 0, 0))
+    push_track(objs, 'Attack')
+    for o in objs:
+        key_loc(o, 1, rest[o.name][0]); key_rot(o, 1, rest[o.name][1])
+    key_loc(root, 24, (0, 0, -2.0)); key_rot(root, 24, (0.8, 0, 2.0))
+    for w, side in wings:
+        key_rot(w, 24, (0, side * -1.0, 0))
+    push_track(objs, 'Death_A')
+    export('phoenix')
+    # œuf
+    reset()
+    shell = material('Shell', hexc('#ff9a3a'), 0.35, emit=hexc('#ff6a10'), emit_strength=0.8)
+    crack = material('Crack', hexc('#fff3b0'), 0.3, emit=hexc('#ffd24a'), emit_strength=5.0)
+    egg = prim('uv_sphere', 'Egg', shell, segments=24, ring_count=16, radius=0.5, location=(0, 0, 0.6))
+    egg.scale = (0.85, 0.85, 1.15)
+    egg.data.materials.append(crack)
+    for p in egg.data.polygons:
+        if random.random() < 0.08:
+            p.material_index = 1
+    smooth(egg, 60)
+    nest = prim('torus', 'Nest', material('Nest', hexc('#6b4423'), 0.9), major_radius=0.5, minor_radius=0.14, location=(0, 0, 0.12))
+    export('phoenix_egg')
+
+
+# ------------------------------------------------------------------ canon
+def make_cannon():
+    reset()
+    wood = material('Wood', hexc('#8b5a2b'), 0.75)
+    iron = material('Iron', hexc('#4a505c'), 0.4, 0.5)
+    brass = material('Brass', hexc('#e0a83a'), 0.3, 0.6)
+    team = material('Team', hexc('#d9dde6'), 0.5)
+    root = empty('Cannon')
+    base = prim('cube', 'Carriage', wood, size=1, location=(0, 0.1, 0.45))
+    base.scale = (0.9, 1.4, 0.35)
+    bpy.ops.object.transform_apply(scale=True)
+    bevel(base, 0.05)
+    parent_keep(base, root)
+    for x in (-0.55, 0.55):
+        for y in (-0.45, 0.6):
+            wh = prim('cylinder', 'Wheel', wood, vertices=16, radius=0.38, depth=0.14, location=(x, y, 0.38), rotation=(0, math.radians(90), 0))
+            parent_keep(wh, root)
+            hub = prim('cylinder', 'Hub', iron, vertices=12, radius=0.1, depth=0.18, location=(x, y, 0.38), rotation=(0, math.radians(90), 0))
+            parent_keep(hub, root)
+            rim = prim('torus', 'Rim', iron, major_radius=0.36, minor_radius=0.035, location=(x, y, 0.38), rotation=(0, math.radians(90), 0))
+            parent_keep(rim, root)
+    band = prim('cube', 'TeamBand', team, size=1, location=(0, 0.1, 0.65))
+    band.scale = (0.95, 0.2, 0.08)
+    parent_keep(band, root)
+    barrel = empty('Barrel', (0, 0.1, 0.85), root)
+    b = prim('cylinder', 'BarrelTube', iron, vertices=20, radius=0.26, depth=1.7, location=(0, -0.35, 0.95), rotation=(math.radians(80), 0, 0))
+    parent_keep(b, barrel)
+    for k, yy in enumerate((-1.1, -0.35, 0.35)):
+        r = prim('torus', 'Ring', brass, major_radius=0.28, minor_radius=0.05, location=(0, yy, 0.95 + (yy + 0.35) * -0.17), rotation=(math.radians(80), 0, 0))
+        parent_keep(r, barrel)
+    muzzle = prim('torus', 'Muzzle', brass, major_radius=0.3, minor_radius=0.08, location=(0, -1.18, 1.08), rotation=(math.radians(80), 0, 0))
+    parent_keep(muzzle, barrel)
+    hole = prim('cylinder', 'Bore', material('Dark', hexc('#111111'), 0.9), vertices=16, radius=0.18, depth=0.05, location=(0, -1.22, 1.09), rotation=(math.radians(80), 0, 0))
+    parent_keep(hole, barrel)
+    back = prim('uv_sphere', 'Cascabel', iron, segments=12, ring_count=8, radius=0.22, location=(0, 0.5, 0.82))
+    parent_keep(back, barrel)
+    for o in bpy.context.scene.objects:
+        if o.type == 'MESH':
+            smooth(o, 40)
+    objs = [root, barrel]
+    key_loc(barrel, 1, (0, 0.1, 0.85)); key_rot(barrel, 1, (0, 0, 0)); key_loc(barrel, 61, (0, 0.1, 0.85)); key_rot(barrel, 61, (0, 0, 0))
+    push_track(objs, 'Idle')
+    key_loc(barrel, 1, (0, 0.1, 0.85)); key_loc(barrel, 3, (0, 0.45, 0.85)); key_rot(barrel, 3, (-0.12, 0, 0)); key_loc(barrel, 15, (0, 0.1, 0.85)); key_rot(barrel, 15, (0, 0, 0))
+    key_rot(root, 1, (0, 0, 0)); key_rot(root, 3, (-0.06, 0, 0)); key_rot(root, 10, (0, 0, 0))
+    push_track(objs, 'Attack')
+    export('cannon')
+
+
 if __name__ == '__main__':
     only = sys.argv[sys.argv.index('--') + 2:] if '--' in sys.argv else []
-    for fn in (make_dragon, make_totem, make_meteor, make_frost, make_potion, make_arrow, make_island, make_chests):
+    for fn in (make_dragon, make_totem, make_meteor, make_frost, make_potion, make_arrow, make_island, make_chests, make_crystal_golem, make_phoenix, make_cannon):
         if not only or fn.__name__ in only:
             fn()

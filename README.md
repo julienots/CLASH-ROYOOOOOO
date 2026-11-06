@@ -19,7 +19,7 @@ Jeu de cartes et de stratégie en temps réel en 3D : déploie tes unités, déf
 - Tours : tremblement à chaque coup, effondrement avec débris + ralenti, la couronne s'envole vers le score, réveil de la Tour Cœur
 - Interface : cartes qui glissent depuis « Suivante », boutons élastiques, onglets qui glissent, écran VS, ouverture de coffre, écran de victoire avec couronnes une par une et compteurs animés
 
-## 🃏 Cartes (37)
+## 🃏 Cartes (47)
 
 | Carte | Coût | Modèle | Attaque |
 |---|---|---|---|
@@ -61,6 +61,17 @@ Jeu de cartes et de stratégie en temps réel en 3D : déploie tes unités, déf
 | **Bénédiction** | 3 | Fiole dorée | Soigne tes troupes |
 | **Poison** | 4 | Fiole toxique | Dégâts sur la durée + ralentissement |
 
+| **Dragon Ancestral** | 7 | Grand dragon violet (Blender) | Souffle infernal dont les dégâts montent jusqu'à x4 |
+| **Golem de Cristal** | 7 | Golem de roche et cristal (Blender) | Gèle à sa mort et se brise en 3 éclats |
+| **Phénix** | 5 | Oiseau de feu (Blender) | Renaît de son œuf s'il n'est pas détruit en 3 s |
+| **Roi Squelette** | 6 | Guerrier squelette couronné | Frappe en zone, relève 3 squelettes |
+| **Sorcière des Ombres** | 4 | Mage | Se téléporte vers sa cible |
+| **Chevalier Céleste** | 5 | Chevalier à l'épée géante | Bondit sur ses cibles, double dégâts |
+| **Pluie de Comètes** | 6 | Sort | 6 comètes sur une grande zone |
+| **Clone** | 3 | Sort | Copie tes troupes (1 PV) |
+| **Bouclier Arcanique** | 2 | Sort | Bouclier de 300 PV pour tes troupes |
+| **Canon Royal** | 3 | Canon (Blender) | Bâtiment défensif |
+
 Les cartes se débloquent en progressant sur les îles.
 
 ## 🎁 Coffres
@@ -68,6 +79,11 @@ Les cartes se débloquent en progressant sur les îles.
 5 coffres modélisés et animés dans Blender : Bois, Argent, Or, Magique (cristaux lumineux) et Couronne (couronne en or sertie).
 Ouverture en 3D : le coffre tombe et rebondit, tremble quand on le touche, le couvercle saute dans un éclat de lumière,
 puis chaque récompense (or, gemmes, carte améliorée gratuitement pour les coffres Or/Magique/Couronne) jaillit une par une.
+
+## 🏟️ Arènes
+
+Tribunes en pierre remplies d'un public animé qui exulte quand une tour tombe, sol avec fleurs et dalles biseautées,
+décor différent sur chaque île (lave, brume, cristaux de glace, cactus et palmiers, champignons géants, cristaux flottants).
 
 ## 🏆 Progression
 
@@ -91,7 +107,7 @@ En combat : émotes, musique qui s'accélère à la dernière minute, ambiance s
 
 ## 🎨 Crédits
 
-- **Modèles Blender** (dragon, totem, coffres, sorts, île flottante) : créés pour le jeu par script, `tools/blender/make_models.py`
+- **Modèles Blender** (dragons, phénix, golem de cristal, canon, totem, coffres, sorts, île flottante) : créés pour le jeu par script, `tools/blender/make_models.py`
   (`blender -b --python tools/blender/make_models.py -- godot/assets/models/blender`).
 - **Musiques, fanfares et sons de combat** : synthétisés pour le jeu, `tools/make_audio.py`.
 - **Sons d'interface** : [uisfx](https://github.com/romainsimon/uisfx) (MIT). Quelques bruitages Kenney (CC0). Voir `godot/assets/sounds/CREDITS.txt`.

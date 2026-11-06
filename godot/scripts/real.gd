@@ -51,6 +51,12 @@ const UNITS := {
 		"move": "Running_B", "attack": "Dualwield_Melee_Attack_Stab", "pose": ["Dualwield_Melee_Attack_Stab", 0.35]},
 	"guards": {"file": "Knight", "scale": 0.52, "show": ["1H_Sword", "Badge_Shield"],
 		"move": "Walking_A", "attack": "1H_Melee_Attack_Stab", "pose": ["Blocking", 0.2]},
+	"skeleton_king": {"file": "Skeleton_Warrior", "scale": 0.85, "attach_r": "Skeleton_Axe", "attach_l": "Skeleton_Shield_Large_A", "crown": true,
+		"spawn": "Spawn_Ground_Skeletons", "move": "Walking_D_Skeletons", "attack": "1H_Melee_Attack_Chop", "pose": ["Taunt", 0.5]},
+	"shadow_witch": {"file": "Mage", "scale": 0.6, "show": ["1H_Wand", "Spellbook"],
+		"move": "Walking_A", "attack": "Spellcast_Shoot", "pose": ["Spellcast_Raise", 0.4]},
+	"sky_knight": {"file": "Knight", "scale": 0.66, "show": ["2H_Sword"],
+		"move": "Running_A", "attack": "2H_Melee_Attack_Slice", "pose": ["Jump_Full_Short", 0.35]},
 	"sapper": {"file": "Skeleton_Rogue", "scale": 0.55, "back": "keg_decorated", "spawn": "Spawn_Ground_Skeletons",
 		"move": "Running_B", "attack": "Throw", "pose": ["Running_B", 0.3]},
 }
@@ -102,6 +108,16 @@ static func build(id: String, team: int) -> Node3D:
 		bl.bone_name = "handslot.l"
 		skel.add_child(bl)
 		bl.add_child(scene(DIR + "weapons/" + cfg.attach_l + ".gltf").instantiate())
+	if cfg.get("crown", false):
+		var bc = BoneAttachment3D.new()
+		bc.bone_name = "head"
+		skel.add_child(bc)
+		var gold = Models.mat(Color("f4c542"), 0.6, 0.3)
+		Models.mi(Models.cyl(0.42, 0.38, 0.22, 10), gold, Vector3(0, 0.85, 0), bc)
+		for i in 6:
+			var a = i * TAU / 6.0
+			Models.mi(Models.cone(0.1, 0.32, 6), gold, Vector3(cos(a) * 0.36, 1.08, sin(a) * 0.36), bc)
+			Models.mi(Models.sphere(0.06, 6), Models.glow(Color("ff3d6a"), 2.5), Vector3(cos(a) * 0.36, 0.86, sin(a) * 0.36 + 0.02), bc)
 	if cfg.has("back"):
 		var ba := BoneAttachment3D.new()
 		ba.bone_name = "chest"

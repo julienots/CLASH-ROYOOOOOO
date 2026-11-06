@@ -196,6 +196,9 @@ func _render_cards(bar: ProgressBar) -> void:
 		"giant_skel": [6.0, 1.3, 0.7], "lumber": [4.3, 0.9, 0.4], "babydrake": [4.6, 0.6, 1.0], "ghost": [3.9, 0.85, 0.4],
 		"guards": [3.6, 0.7, 0.5], "xbow": [6.4, 1.9, 1.0], "tomb": [5.4, 1.4, 0.6], "barracks": [6.8, 1.4, 1.2],
 		"lightning": [4.4, 1.1, 0.4], "tornado": [4.6, 1.0, 0.4], "heal": [3.6, 0.75, 0.3], "poison": [3.6, 0.75, 0.3],
+		"ancient_dragon": [8.0, 1.2, 1.8], "crystal_golem": [6.6, 1.4, 0.8], "phoenix": [5.2, 0.6, 1.4], "skeleton_king": [5.0, 1.2, 0.5],
+		"shadow_witch": [4.0, 0.85, 0.4], "sky_knight": [4.4, 0.9, 0.4], "comets": [4.6, 1.0, 0.5], "clone": [3.6, 0.75, 0.3],
+		"aegis": [3.8, 0.9, 0.4], "cannon": [4.8, 0.8, 0.9],
 		"meteor": [4.2, 0.0, 0.3], "frost": [3.8, 0.6, 0.3], "swarm": [2.6, 0.45, 0.4], "sapper": [3.4, 0.75, 0.5], "pyro": [4.0, 0.85, 0.4], "storm": [6.4, 1.3, 0.8], "golem": [6.6, 1.3, 0.8]}
 	var ids = Data.playable()
 	var n = 0
@@ -369,8 +372,7 @@ func _show_menu() -> void:
 
 func _top_bar() -> Control:
 	var p = PanelContainer.new()
-	var st = StyleBoxFlat.new()
-	st.bg_color = Color(0.03, 0.08, 0.22, 0.85)
+	var st = FancyBox.make(Color(0.06, 0.14, 0.36, 0.92), 6, 4, 4, 0.12)
 	st.content_margin_left = 14
 	st.content_margin_right = 14
 	st.content_margin_top = 18
@@ -449,10 +451,10 @@ func _refresh_resources() -> void:
 
 func _nav_bar() -> Control:
 	var p = PanelContainer.new()
-	var st = StyleBoxFlat.new()
-	st.bg_color = Color("1b3f8a")
-	st.border_width_top = 5
-	st.border_color = UI.INK
+	var st = FancyBox.make(Color("1d4596"), 6, 4, 0, 0.16)
+	st.content_margin_left = 0
+	st.content_margin_right = 0
+	st.content_margin_top = 4
 	st.content_margin_bottom = 10
 	p.add_theme_stylebox_override("panel", st)
 	var h = HBoxContainer.new()
@@ -465,10 +467,7 @@ func _nav_bar() -> Control:
 		b.custom_minimum_size = Vector2(0, 118)
 		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		b.size_flags_stretch_ratio = 1.5 if on else 1.0
-		var sb = StyleBoxFlat.new()
-		sb.bg_color = Color("3f7cf0") if on else Color(0, 0, 0, 0)
-		sb.corner_radius_top_left = 18
-		sb.corner_radius_top_right = 18
+		var sb = FancyBox.make(Color("4a8cff"), 20, 4, 4, 0.35) if on else StyleBoxEmpty.new()
 		b.add_theme_stylebox_override("normal", sb)
 		b.add_theme_stylebox_override("hover", sb)
 		b.add_theme_stylebox_override("pressed", sb)
@@ -536,11 +535,10 @@ func _show_tab(id: String, dir: int) -> void:
 	_bg_dim(id != "battle")
 
 func _bg_dim(on: bool) -> void:
-	var dim: ColorRect = root.get_node_or_null("Dim")
+	var dim: Control = root.get_node_or_null("Dim")
 	if dim == null:
-		dim = ColorRect.new()
+		dim = BgPattern.new()
 		dim.name = "Dim"
-		dim.color = Color("173f9a")
 		dim.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		UI.full_rect(dim)
 		root.add_child(dim)
@@ -630,43 +628,34 @@ func _tab_home() -> Control:
 	UI.full_rect(road_btn)
 	road_btn.pressed.connect(func(): Sfx.play("open"); _road_popup())
 	head.add_child(road_btn)
-	# boutons latéraux : quêtes et mode de jeu
-	var side = HBoxContainer.new()
-	side.set_anchors_and_offsets_preset(Control.PRESET_TOP_WIDE)
-	side.position.y = 220
-	side.offset_left = 20
-	side.offset_right = -20
-	side.add_theme_constant_override("separation", 12)
+	# boutons ronds de part et d'autre de l'arène
 	var claimable = 0
 	for q in Data.save.quests:
 		if not q.claimed and int(q.progress) >= Data.quest_def(q.id).goal:
 			claimable += 1
-	var qb = UI.button("Quêtes" + (" (%d)" % claimable if claimable else ""), UI.GREEN if claimable else Color("3f7cf0"), 26)
-	qb.pressed.connect(_quests_popup)
-	side.add_child(qb)
-	if claimable:
-		qb.ready.connect(func(): UI.pulse(qb, 1.08, 0.8))
-	var pass_ready = _pass_claimable()
-	var pb = UI.button("Pass" + (" (%d)" % pass_ready if pass_ready else ""), Color("c23cf0"), 24)
-	pb.pressed.connect(_pass_popup)
-	side.add_child(pb)
-	var road_ready = _road_claimable()
-	if road_ready:
-		var rb = UI.button("Route (%d)" % road_ready, UI.GOLD, 24)
-		rb.pressed.connect(_road_popup)
-		side.add_child(rb)
-	var spc = Control.new()
-	spc.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	spc.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	side.add_child(spc)
+	var ach_ready = 0
+	for a in Data.ACHIEVEMENTS:
+		if _ach_value(a[2]) >= a[3] and not a[0] in Data.save.ach_claimed:
+			ach_ready += 1
 	var md = _mode()
-	var mb = UI.button(md.name, md.color, 24)
-	mb.pressed.connect(func():
+	var left = VBoxContainer.new()
+	left.add_theme_constant_override("separation", -2)
+	left.position = Vector2(14, 196)
+	left.add_child(UI.round_button("scroll", "Quêtes", Color("4fc22a"), claimable, _quests_popup))
+	left.add_child(UI.round_button("crown", "Pass", Color("c23cf0"), _pass_claimable(), _pass_popup))
+	left.add_child(UI.round_button("trophy", "Route", UI.GOLD, _road_claimable(), _road_popup))
+	page.add_child(left)
+	var right = VBoxContainer.new()
+	right.add_theme_constant_override("separation", -2)
+	right.position = Vector2(get_viewport().get_visible_rect().size.x - 14 - 104, 196)
+	right.add_child(UI.round_button("swords", md.name.replace("1c1 ", ""), md.color, 0, func():
 		tab = "events"
-		_show_menu())
-	side.add_child(mb)
-	page.add_child(side)
-	UI.slide_in(side, Vector2(0, -60), 0.15, 0.4)
+		_show_menu()))
+	right.add_child(UI.round_button("star", "Succès", Color("ff8a1f"), ach_ready, _achievements_popup))
+	right.add_child(UI.round_button("gift", "Cadeau", Color("f2384a"), 0 if int(Data.save.get("login_day", -1)) == int(Time.get_unix_time_from_system() / 86400) else 1, _login_popup))
+	page.add_child(right)
+	UI.slide_in(left, Vector2(-200, 0), 0.15, 0.45)
+	UI.slide_in(right, Vector2(200, 0), 0.15, 0.45)
 
 	var bottom = VBoxContainer.new()
 	bottom.set_anchors_and_offsets_preset(Control.PRESET_CENTER_BOTTOM)
@@ -1123,6 +1112,51 @@ func _bonus_card(type: String) -> String:
 	Data.save.levels[id] = int(Data.save.levels[id]) + 1
 	Data.persist()
 	return id
+
+## Petit coffre 3D animé (emplacements de l'accueil).
+func _chest_live(type: String, sz: Vector2, ready: bool) -> Control:
+	var svc = SubViewportContainer.new()
+	svc.stretch = true
+	svc.custom_minimum_size = sz
+	svc.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	svc.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	var sv = SubViewport.new()
+	sv.transparent_bg = true
+	sv.own_world_3d = true
+	sv.msaa_3d = Viewport.MSAA_2X
+	svc.add_child(sv)
+	var env = WorldEnvironment.new()
+	var e = Environment.new()
+	e.background_mode = Environment.BG_CLEAR_COLOR
+	e.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
+	e.ambient_light_color = Color.WHITE
+	e.ambient_light_energy = 0.75
+	e.tonemap_mode = Environment.TONE_MAPPER_FILMIC
+	env.environment = e
+	sv.add_child(env)
+	var key = DirectionalLight3D.new()
+	key.rotation = Vector3(deg_to_rad(-40), deg_to_rad(30), 0)
+	key.light_energy = 1.3
+	sv.add_child(key)
+	var cam = Camera3D.new()
+	cam.fov = 30
+	cam.transform = Transform3D(Basis(), Vector3(0, 2.0, 4.2)).looking_at(Vector3(0, 0.55, 0), Vector3.UP)
+	sv.add_child(cam)
+	var ch = Models.blend("chest_" + type)
+	ch.rotation.y = 0.45
+	sv.add_child(ch)
+	var ap: AnimationPlayer = ch.find_child("AnimationPlayer", false, false)
+	ap.get_animation("Idle").loop_mode = Animation.LOOP_LINEAR
+	ap.get_animation("Shake").loop_mode = Animation.LOOP_LINEAR
+	ap.play("Shake" if ready else "Idle")
+	if ready:
+		ap.speed_scale = 0.7
+		var glow = OmniLight3D.new()
+		glow.light_color = Color("ffd24a")
+		glow.light_energy = 1.4
+		glow.position = Vector3(0, 0.9, 0.6)
+		sv.add_child(glow)
+	return svc
 
 func _chest_icon(type: String, s: float) -> Control:
 	if Data.chest_textures.has(type):
@@ -2082,7 +2116,7 @@ func _chest_slots() -> Control:
 					col = Color("4fc22a")
 					label = "OUVRIR !"
 					ready = true
-		var st = UI.panel(col, 18)
+		var st = UI.panel(col if c else Color(0.35, 0.22, 0.12, 0.75), 18)
 		b.add_theme_stylebox_override("normal", st)
 		b.add_theme_stylebox_override("hover", st)
 		b.add_theme_stylebox_override("pressed", st)
@@ -2092,20 +2126,16 @@ func _chest_slots() -> Control:
 		v.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		v.add_theme_constant_override("separation", -4)
 		if c:
-			var ic = _chest_icon(c.type, 92)
-			ic.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+			var ic = _chest_live(c.type, Vector2(140, 96), c.state == "ready")
 			ic.mouse_filter = Control.MOUSE_FILTER_IGNORE
-			v.add_child(ic)
-			if ready:
-				ic.ready.connect(func():
-					ic.pivot_offset = ic.size / 2
-					var tw = ic.create_tween().set_loops()
-					tw.tween_property(ic, "rotation", 0.12, 0.12)
-					tw.tween_property(ic, "rotation", -0.12, 0.12)
-					tw.tween_property(ic, "rotation", 0.0, 0.12)
-					tw.tween_interval(0.8))
+			ic.position = Vector2(5, 2)
+			ic.size = Vector2(140, 96)
+			b.add_child(ic)
+			v.alignment = BoxContainer.ALIGNMENT_END
+			v.offset_bottom = -10
 		var l = UI.label(label, 18 if c else 20, Color.WHITE, 5)
 		l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		l.name = "SlotLabel%d" % i
 		v.add_child(l)
 		b.add_child(v)
 		b.pressed.connect(_tap_chest.bind(i))
@@ -2119,17 +2149,24 @@ func _chest_slots() -> Control:
 			if root.get_children().any(func(c): return c.has_meta("keep")):
 				return
 			if tab == "battle" and battle == null and content and is_instance_valid(content):
-				for c in Data.save.chests:
+				var slots = content.find_children("ChestSlots", "", true, false)
+				if slots.is_empty():
+					return
+				for i in 4:
+					var c = Data.save.chests[i]
 					if c and c.state == "unlocking":
-						var slots = content.find_children("ChestSlots", "", true, false)
-						if slots.size() > 0:
+						var rem = int(c.end) - _now()
+						if rem <= 0:
 							var parent = slots[0].get_parent()
 							var idx = slots[0].get_index()
 							slots[0].queue_free()
 							var n = _chest_slots()
 							parent.add_child(n)
 							parent.move_child(n, idx)
-						break)
+							return
+						var lb = slots[0].find_child("SlotLabel%d" % i, true, false)
+						if lb:
+							lb.text = "Ouverture\n" + _fmt_time(rem))
 		chest_timer.start()
 	h.name = "ChestSlots"
 	return h
@@ -2900,3 +2937,35 @@ func _daily_deals() -> Control:
 		row.add_child(p)
 	box.add_child(row)
 	return box
+
+
+## Fond animé des onglets : dégradé bleu nuit + losanges qui défilent lentement.
+class BgPattern extends Control:
+	func _ready() -> void:
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+	func _process(_d: float) -> void:
+		queue_redraw()
+	func _draw() -> void:
+		var top = Color("2a64d6")
+		var bot = Color("10306e")
+		var n = 24
+		for i in n:
+			var y0 = size.y * i / n
+			draw_rect(Rect2(0, y0, size.x, size.y / n + 1), top.lerp(bot, float(i) / n))
+		var t = Time.get_ticks_msec() / 1000.0
+		var cell = 90.0
+		var off = fmod(t * 12.0, cell)
+		var y = -cell
+		var row = 0
+		while y < size.y + cell:
+			var x = -cell + (cell / 2.0 if row % 2 else 0.0)
+			while x < size.x + cell:
+				var c = Vector2(x + off, y + off * 0.5)
+				var r = cell * 0.36
+				draw_colored_polygon(PackedVector2Array([c + Vector2(0, -r), c + Vector2(r, 0), c + Vector2(0, r), c + Vector2(-r, 0)]), Color(1, 1, 1, 0.045))
+				x += cell
+			y += cell / 2.0
+			row += 1
+		# vignette
+		for k in 8:
+			draw_rect(Rect2(0, size.y - (k + 1) * 30, size.x, 30), Color(0, 0, 0, 0.025 * k))

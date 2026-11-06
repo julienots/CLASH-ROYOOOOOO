@@ -46,30 +46,16 @@ static func theme() -> Theme:
 	t.set_color("font_color", "LineEdit", INK)
 	return t
 
-static func box(color: Color, radius := 18, border := 4, shadow := 6) -> StyleBoxFlat:
-	var s = StyleBoxFlat.new()
-	s.bg_color = color
-	s.set_corner_radius_all(radius)
-	s.set_border_width_all(border)
-	s.border_width_bottom = border + shadow
-	s.border_color = INK
-	s.content_margin_left = 18
-	s.content_margin_right = 18
-	s.content_margin_top = 10
-	s.content_margin_bottom = 10 + shadow
-	s.shadow_color = Color(0, 0, 0, 0.35)
-	s.shadow_size = 4
-	s.shadow_offset = Vector2(0, 4)
-	return s
+static func box(color: Color, radius := 18, border := 4, shadow := 6) -> StyleBox:
+	return FancyBox.make(color, radius, border, shadow, 0.32)
 
-static func panel(color: Color, radius := 20) -> StyleBoxFlat:
-	var s = StyleBoxFlat.new()
-	s.bg_color = color
-	s.set_corner_radius_all(radius)
-	s.set_border_width_all(4)
-	s.border_color = INK
-	s.set_content_margin_all(14)
-	return s
+static func panel(color: Color, radius := 20) -> StyleBox:
+	var f = FancyBox.make(color, radius, 4, 0, 0.12 if color.a > 0.9 else 0.05)
+	f.content_margin_left = 14
+	f.content_margin_right = 14
+	f.content_margin_top = 14
+	f.content_margin_bottom = 14
+	return f
 
 ## Bouton brillant avec effet d'enfoncement et rebond.
 static func button(text: String, color := GOLD, size := 30) -> Button:
@@ -90,6 +76,56 @@ static func button(text: String, color := GOLD, size := 30) -> Button:
 	b.button_up.connect(func(): squash(b, 1.0))
 	b.resized.connect(func(): b.pivot_offset = b.size / 2)
 	return b
+
+## Bouton rond brillant avec icône, libellé dessous et pastille de notification.
+static func round_button(icon_kind: String, text: String, color: Color, badge: int, cb: Callable) -> Control:
+	var v = VBoxContainer.new()
+	v.add_theme_constant_override("separation", -6)
+	var b = Button.new()
+	b.custom_minimum_size = Vector2(92, 92)
+	b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	var st = FancyBox.make(color, 44, 5, 6, 0.38)
+	st.content_margin_left = 0
+	st.content_margin_right = 0
+	st.content_margin_top = 0
+	st.content_margin_bottom = 0
+	b.add_theme_stylebox_override("normal", st)
+	b.add_theme_stylebox_override("hover", st)
+	b.add_theme_stylebox_override("pressed", FancyBox.make(color.darkened(0.1), 44, 5, 2, 0.3))
+	b.add_theme_stylebox_override("focus", StyleBoxEmpty.new())
+	var ic = icon(icon_kind, 58)
+	ic.size = Vector2(58, 58)
+	ic.position = Vector2(17, 12)
+	ic.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	b.add_child(ic)
+	if badge > 0:
+		var bd = Badge.new()
+		bd.count = badge
+		bd.position = Vector2(58, -8)
+		bd.size = Vector2(40, 40)
+		bd.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		b.add_child(bd)
+		b.ready.connect(func(): pulse(b, 1.07, 0.9))
+	b.pressed.connect(cb)
+	b.button_down.connect(func(): Sfx.play("open"); squash(b, 0.9))
+	b.button_up.connect(func(): squash(b, 1.0))
+	v.add_child(b)
+	var l = label(text, 20, Color.WHITE, 7)
+	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	l.custom_minimum_size.x = 104
+	v.add_child(l)
+	return v
+
+class Badge extends Control:
+	var count = 1
+	func _draw() -> void:
+		var c = size / 2
+		draw_circle(c, size.x / 2, Color("0b1430"))
+		draw_circle(c, size.x / 2 - 4, Color("ff3b3b"))
+		draw_circle(c + Vector2(-5, -6), size.x / 6, Color(1, 1, 1, 0.35))
+		var f: Font = UI.font
+		draw_string_outline(f, Vector2(0, c.y + 10), str(count), HORIZONTAL_ALIGNMENT_CENTER, size.x, 28, 6, Color("0b1430"))
+		draw_string(f, Vector2(0, c.y + 10), str(count), HORIZONTAL_ALIGNMENT_CENTER, size.x, 28, Color.WHITE)
 
 static func squash(c: Control, s: float) -> void:
 	c.pivot_offset = c.size / 2

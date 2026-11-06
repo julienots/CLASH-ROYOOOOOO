@@ -412,6 +412,47 @@ func _cast_spell(team: int, card_id: String, px: float, pz: float) -> void:
 			if e.alive and e.team == team and e.kind == "unit" and Vector2(e.x - px, e.z - pz).length() <= c.radius:
 				e.rage_t = c.rage
 				fx.float_text(e.position_vec(2.2), "RAGE !", Color("e07bff"), 40)
+	elif card_id == "comets":
+		for i in c.count:
+			var a = randf() * TAU
+			var rr = sqrt(randf()) * c.radius
+			var cx = px + cos(a) * rr
+			var cz = pz + sin(a) * rr * 0.85
+			var rock = Models.build("meteor", team)
+			rock.scale = Vector3.ONE * 0.55
+			add_child(rock)
+			var from = Vector3(cx - 5, 18, cz - 3)
+			rock.position = from
+			var delay = 0.5 + i * 0.22
+			pending.append({"t": delay, "total": delay, "node": rock, "warn": _warn_circle(cx, cz, 1.6, Color(1, 0.4, 0.1, 0.3)), "from": from, "to": Vector3(cx, 0.4, cz),
+				"done": _comet_impact.bind(team, cx, cz, dmg, c.tower_mult)})
+		Sfx.play("meteor", 1.2)
+	elif card_id == "clone":
+		Sfx.play("unlock", 1.3)
+		fx.ring(Vector3(px, 0, pz), c.radius, Color("6fe7ff"), 0.5, 0.3)
+		var src = entities.filter(func(o): return o.alive and o.team == team and o.kind == "unit" and not o.is_clone and Vector2(o.x - px, o.z - pz).length() <= c.radius + o.radius)
+		for o in src:
+			var cl = _spawn(o.card_id, team, o.x + 0.7, o.z + (0.5 if team == 0 else -0.5), 0.2)
+			cl.hp = 1.0
+			cl.max_hp = 1.0
+			cl.shield = 0.0
+			cl.max_shield = 0.0
+			cl.is_clone = true
+			for m in cl.meshes:
+				if is_instance_valid(m):
+					m.transparency = 0.35
+			cl.set_overlay(Entity.ice_mat)
+			fx.burst(cl.position_vec(1.0), Color("6fe7ff"), 10, 2.5, 0.5, 0.5)
+	elif card_id == "aegis":
+		Sfx.play("levelup", 0.9)
+		fx.ring(Vector3(px, 0, pz), c.radius, Color("ffd24a"), 0.5, 0.3)
+		for o in entities:
+			if o.alive and o.team == team and o.kind == "unit" and Vector2(o.x - px, o.z - pz).length() <= c.radius + o.radius:
+				var amount = c.shield * _mult(team, card_id)
+				o.shield += amount
+				o.max_shield = maxf(o.max_shield, o.shield)
+				fx.burst(o.position_vec(1.0), Color("ffe27a"), 10, 2.0, 0.45, 0.6, -1.0)
+				fx.float_text(o.position_vec(2.3), "+%d bouclier" % int(amount), Color("ffe27a"), 34)
 	elif card_id == "lightning":
 		var cands = entities.filter(func(o): return o.alive and o.team != team and Vector2(o.x - px, o.z - pz).length() <= c.radius + o.radius)
 		cands.sort_custom(func(a, b): return a.hp > b.hp)
@@ -473,6 +514,14 @@ func _meteor_impact(team: int, px: float, pz: float, c: Dictionary, dmg: float) 
 	_shake(0.8)
 	hitstop = 0.06
 	Sfx.play("big_boom")
+
+func _comet_impact(team: int, x: float, z: float, dmg: float, tower_mult: float) -> void:
+	_area_damage(team, x, z, 1.6, dmg, tower_mult, true)
+	fx.explosion(Vector3(x, 0, z), 1.4, Color("ff6a00"))
+	fx.debris(Vector3(x, 0.3, z), Color("3a2a22"), 8, 7.0)
+	_crater(x, z, 1.4)
+	_shake(0.35)
+	Sfx.play("boom")
 
 func _warn_flash(px: float, pz: float, r: float, col: Color) -> void:
 	var w = _warn_circle(px, pz, r, col)
@@ -658,6 +707,13 @@ func _kill(e: Entity) -> void:
 			_shake(0.7)
 			Sfx.play("big_boom"))
 		fx.float_text(e.position_vec(2.5), "BOUM !", Color("ffb02e"), 50)
+	if c.has("death_freeze"):
+		fx.burst(e.position_vec(1.0), Color("bff4ff"), 30, 5.0, 0.6, 0.8)
+		fx.ring(e.position_vec(), 3.0, Color("8fe6ff"), 0.5, 0.3)
+		Sfx.play("freeze")
+		for o in entities:
+			if o.alive and o.team != e.team and _dist(e, o) <= 3.0:
+				o.freeze(c.death_freeze)
 	if c.has("death_rage"):
 		fx.ring(e.position_vec(), 3.0, Color("d24bff"), 0.6, 0.35)
 		fx.burst(e.position_vec(0.5), Color("e07bff"), 30, 4.0, 0.6, 0.8, -1.0)
@@ -675,6 +731,10 @@ func _kill(e: Entity) -> void:
 
 func _destroy_tower(e: Entity) -> void:
 	var other = 1 - e.team
+	if arena_node and arena_node.has_meta("crowd"):
+		var cm: ShaderMaterial = arena_node.get_meta("crowd")
+		cm.set_shader_parameter("excite", 1.0)
+		create_tween().tween_method(func(v: float): cm.set_shader_parameter("excite", v), 1.0, 0.0, 3.5).set_delay(1.0)
 	if other == 0:
 		stats.towers += 1
 	else:
@@ -806,11 +866,34 @@ func _update_entity(e: Entity, dt: float) -> void:
 		e.frozen -= dt
 		return
 	if e.lifetime > 0.0:
-		e.hp -= e.max_hp / e.lifetime * dt
-		if e.hp <= 0.0:
-			_kill(e)
-			return
+		var cl: Dictionary = Data.CARDS[e.card_id]
+		if cl.has("hatch"):
+			e.lifetime -= dt
+			if randf() < 0.3:
+				fx.burst(e.position_vec(0.8), Color("ffb02e"), 1, 1.0, 0.4, 0.5, -2.0)
+			if e.lifetime <= 0.0:
+				var bx = e.x
+				var bz = e.z
+				var bt = e.team
+				e.alive = false
+				e.ring.queue_free()
+				e.queue_free()
+				fx.explosion(Vector3(bx, 0, bz), 1.5, Color("ff8a1f"))
+				fx.float_text(Vector3(bx, 2.5, bz), "RENAISSANCE !", Color("ffb02e"), 46)
+				Sfx.play("levelup", 1.1)
+				_spawn(cl.hatch, bt, bx, bz, 0.3)
+				return
+		else:
+			e.hp -= e.max_hp / e.lifetime * dt
+			if e.hp <= 0.0:
+				_kill(e)
+				return
 	if e.kind == "tower" and not e.active:
+		return
+	e.blink_t -= dt
+	e.dash_t -= dt
+	if not e.dash.is_empty():
+		_update_dash(e, dt)
 		return
 	if e.chill_t > 0.0:
 		e.chill_t -= dt
@@ -886,6 +969,8 @@ func _update_entity(e: Entity, dt: float) -> void:
 				rt.tween_property(bm, "scale", Vector3.ONE * 1.25, 0.3).set_trans(Tween.TRANS_ELASTIC).set_ease(Tween.EASE_OUT)
 			e.windup = 0.05 if e.attack == "kamikaze" else (0.45 if e.heavy else (0.34 if e.model.has_meta("real") else 0.28))
 			e.play_attack()
+	elif e.kind == "unit" and _special_move(e, t, d, dt):
+		pass
 	elif e.kind == "unit":
 		var m = _move_target(e, t.x, t.z)
 		var dir = Vector2(m.x - e.x, m.y - e.z)
@@ -894,6 +979,58 @@ func _update_entity(e: Entity, dt: float) -> void:
 		e.z += dir.y / l * e.speed * e.spd_mult() * dt
 		e.facing = atan2(dir.x, dir.y)
 		e.moving = true
+
+## Téléportation (Sorcière des Ombres) et bond (Chevalier Céleste).
+func _special_move(e: Entity, t: Entity, d: float, dt: float) -> bool:
+	var c: Dictionary = Data.CARDS[e.card_id]
+	if c.has("blink") and e.blink_t <= 0.0 and d > e.attack_range + 1.0:
+		e.blink_t = c.blink
+		var dir = Vector2(t.x - e.x, t.z - e.z).normalized()
+		var step = minf(4.0, d - e.attack_range + 0.3)
+		fx.burst(e.position_vec(1.0), Color("7a3fd0"), 16, 3.0, 0.6, 0.5)
+		fx.ring(e.position_vec(), 1.4, Color("9b5cff"), 0.35)
+		var m = _move_target(e, e.x + dir.x * step, e.z + dir.y * step)
+		var md = Vector2(m.x - e.x, m.y - e.z)
+		if md.length() > step:
+			md = md.normalized() * step
+		e.x += md.x
+		e.z += md.y
+		fx.burst(e.position_vec(1.0), Color("b98bff"), 16, 3.0, 0.6, 0.5)
+		fx.float_text(e.position_vec(2.3), "Blink !", Color("c9a6ff"), 34)
+		Sfx.play("zap", 1.8)
+		return true
+	if c.has("dash") and e.dash_t <= 0.0 and d >= 2.5 and d <= 6.0 and abs(e.z - t.z) < 6.0 and (sign(e.z) == sign(t.z) or abs(abs(e.x) - BRIDGE_X) < 1.2):
+		e.dash_t = c.dash
+		e.dash = {"from": Vector2(e.x, e.z), "target": t, "k": 0.0}
+		RealModels.play_once(e.model, "Jump_Full_Short")
+		Sfx.play("whoosh", 1.2)
+		return true
+	return false
+
+func _update_dash(e: Entity, dt: float) -> void:
+	var t: Entity = e.dash.target
+	e.dash.k += dt / 0.45
+	var k: float = minf(1.0, e.dash.k)
+	var dest = Vector2(t.x, t.z) if is_instance_valid(t) and t.alive else e.dash.from
+	var dir = (dest - e.dash.from)
+	var stop = dest - dir.normalized() * (t.radius + e.radius if is_instance_valid(t) else 0.0)
+	var p = e.dash.from.lerp(stop, k)
+	e.x = p.x
+	e.z = p.y
+	e.y = sin(k * PI) * 1.8
+	e.facing = atan2(dir.x, dir.y)
+	e.moving = false
+	if k >= 1.0:
+		e.y = 0.0
+		e.dash = {}
+		fx.dust(e.position_vec(), 14, 1.4)
+		fx.ring(e.position_vec(), 2.0, Color("9fe0ff"), 0.35)
+		_shake(0.3)
+		Sfx.play("hit", 0.9)
+		if is_instance_valid(t) and t.alive:
+			_damage(t, e.dmg * 2.0, true)
+			fx.float_text(t.position_vec(2.6), "BOND !", Color("9fe0ff"), 44)
+		e.cooldown = e.hit_speed * 0.5
 
 func _heal_pulse(e: Entity, c: Dictionary) -> void:
 	var healed = false
@@ -982,6 +1119,26 @@ func _strike(e: Entity, t: Entity) -> void:
 			for k in 3:
 				_projectile("knife", e, t, e.position_vec(1.2) + Vector3(randf_range(-0.2, 0.2), k * 0.1, 0), 20.0 + k, dmg / 3.0, 0.0)
 			Sfx.play("swipe", 1.5)
+		"inferno":
+			if e.ramp_target != t:
+				e.ramp_target = t
+				e.ramp_t = 0.0
+			e.ramp_t += e.hit_speed
+			var mult = 1.0 + minf(3.0, e.ramp_t * 0.75)
+			_damage(t, dmg * mult)
+			var col = Color("ff9a2e").lerp(Color("ff2a10"), clampf(e.ramp_t / 4.0, 0, 1))
+			fx.beam(e.position_vec(0.2) + Vector3(sin(e.facing), 0, cos(e.facing)) * 1.4, t.position_vec(0.8 if t.kind != "tower" else 2.5), col)
+			fx.burst(t.position_vec(0.8), col, 3, 2.0, 0.35 + mult * 0.08, 0.3, 0.0)
+			if randf() < 0.3:
+				Sfx.play("fire", 1.4)
+		"cannonball":
+			_projectile("cannonball", e, t, e.position_vec(1.1), 15.0, dmg, 0.0)
+			fx.burst(e.position_vec(1.2) + Vector3(sin(e.facing), 0, cos(e.facing)) * 1.0, Color(0.8, 0.8, 0.8, 0.8), 8, 2.0, 0.6, 0.5, 0.0, false, 0.3, true)
+			Sfx.play("boom", 1.6)
+			if e.model.has_meta("building_ap"):
+				var bap: AnimationPlayer = e.model.get_meta("building_ap")
+				bap.stop()
+				bap.play("Attack")
 		"bomb":
 			_projectile("bomb", e, t, e.position_vec(1.4), 9.0, dmg, e.splash)
 			Sfx.play("swipe", 0.8)
@@ -1051,6 +1208,8 @@ func _projectile(type: String, from_e: Entity, t: Entity, pos: Vector3, spd: flo
 		var col = Color("b56bff") if type == "arcane" else Color("5a1f8a")
 		Models.mi(Models.sphere(0.2, 10), Models.glow(col.lightened(0.4), 4.0), Vector3.ZERO, n)
 		Models.mi(Models.sphere(0.32, 10), Models.mat(col, 0.0, 0.5, 2.5, 0.45), Vector3.ZERO, n)
+	elif type == "cannonball":
+		Models.mi(Models.sphere(0.2, 10), Models.mat(Color("2a2a30"), 0.5, 0.4), Vector3.ZERO, n)
 	elif type == "bomb":
 		Models.mi(Models.sphere(0.22, 10), Models.mat(Color("2a2a30"), 0.4, 0.4), Vector3.ZERO, n)
 		Models.mi(Models.sphere(0.06, 6), Models.glow(Color("ffb02e"), 5.0), Vector3(0, 0.25, 0), n)

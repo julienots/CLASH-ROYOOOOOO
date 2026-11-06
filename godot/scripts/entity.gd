@@ -50,6 +50,12 @@ var heal_t = 0.0
 var min_range = 0.0
 
 var chill_t = 0.0
+var ramp_t = 0.0
+var ramp_target = null
+var blink_t = 0.0
+var dash_t = 0.0
+var dash = {}
+var is_clone = false
 var poison_t = 0.0
 var revealed_t = 0.0
 var invisible = false

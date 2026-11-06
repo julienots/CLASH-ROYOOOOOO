@@ -3,6 +3,7 @@ shader_type spatial;
 uniform vec4 grass_a : source_color = vec4(0.35, 0.72, 0.28, 1.0);
 uniform vec4 grass_b : source_color = vec4(0.31, 0.66, 0.25, 1.0);
 uniform vec4 tile : source_color = vec4(0.85, 0.79, 0.64, 1.0);
+uniform float flowers = 1.0;
 
 float hash(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
 float noise(vec2 p) {
@@ -24,6 +25,12 @@ void fragment() {
 	vec2 cell = floor(p * 6.0);
 	float tuft = step(0.93, hash(cell)) * smoothstep(0.5, 0.1, length(fract(p * 6.0) - 0.5));
 	g = mix(g, g * 1.25 + vec3(0.03, 0.06, 0.0), tuft);
+	// petites fleurs
+	vec2 fc = floor(p * 3.0);
+	float fh = hash(fc + 17.0);
+	float flower = step(0.965, fh) * smoothstep(0.22, 0.08, length(fract(p * 3.0) - vec2(0.5)));
+	vec3 fcol = mix(vec3(1.0, 0.95, 0.55), mix(vec3(1.0, 0.6, 0.8), vec3(1.0), step(0.985, fh)), step(0.975, fh));
+	g = mix(g, fcol, flower * flowers);
 	float isPath = max(max(rect(p, vec4(-6.25, -12.0, -4.75, 12.0)), rect(p, vec4(4.75, -12.0, 6.25, 12.0))),
 		max(rect(p, vec4(-6.25, 11.2, 6.25, 12.4)), rect(p, vec4(-6.25, -12.4, 6.25, -11.2))));
 	// dalles : biseau clair en haut à gauche, sombre en bas à droite, joints
