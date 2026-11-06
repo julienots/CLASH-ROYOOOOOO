@@ -38,6 +38,8 @@ FRAMES = {
     "MI": ((180, 150, 230), (255, 240, 255), (90, 70, 150), (220, 180, 255), "mirage"),
     "G":  ((230, 170, 40), (255, 250, 200), (110, 60, 5), (255, 255, 230), "god"),
     "SW": ((30, 60, 80), (120, 255, 240), (8, 16, 30), (80, 255, 230), "swap"),
+    "CH": ((60, 6, 24), (255, 70, 110), (8, 0, 4), (255, 40, 90), "chaos"),
+    "SY": ((18, 20, 22), (170, 255, 60), (0, 0, 0), (180, 255, 50), "symbiot"),
 }
 
 # Gabarit (en pixels de grille 150x210)
@@ -63,6 +65,12 @@ def metal(base, light, dark, w, h, pattern, seed=0):
         t = 0.25 + 0.6 * n * (y / h)
     if pattern == "mirage":
         t = 0.5 + 0.5 * np.sin(x * 0.2 + np.sin(y * 0.15) * 3.0)
+    if pattern == "symbiot":  # matière noire visqueuse, reflets huileux
+        n = rng.random((h // 4 + 1, w // 4 + 1)).repeat(4, 0).repeat(4, 1)[:h, :w]
+        t = 0.15 + 0.35 * np.abs(np.sin(x * 0.13 + np.sin(y * 0.11) * 3.0 + n * 2.0)) ** 4
+    if pattern == "chaos":  # obsidienne rouge fracturée
+        n = rng.random((h // 3 + 1, w // 3 + 1)).repeat(3, 0).repeat(3, 1)[:h, :w]
+        t = 0.2 + 0.45 * n * (0.5 + 0.5 * np.sin((x - y) * 0.3))
     if pattern == "god":
         t = 0.45 + 0.55 * np.abs(np.sin(x * 0.11 + y * 0.07)) ** 3
     if pattern == "primal":
@@ -226,6 +234,29 @@ def frame(rar):
                 if inside[gy, xx] and not win[gy, xx] and not tx[gy, xx]:
                     c = 0.5 + 0.5 * np.cos(xx * 0.2 + np.array([0, 2, 4]))
                     arr[gy, xx] = c
+    if pattern == "symbiot":  # veines vivantes qui rampent sur le cadre
+        acid = np.array((170, 255, 60), np.float32) / 255
+        for _ in range(26):
+            px, py = rng.randrange(2, W - 2), rng.randrange(2, H - 2)
+            for _s in range(rng.randrange(12, 40)):
+                if 0 <= px < W and 0 <= py < H and inside[py, px] and not win[py, px] and not tx[py, px]:
+                    arr[py, px] = acid * rng.uniform(0.55, 1.0)
+                px += rng.choice([-1, 0, 1])
+                py += rng.choice([-1, 0, 1])
+        for _ in range(40):
+            px, py = rng.randrange(2, W - 2), rng.randrange(2, H - 2)
+            if inside[py, px] and not win[py, px] and not tx[py, px]:
+                arr[py, px] = np.array((255, 255, 255), np.float32) / 255
+    if pattern == "chaos":  # fissures incandescentes en zigzag
+        hot = np.array((255, 80, 110), np.float32) / 255
+        for _ in range(18):
+            px, py = rng.randrange(2, W - 2), rng.randrange(2, H - 2)
+            dx, dy = rng.choice([(1, 0), (0, 1), (1, 1), (1, -1)])
+            for _s in range(rng.randrange(8, 26)):
+                if 0 <= px < W and 0 <= py < H and inside[py, px] and not win[py, px] and not tx[py, px]:
+                    arr[py, px] = hot if rng.random() < 0.8 else np.array((255, 230, 240), np.float32) / 255
+                px += dx + rng.choice([-1, 0, 1])
+                py += dy + rng.choice([-1, 0, 1])
     if pattern == "glitch":
         for _ in range(14):
             yy = rng.randrange(4, H - 4)
@@ -305,6 +336,9 @@ PACKS = {
     "sables": ((110, 70, 20), (255, 220, 140), "sb38"),
     "givre": ((20, 60, 110), (200, 240, 255), "gv40"),
     "carnaval": ((90, 10, 50), (255, 150, 200), "cv45"),
+    "symbiote": ((10, 14, 8), (170, 255, 60), "sm41"),
+    "chaos": ((40, 0, 12), (255, 60, 110), "ch41"),
+    "apex": ((5, 5, 5), (210, 255, 90), "sm45"),
 }
 
 
@@ -355,7 +389,96 @@ def pack(key):
         ImageDraw.Draw(ring).ellipse([1, 1, 80, 74], fill=tuple(c2) + (255,))
         out.alpha_composite(ring, ((W - 82) // 2, 52))
         out.paste(crop, ((W - 76) // 2, 55), m)
-    return out.resize((W * 3, H * 3), Image.NEAREST)
+    big = out.resize((W * 3, H * 3), Image.NEAREST)
+    return _pack_text(big, key, c1, c2)
+
+
+def _booster_info(key):
+    try:
+        bs = json.load(open(os.path.join(ROOT, "data", "boosters.json"), encoding="utf-8"))["boosters"]
+    except Exception:
+        return {}
+    for b in bs:
+        if b["id"] == key:
+            return b
+    return {}
+
+
+def _font(name, size):
+    from PIL import ImageFont
+    return ImageFont.truetype(os.path.join(ROOT, "assets", "fonts", name), size)
+
+
+def _outlined(d, xy, txt, font, fill, outline, w=3, anchor="mm"):
+    for ox in range(-w, w + 1):
+        for oy in range(-w, w + 1):
+            if ox * ox + oy * oy <= w * w:
+                d.text((xy[0] + ox, xy[1] + oy), txt, font=font, fill=outline, anchor=anchor)
+    d.text(xy, txt, font=font, fill=fill, anchor=anchor)
+
+
+def _pack_text(big, key, c1, c2):
+    """Logo CARDVERSE, ruban du nom, génération et nombre de cartes, intégrés à la texture
+    (ils tournent avec le paquet en 3D)."""
+    b = _booster_info(key)
+    Wb, Hb = big.size
+    d = ImageDraw.Draw(big)
+    # logo
+    _outlined(d, (Wb // 2, 52), "CARDVERSE", _font("CinzelDecorative-Bold.ttf", 34), (255, 240, 200, 255), (30, 12, 50, 255), 4)
+    # liseré doré sous le logo
+    d.line([(40, 76), (Wb - 40, 76)], fill=tuple(c2) + (255,), width=3)
+    # ruban du nom
+    name = b.get("name", key)
+    short = name.replace("Booster ", "").split("·")[0].strip().upper()
+    gen = b.get("gen", 0)
+    rib_y = Hb - 150
+    rib = Image.new("RGBA", (Wb, 84), (0, 0, 0, 0))
+    rd = ImageDraw.Draw(rib)
+    rd.polygon([(14, 0), (Wb - 14, 0), (Wb - 2, 42), (Wb - 14, 83), (14, 83), (2, 42)], fill=(12, 8, 24, 215))
+    rd.line([(14, 2), (Wb - 14, 2)], fill=tuple(c2) + (255,), width=3)
+    rd.line([(14, 81), (Wb - 14, 81)], fill=tuple(c2) + (255,), width=3)
+    big.alpha_composite(rib, (0, rib_y))
+    d = ImageDraw.Draw(big)
+    fs = 30
+    f = _font("Cinzel.ttf", fs)
+    while f.getlength(short) > Wb - 50 and fs > 14:
+        fs -= 1
+        f = _font("Cinzel.ttf", fs)
+    _outlined(d, (Wb // 2, rib_y + 30), short, f, (255, 255, 255, 255), (20, 10, 30, 255), 3)
+    sub = ("GÉNÉRATION %d" % gen) if gen else ("ÉDITION SPÉCIALE" if b.get("group") in ("special", "edition") else "TOUTES GÉNÉRATIONS")
+    if b.get("group") == "type":
+        sub = "BOOSTER DE TYPE"
+    _outlined(d, (Wb // 2, rib_y + 62), "%s · %d CARTES" % (sub, int(b.get("cards", 5))), _font("Exo2.ttf", 17), tuple(c2) + (255,), (20, 10, 30, 255), 2)
+    return big
+
+
+def pack_back():
+    """Dos générique des boosters (teinté par la couleur du booster dans le moteur 3D)."""
+    W, H = 110, 170
+    y, x = np.mgrid[0:H, 0:W].astype(np.float32)
+    v = 0.55 + 0.25 * (((x // 6 + y // 6) % 2) == 0) + 0.1 * np.sin(y * 0.2)
+    arr = np.dstack([v, v, v])
+    alpha = np.ones((H, W), np.float32)
+    for xx in range(W):
+        if xx % 4 < 2:
+            alpha[0:3, xx] = 0
+            alpha[H - 3:H, xx] = 0
+    for yy in (8, 9, H - 10, H - 9):
+        arr[yy, :] = 0.12
+    im = Image.fromarray((np.dstack([np.clip(arr, 0, 1), alpha]) * 255).astype(np.uint8), "RGBA").resize((W * 3, H * 3), Image.NEAREST)
+    d = ImageDraw.Draw(im)
+    _outlined(d, (165, 120), "CARDVERSE", _font("CinzelDecorative-Bold.ttf", 34), (255, 255, 255, 255), (20, 20, 20, 255), 3)
+    for i, line in enumerate(["Jeu de cartes à collectionner", "Cartes aléatoires · Raretés variées", "Probabilités affichées en boutique"]):
+        _outlined(d, (165, 200 + i * 28), line, _font("Exo2.ttf", 17), (240, 240, 240, 255), (20, 20, 20, 255), 2)
+    # code-barres décoratif
+    rng = random.Random(7)
+    xx = 95
+    while xx < 235:
+        w = rng.choice([2, 3, 5])
+        d.rectangle([xx, 330, xx + w - 1, 390], fill=(15, 15, 15, 255))
+        xx += w + rng.choice([2, 3, 4])
+    d.rectangle([85, 322, 245, 398], outline=(255, 255, 255, 255), width=3)
+    return im
 
 
 def icons():
@@ -572,6 +695,7 @@ def main():
     type_packs()
     for k in PACKS:
         pack(k).save(os.path.join(out, "packs", k + ".png"), optimize=True)
+    pack_back().save(os.path.join(out, "packs", "_back.png"), optimize=True)
     for k, im in icons().items():
         im.save(os.path.join(out, "icons", k + ".png"), optimize=True)
     layout = {"grid": [GW, GH], "scale": SC, "win": WIN, "name": NAME, "type": TYPE, "text": TEXT, "titan_type": T_TYPE, "titan_text": T_TEXT, "cost": COST, "atk": ATK, "hp": HP}

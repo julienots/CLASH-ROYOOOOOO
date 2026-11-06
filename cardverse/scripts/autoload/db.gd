@@ -217,7 +217,7 @@ func ability_text(c: Dictionary) -> String:
 
 ## Formes ultimes : dégâts subis par le leader quand la créature est détruite.
 const FORM_BACKLASH := {"omega": 2, "titan": 3}
-const TITAN_IMMUNE := ["freeze", "sleep", "polymorph", "steal"]
+const TITAN_IMMUNE := ["freeze", "sleep", "polymorph", "steal", "devour"]
 
 const TRIGGERS := {"summon": "Invocation", "death": "Dernier souffle", "turn_start": "Début de tour", "attack": "Attaque", "cast": ""}
 const TARGETS := {
@@ -243,6 +243,11 @@ func effect_text(e: Dictionary) -> String:
 		"burn": s = "Brûle %s pendant %d tour%s (1 dégât par tour)." % [tgt, v, "s" if v > 1 else ""]
 		"polymorph": s = "Métamorphose %s en %s." % [tgt, card(e.get("card", "cx90")).get("name", "Crapaud")]
 		"copy": s = "Ajoute à votre main une copie de %s." % tgt
+		"drain": s = "Draine %d PV à %s et les rend à votre leader." % [v, tgt]
+		"execute": s = "Exécute %s si elle a %d PV ou moins." % [tgt, v]
+		"devour": s = "Dévore %s : cette créature gagne son ATQ et ses PV." % tgt
+		"chain": s = "Éclair en chaîne : %d dégâts, rebondit %d fois (−1 à chaque saut)." % [v, int(e.get("value2", 3))]
+		"symbiose": s = "[color=#b6ff4a][b]Symbiose[/b][/color] : se lie à votre créature la plus forte (+%d/+%d, mots-clés partagés). Si l'un meurt, l'autre gagne +%d ATQ et se soigne." % [v, v, int(e.get("value2", 3))]
 		"revive": s = ("Ressuscite votre dernière créature morte." if v <= 1 else "Ressuscite vos %d dernières créatures mortes." % v)
 		"sleep": s = "Endort %s (ne peut pas attaquer pendant 2 tours)." % tgt
 		"draw": s = "Piochez %d carte%s." % [v, "s" if v > 1 else ""]

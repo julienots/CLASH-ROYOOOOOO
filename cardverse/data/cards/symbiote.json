@@ -1,0 +1,2188 @@
+{
+ "set": "symbiote",
+ "name": "Invasion Symbiote",
+ "gen": 13,
+ "cards": [
+  {
+   "id": "sm01",
+   "name": "Larve Visqueuse",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 2,
+   "hp": 1,
+   "effects": [
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "sm90"
+    }
+   ],
+   "lore": "Écrasez-la. Elle se divise.",
+   "art": {
+    "arch": "larva",
+    "eyes": 3,
+    "c1": [
+     18,
+     18,
+     24
+    ],
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "scale": 1.0,
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sm02",
+   "name": "Goutte Affamée",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 3,
+   "hp": 2,
+   "effects": [
+    {
+     "on": "attack",
+     "do": "drain",
+     "target": "attack_target",
+     "value": 1
+    }
+   ],
+   "lore": "Une goutte noire qui boit tout ce qu'elle touche.",
+   "art": {
+    "arch": "jelly",
+    "tentacles": 5,
+    "c1": [
+     18,
+     18,
+     24
+    ],
+    "c2": [
+     60,
+     70,
+     50
+    ],
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "sm03",
+   "name": "Colon Parasite",
+   "type": "creature",
+   "family": "mutants",
+   "element": "nature",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "symbiose",
+     "value": 1,
+     "value2": 2
+    }
+   ],
+   "lore": "Il cherche un hôte. N'importe lequel.",
+   "art": {
+    "arch": "insect",
+    "c1": [
+     18,
+     18,
+     24
+    ],
+    "c2": [
+     170,
+     255,
+     60
+    ],
+    "c3": [
+     40,
+     60,
+     20
+    ],
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "sm04",
+   "name": "Chien Contaminé",
+   "type": "creature",
+   "family": "creatures",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 3,
+   "hp": 2,
+   "keywords": [
+    "celerite"
+   ],
+   "lore": "Il était fidèle. Il l'est toujours, mais plus à vous.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 0.9,
+    "leg_len": 1.1,
+    "tail": 1.0,
+    "c1": [
+     40,
+     40,
+     50
+    ],
+    "c2": [
+     90,
+     90,
+     100
+    ],
+    "c3": [
+     170,
+     255,
+     60
+    ],
+    "eye": [
+     170,
+     255,
+     60
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sm05",
+   "name": "Spores Noires",
+   "type": "spell",
+   "family": "mutants",
+   "element": "nature",
+   "rarity": "C",
+   "cost": 2,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "drain",
+     "target": "all_enemy_creatures",
+     "value": 1
+    }
+   ],
+   "lore": "Respirez profondément. Puis plus jamais.",
+   "art": {
+    "arch": "spell",
+    "spell": "dark_pact",
+    "scene": "void"
+   }
+  },
+  {
+   "id": "sm06",
+   "name": "Scientifique Infecté",
+   "type": "creature",
+   "family": "creatures",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 3,
+   "atk": 3,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Il a tout noté dans son carnet. Jusqu'à la dernière ligne.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     230,
+     230,
+     235
+    ],
+    "hood": [
+     40,
+     40,
+     50
+    ],
+    "skin_h": [
+     120,
+     150,
+     110
+    ],
+    "orb_hand": true,
+    "eye": [
+     170,
+     255,
+     60
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sm07",
+   "name": "Tentacule Errante",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 3,
+   "keywords": [
+    "garde"
+   ],
+   "lore": "Elle s'est détachée du reste. Elle cherche à rentrer.",
+   "art": {
+    "arch": "serpent",
+    "thick": 0.8,
+    "horns": "none",
+    "fins": false,
+    "c1": [
+     18,
+     18,
+     24
+    ],
+    "c2": [
+     60,
+     70,
+     60
+    ],
+    "c3": [
+     170,
+     255,
+     60
+    ],
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "sm08",
+   "name": "Mue Toxique",
+   "type": "spell",
+   "family": "mutants",
+   "element": "nature",
+   "rarity": "C",
+   "cost": 1,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "choose_ally_creature",
+     "value": 2,
+     "value2": 2
+    }
+   ],
+   "lore": "L'ancienne peau tombe. La nouvelle est plus dure.",
+   "art": {
+    "arch": "spell",
+    "spell": "blessing",
+    "scene": "void"
+   }
+  },
+  {
+   "id": "sm09",
+   "name": "Rejeton Hurleur",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 3,
+   "atk": 4,
+   "hp": 2,
+   "keywords": [
+    "rage"
+   ],
+   "lore": "Il ne sait pas parler. Il sait hurler.",
+   "art": {
+    "arch": "biped",
+    "kind": "demon",
+    "bulk": 0.9,
+    "horns": false,
+    "tail": true,
+    "skin": [
+     18,
+     18,
+     24
+    ],
+    "c3": [
+     170,
+     255,
+     60
+    ],
+    "eye": [
+     170,
+     255,
+     60
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sm10",
+   "name": "Œuf de la Ruche",
+   "type": "creature",
+   "family": "mutants",
+   "element": "nature",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 0,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "sm91"
+    }
+   ],
+   "lore": "Il palpite doucement. Ne vous approchez pas.",
+   "art": {
+    "arch": "egg",
+    "c1": [
+     18,
+     18,
+     24
+    ],
+    "c2": [
+     170,
+     255,
+     60
+    ],
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "sm11",
+   "name": "Chasseur Symbiote",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 4,
+   "hp": 4,
+   "keywords": [
+    "furtif"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "drain",
+     "target": "attack_target",
+     "value": 2
+    }
+   ],
+   "lore": "Il colle aux murs, aux plafonds, et à ses proies.",
+   "art": {
+    "arch": "biped",
+    "kind": "demon",
+    "bulk": 1.0,
+    "horns": false,
+    "tail": false,
+    "skin": [
+     18,
+     18,
+     24
+    ],
+    "c3": [
+     170,
+     255,
+     60
+    ],
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sm12",
+   "name": "Hôte Volontaire",
+   "type": "creature",
+   "family": "creatures",
+   "element": "lumiere",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 2,
+   "hp": 5,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "self",
+     "value": 2
+    }
+   ],
+   "lore": "Il a accepté le symbiote. Il ne regrette rien. Pour l'instant.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     60,
+     70,
+     90
+    ],
+    "hood": [
+     20,
+     20,
+     30
+    ],
+    "skin_h": [
+     200,
+     170,
+     150
+    ],
+    "eye": [
+     170,
+     255,
+     60
+    ],
+    "aura": true,
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sm13",
+   "name": "Fusion Forcée",
+   "type": "spell",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "U",
+   "cost": 3,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "devour",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Il n'y a plus deux créatures. Il n'y en a qu'une.",
+   "art": {
+    "arch": "spell",
+    "spell": "dark_pact",
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sm14",
+   "name": "Méduse Néocorticale",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "eau",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 3,
+   "hp": 4,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "silence",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Elle se pose sur votre tête et pense à votre place.",
+   "art": {
+    "arch": "jelly",
+    "tentacles": 7,
+    "c1": [
+     40,
+     40,
+     60
+    ],
+    "c2": [
+     255,
+     60,
+     200
+    ],
+    "glow": [
+     255,
+     60,
+     200
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "sm15",
+   "name": "Rôdeur des Égouts",
+   "type": "creature",
+   "family": "mutants",
+   "element": "eau",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 4,
+   "hp": 3,
+   "keywords": [
+    "poison"
+   ],
+   "lore": "La ville ne sait pas ce qui vit sous ses rues.",
+   "art": {
+    "arch": "serpent",
+    "thick": 1.0,
+    "horns": "none",
+    "fins": true,
+    "fin_c": [
+     170,
+     255,
+     60
+    ],
+    "c1": [
+     30,
+     40,
+     30
+    ],
+    "c2": [
+     80,
+     100,
+     60
+    ],
+    "c3": [
+     170,
+     255,
+     60
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sm16",
+   "name": "Essaim Noir",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 3,
+   "hp": 3,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "chain",
+     "value": 2,
+     "value2": 3
+    }
+   ],
+   "lore": "Un nuage vivant qui choisit ses cibles.",
+   "art": {
+    "arch": "insect",
+    "wings": true,
+    "c1": [
+     18,
+     18,
+     24
+    ],
+    "c2": [
+     170,
+     255,
+     60
+    ],
+    "c3": [
+     0,
+     0,
+     0
+    ],
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "sm17",
+   "name": "Cocon Pulsant",
+   "type": "creature",
+   "family": "mutants",
+   "element": "nature",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 0,
+   "hp": 6,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "sm91"
+    },
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "sm91"
+    }
+   ],
+   "lore": "Quelque chose grandit à l'intérieur. Deux choses.",
+   "art": {
+    "arch": "egg",
+    "c1": [
+     40,
+     50,
+     30
+    ],
+    "c2": [
+     170,
+     255,
+     60
+    ],
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sm18",
+   "name": "Contagion",
+   "type": "spell",
+   "family": "mutants",
+   "element": "nature",
+   "rarity": "U",
+   "cost": 4,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "drain",
+     "target": "enemy_leader",
+     "value": 4
+    },
+    {
+     "on": "cast",
+     "do": "summon",
+     "card": "sm90"
+    }
+   ],
+   "lore": "Un contact suffit.",
+   "art": {
+    "arch": "spell",
+    "spell": "dark_pact",
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "sm19",
+   "name": "Prédateur Liquide",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 5,
+   "hp": 5,
+   "keywords": [
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "devour",
+     "target": "attack_target"
+    }
+   ],
+   "lore": "Il ne mord pas. Il absorbe.",
+   "art": {
+    "arch": "biped",
+    "kind": "demon",
+    "bulk": 1.15,
+    "horns": false,
+    "tail": true,
+    "skin": [
+     18,
+     18,
+     24
+    ],
+    "c3": [
+     170,
+     255,
+     60
+    ],
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "aura": true,
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "sm20",
+   "name": "Reine des Larves",
+   "type": "creature",
+   "family": "mutants",
+   "element": "nature",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 3,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "summon",
+     "card": "sm90"
+    }
+   ],
+   "lore": "Chaque matin, une nouvelle armée.",
+   "art": {
+    "arch": "larva",
+    "eyes": 5,
+    "c1": [
+     40,
+     30,
+     50
+    ],
+    "glow": [
+     255,
+     60,
+     200
+    ],
+    "scale": 1.15,
+    "scene": "void"
+   }
+  },
+  {
+   "id": "sm21",
+   "name": "Armure Vivante",
+   "type": "creature",
+   "family": "machines",
+   "element": "terre",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 4,
+   "hp": 7,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "symbiose",
+     "value": 2,
+     "value2": 3
+    }
+   ],
+   "lore": "Une armure qui choisit son chevalier.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.2,
+    "c1": [
+     18,
+     18,
+     24
+    ],
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "eye": [
+     170,
+     255,
+     60
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sm22",
+   "name": "Pluie Acide",
+   "type": "spell",
+   "family": "mutants",
+   "element": "nature",
+   "rarity": "R",
+   "cost": 4,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 2
+    },
+    {
+     "on": "cast",
+     "do": "drain",
+     "target": "enemy_leader",
+     "value": 2
+    }
+   ],
+   "lore": "Elle ronge le métal, la pierre, et les espoirs.",
+   "art": {
+    "arch": "spell",
+    "spell": "wave",
+    "scene": "void"
+   }
+  },
+  {
+   "id": "sm23",
+   "name": "Docteur Morbius Vex",
+   "type": "creature",
+   "family": "creatures",
+   "element": "cosmique",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 3,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "copy",
+     "target": "strongest_enemy_creature"
+    }
+   ],
+   "lore": "Il clone ce qu'il ne peut pas acheter.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     230,
+     230,
+     240
+    ],
+    "hood": [
+     30,
+     20,
+     40
+    ],
+    "skin_h": [
+     200,
+     190,
+     200
+    ],
+    "orb_hand": true,
+    "eye": [
+     255,
+     60,
+     200
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "sm24",
+   "name": "Sentinelle Infectée",
+   "type": "creature",
+   "family": "robots",
+   "element": "foudre",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 5,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "attack",
+     "do": "chain",
+     "value": 2,
+     "value2": 2
+    }
+   ],
+   "lore": "Ses circuits sont devenus des veines.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.1,
+    "c1": [
+     60,
+     70,
+     80
+    ],
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "eye": [
+     170,
+     255,
+     60
+    ],
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "sm25",
+   "name": "Mâchoire Abyssale",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "R",
+   "cost": 6,
+   "atk": 6,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "devour",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Une bouche, des dents, et rien d'autre.",
+   "art": {
+    "arch": "maw",
+    "eyes": 4,
+    "c1": [
+     18,
+     18,
+     24
+    ],
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "scale": 1.0,
+    "scene": "void"
+   }
+  },
+  {
+   "id": "sm26",
+   "name": "Lien Parasitaire",
+   "type": "spell",
+   "family": "mutants",
+   "element": "nature",
+   "rarity": "R",
+   "cost": 3,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "buff",
+     "target": "all_allies",
+     "value": 1,
+     "value2": 2
+    },
+    {
+     "on": "cast",
+     "do": "drain",
+     "target": "all_enemy_creatures",
+     "value": 1
+    }
+   ],
+   "lore": "Ce qu'ils perdent, vous le gagnez.",
+   "art": {
+    "arch": "spell",
+    "spell": "blessing",
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sm27",
+   "name": "Symbiote Écarlate",
+   "type": "creature",
+   "family": "mutants",
+   "element": "feu",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 6,
+   "hp": 6,
+   "keywords": [
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "symbiose",
+     "value": 3,
+     "value2": 4
+    },
+    {
+     "on": "attack",
+     "do": "burn",
+     "target": "attack_target",
+     "value": 2
+    }
+   ],
+   "lore": "Rouge comme le sang, collant comme la haine.",
+   "art": {
+    "arch": "biped",
+    "kind": "demon",
+    "bulk": 1.2,
+    "horns": false,
+    "tail": true,
+    "skin": [
+     120,
+     10,
+     20
+    ],
+    "c3": [
+     255,
+     80,
+     60
+    ],
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "aura": true,
+    "glow": [
+     255,
+     60,
+     40
+    ],
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "sm28",
+   "name": "Colosse Infesté",
+   "type": "creature",
+   "family": "mutants",
+   "element": "terre",
+   "rarity": "SR",
+   "cost": 7,
+   "atk": 7,
+   "hp": 9,
+   "keywords": [
+    "pietinement"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "sm91"
+    },
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "sm91"
+    }
+   ],
+   "lore": "Le géant est tombé. Ce qui vivait en lui, non.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.5,
+    "c1": [
+     60,
+     70,
+     50
+    ],
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "eye": [
+     170,
+     255,
+     60
+    ],
+    "crystals": [
+     [
+      0,
+      -28,
+      16
+     ]
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "sm29",
+   "name": "Ruche Céleste",
+   "type": "creature",
+   "family": "mutants",
+   "element": "cosmique",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 4,
+   "hp": 8,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "chain",
+     "value": 2,
+     "value2": 2
+    }
+   ],
+   "lore": "Un astéroïde creux, et des millions de dards.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "ring": true,
+    "orbiters": 8,
+    "size": 1.0,
+    "c1": [
+     18,
+     18,
+     24
+    ],
+    "ring_c": [
+     170,
+     255,
+     60
+    ],
+    "eye": [
+     170,
+     255,
+     60
+    ],
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "scene": "nebula",
+    "scale": 0.95
+   }
+  },
+  {
+   "id": "sm30",
+   "name": "Absorption Totale",
+   "type": "spell",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "SR",
+   "cost": 6,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "devour",
+     "target": "strongest_enemy_creature"
+    },
+    {
+     "on": "cast",
+     "do": "drain",
+     "target": "all_enemy_creatures",
+     "value": 2
+    }
+   ],
+   "lore": "Il ne reste qu'une flaque, et elle sourit.",
+   "art": {
+    "arch": "spell",
+    "spell": "blackhole",
+    "scene": "void"
+   }
+  },
+  {
+   "id": "sm31",
+   "name": "Chimère Parasite",
+   "type": "creature",
+   "family": "mutants",
+   "element": "nature",
+   "rarity": "SR",
+   "cost": 7,
+   "atk": 6,
+   "hp": 7,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "steal",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Elle ne combat pas vos créatures. Elle les recrute.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 1.2,
+    "leg_len": 1.1,
+    "tail": 1.4,
+    "horns": "back",
+    "wings": true,
+    "wing_span": 1.1,
+    "c1": [
+     18,
+     18,
+     24
+    ],
+    "c2": [
+     60,
+     70,
+     60
+    ],
+    "c3": [
+     170,
+     255,
+     60
+    ],
+    "eye": [
+     170,
+     255,
+     60
+    ],
+    "aura": true,
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sm32",
+   "name": "Chirurgienne Xéno",
+   "type": "creature",
+   "family": "esprits",
+   "element": "cosmique",
+   "rarity": "SR",
+   "cost": 5,
+   "atk": 4,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "execute",
+     "target": "choose_enemy_creature",
+     "value": 5
+    }
+   ],
+   "lore": "Une incision. Une seule.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     220,
+     240,
+     240
+    ],
+    "hood": [
+     20,
+     40,
+     40
+    ],
+    "skin_h": [
+     150,
+     200,
+     190
+    ],
+    "weapon": "daggers",
+    "eye": [
+     170,
+     255,
+     60
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "sm33",
+   "name": "Symbiote Néon",
+   "type": "creature",
+   "family": "mutants",
+   "element": "foudre",
+   "rarity": "NE",
+   "cost": 4,
+   "atk": 4,
+   "hp": 4,
+   "keywords": [
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "symbiose",
+     "value": 2,
+     "value2": 3
+    }
+   ],
+   "lore": "Il brille dans le noir. Ses hôtes aussi.",
+   "art": {
+    "arch": "biped",
+    "kind": "demon",
+    "bulk": 1.0,
+    "horns": false,
+    "tail": true,
+    "skin": [
+     20,
+     20,
+     40
+    ],
+    "c3": [
+     60,
+     255,
+     255
+    ],
+    "eye": [
+     255,
+     60,
+     200
+    ],
+    "glow": [
+     60,
+     255,
+     255
+    ],
+    "aura": true,
+    "scene": "void"
+   }
+  },
+  {
+   "id": "sm34",
+   "name": "Mère des Symbiotes",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "E",
+   "cost": 8,
+   "atk": 6,
+   "hp": 10,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "summon",
+     "card": "sm91"
+    },
+    {
+     "on": "summon",
+     "do": "summon",
+     "card": "sm91"
+    },
+    {
+     "on": "turn_start",
+     "do": "buff",
+     "target": "all_allies",
+     "value": 1,
+     "value2": 1
+    }
+   ],
+   "lore": "Toutes les gouttes noires viennent d'elle.",
+   "art": {
+    "arch": "kraken",
+    "c1": [
+     18,
+     18,
+     24
+    ],
+    "c2": [
+     60,
+     70,
+     60
+    ],
+    "eye": [
+     170,
+     255,
+     60
+    ],
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "scene": "void",
+    "scale": 1.0,
+    "cy": 150
+   }
+  },
+  {
+   "id": "sm35",
+   "name": "Exo-Chevalier Lié",
+   "type": "creature",
+   "family": "creatures",
+   "element": "lumiere",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 6,
+   "hp": 7,
+   "keywords": [
+    "bouclier"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "symbiose",
+     "value": 3,
+     "value2": 4
+    }
+   ],
+   "lore": "Le symbiote a choisi un héros. Le héros a dit oui.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     30,
+     30,
+     40
+    ],
+    "hood": [
+     200,
+     210,
+     220
+    ],
+    "skin_h": [
+     200,
+     170,
+     150
+    ],
+    "weapon": "sword",
+    "eye": [
+     170,
+     255,
+     60
+    ],
+    "aura": true,
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sm36",
+   "name": "Le Puits Vivant",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "E",
+   "cost": 7,
+   "atk": 4,
+   "hp": 12,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "drain",
+     "target": "random_enemy_creature",
+     "value": 3
+    }
+   ],
+   "lore": "Un trou dans le sol qui digère lentement le monde.",
+   "art": {
+    "arch": "maw",
+    "eyes": 9,
+    "c1": [
+     20,
+     20,
+     30
+    ],
+    "glow": [
+     255,
+     60,
+     200
+    ],
+    "eye": [
+     170,
+     255,
+     60
+    ],
+    "scale": 1.05,
+    "scene": "void"
+   }
+  },
+  {
+   "id": "sm37",
+   "name": "Venin Primordial",
+   "type": "spell",
+   "family": "mutants",
+   "element": "nature",
+   "rarity": "E",
+   "cost": 7,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "drain",
+     "target": "all_enemies",
+     "value": 3
+    },
+    {
+     "on": "cast",
+     "do": "summon",
+     "card": "sm91"
+    }
+   ],
+   "lore": "La première goutte. Celle qui a tout commencé.",
+   "art": {
+    "arch": "spell",
+    "spell": "blackhole",
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "sm38",
+   "name": "Brasier Symbiotique",
+   "type": "creature",
+   "family": "demons",
+   "element": "feu",
+   "rarity": "IN",
+   "cost": 7,
+   "atk": 8,
+   "hp": 6,
+   "keywords": [
+    "rage",
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "burn",
+     "target": "all_enemy_creatures",
+     "value": 3
+    },
+    {
+     "on": "attack",
+     "do": "devour",
+     "target": "attack_target"
+    }
+   ],
+   "lore": "Le symbiote a avalé un volcan. Il a aimé ça.",
+   "art": {
+    "arch": "biped",
+    "kind": "demon",
+    "bulk": 1.3,
+    "horns": true,
+    "tail": true,
+    "skin": [
+     30,
+     10,
+     10
+    ],
+    "c3": [
+     255,
+     120,
+     40
+    ],
+    "eye": [
+     255,
+     220,
+     60
+    ],
+    "aura": true,
+    "glow": [
+     255,
+     90,
+     20
+    ],
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "sm39",
+   "name": "Anti-Venin, le Traître",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "lumiere",
+   "rarity": "L",
+   "cost": 8,
+   "atk": 7,
+   "hp": 9,
+   "keywords": [
+    "bouclier",
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "execute",
+     "target": "all_enemy_creatures",
+     "value": 4
+    },
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 4
+    }
+   ],
+   "lore": "Un symbiote blanc qui chasse les siens.",
+   "art": {
+    "arch": "biped",
+    "kind": "demon",
+    "bulk": 1.2,
+    "horns": false,
+    "tail": false,
+    "skin": [
+     240,
+     240,
+     250
+    ],
+    "c3": [
+     120,
+     200,
+     255
+    ],
+    "eye": [
+     40,
+     60,
+     120
+    ],
+    "aura": true,
+    "glow": [
+     200,
+     230,
+     255
+    ],
+    "scene": "temple"
+   }
+  },
+  {
+   "id": "sm40",
+   "name": "Cœur de la Ruche",
+   "type": "spell",
+   "family": "mutants",
+   "element": "nature",
+   "rarity": "M",
+   "cost": 8,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "devour",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "ally_leader",
+     "value": 6
+    }
+   ],
+   "lore": "Tout ce qui vit finira dans la Ruche.",
+   "art": {
+    "arch": "spell",
+    "spell": "blackhole",
+    "scene": "void"
+   }
+  },
+  {
+   "id": "sm46",
+   "name": "Toxyne, la Mue Ω",
+   "type": "creature",
+   "family": "mutants",
+   "element": "nature",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 5,
+   "hp": 6,
+   "form": "omega",
+   "keywords": [
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "symbiose",
+     "value": 2,
+     "value2": 3
+    }
+   ],
+   "omega": [
+    {
+     "do": "drain",
+     "target": "all_enemies",
+     "value": 4
+    },
+    {
+     "do": "buff",
+     "target": "all_allies",
+     "value": 2,
+     "value2": 2
+    }
+   ],
+   "lore": "Chaque mue la rend plus dangereuse.",
+   "art": {
+    "arch": "biped",
+    "kind": "demon",
+    "bulk": 1.1,
+    "horns": true,
+    "tail": true,
+    "skin": [
+     30,
+     40,
+     20
+    ],
+    "c3": [
+     170,
+     255,
+     60
+    ],
+    "eye": [
+     255,
+     60,
+     200
+    ],
+    "aura": true,
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "sm47",
+   "name": "Gorgothrax",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "L",
+   "cost": 10,
+   "atk": 10,
+   "hp": 16,
+   "form": "titan",
+   "keywords": [
+    "pietinement",
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "devour",
+     "target": "strongest_enemy_creature"
+    }
+   ],
+   "lore": "Un symbiote si grand qu'il a pris une montagne pour hôte.",
+   "art": {
+    "arch": "maw",
+    "eyes": 12,
+    "c1": [
+     18,
+     18,
+     24
+    ],
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "scale": 1.25,
+    "scene": "void"
+   }
+  },
+  {
+   "id": "sm41",
+   "name": "VENOMYX, le Symbiote Primordial",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "SY",
+   "cost": 8,
+   "atk": 10,
+   "hp": 10,
+   "keywords": [
+    "celerite",
+    "pietinement"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "symbiose",
+     "value": 4,
+     "value2": 5
+    },
+    {
+     "on": "attack",
+     "do": "devour",
+     "target": "attack_target"
+    }
+   ],
+   "lore": "Le premier. Le plus affamé. Il ne s'arrête jamais de grandir.",
+   "art": {
+    "arch": "biped",
+    "kind": "demon",
+    "bulk": 1.45,
+    "horns": false,
+    "tail": true,
+    "skin": [
+     10,
+     10,
+     14
+    ],
+    "c3": [
+     170,
+     255,
+     60
+    ],
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "aura": true,
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "sm42",
+   "name": "NÉCROGENÈSE",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "SY",
+   "cost": 9,
+   "atk": 9,
+   "hp": 12,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "devour",
+     "target": "strongest_enemy_creature"
+    },
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "sm91"
+    },
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "sm91"
+    }
+   ],
+   "lore": "Une nuée noire qui avale les étoiles une par une.",
+   "art": {
+    "arch": "kraken",
+    "c1": [
+     10,
+     10,
+     14
+    ],
+    "c2": [
+     60,
+     80,
+     40
+    ],
+    "eye": [
+     170,
+     255,
+     60
+    ],
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "scene": "nebula",
+    "scale": 1.05,
+    "cy": 145
+   }
+  },
+  {
+   "id": "sm43",
+   "name": "La Ruche Vivante",
+   "type": "creature",
+   "family": "mutants",
+   "element": "nature",
+   "rarity": "SY",
+   "cost": 7,
+   "atk": 6,
+   "hp": 14,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "summon",
+     "card": "sm91"
+    },
+    {
+     "on": "summon",
+     "do": "symbiose",
+     "value": 3,
+     "value2": 4
+    }
+   ],
+   "lore": "Une cathédrale de chair noire qui ne cesse d'enfanter.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "ring": true,
+    "orbiters": 10,
+    "size": 1.15,
+    "c1": [
+     20,
+     20,
+     24
+    ],
+    "ring_c": [
+     170,
+     255,
+     60
+    ],
+    "eye": [
+     170,
+     255,
+     60
+    ],
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "scene": "haunted",
+    "scale": 0.95
+   }
+  },
+  {
+   "id": "sm44",
+   "name": "CARNYX, Symbiote Écarlate",
+   "type": "creature",
+   "family": "mutants",
+   "element": "feu",
+   "rarity": "SY",
+   "cost": 8,
+   "atk": 11,
+   "hp": 8,
+   "keywords": [
+    "rage",
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "chain",
+     "value": 5,
+     "value2": 5
+    },
+    {
+     "on": "attack",
+     "do": "drain",
+     "target": "enemy_leader",
+     "value": 4
+    }
+   ],
+   "lore": "Il ne laisse derrière lui que des cendres et des cris.",
+   "art": {
+    "arch": "biped",
+    "kind": "demon",
+    "bulk": 1.4,
+    "horns": true,
+    "tail": true,
+    "skin": [
+     90,
+     0,
+     10
+    ],
+    "c3": [
+     255,
+     60,
+     40
+    ],
+    "eye": [
+     255,
+     255,
+     200
+    ],
+    "aura": true,
+    "glow": [
+     255,
+     40,
+     40
+    ],
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "sm45",
+   "name": "XÉNOS, l'Hôte Ultime",
+   "type": "creature",
+   "family": "divinites",
+   "element": "cosmique",
+   "rarity": "SY",
+   "cost": 10,
+   "atk": 12,
+   "hp": 15,
+   "keywords": [
+    "envol",
+    "bouclier"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "symbiose",
+     "value": 6,
+     "value2": 6
+    },
+    {
+     "on": "summon",
+     "do": "devour",
+     "target": "random_enemy_creature"
+    },
+    {
+     "on": "turn_start",
+     "do": "drain",
+     "target": "all_enemy_creatures",
+     "value": 2
+    }
+   ],
+   "lore": "Le symbiote et le dieu ne font plus qu'un. L'univers est son hôte.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     10,
+     10,
+     16
+    ],
+    "hair": [
+     170,
+     255,
+     60
+    ],
+    "skin_h": [
+     20,
+     20,
+     26
+    ],
+    "crown": [
+     170,
+     255,
+     60
+    ],
+    "halo": true,
+    "floating": true,
+    "aura": true,
+    "orb_hand": true,
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "sm90",
+   "name": "Larve Symbiote",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 2,
+   "hp": 2,
+   "token": true,
+   "lore": "Elle rampe vers l'hôte le plus proche.",
+   "art": {
+    "arch": "larva",
+    "eyes": 2,
+    "c1": [
+     18,
+     18,
+     24
+    ],
+    "glow": [
+     170,
+     255,
+     60
+    ],
+    "scale": 0.9,
+    "scene": "void"
+   }
+  },
+  {
+   "id": "sm91",
+   "name": "Rejeton Noir",
+   "type": "creature",
+   "family": "mutants",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 3,
+   "hp": 3,
+   "keywords": [
+    "poison"
+   ],
+   "token": true,
+   "lore": "Petit, noir, et déjà affamé.",
+   "art": {
+    "arch": "biped",
+    "kind": "demon",
+    "bulk": 0.8,
+    "horns": false,
+    "tail": true,
+    "skin": [
+     18,
+     18,
+     24
+    ],
+    "c3": [
+     170,
+     255,
+     60
+    ],
+    "eye": [
+     170,
+     255,
+     60
+    ],
+    "scene": "haunted"
+   }
+  }
+ ]
+}

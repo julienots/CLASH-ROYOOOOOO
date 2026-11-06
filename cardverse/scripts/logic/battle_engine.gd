@@ -464,6 +464,57 @@ func resolve(e: Dictionary, i: int, src: Dictionary, ctx: Dictionary) -> void:
 			for k in v:
 				add_to_hand(i, pool[rng.randi_range(0, pool.size() - 1)])
 			return
+	match e.do:
+		"chain":
+			# Éclair en chaîne : rebondit d'ennemi en ennemi, 1 dégât de moins à chaque saut
+			var dmg := maxi(1, v)
+			var prev := src_ref
+			var hit := []
+			for k in int(e.get("value2", 3)):
+				var pool := []
+				for u in _units(opp(i)):
+					if int(u.hp) > 0 and not (int(u.uid) in hit):
+						pool.append(u)
+				var tref := {}
+				if pool.is_empty():
+					tref = {"k": "leader", "p": opp(i)}
+				else:
+					var pick: Dictionary = pool[rng.randi_range(0, pool.size() - 1)]
+					hit.append(int(pick.uid))
+					tref = {"k": "unit", "uid": pick.uid}
+				ev({"t": "chain", "from": prev, "to": tref, "value": dmg})
+				damage(tref, dmg, null)
+				prev = tref
+				dmg = maxi(1, dmg - 1)
+				if tref.k == "leader":
+					break
+			return
+		"symbiose":
+			# Symbiose : le symbiote se lie à l'allié le plus fort, partage ses mots-clés et le renforce
+			if src.is_empty():
+				return
+			var host := {}
+			for u in _units(i):
+				if int(u.uid) != int(src.uid) and int(u.get("bond", 0)) == 0 and int(u.hp) > 0:
+					if host.is_empty() or int(u.atk) + int(u.hp) > int(host.atk) + int(host.hp):
+						host = u
+			if host.is_empty():
+				ev({"t": "bond_fail", "uid": src.uid})
+				return
+			for k in src.kw:
+				host.kw[k] = true
+			for k in host.kw:
+				src.kw[k] = true
+			host.atk = int(host.atk) + v
+			host.hp = int(host.hp) + v
+			host.max_hp = int(host.max_hp) + v
+			host["bond"] = int(src.uid)
+			src["bond"] = int(host.uid)
+			var rage := int(e.get("value2", 3))
+			host["bond_rage"] = rage
+			src["bond_rage"] = rage
+			ev({"t": "bond", "a": src.uid, "b": host.uid, "ua": src.duplicate(true), "ub": host.duplicate(true)})
+			return
 	var targets := resolve_targets(e, i, src, ctx)
 	if targets.is_empty():
 		return
@@ -501,6 +552,32 @@ func resolve(e: Dictionary, i: int, src: Dictionary, ctx: Dictionary) -> void:
 					var u2 := find_unit(t.uid)
 					u2.hp = 0
 					ev({"t": "destroy", "uid": t.uid})
+			"drain":
+				# Drain : inflige des dégâts et rend autant de PV à votre leader
+				var dealt := damage(t, v, null)
+				if dealt > 0:
+					heal({"k": "leader", "p": i}, dealt)
+			"execute":
+				# Exécution : détruit la créature si ses PV sont au plus égaux à la valeur
+				if t.k == "unit":
+					var ux := find_unit(t.uid)
+					if int(ux.hp) <= v:
+						ux.hp = 0
+						ev({"t": "execute", "uid": t.uid})
+					else:
+						ev({"t": "resist", "uid": t.uid})
+			"devour":
+				# Dévorer : la cible est détruite, la source gagne son ATQ et ses PV
+				if t.k == "unit":
+					var ud := find_unit(t.uid)
+					var ga := int(ud.atk)
+					var gh := maxi(0, int(ud.hp))
+					ud.hp = 0
+					if not src.is_empty() and not find_unit(src.uid).is_empty():
+						src.atk = int(src.atk) + ga
+						src.hp = int(src.hp) + gh
+						src.max_hp = int(src.max_hp) + gh
+					ev({"t": "devour", "uid": t.uid, "src": src.get("uid", -1), "unit": src.duplicate(true)})
 			"silence":
 				if t.k == "unit":
 					var u3 := find_unit(t.uid)
@@ -642,6 +719,18 @@ func cleanup() -> void:
 			ev({"t": "death", "uid": u.uid, "p": u.owner, "id": u.id})
 		for u in dead:
 			_trigger(u, "death", {})
+		# Lien symbiotique rompu : le partenaire survivant entre en fureur
+		for u in dead:
+			var pid := int(u.get("bond", 0))
+			if pid > 0:
+				var pu := find_unit(pid)
+				if not pu.is_empty() and int(pu.hp) > 0:
+					var rg := int(pu.get("bond_rage", 3))
+					pu.atk = int(pu.atk) + rg
+					pu.max_hp = int(pu.max_hp) + rg
+					pu.hp = int(pu.max_hp)
+					pu["bond"] = 0
+					ev({"t": "bond_rage", "uid": pu.uid, "unit": pu.duplicate(true)})
 		# Contrecoup des formes ultimes (Ω et Titan)
 		for u in dead:
 			var bl := int(DB.FORM_BACKLASH.get(DB.card(u.id).get("form", ""), 0))

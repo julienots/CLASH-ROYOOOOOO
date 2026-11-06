@@ -1,6 +1,6 @@
 # CARDVERSE : Ultimate TCG Collection
 
-Jeu mobile de cartes à collectionner en **portrait** (Godot 4.3). Il propose 554 cartes originales en 12 générations (Genèse, Éclipse, Âge Primitif, Mécanica, Royaume des Songes, Panthéon Céleste, Corsaires Astraux, Jungle Sauvage, Formes Ultimes, Sables Éternels, Royaume du Givre, Carnaval des Ombres) réparties sur 21 raretés, dont GOD (la plus haute), Néon, Infernale, Mirage, Primitif et SWAP (à reconstituer avec des pièces de puzzle), des boosters spectaculaires (dont l'édition Prestige), une Roue de la Fortune, un Marché Noir, un album complet, des combats stratégiques contre l'IA, un Atelier d'évolutions, un passe de saison, des missions et un événement.
+Jeu mobile de cartes à collectionner en **portrait** (Godot 4.3). Il propose 648 cartes originales en 14 générations (Genèse, Éclipse, Âge Primitif, Mécanica, Royaume des Songes, Panthéon Céleste, Corsaires Astraux, Jungle Sauvage, Formes Ultimes, Sables Éternels, Royaume du Givre, Carnaval des Ombres, Invasion Symbiote, Chaos Primordial) réparties sur 23 raretés, dont Symbiot (la plus haute), GOD, Chaos, Néon, Infernale, Mirage, Primitif et SWAP (à reconstituer avec des pièces de puzzle), des boosters spectaculaires (dont l'édition Prestige), une Roue de la Fortune, un Marché Noir, un album complet, des combats stratégiques contre l'IA, un Atelier d'évolutions, un passe de saison, des missions et un événement.
 
 📄 Architecture, direction artistique et feuille de route : [ARCHITECTURE.md](ARCHITECTURE.md)
 

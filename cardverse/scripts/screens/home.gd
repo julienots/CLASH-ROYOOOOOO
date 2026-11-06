@@ -112,7 +112,9 @@ func setup(_p: Dictionary) -> void:
 	cp.add_child(cb)
 	col.add_child(cp)
 	# connexion quotidienne, tutoriel, nouveautés
-	if Profile.d.get("pending_gift11", false):
+	if Profile.d.get("pending_gift12", false):
+		_gift12_popup.call_deferred()
+	elif Profile.d.get("pending_gift11", false):
 		_gift11_popup.call_deferred()
 	elif Profile.d.get("pending_gift10", false):
 		_gift10_popup.call_deferred()
@@ -402,5 +404,25 @@ func _gift11_popup() -> void:
 		Profile.d.seen_version = "0.11"
 		Profile.save_game()
 	main.modal("100 nouvelles cartes", v, [["Plus tard", Color("4a3a6a"), close], ["Mes boosters", UI.GOOD.darkened(0.2), func():
+		close.call()
+		main.goto("shop", {"tab": "boosters"})]])
+
+func _gift12_popup() -> void:
+	var v := UI.vbox(12)
+	var row := UI.hbox(16)
+	row.alignment = BoxContainer.ALIGNMENT_CENTER
+	for id in ["sm41", "ch41"]:
+		row.add_child(CardView.holder(id, 0.42))
+	v.add_child(row)
+	var l := UI.label("Nouveautés 0.12 :\n• 2 NOUVELLES RARETÉS : SYMBIOT (cadre vivant aux veines qui battent) et CHAOS (fissures et glitchs rouges), avec leur propre révélation.\n• 94 NOUVELLES CARTES, beaucoup plus puissantes : Gén. 13 « Invasion Symbiote » et Gén. 14 « Chaos Primordial ».\n• 5 NOUVEAUX EFFETS : Symbiose (deux créatures liées), Dévorer, Drain, Exécution et Éclair en chaîne.\n• BOOSTERS EN 3D dans la Boutique et à l'ouverture, nouveau design des paquets.\n• BOOSTER APEX et Display APEX (Chaos ou Symbiot garanti).\n\nCadeau : 2 Boosters Symbiote, 2 Boosters Chaos et 1 Booster APEX.", 18, UI.TEXT, "body", 600)
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	l.custom_minimum_size = Vector2(560, 0)
+	v.add_child(l)
+	var close := func():
+		for k in ["pending_gift12", "pending_gift11", "pending_gift10", "pending_gift9", "pending_gift8", "pending_gift", "pending_gift6", "pending_gift7"]:
+			Profile.d[k] = false
+		Profile.d.seen_version = "0.12"
+		Profile.save_game()
+	main.modal("Symbiot & Chaos", v, [["Plus tard", Color("4a3a6a"), close], ["Mes boosters", UI.GOOD.darkened(0.2), func():
 		close.call()
 		main.goto("shop", {"tab": "boosters"})]])

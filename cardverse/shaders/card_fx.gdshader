@@ -207,6 +207,48 @@ void fragment() {
 		float shimmer = pow(max(0.0, sin((uv.x + uv.y) * 16.0 + wav * 1.5 - t * 1.5)), 8.0);
 		c += hue(fract(uv.x * 0.5 + uv.y * 0.3 + t * 0.05)) * shimmer * 0.3;
 		c += vec3(1.0) * smoothstep(1.5, 0.0, abs(ed - 30.0)) * (0.4 + 0.4 * sin(t * 4.0 + ang * 40.0));
+	} else if (border == 8) {
+		// Symbiot : une matière vivante enveloppe la carte. Veines acides qui battent comme un cœur
+		// (double pulsation), tentacules qui rampent vers l'intérieur, spores qui flottent.
+		float beat = pow(max(0.0, sin(t * 5.2)), 12.0) + 0.6 * pow(max(0.0, sin(t * 5.2 - 0.9)), 12.0);
+		float pulse = 0.45 + 0.9 * beat;
+		vec3 acid = vec3(0.62, 1.0, 0.18);
+		// tentacules : épaisseur qui ondule le long du cadre
+		float reach = 22.0 + 30.0 * noise(vec2(ang * 30.0 + t * 0.35, t * 0.25)) + 26.0 * pow(noise(vec2(ang * 9.0 - t * 0.2, 3.0)), 3.0);
+		float tend = smoothstep(reach, reach - 6.0, ed) * smoothstep(0.0, 2.0, ed);
+		float rim = smoothstep(3.0, 0.0, abs(ed - reach + 3.0));
+		c += acid * rim * pulse * 1.4;
+		// réseau de veines (lignes de bruit fines) à l'intérieur des tentacules
+		float vn = abs(noise(px * 0.045 + vec2(t * 0.15, 0.0)) - 0.5);
+		float vein = smoothstep(0.035, 0.0, vn) * tend;
+		c += acid * vein * pulse * 1.6;
+		c += acid * tend * 0.06 * pulse;
+		// spores qui montent devant la carte
+		vec2 g8 = floor((px + vec2(0.0, t * 40.0)) / 18.0);
+		float h8 = hash(g8 + 9.1);
+		vec2 f8 = fract((px + vec2(0.0, t * 40.0)) / 18.0) - 0.5;
+		c += acid * smoothstep(0.18, 0.0, length(f8)) * step(0.965, h8) * (0.5 + beat);
+		// reflet huileux irisé sur la matière
+		c += hue(fract(ang * 2.0 + t * 0.05)) * tend * 0.05;
+	} else if (border == 9) {
+		// Chaos : la carte se fissure, l'énergie rouge s'échappe, décalages chromatiques et éclats
+		float glitch = step(0.92, hash(vec2(floor(t * 14.0), 1.0)));
+		vec3 red = vec3(1.0, 0.16, 0.32);
+		vec3 vio = vec3(0.65, 0.2, 1.0);
+		float band9 = smoothstep(26.0, 6.0, ed) * smoothstep(0.0, 2.0, ed);
+		float flow9 = noise(vec2(ang * 50.0 - t * 3.0, ed * 0.2));
+		c += mix(red, vio, flow9) * band9 * (0.8 + 0.6 * flow9);
+		// fissures : cellules de Voronoï approximées par le bruit, lignes vives qui palpitent
+		float cr = abs(noise(px * 0.03 + 7.0) - noise(px * 0.03 + 13.0));
+		float crack = smoothstep(0.03, 0.0, cr) * smoothstep(80.0, 20.0, ed);
+		c += mix(red, vec3(1.0, 0.85, 0.9), 0.3) * crack * (0.9 + 0.8 * sin(t * 7.0 + ang * 20.0));
+		// éclairs qui sautent le long du cadre
+		float bolt = smoothstep(0.012, 0.0, abs(fract(ang * 3.0 + floor(t * 6.0) * 0.37) - 0.5) - 0.48);
+		c += vec3(1.0, 0.7, 0.85) * bolt * band9 * 2.0;
+		// décalage chromatique ponctuel sur toute la carte
+		float sl = step(0.5, fract(uv.y * 18.0 + t * 30.0));
+		c += vec3(0.9, 0.0, 0.25) * glitch * sl * 0.18;
+		c += vec3(0.0, 0.6, 1.0) * glitch * (1.0 - sl) * 0.1;
 	} else if (border == 4) {
 		// contour d'or liquide, épais et vivant
 		float band4 = smoothstep(30.0, 8.0, ed) * smoothstep(0.0, 2.0, ed);

@@ -132,6 +132,14 @@ func _spell_value(g: BattleEngine, me: int, o: int, c: Dictionary) -> float:
 					v += g.pl[o].board.size() * 1.0 - 1.0
 			"draw":
 				v += float(e.value) * (1.5 if g.pl[me].hand.size() < 5 else 0.3)
+			"chain":
+				v += float(e.value) * 1.4 + float(e.get("value2", 3)) * 0.8
+			"drain":
+				if t.begins_with("all"):
+					v += g.pl[o].board.size() * float(e.value) * 0.8
+			"devour", "execute":
+				if t.begins_with("all") or t == "strongest_enemy_creature":
+					v += g.board_value(o) * 0.4
 			"silence", "bounce":
 				var best := 0.0
 				for u in g.pl[o].board:
@@ -145,10 +153,10 @@ func _pick_target(g: BattleEngine, me: int, o: int, id: String, tt: String) -> D
 	var harmful := false
 	for e in c.get("effects", []):
 		if str(e.get("target", "")) == tt:
-			if e.do == "damage":
+			if e.do == "damage" or e.do == "drain":
 				dmg = int(e.value)
 				harmful = true
-			elif e.do in ["freeze", "sleep", "destroy", "silence", "bounce", "steal", "swap_stats", "burn", "polymorph"]:
+			elif e.do in ["freeze", "sleep", "destroy", "silence", "bounce", "steal", "swap_stats", "burn", "polymorph", "drain", "execute", "devour"]:
 				harmful = true
 	var options := g.targets_for(me, tt)
 	var best := {}

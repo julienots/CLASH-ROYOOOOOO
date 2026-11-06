@@ -393,3 +393,38 @@ Un nouveau style de carte, en deux formes (champ `form` d'une carte), dans l'ext
 - Cadeau de mise à jour : 2 boosters de chaque nouvelle génération.
 - **Tests** : 50 cartes par set, jetons référencés valides, GOD tirable dans le booster Carnaval, Cosmique tirable dans le booster Givre.
 - Total : **554 cartes collectionnables** sur 12 générations.
+
+## 20. Version 0.12 : Symbiot, Chaos et boosters en 3D
+
+- **Boosters en vraie 3D** (`scripts/ui/pack3d.gd`, `Pack3D`) :
+  - **Maillage** : coussin bombé généré par `SurfaceTool`, plat sur les bords et dans les zones serties.
+  - **Matériau** : film plastique (légers plis), recto foil métallique, verso teinté par la couleur du booster (`packs/_back.png`).
+  - **Lumière** : une principale et un reflet qui balaie le paquet en continu.
+  - **Rendu** : `SubViewport` qui ne se met à jour que si le paquet est à l'écran.
+  - **Où il sert** :
+    - dans la **Boutique**, chaque booster se balance doucement en 3D ;
+    - à l'**ouverture**, le paquet tourne au doigt et la bande du haut est un maillage séparé qui s'envole à la déchirure ;
+    - les boosters rangés dans les **Displays 3D** sont de vrais paquets bombés (`Pack3D.pack_node`).
+- **Nouveau design des paquets** (`gen_ui.py`) : logo CARDVERSE, ruban du nom, génération et nombre de cartes intégrés à la texture, pour qu'ils tournent avec le paquet. Un verso générique a été ajouté.
+- **2 nouvelles raretés** (23 au total) :
+  - **Chaos** (`CH`, avant GOD) : obsidienne rouge fracturée. Contour shader 9 : flux rouge et violet, fissures qui palpitent, éclairs le long du cadre, décalages chromatiques.
+  - **Symbiot** (`SY`, au-dessus de GOD) : matière noire visqueuse et veines acides. Contour shader 8 : tentacules qui ondulent vers l'intérieur, veines qui battent comme un cœur (double pulsation), spores.
+  - Ces deux raretés ont un halo pulsant, un numéro de tirage (sur 500) et une **révélation dédiée** à l'ouverture : tentacules et battements pour Symbiot, écran fracturé et titre qui « glitche » pour Chaos.
+- **5 nouveaux effets** (moteur, textes, IA, animations) :
+  - `symbiose` : la carte se lie à la créature alliée la plus forte. Celle-ci gagne +X/+X et les deux partagent leurs mots-clés. Si l'une meurt, l'autre gagne `value2` ATQ et se soigne (« Fureur du lien »). Le lien s'affiche par une icône.
+  - `devour` : détruit la cible et la source gagne son ATQ et ses PV. Les Titans y sont insensibles.
+  - `drain` : inflige des dégâts et rend autant de PV au leader.
+  - `execute` : détruit la créature si ses PV sont au plus égaux à la valeur.
+  - `chain` : éclair qui rebondit d'ennemi en ennemi, avec 1 dégât de moins à chaque saut.
+- **Génération 13 « Invasion Symbiote »** et **Génération 14 « Chaos Primordial »** (47 cartes chacune) :
+  - les cartes sont plus puissantes que dans les sets précédents ;
+  - chaque set contient 5 cartes de sa rareté phare (Symbiot ou Chaos), un Ω et un Titan.
+- **Booster APEX** (6 cartes, 3 Rares ou mieux, raretés hautes x12) et **Display APEX** :
+  - le display garantit une carte Chaos ou Symbiot grâce à `BoosterLogic.force_top`, une garantie au-delà de la pity.
+  - Chances réelles : Symbiot 1 booster APEX sur environ 530, Chaos environ 1 sur 200.
+- Les deux nouvelles générations ont aussi leurs boosters, displays et coffrets, et sont incluses dans le Booster Prestige.
+- **Tests** :
+  - effets : Drain, Exécution (seuil), Dévorer (et immunité des Titans), Éclair en chaîne (rebonds décroissants), Symbiose (lien, bonus, mots-clés partagés, fureur) ;
+  - contenu : 47 cartes par set, raretés tirables dans APEX, garantie du Display APEX ;
+  - un combat réel où la Symbiose et l'Éclair en chaîne sont animés.
+- Total : **648 cartes collectionnables** sur 14 générations.

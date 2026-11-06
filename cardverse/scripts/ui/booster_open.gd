@@ -9,8 +9,7 @@ var phase := "pack"  # pack -> tearing -> reveal -> summary
 var stage: Control
 var dim: ColorRect
 var pack_root: Control
-var pack_top: TextureRect
-var pack_body: TextureRect
+var pack3d: Pack3D
 var tear_line: Line2D
 var hint: Label
 var _tear_from := -1.0
@@ -101,51 +100,14 @@ func _build_pack() -> void:
 	pack_root.pivot_offset = PACK_SIZE / 2
 	pack_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	stage.add_child(pack_root)
+	# booster en vraie 3D : rotation au doigt, reflets foil, bande du haut détachable
+	pack3d = Pack3D.make(booster.id, PACK_SIZE, 1.3)
+	pack3d.position = -PACK_SIZE * 0.15
+	pack3d.idle = false
+	pack_root.add_child(pack3d)
 	var tex := DB.tex("res://assets/ui/packs/%s.png" % booster.id)
-	var top_h := tex.get_height() * 0.16
-	var at := AtlasTexture.new()
-	at.atlas = tex
-	at.region = Rect2(0, 0, tex.get_width(), top_h)
-	var ab := AtlasTexture.new()
-	ab.atlas = tex
-	ab.region = Rect2(0, top_h, tex.get_width(), tex.get_height() - top_h)
+	var top_h := tex.get_height() * Pack3D.TOP_FRAC
 	var k := PACK_SIZE.x / tex.get_width()
-	pack_top = TextureRect.new()
-	pack_top.texture = at
-	pack_top.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	pack_top.size = Vector2(PACK_SIZE.x, top_h * k)
-	pack_top.pivot_offset = pack_top.size / 2
-	pack_top.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	pack_body = TextureRect.new()
-	pack_body.texture = ab
-	pack_body.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	pack_body.position = Vector2(0, top_h * k)
-	pack_body.size = Vector2(PACK_SIZE.x, PACK_SIZE.y - top_h * k)
-	pack_body.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	pack_root.add_child(pack_body)
-	pack_root.add_child(pack_top)
-	var shine := ColorRect.new()
-	shine.size = PACK_SIZE
-	shine.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var sm := ShaderMaterial.new()
-	sm.shader = load("res://shaders/card_fx.gdshader")
-	sm.set_shader_parameter("mode", 2)
-	sm.set_shader_parameter("card_size", PACK_SIZE)
-	sm.set_shader_parameter("intensity", 0.7)
-	shine.material = sm
-	shine.name = "shine"
-	pack_root.add_child(shine)
-	var name_l := UI.label(booster.name.to_upper(), 26, Color.WHITE, "serif", 800, HORIZONTAL_ALIGNMENT_CENTER)
-	UI.outline(name_l, 7)
-	name_l.position = Vector2(10, PACK_SIZE.y - 120)
-	name_l.size = Vector2(PACK_SIZE.x - 20, 40)
-	UI.fit(name_l, PACK_SIZE.x - 30, 26, 16)
-	pack_root.add_child(name_l)
-	var logo := UI.label("CARDVERSE", 30, Color("fff2d0"), "title", 700, HORIZONTAL_ALIGNMENT_CENTER)
-	UI.outline(logo, 8, Color("2a0d4a"))
-	logo.position = Vector2(0, PACK_SIZE.y * 0.16 + 6)
-	logo.size = Vector2(PACK_SIZE.x, 40)
-	pack_root.add_child(logo)
 	tear_line = Line2D.new()
 	tear_line.width = 6
 	tear_line.default_color = Color(1, 0.95, 0.8)
@@ -201,7 +163,7 @@ func _update_tear(x: float) -> void:
 	for i in n + 1:
 		var xx: float = lerpf(x0, x1, float(i) / n)
 		tear_line.add_point(Vector2(xx, sin(xx * 0.3) * 4))
-	pack_top.rotation = -p * 0.08
+	pack3d.tear_progress(p)
 	if _tick_cd <= 0:
 		Sfx.play("tear_tick", randf_range(0.9, 1.2))
 		_tick_cd = 0.05
@@ -229,9 +191,8 @@ func _finish_tear() -> void:
 	Sfx.play("tear")
 	tear_line.clear_points()
 	var t := create_tween().set_parallel(true)
-	t.tween_property(pack_top, "position", pack_top.position + Vector2(260, -420), 0.6).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-	t.tween_property(pack_top, "rotation", 1.6, 0.6)
-	t.tween_property(pack_top, "modulate:a", 0.0, 0.6)
+	pack3d.fly_top()
+	t.tween_interval(0.6)
 	await get_tree().create_timer(0.18).timeout
 	_flash(Color(1, 1, 1), 0.5)
 	Sfx.play("flash")
@@ -329,6 +290,10 @@ func _reveal(cv: CardView, r: Dictionary) -> void:
 		await _cosmic_sequence(cv, c, col)
 	if c.rarity == "G":
 		await _god_sequence(cv)
+	if c.rarity == "SY":
+		await _symbiot_sequence()
+	if c.rarity == "CH":
+		await _chaos_sequence()
 	cv.set_pivot(Vector2(CardView.W, CardView.H) / 2)
 	Sfx.play("flip")
 	var t := cv.create_tween()
@@ -400,6 +365,134 @@ func _god_sequence(cv: CardView) -> void:
 	big.queue_free()
 	veil.queue_free()
 	get_tree().create_timer(4.0).timeout.connect(col_l.queue_free)
+
+## Révélation Symbiot : l'écran devient noir, un cœur bat, des tentacules vertes envahissent l'écran.
+func _symbiot_sequence() -> void:
+	var acid := Color(0.65, 1.0, 0.2)
+	var veil := ColorRect.new()
+	veil.color = Color(0, 0, 0, 0)
+	veil.size = size
+	veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(veil)
+	var t := create_tween()
+	t.tween_property(veil, "color:a", 0.92, 0.6)
+	await t.finished
+	# tentacules : des lignes qui poussent depuis les bords vers le centre
+	var lines := []
+	for i in 14:
+		var ln := Line2D.new()
+		ln.width = randf_range(10, 26)
+		ln.default_color = Color(0.05, 0.07, 0.04)
+		ln.joint_mode = Line2D.LINE_JOINT_ROUND
+		ln.end_cap_mode = Line2D.LINE_CAP_ROUND
+		var vein := Line2D.new()
+		vein.width = 3
+		vein.default_color = acid
+		var side := i % 4
+		var start: Vector2 = [Vector2(randf() * size.x, -20), Vector2(size.x + 20, randf() * size.y), Vector2(randf() * size.x, size.y + 20), Vector2(-20, randf() * size.y)][side]
+		ln.set_meta("start", start)
+		ln.set_meta("vein", vein)
+		add_child(ln)
+		add_child(vein)
+		lines.append(ln)
+	var center := size / 2 - Vector2(0, 60)
+	for beat in 3:
+		Sfx.play("hit_big", 0.55)
+		_flash(Color(acid, 0.18), 0.25)
+		UI.shake(self, 10 + beat * 4, 0.25)
+		await get_tree().create_timer(0.18).timeout
+		Sfx.play("hit_big", 0.5)
+		for ln in lines:
+			var st: Vector2 = ln.get_meta("start")
+			var k := (beat + 1) / 3.0
+			ln.clear_points()
+			var vein: Line2D = ln.get_meta("vein")
+			vein.clear_points()
+			for j in 9:
+				var f := j / 8.0 * k * 0.85
+				var pt := st.lerp(center, f) + Vector2(sin(f * 9.0 + st.x) * 40, cos(f * 7.0 + st.y) * 40) * (1.0 - f)
+				ln.add_point(pt)
+				vein.add_point(pt)
+		await get_tree().create_timer(0.45).timeout
+	var big := UI.label("S Y M B I O T", 92, acid, "title", 700, HORIZONTAL_ALIGNMENT_CENTER)
+	UI.outline(big, 20, Color(0, 0.05, 0))
+	big.position = Vector2(0, size.y / 2 - 110)
+	big.size = Vector2(size.x, 180)
+	big.pivot_offset = big.size / 2
+	big.scale = Vector2(0.4, 0.4)
+	add_child(big)
+	var tb := big.create_tween()
+	tb.tween_property(big, "scale", Vector2(1.08, 1.08), 0.35).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tb.tween_property(big, "scale", Vector2.ONE, 0.2)
+	Sfx.play("rift", 0.7)
+	UI.burst(self, center, acid, 120, 900, 0.8, 1.4, 0)
+	await get_tree().create_timer(1.4).timeout
+	var t2 := create_tween().set_parallel(true)
+	t2.tween_property(big, "modulate:a", 0.0, 0.4)
+	t2.tween_property(veil, "color:a", 0.0, 0.8)
+	for ln in lines:
+		t2.tween_property(ln, "modulate:a", 0.0, 0.6)
+		t2.tween_property(ln.get_meta("vein"), "modulate:a", 0.0, 0.6)
+	await t2.finished
+	for ln in lines:
+		ln.get_meta("vein").queue_free()
+		ln.queue_free()
+	big.queue_free()
+	veil.queue_free()
+
+## Révélation Chaos : l'écran se fracture, bascule en rouge, décalages et éclairs.
+func _chaos_sequence() -> void:
+	var red := Color(1.0, 0.16, 0.35)
+	var veil := ColorRect.new()
+	veil.color = Color(0.25, 0, 0.05, 0)
+	veil.size = size
+	veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(veil)
+	var cracks := []
+	for k in 6:
+		Sfx.play("hit_big", randf_range(0.7, 1.3))
+		veil.color.a = randf_range(0.4, 0.8)
+		_flash(Color(red, 0.35) if k % 2 == 0 else Color(0.4, 0.6, 1.0, 0.2), 0.12)
+		UI.shake(self, 22, 0.15)
+		var cr := Line2D.new()
+		cr.width = randf_range(3, 7)
+		cr.default_color = Color(1.0, 0.75, 0.85)
+		var p0 := Vector2(randf() * size.x, randf() * size.y)
+		cr.add_point(p0)
+		for j in 7:
+			p0 += Vector2(randf_range(-90, 90), randf_range(-90, 90))
+			cr.add_point(p0)
+		var mt := CanvasItemMaterial.new()
+		mt.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+		cr.material = mt
+		add_child(cr)
+		cracks.append(cr)
+		await get_tree().create_timer(0.16).timeout
+	var big := UI.label("C H A O S", 110, red, "title", 700, HORIZONTAL_ALIGNMENT_CENTER)
+	UI.outline(big, 20, Color(0.1, 0, 0.02))
+	big.position = Vector2(0, size.y / 2 - 120)
+	big.size = Vector2(size.x, 200)
+	add_child(big)
+	# texte qui « glitche » : décalages latéraux rapides
+	for k in 8:
+		big.position.x = randf_range(-24, 24)
+		big.modulate = Color(1, 1, 1) if k % 2 == 0 else Color(0.5, 0.8, 1.0)
+		await get_tree().create_timer(0.06).timeout
+	big.position.x = 0
+	big.modulate = Color.WHITE
+	Sfx.play("rift", 1.3)
+	UI.burst(self, size / 2, red, 120, 1000, 0.7, 1.2, 0)
+	await get_tree().create_timer(1.1).timeout
+	var t2 := create_tween().set_parallel(true)
+	t2.tween_property(big, "modulate:a", 0.0, 0.35)
+	t2.tween_property(veil, "color:a", 0.0, 0.6)
+	for cr in cracks:
+		t2.tween_property(cr, "modulate:a", 0.0, 0.5)
+	await t2.finished
+	for cr in cracks:
+		cr.queue_free()
+	big.queue_free()
+	veil.queue_free()
 
 func _label_for(c: Dictionary, r: Dictionary, col: Color, fx: int) -> void:
 	if _title:
@@ -627,8 +720,8 @@ func _process(delta: float) -> void:
 		_spin = lerpf(_spin, _spin_target, delta * 6)
 		if _drag_x < 0:
 			_spin_target = lerpf(_spin_target, 0.0, delta * 1.5)
-		pack_root.scale.x = cos(_spin) * (1.0 + sin(_t * 2) * 0.01)
-		pack_root.scale.y = 1.0 + sin(_t * 2) * 0.01
+		pack3d.spin = _spin * 2.2 + sin(_t * 0.8) * 0.12
+		pack3d.tilt = sin(_t * 0.6) * 0.06
 		pack_root.position.y = size.y / 2 - PACK_SIZE.y / 2 - 40 + sin(_t * 1.5) * 8
 		var sh := pack_root.get_node_or_null("shine")
 		if sh:

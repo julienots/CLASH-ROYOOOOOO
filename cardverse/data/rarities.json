@@ -19,7 +19,9 @@
   "AB",
   "O",
   "X",
+  "CH",
   "G",
+  "SY",
   "SW"
  ],
  "rarities": {
@@ -192,6 +194,22 @@
    "dust": 2500,
    "fx": 4,
    "deck_max": 1
+  },
+  "CH": {
+   "name": "Chaos",
+   "color": "#ff2a5a",
+   "weight": 0.008,
+   "dust": 30000,
+   "fx": 5,
+   "deck_max": 1
+  },
+  "SY": {
+   "name": "Symbiot",
+   "color": "#a6ff2e",
+   "weight": 0.003,
+   "dust": 80000,
+   "fx": 5,
+   "deck_max": 1
   }
  },
  "variants": {
@@ -227,7 +245,9 @@
  "numbered": {
   "rarities": [
    "O",
-   "X"
+   "X",
+   "CH",
+   "SY"
   ],
   "print_run": 500
  },

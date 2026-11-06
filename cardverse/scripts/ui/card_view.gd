@@ -85,7 +85,24 @@ func build() -> void:
 		var th := halo.create_tween().set_loops()
 		th.tween_property(halo, "modulate:a", 0.55, 1.1).set_trans(Tween.TRANS_SINE)
 		th.tween_property(halo, "modulate:a", 1.0, 1.1).set_trans(Tween.TRANS_SINE)
-	# illustration
+	# halo vivant qui bat comme un cœur (Symbiot) ou rouge instable (Chaos)
+	if rar in ["SY", "CH"] and state in ["face", "preview"] and fx_enabled:
+		var hc := Color(0.6, 1.0, 0.15, 0.45) if rar == "SY" else Color(1.0, 0.15, 0.35, 0.45)
+		var halo2 := UI.glow_rect(hc, size + Vector2(150, 150), 1.4, 10.0)
+		halo2.position = Vector2(-75, -75)
+		halo2.name = "rar_halo"
+		_root.add_child(halo2)
+		var th2 := halo2.create_tween().set_loops()
+		if rar == "SY":
+			th2.tween_property(halo2, "modulate:a", 1.0, 0.1)
+			th2.tween_property(halo2, "modulate:a", 0.5, 0.15)
+			th2.tween_property(halo2, "modulate:a", 0.9, 0.1)
+			th2.tween_property(halo2, "modulate:a", 0.4, 0.85)
+		else:
+			th2.tween_property(halo2, "modulate:a", 1.0, 0.07)
+			th2.tween_property(halo2, "modulate:a", 0.35, 0.33)
+			th2.tween_property(halo2, "modulate:a", 0.7, 0.2)
+		# illustration
 	_art = TextureRect.new()
 	_art.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_art.texture_filter = filt
@@ -289,6 +306,8 @@ func build() -> void:
 	var mode: int = [0, 1, 2, 3, 4, 4][mini(fxl, 5)]
 	if rar == "G":
 		mode = 7
+	if rar in ["SY", "CH"]:
+		mode = 2  # surface holographique sobre : le cadre animé fait le spectacle
 	match variant:
 		"holo": mode = max(mode, 2)
 		"prisma": mode = 5
@@ -320,6 +339,10 @@ func build() -> void:
 	if fx_on and rar == "G":
 		bord = 4
 		fm.set_shader_parameter("element", 10)
+	if fx_on and rar == "CH":
+		bord = 9
+	if fx_on and rar == "SY":
+		bord = 8
 	fm.set_shader_parameter("border", bord)
 	if full:
 		fm.set_shader_parameter("win", Vector4(0.03, 0.03, 0.97, 0.6))

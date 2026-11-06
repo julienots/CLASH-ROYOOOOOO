@@ -133,6 +133,39 @@
    "color": "#e0408a"
   },
   {
+   "id": "display_symbiote",
+   "name": "Display Invasion Symbiote",
+   "booster": "symbiote",
+   "count": 12,
+   "price": {
+    "coins": 1950
+   },
+   "guarantee": "L",
+   "color": "#8ee62a"
+  },
+  {
+   "id": "display_chaos",
+   "name": "Display Chaos Primordial",
+   "booster": "chaos",
+   "count": 12,
+   "price": {
+    "coins": 1950
+   },
+   "guarantee": "L",
+   "color": "#ff2a5a"
+  },
+  {
+   "id": "display_apex",
+   "name": "Display APEX",
+   "booster": "apex",
+   "count": 8,
+   "price": {
+    "crystals": 1800
+   },
+   "guarantee": "CH",
+   "color": "#c4ff3a"
+  },
+  {
    "id": "display_multiverse",
    "name": "Display Multivers",
    "booster": "multiverse",
@@ -361,6 +394,40 @@
     "variant": "fullart"
    },
    "color": "#e0408a"
+  },
+  {
+   "id": "box_symbiote",
+   "name": "Coffret de la Ruche",
+   "desc": "La carte promo Exo-Chevalier Lié en Secret Art, 6 boosters Invasion Symbiote et 3 jetons.",
+   "price": {
+    "coins": 3200
+   },
+   "boosters": {
+    "symbiote": 6
+   },
+   "tokens": 3,
+   "promo": {
+    "card": "sm35",
+    "variant": "secret"
+   },
+   "color": "#8ee62a"
+  },
+  {
+   "id": "box_chaos",
+   "name": "Coffret de la Faille",
+   "desc": "La carte promo Kaliste, Tisseuse de Chaos en Full Art, 6 boosters Chaos Primordial et 3 jetons.",
+   "price": {
+    "coins": 3200
+   },
+   "boosters": {
+    "chaos": 6
+   },
+   "tokens": 3,
+   "promo": {
+    "card": "ch34",
+    "variant": "fullart"
+   },
+   "color": "#ff2a5a"
   },
   {
    "id": "box_elements",

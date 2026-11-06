@@ -166,6 +166,13 @@ func run() -> int:
 			var pity5 := {"legendary_plus": 0, "mythic_plus": 0}
 			var hit := false
 			for k in int(dd.count):
+				if k == int(dd.count) - 1 and not hit and DB.rarity_index(dd.guarantee) > DB.rarity_index("M"):
+					var resf := BoosterLogic.open(DB.booster(dd.booster), pity5, rng5)
+					BoosterLogic.force_top(DB.booster(dd.booster), resf, dd.guarantee, rng5)
+					for x in resf:
+						if DB.rarity_index(DB.card(x.id).rarity) >= DB.rarity_index(dd.guarantee):
+							hit = true
+					continue
 				if k == int(dd.count) - 1 and not hit:
 					var key := "mythic_plus" if DB.rarity_index(dd.guarantee) >= DB.rarity_index("M") else "legendary_plus"
 					pity5[key] = int(DB.pity[key].hard) - 1
@@ -367,6 +374,67 @@ func run() -> int:
 		check(n == 50, "50 cartes %s (%d)" % [set_id, n])
 	check(BoosterLogic.slot_odds(DB.booster("carnaval")).has("G"), "GOD possible dans le booster Carnaval")
 	check(BoosterLogic.slot_odds(DB.booster("givre")).has("CO"), "Cosmique possible dans le booster Givre")
+	print("== Version 0.12 : Symbiot, Chaos, nouveaux effets")
+	var ge := BattleEngine.new()
+	ge.setup(fill2, "pyra", fill2, "thalassa", 17)
+	ge.current = 0
+	# Drain
+	var dv := ge.summon(1, "e001")
+	ge.pl[0].leader.hp = 20
+	ge.resolve({"do": "drain", "target": "choose_enemy_creature", "value": 2}, 0, {}, {"chosen": {"k": "unit", "uid": dv.uid}})
+	check(int(ge.pl[0].leader.hp) == 22, "Drain : soigne le leader des dégâts infligés")
+	# Exécution
+	var ex1 := ge.summon(1, "w007")
+	ex1.hp = 3
+	var ex2 := ge.summon(1, "w007")
+	ex2.hp = 9
+	ge.resolve({"do": "execute", "target": "all_enemy_creatures", "value": 4}, 0, {}, {})
+	ge.cleanup()
+	check(ge.find_unit(ex1.uid).is_empty() and not ge.find_unit(ex2.uid).is_empty(), "Exécution : seulement si PV <= valeur")
+	# Dévorer
+	var pred := ge.summon(0, "f004")
+	var a_before := int(pred.atk)
+	var prey: Dictionary = ge.find_unit(ex2.uid)
+	var prey_atk := int(prey.atk)
+	ge.resolve({"do": "devour", "target": "choose_enemy_creature"}, 0, pred, {"chosen": {"k": "unit", "uid": prey.uid}})
+	ge.cleanup()
+	check(ge.find_unit(prey.uid).is_empty() and int(pred.atk) == a_before + prey_atk, "Dévorer : détruit la cible et gagne son ATQ")
+	var tit := ge.summon(1, "ty01")
+	ge.resolve({"do": "devour", "target": "choose_enemy_creature"}, 0, pred, {"chosen": {"k": "unit", "uid": tit.uid}})
+	check(not ge.find_unit(tit.uid).is_empty(), "Dévorer : les Titans sont insensibles")
+	# Éclair en chaîne
+	ge.take_events()
+	for k in 3:
+		ge.summon(1, "w007")
+	ge.resolve({"do": "chain", "value": 3, "value2": 4}, 0, {}, {})
+	var chains := ge.take_events().filter(func(x): return x.t == "chain")
+	check(chains.size() >= 4 and int(chains[0].value) == 3 and int(chains[1].value) == 2, "Éclair en chaîne : rebonds et dégâts décroissants")
+	# Symbiose
+	var gs := BattleEngine.new()
+	gs.setup(fill2, "pyra", fill2, "thalassa", 19)
+	gs.current = 0
+	var host := gs.summon(0, "w007")
+	var h_atk := int(host.atk)
+	var sym := gs.summon(0, "sm41")
+	gs.resolve({"do": "symbiose", "value": 4, "value2": 5}, 0, sym, {})
+	check(int(host.bond) == int(sym.uid) and int(sym.bond) == int(host.uid), "Symbiose : lien établi")
+	check(int(host.atk) == h_atk + 4 and host.kw.get("celerite", false) and sym.kw.get("garde", false), "Symbiose : bonus et mots-clés partagés")
+	var s_atk := int(sym.atk)
+	host.hp = 0
+	gs.cleanup()
+	check(int(sym.atk) == s_atk + 5 and int(sym.hp) == int(sym.max_hp), "Symbiose : fureur du lien à la mort du partenaire")
+	# raretés et sets
+	for set_id in ["symbiote", "chaos"]:
+		var n13 := 0
+		for id in DB.card_order:
+			if DB.card(id).set == set_id:
+				n13 += 1
+		check(n13 == 47, "47 cartes %s (%d)" % [set_id, n13])
+	var ao := BoosterLogic.slot_odds(DB.booster("apex"), "R")
+	check(ao.has("SY") and ao.has("CH"), "APEX : Symbiot et Chaos tirables")
+	var rf := BoosterLogic.open(DB.booster("apex"), {}, rng5)
+	BoosterLogic.force_top(DB.booster("apex"), rf, "CH", rng5)
+	check(rf.any(func(x): return DB.rarity_index(DB.card(x.id).rarity) >= DB.rarity_index("CH")), "garantie Chaos/Symbiot du display APEX")
 	print("== Profil")
 	var pr: Node = Profile
 	var before: int = pr.unique_count()

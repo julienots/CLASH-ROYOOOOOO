@@ -117,11 +117,9 @@ func _booster_row(b: Dictionary) -> Control:
 	st.content_margin_bottom = 14
 	p.add_theme_stylebox_override("panel", st)
 	var h := UI.hbox(16)
-	var pack := TextureRect.new()
-	pack.texture = DB.tex("res://assets/ui/packs/%s.png" % b.id)
-	pack.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	pack.custom_minimum_size = Vector2(150, 232)
-	pack.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	# booster en vraie 3D (balancement doux, reflets foil)
+	var pack := Pack3D.make(b.id, Vector2(150, 232), 1.12)
+	pack.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	h.add_child(pack)
 	var v := UI.vbox(8)
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -181,6 +179,9 @@ static func open_pack(main_node: Control, b: Dictionary, opts := {}) -> Control:
 		var key := "mythic_plus" if DB.rarity_index(force) >= DB.rarity_index("M") else "legendary_plus"
 		Profile.d.pity[key] = maxi(int(Profile.d.pity.get(key, 0)), int(DB.pity[key].hard) - 1)
 	var res := BoosterLogic.open(b, Profile.d.pity, rng)
+	# garantie au-delà de Mythique (display APEX : Chaos ou Symbiot)
+	if force != "" and DB.rarity_index(force) > DB.rarity_index("M"):
+		BoosterLogic.force_top(b, res, force, rng)
 	for r in res:
 		r["new"] = Profile.add_card(r.id, r.variant)
 		if DB.card(r.id).rarity in DB.numbered.rarities:

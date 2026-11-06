@@ -26,7 +26,7 @@ func new_game() -> void:
 		"collection_rewards": [], "settings": {"sfx": true, "music": true, "fast": false},
 		"rank": {"points": 0}, "title": "Novice",
 		"free_packs": {}, "pass": {}, "forge_known": [], "tutorial_done": false, "seen_version": "0.5",
-		"puzzles": {}, "puzzle_pity": 0, "displays": [], "gifts": ["v05", "v06", "v07", "v08", "v09", "v10", "v11"], "shop_once": [], "wheel": {}, "tower": {"floor": 1, "best": 0},
+		"puzzles": {}, "puzzle_pity": 0, "displays": [], "gifts": ["v05", "v06", "v07", "v08", "v09", "v10", "v11", "v12"], "shop_once": [], "wheel": {}, "tower": {"floor": 1, "best": 0},
 	}
 	for id in st.cards:
 		add_card(id, "", false)
@@ -83,6 +83,12 @@ func _migrate() -> void:
 		add_free("givre", 2)
 		add_free("carnaval", 2)
 		d["pending_gift11"] = true
+	if not "v12" in d.gifts:
+		d.gifts.append("v12")
+		add_free("symbiote", 2)
+		add_free("chaos", 2)
+		add_free("apex", 1)
+		d["pending_gift12"] = true
 	if not d.has("shop_once"):
 		d["shop_once"] = []
 	if not "v06" in d.gifts:

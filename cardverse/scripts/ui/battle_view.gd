@@ -829,6 +829,109 @@ func _anim(e: Dictionary) -> void:
 			Sfx.play("coin")
 			UI.float_text(fx_layer, _ref_pos({"k": "leader", "p": e.p}) - Vector2(0, 80), "+%d énergie" % int(e.amount), Color("8fd8ff"), 30)
 			_sync()
+		"chain":
+			# éclair qui saute d'une cible à l'autre
+			var a0 := _ref_pos(e.from)
+			var b0 := _ref_pos(e.to)
+			var bolt := Line2D.new()
+			bolt.width = 7
+			bolt.default_color = Color(0.75, 0.9, 1.0)
+			var bm := CanvasItemMaterial.new()
+			bm.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+			bolt.material = bm
+			for k in 9:
+				var f := k / 8.0
+				var off := Vector2(randf_range(-22, 22), randf_range(-22, 22)) * (0.0 if k == 0 or k == 8 else 1.0)
+				bolt.add_point(a0.lerp(b0, f) + off)
+			fx_layer.add_child(bolt)
+			Sfx.play("hit", 1.4)
+			UI.burst(fx_layer, b0, Color(0.6, 0.85, 1.0), 26, 320, 0.4, 0.5, 0)
+			var bt := bolt.create_tween()
+			bt.tween_property(bolt, "modulate:a", 0.0, 0.35)
+			bt.tween_callback(bolt.queue_free)
+			await _wait(0.16)
+		"bond":
+			# lien symbiotique : une vrille verte relie les deux créatures
+			Sfx.play("rift", 1.4)
+			var va: UnitView = units.get(int(e.a))
+			var vb5: UnitView = units.get(int(e.b))
+			if va and vb5:
+				var pa := va.position + UnitView.SZ / 2
+				var pb := vb5.position + UnitView.SZ / 2
+				var tether := Line2D.new()
+				tether.width = 10
+				tether.default_color = Color(0.65, 1.0, 0.2)
+				var tm := CanvasItemMaterial.new()
+				tm.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+				tether.material = tm
+				for k in 13:
+					var f := k / 12.0
+					tether.add_point(pa.lerp(pb, f) + Vector2(0, sin(f * PI * 3.0) * 26.0))
+				fx_layer.add_child(tether)
+				UI.burst(fx_layer, pa, Color(0.65, 1.0, 0.2), 40, 360, 0.5, 0.7, -60)
+				UI.burst(fx_layer, pb, Color(0.65, 1.0, 0.2), 40, 360, 0.5, 0.7, -60)
+				UI.float_text(fx_layer, pb - Vector2(0, 70), "SYMBIOSE", Color(0.7, 1.0, 0.3), 32)
+				va.refresh(e.ua)
+				vb5.refresh(e.ub)
+				var tt := tether.create_tween()
+				tt.tween_property(tether, "modulate:a", 0.0, 0.9).set_delay(0.4)
+				tt.tween_callback(tether.queue_free)
+			await _wait(0.45)
+		"bond_fail":
+			if units.has(int(e.uid)):
+				UI.float_text(fx_layer, units[int(e.uid)].position + UnitView.SZ / 2, "Aucun hôte", Color(0.7, 0.8, 0.6), 24)
+		"bond_rage":
+			Sfx.play("hit_big", 0.7)
+			var vr: UnitView = units.get(int(e.uid))
+			if vr:
+				vr.refresh(e.unit)
+				UI.float_text(fx_layer, vr.position + UnitView.SZ / 2 - Vector2(0, 50), "FUREUR DU LIEN !", Color(0.7, 1.0, 0.3), 30)
+				UI.burst(fx_layer, vr.position + UnitView.SZ / 2, Color(0.65, 1.0, 0.2), 60, 480, 0.6, 0.8, -100)
+				UI.shake(self, 8, 0.25)
+			await _wait(0.3)
+		"devour":
+			# la proie est aspirée par le prédateur
+			var vp: UnitView = units.get(int(e.uid))
+			var vs: UnitView = units.get(int(e.src))
+			Sfx.play("hit_big", 0.6)
+			if vp:
+				var tgt := (vs.position if vs else vp.position) + UnitView.SZ / 2 - UnitView.SZ / 2
+				var dt := vp.create_tween().set_parallel(true)
+				dt.tween_property(vp, "position", tgt, 0.35).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+				dt.tween_property(vp, "scale", Vector2(0.1, 0.1), 0.35)
+				dt.tween_property(vp, "modulate", Color(0.4, 1.0, 0.3, 0.0), 0.35)
+				await dt.finished
+			if vs:
+				vs.refresh(e.unit)
+				UI.float_text(fx_layer, vs.position + UnitView.SZ / 2 - Vector2(0, 60), "DÉVORÉ !", Color(0.7, 1.0, 0.3), 32)
+				UI.burst(fx_layer, vs.position + UnitView.SZ / 2, Color(0.5, 1.0, 0.2), 50, 420, 0.6, 0.8, 0)
+				var pt := vs.create_tween()
+				pt.tween_property(vs, "scale", Vector2(1.3, 1.3), 0.12)
+				pt.tween_property(vs, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_BACK)
+			await _wait(0.2)
+		"execute":
+			if units.has(int(e.uid)):
+				var ve: UnitView = units[int(e.uid)]
+				var c1 := ve.position + UnitView.SZ / 2
+				var slash := Line2D.new()
+				slash.width = 12
+				slash.default_color = Color(1.0, 0.2, 0.25)
+				slash.add_point(c1 + Vector2(-90, -110))
+				slash.add_point(c1 + Vector2(90, 110))
+				var sm2 := CanvasItemMaterial.new()
+				sm2.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+				slash.material = sm2
+				fx_layer.add_child(slash)
+				Sfx.play("hit_big", 1.2)
+				UI.shake(self, 12, 0.2)
+				UI.float_text(fx_layer, c1 - Vector2(0, 40), "EXÉCUTÉ !", Color(1.0, 0.3, 0.3), 34)
+				var st2 := slash.create_tween()
+				st2.tween_property(slash, "modulate:a", 0.0, 0.5)
+				st2.tween_callback(slash.queue_free)
+			await _wait(0.25)
+		"resist":
+			if units.has(int(e.uid)):
+				UI.float_text(fx_layer, units[int(e.uid)].position + UnitView.SZ / 2, "Résiste !", Color(0.9, 0.9, 1.0), 24)
 		"omega":
 			Sfx.play("rift")
 			UI.shake(self, 14, 0.4)
@@ -940,7 +1043,7 @@ func _effect_fx(e: Dictionary) -> void:
 			for t in e.targets:
 				UI.float_text(fx_layer, _ref_pos(t) - Vector2(0, 60), "Piétinement !", Color("ffb340"), 28)
 			await _wait(0.15)
-		"freeze", "sleep", "shield", "buff", "silence", "bounce", "steal", "swap_stats", "burn", "polymorph", "copy":
+		"freeze", "sleep", "shield", "buff", "silence", "bounce", "steal", "swap_stats", "burn", "polymorph", "copy", "drain", "execute", "devour":
 			for t in e.targets:
 				UI.burst(fx_layer, _ref_pos(t), col, 18, 200, 0.4, 0.6, -80)
 			await _wait(0.1)

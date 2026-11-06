@@ -385,6 +385,86 @@ func run(main: Control, arg: String) -> void:
 				await _wait(0.6)
 			print("prestige : ", o.get_meta("results").map(func(x): return x.id + ":" + x.variant))
 			await _wait(1.5)],
+		["gift12", func(): _clear(main); Profile.d.tutorial_done = true; Profile.d.pending_gift12 = true; main.goto("home", {"r": 15})],
+		["detail_sy", func(): _clear(main); main.show_card("sm41", "", [])],
+		["detail_ch", func(): _clear(main); main.show_card("ch41", "", [])],
+		["detail_sy2", func(): _clear(main); main.show_card("sm45", "", [])],
+		["reveal_sy", func():
+			_clear(main)
+			var b := DB.booster("apex")
+			var res := [{"id": "sm01", "variant": "", "new": false}, {"id": "ch01", "variant": "", "new": false}, {"id": "sm41", "variant": "", "new": true}]
+			var o = load("res://scripts/ui/booster_open.gd").new()
+			o.setup(b, res, {})
+			main.open_overlay(o, true)
+			await _wait(1.2)
+			o.auto_tear()
+			await _wait(0.35)
+			main.get_viewport().get_texture().get_image().save_png("/tmp/claude-0/shots/reveal_tear3d.png")
+			await _wait(2.2)
+			for k in 4:
+				o._advance()
+				await _wait(1.0 if k % 2 == 0 else 0.4)
+			o._advance()
+			await _wait(4.6)
+			main.get_viewport().get_texture().get_image().save_png("/tmp/claude-0/shots/reveal_sy_mid.png")
+			await _wait(1.6)
+			main.get_viewport().get_texture().get_image().save_png("/tmp/claude-0/shots/reveal_sy_title.png")
+			await _wait(4.0)],
+		["reveal_ch", func():
+			_clear(main)
+			var b := DB.booster("chaos")
+			var res := [{"id": "ch01", "variant": "", "new": false}, {"id": "ch43", "variant": "", "new": true}]
+			var o = load("res://scripts/ui/booster_open.gd").new()
+			o.setup(b, res, {})
+			main.open_overlay(o, true)
+			await _wait(1.2)
+			o.auto_tear()
+			await _wait(2.6)
+			for k in 2:
+				o._advance()
+				await _wait(1.0 if k % 2 == 0 else 0.4)
+			o._advance()
+			await _wait(4.2)
+			main.get_viewport().get_texture().get_image().save_png("/tmp/claude-0/shots/reveal_ch_mid.png")
+			await _wait(5.0)],
+		["battle_sym", func():
+			_clear(main)
+			await _wait(0.3)
+			main.goto("battle_select")
+			await _wait(0.4)
+			main.current.start_battle(0)
+			var b = _ov(main)
+			await _wait(4.0)
+			while b.busy:
+				await _wait(0.3)
+			b.g.current = 0
+			for id in ["w007", "e001", "ty01"]:
+				b.g.summon(1, id)
+			var host: Dictionary = b.g.summon(0, "pr15")
+			await b._play(b.g.take_events())
+			var sym: Dictionary = b.g.summon(0, "sm41")
+			b.g.resolve({"do": "symbiose", "value": 4, "value2": 5}, 0, sym, {})
+			await b._play(b.g.take_events())
+			b.g.resolve({"do": "chain", "value": 4, "value2": 4}, 0, sym, {})
+			main.get_tree().create_timer(0.25).timeout.connect(func(): main.get_viewport().get_texture().get_image().save_png("/tmp/claude-0/shots/battle_chain.png"))
+			await b._play(b.g.take_events())
+			b.g.cleanup()
+			await b._play(b.g.take_events())
+			b._sync()
+			print("symbiose : lien=", sym.get("bond", 0), " animés=", b.anim_seen)],
+		["pack3d_test", func():
+			_clear(main)
+			var bg := ColorRect.new()
+			bg.color = Color(0.1, 0.06, 0.2)
+			bg.size = Vector2(720, 1280)
+			main.overlay.add_child(bg)
+			var ids := ["classic", "prestige", "carnaval", "type_feu"]
+			for k in ids.size():
+				var p := Pack3D.make(ids[k], Vector2(300, 464))
+				p.position = Vector2(10 + (k % 2) * 350, 20 + (k / 2) * 600)
+				p.spin = [0.0, 0.6, -0.9, 3.0][k]
+				p.idle = false
+				bg.add_child(p)],
 		["gift11", func(): _clear(main); Profile.d.tutorial_done = true; Profile.d.pending_gift11 = true; main.goto("home", {"r": 14})],
 		["album_givre", func(): _clear(main); main.goto("collection"); await _wait(0.5); main.current.filt.preview = true; main.current.filt.set = "givre"; main.current.rebuild()],
 		["album_carnaval", func(): _clear(main); main.goto("collection"); await _wait(0.5); main.current.filt.preview = true; main.current.filt.set = "carnaval"; main.current.rebuild()],

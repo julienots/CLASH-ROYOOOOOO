@@ -188,3 +188,20 @@ static func roll_piece(b: Dictionary, state: Dictionary, rng: RandomNumberGenera
 			missing.append(k)
 	var piece: int = missing[rng.randi_range(0, missing.size() - 1)] if (not missing.is_empty() and rng.randf() < 0.75) else rng.randi_range(0, n - 1)
 	return {"id": id, "piece": piece}
+
+
+## Garantit au moins une carte de rareté >= `force` (au-delà de la pity) : remplace la dernière carte si besoin.
+static func force_top(b: Dictionary, res: Array, force: String, rng: RandomNumberGenerator) -> void:
+	for r0 in res:
+		if DB.rarity_index(DB.card(r0.id).rarity) >= DB.rarity_index(force):
+			return
+	var pool := []
+	var sets: Array = b.get("sets", [])
+	for id in DB.card_order:
+		var c0 := DB.card(id)
+		if DB.rarity_index(c0.rarity) >= DB.rarity_index(force) and c0.rarity != "SW" and (sets.is_empty() or c0.set in sets):
+			pool.append(id)
+	if pool.is_empty():
+		return
+	res[-1] = {"id": pool[rng.randi_range(0, pool.size() - 1)], "variant": res[-1].variant, "pity": true}
+	res.sort_custom(func(x, y): return DB.rarity_index(DB.card(x.id).rarity) < DB.rarity_index(DB.card(y.id).rarity))

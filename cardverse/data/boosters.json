@@ -205,6 +205,40 @@
    "gen": 12
   },
   {
+   "id": "symbiote",
+   "name": "Booster Invasion Symbiote · Gén. 13",
+   "desc": "Set 13 : symbiotes, hôtes et ruches. Mécaniques Symbiose, Dévorer et Drain. Contient la rareté SYMBIOT.",
+   "price": {
+    "coins": 200
+   },
+   "cards": 5,
+   "sets": [
+    "symbiote"
+   ],
+   "focus": {},
+   "luck": 1.4,
+   "color": "#8ee62a",
+   "group": "gen",
+   "gen": 13
+  },
+  {
+   "id": "chaos",
+   "name": "Booster Chaos Primordial · Gén. 14",
+   "desc": "Set 14 : failles, glitchs et démons du désordre. Mécaniques Éclair en chaîne et Exécution. Contient la rareté CHAOS.",
+   "price": {
+    "coins": 200
+   },
+   "cards": 5,
+   "sets": [
+    "chaos"
+   ],
+   "focus": {},
+   "luck": 1.4,
+   "color": "#ff2a5a",
+   "group": "gen",
+   "gen": 14
+  },
+  {
    "id": "multiverse",
    "name": "Booster Multivers",
    "desc": "Toutes les générations mélangées. Idéal pour compléter l'album.",
@@ -526,7 +560,9 @@
     "ultime",
     "sables",
     "givre",
-    "carnaval"
+    "carnaval",
+    "symbiote",
+    "chaos"
    ],
    "focus": {},
    "luck": 1.6,
@@ -544,6 +580,25 @@
    "focus": {},
    "luck": 1.0,
    "color": "#ff7ab8",
+   "group": "edition"
+  },
+  {
+   "id": "apex",
+   "name": "Booster APEX",
+   "desc": "Édition ultime : 6 cartes des Gén. 13 et 14, les 3 dernières Rare ou mieux, raretés supérieures x12. La meilleure chance d'obtenir une SYMBIOT ou une CHAOS.",
+   "price": {
+    "crystals": 250
+   },
+   "cards": 6,
+   "rare_slots": 3,
+   "guaranteed_variant": true,
+   "sets": [
+    "symbiote",
+    "chaos"
+   ],
+   "focus": {},
+   "luck": 12.0,
+   "color": "#c4ff3a",
    "group": "edition"
   }
  ]

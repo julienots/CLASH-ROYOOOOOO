@@ -217,7 +217,9 @@ func _build_packs() -> void:
 		holder.position = Vector3(-BW / 2 + 0.125 + sx * (c + 0.5), 0.4 + r * 0.03, -BD / 2 + 0.1 + sz * (r + 0.5))
 		holder.rotation.x = deg_to_rad(-14)
 		rig.add_child(holder)
-		_quad(Vector2(0.3, 0.46), Vector3.ZERO, Vector3.ZERO, pmat, holder)
+		var pk := Pack3D.pack_node(booster.id)
+		pk.scale = Vector3(0.3, 0.3, 0.3)
+		holder.add_child(pk)
 		holder.set_meta("phase", randf() * TAU)
 		packs.append(holder)
 
