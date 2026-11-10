@@ -428,3 +428,23 @@ Un nouveau style de carte, en deux formes (champ `form` d'une carte), dans l'ext
   - contenu : 47 cartes par set, raretés tirables dans APEX, garantie du Display APEX ;
   - un combat réel où la Symbiose et l'Éclair en chaîne sont animés.
 - Total : **648 cartes collectionnables** sur 14 générations.
+
+## 21. Version 0.13 : Singularité, réalisme et nouveau fond
+
+- **Rareté Singularité** (`SI`, la plus haute, poids 0,00008) : chaque carte n'existe qu'en **10 exemplaires numérotés** (`print_run` propre à la rareté, utilisé par le profil et l'affichage « N° 007 / 10 »).
+  - Illustration : `art_fx` mode 7, un trou noir mobile qui courbe l'image (lentille gravitationnelle). On y voit l'anneau de photons, l'horizon des événements et un disque d'accrétion incliné, plus brillant du côté qui s'approche (effet Doppler).
+  - Cadre : obsidienne étoilée. Contour shader 10 : anneau d'accrétion qui tourne et étoiles qui spiralent vers le centre.
+  - Révélation dédiée : écran noir, la lumière est aspirée en spirale (particules), un trou noir grandit en grondant puis s'effondre en un flash, et le titre s'affiche avec « tirée à seulement 10 exemplaires ».
+- **Cartes réalistes** :
+  - **Fiche en vraie 3D** (`Card3D`) : plaque à coins arrondis avec épaisseur (tranche crème comme un vrai carton). Le recto utilise le rendu 2D animé comme texture, le verso le dos de carte. On y voit le vernis, un reflet qui glisse et une ombre portée qui suit l'inclinaison. La rotation au doigt est libre : on peut retourner la carte pour voir son dos, et elle revient sur la face la plus proche.
+  - **Vernis sur toutes les cartes** (`card_gloss.gdshader`) : grain du carton, reflet doux qui suit l'inclinaison, biseau lumineux sur le bord arrondi, coins plus denses. Une **ombre portée douce** a aussi été ajoutée sous chaque carte.
+- **Boosters réalistes** (`pack_foil.gdshader`) : film foil métallique, irisation arc-en-ciel selon l'angle de vue et les plis, plastique froissé (normales perturbées), éclats de plastique qui volent à la déchirure.
+- **Nouveau fond des menus** :
+  - `menu_bg2.gdshader` : nébuleuse à volutes (déformation de domaine), trois rubans d'aurore qui ondulent, galaxie spirale lointaine, étoiles sur trois profondeurs en parallaxe et étoiles filantes.
+  - `MenuBg3D` : de vraies cartes 3D (illustration, cadre, dos) qui dérivent et tournent dans la brume. Le rendu est à mi-résolution pour un flou de profondeur. Ce calque est désactivable dans les Paramètres.
+- **Génération 15 « Néo-Cité 2099 »** (`data/cards/neocite.json`) : 49 cartes cyberpunk, dont les 3 Singularités (OMEGA-Ø, Horizon des Événements, L'Observateur Final), 4 Néon, un Ω et un Titan.
+  - Nouvel effet `overclock` (Surcharge) : +X ATQ, et la créature peut attaquer tout de suite.
+  - Booster, Display 3D et Coffret dédiés. Le set est aussi inclus dans les boosters Prestige et APEX.
+- Cadeau de mise à jour : 3 boosters Néo-Cité et 1 booster APEX.
+- **Tests** : Surcharge (ATQ et attaque immédiate), 3 Singularités et 49 cartes Néo-Cité, tirage à 10 exemplaires, Singularité tirable, numéro de série entre 1 et 10.
+- Total : **697 cartes collectionnables** sur 15 générations, 24 raretés.

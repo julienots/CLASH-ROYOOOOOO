@@ -40,6 +40,7 @@ FRAMES = {
     "SW": ((30, 60, 80), (120, 255, 240), (8, 16, 30), (80, 255, 230), "swap"),
     "CH": ((60, 6, 24), (255, 70, 110), (8, 0, 4), (255, 40, 90), "chaos"),
     "SY": ((18, 20, 22), (170, 255, 60), (0, 0, 0), (180, 255, 50), "symbiot"),
+    "SI": ((10, 9, 12), (255, 214, 150), (0, 0, 0), (255, 235, 200), "singularity"),
 }
 
 # Gabarit (en pixels de grille 150x210)
@@ -71,6 +72,9 @@ def metal(base, light, dark, w, h, pattern, seed=0):
     if pattern == "chaos":  # obsidienne rouge fracturée
         n = rng.random((h // 3 + 1, w // 3 + 1)).repeat(3, 0).repeat(3, 1)[:h, :w]
         t = 0.2 + 0.45 * n * (0.5 + 0.5 * np.sin((x - y) * 0.3))
+    if pattern == "singularity":  # noir absolu, à peine moiré par la lumière qui s'y perd
+        rr = np.sqrt((x - w / 2) ** 2 + (y - h / 2) ** 2)
+        t = 0.08 + 0.12 * (0.5 + 0.5 * np.sin(rr * 0.35))
     if pattern == "god":
         t = 0.45 + 0.55 * np.abs(np.sin(x * 0.11 + y * 0.07)) ** 3
     if pattern == "primal":
@@ -257,6 +261,11 @@ def frame(rar):
                     arr[py, px] = hot if rng.random() < 0.8 else np.array((255, 230, 240), np.float32) / 255
                 px += dx + rng.choice([-1, 0, 1])
                 py += dy + rng.choice([-1, 0, 1])
+    if pattern == "singularity":  # étoiles lointaines et liseré doré très fin
+        for _ in range(70):
+            px, py = rng.randrange(2, W - 2), rng.randrange(2, H - 2)
+            if inside[py, px] and not win[py, px] and not tx[py, px]:
+                arr[py, px] = np.array((255, 240, 210), np.float32) / 255 * rng.uniform(0.4, 1.0)
     if pattern == "glitch":
         for _ in range(14):
             yy = rng.randrange(4, H - 4)
@@ -339,6 +348,7 @@ PACKS = {
     "symbiote": ((10, 14, 8), (170, 255, 60), "sm41"),
     "chaos": ((40, 0, 12), (255, 60, 110), "ch41"),
     "apex": ((5, 5, 5), (210, 255, 90), "sm45"),
+    "neocite": ((10, 20, 50), (60, 240, 255), "nc33"),
 }
 
 

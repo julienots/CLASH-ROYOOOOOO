@@ -552,6 +552,14 @@ func resolve(e: Dictionary, i: int, src: Dictionary, ctx: Dictionary) -> void:
 					var u2 := find_unit(t.uid)
 					u2.hp = 0
 					ev({"t": "destroy", "uid": t.uid})
+			"overclock":
+				# Surcharge : +X ATQ et la créature peut attaquer tout de suite
+				if t.k == "unit":
+					var uo := find_unit(t.uid)
+					uo.atk = int(uo.atk) + v
+					uo.sleep = false
+					uo.attacked = false
+					ev({"t": "overclock", "uid": uo.uid, "unit": uo.duplicate(true)})
 			"drain":
 				# Drain : inflige des dégâts et rend autant de PV à votre leader
 				var dealt := damage(t, v, null)

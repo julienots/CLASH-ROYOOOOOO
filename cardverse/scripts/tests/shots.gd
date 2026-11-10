@@ -452,6 +452,36 @@ func run(main: Control, arg: String) -> void:
 			await b._play(b.g.take_events())
 			b._sync()
 			print("symbiose : lien=", sym.get("bond", 0), " animés=", b.anim_seen)],
+		["gift13", func(): _clear(main); Profile.d.tutorial_done = true; Profile.d.pending_gift13 = true; main.goto("home", {"r": 16})],
+		["detail_si", func(): _clear(main); main.show_card("nc47", "", [])],
+		["detail_si2", func(): _clear(main); main.show_card("nc49", "", [])],
+		["reveal_si", func():
+			_clear(main)
+			var b := DB.booster("neocite")
+			var res := [{"id": "nc01", "variant": "", "new": false}, {"id": "nc47", "variant": "", "new": true, "serial": 7}]
+			var o = load("res://scripts/ui/booster_open.gd").new()
+			o.setup(b, res, {})
+			main.open_overlay(o, true)
+			await _wait(1.2)
+			o.auto_tear()
+			await _wait(2.6)
+			o._advance()
+			await _wait(1.0)
+			o._advance()
+			await _wait(0.4)
+			o._advance()
+			await _wait(4.9)
+			main.get_viewport().get_texture().get_image().save_png("/tmp/claude-0/shots/reveal_si_hole.png")
+			await _wait(2.7)
+			main.get_viewport().get_texture().get_image().save_png("/tmp/claude-0/shots/reveal_si_title.png")
+			await _wait(4.0)],
+		["detail3d", func(): _clear(main); Profile.add_card("pg01", "", false); main.show_card("pg01", "", [])],
+		["detail3d_side", func():
+			var d = _ov(main)
+			d._target = Vector2(0.75, -0.25)],
+		["detail3d_back", func():
+			var d = _ov(main)
+			d._target = Vector2(PI - 0.35, 0.1)],
 		["pack3d_test", func():
 			_clear(main)
 			var bg := ColorRect.new()

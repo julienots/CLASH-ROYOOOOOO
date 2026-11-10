@@ -7,8 +7,7 @@ var variant := ""
 var list: Array = []
 var _vp: SubViewport
 var _card: CardView
-var _disp: TextureRect
-var _mat: ShaderMaterial
+var _disp: Card3D
 var _drag := false
 var _tilt := Vector2.ZERO
 var _target := Vector2.ZERO
@@ -38,15 +37,10 @@ func _ready() -> void:
 	add_child(_vp)
 	_glow = UI.glow_rect(Color.WHITE, Vector2(820, 820), 1.8, 12.0)
 	add_child(_glow)
-	_disp = TextureRect.new()
-	_disp.texture = _vp.get_texture()
-	_disp.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	_disp.size = DISP * (CardView.W + 120) / CardView.W
-	_disp.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_mat = ShaderMaterial.new()
-	_mat.shader = load("res://shaders/tilt.gdshader")
-	_mat.set_shader_parameter("inset", 0.0)
-	_disp.material = _mat
+	# carte en vraie 3D : le rendu 2D animé sert de texture au recto
+	var vw := CardView.W + 120
+	var vh := CardView.H + 120
+	_disp = Card3D.make(_vp.get_texture(), Rect2(60.0 / vw, 60.0 / vh, CardView.W / vw, CardView.H / vh), DISP, 1.3)
 	add_child(_disp)
 	_info = UI.vbox(10)
 	add_child(_info)
@@ -143,7 +137,7 @@ func _build_info() -> void:
 		var el := UI.label(line, 20, UI.ACCENT2, "body", 700)
 		el.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		_info.add_child(el)
-	var hint := UI.label("Fais glisser la carte pour l'incliner", 18, UI.MUTED, "body", 500, HORIZONTAL_ALIGNMENT_CENTER)
+	var hint := UI.label("Fais glisser la carte pour la tourner en 3D (et voir son dos)", 18, UI.MUTED, "body", 500, HORIZONTAL_ALIGNMENT_CENTER)
 	_info.add_child(hint)
 
 func _evolves_from() -> String:
@@ -165,20 +159,21 @@ func _gui_input(e: InputEvent) -> void:
 		var r := Rect2(_disp.position + (_disp.size - DISP) / 2, DISP)
 		_drag = e.pressed and r.has_point(e.position)
 		if not e.pressed:
-			_target = Vector2.ZERO
+			# retour en douceur sur la face la plus proche (recto ou verso)
+			_target = Vector2(round(_target.x / PI) * PI, 0.0)
 	elif e is InputEventMouseMotion and _drag:
-		var r2 := Rect2(_disp.position + (_disp.size - DISP) / 2, DISP)
-		var rel: Vector2 = (e.position - r2.get_center()) / (DISP / 2)
-		_target = Vector2(clampf(rel.x, -1, 1), clampf(rel.y, -1, 1))
+		# rotation libre : on peut retourner complètement la carte
+		_target.x += e.relative.x * 0.012
+		_target.y = clampf(_target.y + e.relative.y * 0.008, -0.7, 0.7)
 
 func _process(delta: float) -> void:
 	_t += delta
-	var idle := Vector2(sin(_t * 0.8), cos(_t * 0.6)) * 0.18 if not _drag else Vector2.ZERO
+	var idle := Vector2(sin(_t * 0.8) * 0.16, cos(_t * 0.6) * 0.09) if not _drag else Vector2.ZERO
 	_tilt = _tilt.lerp(_target + idle, min(1.0, delta * 8.0))
-	_mat.set_shader_parameter("y_rot", _tilt.x * 22.0)
-	_mat.set_shader_parameter("x_rot", -_tilt.y * 22.0)
+	_disp.rot = Vector2(_tilt.x, -_tilt.y)
 	if _card:
-		_card.set_tilt(_tilt)
+		# relief de l'illustration et reflets du rendu 2D synchronisés avec la rotation
+		_card.set_tilt(Vector2(sin(_tilt.x), _tilt.y) * 1.4)
 
 func _close() -> void:
 	Sfx.play("back")

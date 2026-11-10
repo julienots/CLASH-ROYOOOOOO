@@ -166,6 +166,17 @@
    "color": "#c4ff3a"
   },
   {
+   "id": "display_neocite",
+   "name": "Display Néo-Cité 2099",
+   "booster": "neocite",
+   "count": 12,
+   "price": {
+    "coins": 2050
+   },
+   "guarantee": "L",
+   "color": "#3cf0ff"
+  },
+  {
    "id": "display_multiverse",
    "name": "Display Multivers",
    "booster": "multiverse",
@@ -428,6 +439,23 @@
     "variant": "fullart"
    },
    "color": "#ff2a5a"
+  },
+  {
+   "id": "box_neocite",
+   "name": "Coffret de l'Architecte",
+   "desc": "La carte promo Kaïro, l'Architecte de la Ville en Secret Art, 6 boosters Néo-Cité et 3 jetons.",
+   "price": {
+    "coins": 3300
+   },
+   "boosters": {
+    "neocite": 6
+   },
+   "tokens": 3,
+   "promo": {
+    "card": "nc42",
+    "variant": "secret"
+   },
+   "color": "#3cf0ff"
   },
   {
    "id": "box_elements",

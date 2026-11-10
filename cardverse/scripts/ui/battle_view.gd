@@ -877,6 +877,14 @@ func _anim(e: Dictionary) -> void:
 				tt.tween_property(tether, "modulate:a", 0.0, 0.9).set_delay(0.4)
 				tt.tween_callback(tether.queue_free)
 			await _wait(0.45)
+		"overclock":
+			var vo2: UnitView = units.get(int(e.uid))
+			if vo2:
+				vo2.refresh(e.unit)
+				Sfx.play("hit", 1.6)
+				UI.float_text(fx_layer, vo2.position + UnitView.SZ / 2 - Vector2(0, 50), "SURCHARGE !", Color(0.4, 1.0, 1.0), 30)
+				UI.burst(fx_layer, vo2.position + UnitView.SZ / 2, Color(0.3, 1.0, 1.0), 40, 380, 0.4, 0.6, -120)
+			await _wait(0.2)
 		"bond_fail":
 			if units.has(int(e.uid)):
 				UI.float_text(fx_layer, units[int(e.uid)].position + UnitView.SZ / 2, "Aucun hôte", Color(0.7, 0.8, 0.6), 24)

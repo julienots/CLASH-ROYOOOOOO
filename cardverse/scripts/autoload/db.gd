@@ -243,6 +243,7 @@ func effect_text(e: Dictionary) -> String:
 		"burn": s = "Brûle %s pendant %d tour%s (1 dégât par tour)." % [tgt, v, "s" if v > 1 else ""]
 		"polymorph": s = "Métamorphose %s en %s." % [tgt, card(e.get("card", "cx90")).get("name", "Crapaud")]
 		"copy": s = "Ajoute à votre main une copie de %s." % tgt
+		"overclock": s = "Surcharge %s : +%d ATQ, peut attaquer immédiatement." % [tgt, v]
 		"drain": s = "Draine %d PV à %s et les rend à votre leader." % [v, tgt]
 		"execute": s = "Exécute %s si elle a %d PV ou moins." % [tgt, v]
 		"devour": s = "Dévore %s : cette créature gagne son ATQ et ses PV." % tgt

@@ -18,6 +18,7 @@ var pieces: Array = []   # état "puzzle" : pièces SWAP possédées (0..8)
 var covers := {}         # index -> Panel masquant une pièce manquante
 
 var _fx: ColorRect
+var _gloss: ColorRect
 var _art: TextureRect
 var _back: TextureRect
 var _root: Control
@@ -67,6 +68,20 @@ func build() -> void:
 	var c := DB.card(card_id)
 	if c.is_empty():
 		return
+	# ombre portée douce sous la carte (comme posée sur une table)
+	if state != "missing":
+		var shd := Panel.new()
+		shd.size = size
+		shd.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var sb := StyleBoxFlat.new()
+		sb.bg_color = Color(0, 0, 0, 0.35)
+		sb.set_corner_radius_all(22)
+		sb.shadow_color = Color(0, 0, 0, 0.45)
+		sb.shadow_size = 16
+		sb.shadow_offset = Vector2(5, 10)
+		shd.add_theme_stylebox_override("panel", sb)
+		shd.name = "drop_shadow"
+		_root.add_child(shd)
 	var lay: Dictionary = DB.layout
 	var sc := float(lay.scale)
 	var full := variant in ["fullart", "secret"]
@@ -86,8 +101,8 @@ func build() -> void:
 		th.tween_property(halo, "modulate:a", 0.55, 1.1).set_trans(Tween.TRANS_SINE)
 		th.tween_property(halo, "modulate:a", 1.0, 1.1).set_trans(Tween.TRANS_SINE)
 	# halo vivant qui bat comme un cœur (Symbiot) ou rouge instable (Chaos)
-	if rar in ["SY", "CH"] and state in ["face", "preview"] and fx_enabled:
-		var hc := Color(0.6, 1.0, 0.15, 0.45) if rar == "SY" else Color(1.0, 0.15, 0.35, 0.45)
+	if rar in ["SY", "CH", "SI"] and state in ["face", "preview"] and fx_enabled:
+		var hc: Color = {"SY": Color(0.6, 1.0, 0.15, 0.45), "CH": Color(1.0, 0.15, 0.35, 0.45), "SI": Color(1.0, 0.75, 0.4, 0.5)}[rar]
 		var halo2 := UI.glow_rect(hc, size + Vector2(150, 150), 1.4, 10.0)
 		halo2.position = Vector2(-75, -75)
 		halo2.name = "rar_halo"
@@ -129,6 +144,13 @@ func build() -> void:
 		"animated": amode = 4
 	if rar == "X":
 		amode = 5
+	if rar == "SI" and fx_enabled:
+		amode = 7
+		var tsz := Vector2(tex.get_width(), tex.get_height())
+		if _art.texture is AtlasTexture:
+			var rg: Rect2 = (_art.texture as AtlasTexture).region
+			am.set_shader_parameter("reg", Vector4(rg.position.x / tsz.x, rg.position.y / tsz.y, rg.end.x / tsz.x, rg.end.y / tsz.y))
+		am.set_shader_parameter("aspect", _art.size.x / _art.size.y)
 	if state == "missing":
 		amode = 3
 	if state == "preview":
@@ -291,7 +313,7 @@ func build() -> void:
 		vb.add_theme_color_override("font_color", rcol.lightened(0.3))
 		_root.add_child(vb)
 	if serial > 0 and not missing:
-		var sl := UI.label("N° %03d / %d" % [serial, DB.numbered.print_run], 18, Color("fff3c4"), "body", 800, HORIZONTAL_ALIGNMENT_CENTER)
+		var sl := UI.label("N° %03d / %d" % [serial, int(DB.rarity(rar).get("print_run", DB.numbered.print_run))], 18, Color("fff3c4"), "body", 800, HORIZONTAL_ALIGNMENT_CENTER)
 		UI.outline(sl, 5)
 		sl.position = Vector2(W / 2 - 100, H - 34)
 		sl.size = Vector2(200, 24)
@@ -306,6 +328,8 @@ func build() -> void:
 	var mode: int = [0, 1, 2, 3, 4, 4][mini(fxl, 5)]
 	if rar == "G":
 		mode = 7
+	if rar == "SI":
+		mode = 1
 	if rar in ["SY", "CH"]:
 		mode = 2  # surface holographique sobre : le cadre animé fait le spectacle
 	match variant:
@@ -343,6 +367,8 @@ func build() -> void:
 		bord = 9
 	if fx_on and rar == "SY":
 		bord = 8
+	if fx_on and rar == "SI":
+		bord = 10
 	fm.set_shader_parameter("border", bord)
 	if full:
 		fm.set_shader_parameter("win", Vector4(0.03, 0.03, 0.97, 0.6))
@@ -352,6 +378,16 @@ func build() -> void:
 	_fx.material = fm
 	_fx.visible = mode > 0 or fx_on
 	_root.add_child(_fx)
+	# vernis réaliste (grain, reflet, biseau) au-dessus de tout
+	_gloss = ColorRect.new()
+	_gloss.size = size
+	_gloss.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var gm := ShaderMaterial.new()
+	gm.shader = load("res://shaders/card_gloss.gdshader")
+	gm.set_shader_parameter("strength", 0.0 if missing else 1.0)
+	_gloss.material = gm
+	_gloss.name = "gloss"
+	_root.add_child(_gloss)
 	# dos de carte
 	_back = TextureRect.new()
 	_back.texture = DB.tex("res://assets/ui/card_back.png")
@@ -418,6 +454,8 @@ func set_tilt(t: Vector2) -> void:
 		_art.material.set_shader_parameter("parallax", -t * 0.012)
 	if _fx and _fx.material:
 		_fx.material.set_shader_parameter("tilt", t)
+	if _gloss and _gloss.material:
+		_gloss.material.set_shader_parameter("tilt", t)
 
 func show_face(v := true) -> void:
 	state = "face" if v else "back"

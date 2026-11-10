@@ -207,6 +207,28 @@ void fragment() {
 		float shimmer = pow(max(0.0, sin((uv.x + uv.y) * 16.0 + wav * 1.5 - t * 1.5)), 8.0);
 		c += hue(fract(uv.x * 0.5 + uv.y * 0.3 + t * 0.05)) * shimmer * 0.3;
 		c += vec3(1.0) * smoothstep(1.5, 0.0, abs(ed - 30.0)) * (0.4 + 0.4 * sin(t * 4.0 + ang * 40.0));
+	} else if (border == 10) {
+		// Singularité : un anneau d'accrétion tourne autour du cadre, la lumière est aspirée vers le centre,
+		// les étoiles spiralent vers l'horizon.
+		float band10 = smoothstep(30.0, 6.0, ed) * smoothstep(0.0, 2.0, ed);
+		float sw = 0.5 + 0.5 * sin(ang * 6.2831 * 10.0 - t * 2.4 + ed * 0.25);
+		vec3 hot = mix(vec3(1.0, 0.42, 0.08), vec3(1.0, 0.95, 0.82), sw);
+		float side = 0.6 + 0.4 * sin(ang * 6.2831 - t * 0.6);
+		c += hot * band10 * (0.6 + 0.8 * sw) * side;
+		c += vec3(1.0, 0.9, 0.75) * smoothstep(1.6, 0.0, abs(ed - 34.0)) * (0.35 + 0.35 * sin(t * 2.0 + ang * 20.0));
+		// étoiles aspirées : elles tournent et se rapprochent du centre, puis réapparaissent au bord
+		vec2 cc = (uv - 0.5) * vec2(card_size.x / card_size.y, 1.0);
+		float rr = length(cc);
+		float aa = atan(cc.y, cc.x);
+		for (int i = 0; i < 3; i++) {
+			float fi = float(i);
+			float lr = fract(log(rr + 0.02) * 1.3 + t * (0.25 + fi * 0.07) + fi * 0.33);
+			float la = aa + rr * 6.0 - t * (0.8 + fi * 0.2);
+			vec2 cell = vec2(floor(la * 6.0 / 6.2831 + fi * 3.0), floor(lr * 14.0));
+			float h10 = hash(cell + fi * 7.3);
+			vec2 f10 = vec2(fract(la * 6.0 / 6.2831 + fi * 3.0), fract(lr * 14.0)) - 0.5;
+			c += vec3(1.0, 0.92, 0.8) * smoothstep(0.12, 0.0, length(f10 * vec2(0.6, 1.0))) * step(0.82, h10) * smoothstep(0.05, 0.3, rr) * 0.9;
+		}
 	} else if (border == 8) {
 		// Symbiot : une matière vivante enveloppe la carte. Veines acides qui battent comme un cœur
 		// (double pulsation), tentacules qui rampent vers l'intérieur, spores qui flottent.

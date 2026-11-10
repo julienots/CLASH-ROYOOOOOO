@@ -104,19 +104,18 @@ static func pack_node(bid: String) -> Node3D:
 	var tex: Texture2D = DB.tex("res://assets/ui/packs/%s.png" % bid)
 	var back: Texture2D = DB.tex("res://assets/ui/packs/_back.png")
 	var col := Color(DB.booster(bid).get("color", "#7a6cff"))
-	var front_m := StandardMaterial3D.new()
-	front_m.albedo_texture = tex
-	front_m.metallic = 0.3
-	front_m.metallic_specular = 0.55
-	front_m.roughness = 0.38
-	front_m.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
-	front_m.alpha_scissor_threshold = 0.5
-	front_m.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS
-	front_m.cull_mode = BaseMaterial3D.CULL_BACK
-	var back_m := front_m.duplicate() as StandardMaterial3D
-	back_m.albedo_texture = back
-	back_m.albedo_color = col.lerp(Color(0.25, 0.22, 0.3), 0.35)
-	back_m.metallic = 0.3
+	var sh: Shader = load("res://shaders/pack_foil.gdshader")
+	var front_m := ShaderMaterial.new()
+	front_m.shader = sh
+	front_m.set_shader_parameter("tex", tex)
+	front_m.set_shader_parameter("foil", 1.0)
+	front_m.set_shader_parameter("seed", float(hash(bid) % 97))
+	var back_m := ShaderMaterial.new()
+	back_m.shader = sh
+	back_m.set_shader_parameter("tex", back)
+	back_m.set_shader_parameter("tint", col.lerp(Color(0.25, 0.22, 0.3), 0.35))
+	back_m.set_shader_parameter("foil", 0.45)
+	back_m.set_shader_parameter("seed", float(hash(bid) % 97) + 11.0)
 	var body := MeshInstance3D.new()
 	body.mesh = _pillow(TOP_FRAC, 1.0)
 	body.set_surface_override_material(0, front_m)

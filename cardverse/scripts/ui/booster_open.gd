@@ -197,6 +197,8 @@ func _finish_tear() -> void:
 	_flash(Color(1, 1, 1), 0.5)
 	Sfx.play("flash")
 	UI.burst(self, pack_root.position + Vector2(PACK_SIZE.x / 2, 60), Color(booster.color).lightened(0.3), 70, 700, 0.8, 1.1)
+	# éclats du film plastique arrachés à la déchirure
+	UI.burst(self, pack_root.position + Vector2(PACK_SIZE.x * 0.6, 70), Color(0.92, 0.95, 1.0), 45, 520, 0.35, 1.3, 700)
 	UI.shake(stage, 10, 0.3)
 	# les cartes sortent du paquet
 	var hi := 0
@@ -290,6 +292,8 @@ func _reveal(cv: CardView, r: Dictionary) -> void:
 		await _cosmic_sequence(cv, c, col)
 	if c.rarity == "G":
 		await _god_sequence(cv)
+	if c.rarity == "SI":
+		await _singularity_sequence(r)
 	if c.rarity == "SY":
 		await _symbiot_sequence()
 	if c.rarity == "CH":
@@ -365,6 +369,102 @@ func _god_sequence(cv: CardView) -> void:
 	big.queue_free()
 	veil.queue_free()
 	get_tree().create_timer(4.0).timeout.connect(col_l.queue_free)
+
+## Révélation Singularité : tout devient noir, un trou noir se forme et aspire la lumière, puis s'effondre.
+func _singularity_sequence(r: Dictionary) -> void:
+	var warm := Color(1.0, 0.82, 0.55)
+	var veil := ColorRect.new()
+	veil.color = Color(0, 0, 0, 0)
+	veil.size = size
+	veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(veil)
+	var t := create_tween()
+	t.tween_property(veil, "color:a", 1.0, 1.0)
+	Sfx.play("rift", 0.45)
+	await t.finished
+	var center := size / 2 - Vector2(0, 60)
+	# lumière aspirée : particules qui spiralent vers le centre
+	var p := CPUParticles2D.new()
+	p.position = center
+	p.amount = 260
+	p.lifetime = 1.3
+	p.emission_shape = CPUParticles2D.EMISSION_SHAPE_SPHERE_SURFACE
+	p.emission_sphere_radius = 620.0
+	p.radial_accel_min = -1100.0
+	p.radial_accel_max = -800.0
+	p.tangential_accel_min = 380.0
+	p.tangential_accel_max = 520.0
+	p.gravity = Vector2.ZERO
+	p.scale_amount_min = 2.0
+	p.scale_amount_max = 5.0
+	p.texture = UI.dot_tex()
+	var cg := Gradient.new()
+	cg.set_color(0, Color(1, 0.95, 0.85, 0.0))
+	cg.add_point(0.3, Color(1, 0.9, 0.7, 1.0))
+	cg.set_color(1, Color(1, 0.6, 0.2, 0.0))
+	p.color_ramp = cg
+	var pm := CanvasItemMaterial.new()
+	pm.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+	p.material = pm
+	add_child(p)
+	# disque d'accrétion (halo chaud) et horizon noir qui grandissent
+	var ring := UI.glow_rect(Color(1.0, 0.6, 0.2, 1.0), Vector2(700, 700), 1.0, 0.0)
+	ring.position = center - Vector2(350, 350)
+	ring.pivot_offset = Vector2(350, 350)
+	ring.scale = Vector2(0.05, 0.05)
+	add_child(ring)
+	var hole := Panel.new()
+	hole.size = Vector2(300, 300)
+	hole.position = center - Vector2(150, 150)
+	hole.pivot_offset = Vector2(150, 150)
+	hole.scale = Vector2(0.02, 0.02)
+	hole.add_theme_stylebox_override("panel", UI.box(Color(0, 0, 0), 150, Color(1.0, 0.9, 0.7), 4))
+	hole.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(hole)
+	var tg := create_tween().set_parallel(true)
+	tg.tween_property(ring, "scale", Vector2(1, 1), 2.4).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+	tg.tween_property(hole, "scale", Vector2(1, 1), 2.4).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+	for k in 6:
+		Sfx.play("hit_big", 0.35 + k * 0.03)
+		UI.shake(self, 6 + k * 3, 0.35)
+		await get_tree().create_timer(0.4).timeout
+	# effondrement : tout se contracte en un point, puis explose
+	var tc := create_tween().set_parallel(true)
+	tc.tween_property(hole, "scale", Vector2(0.01, 0.01), 0.35).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+	tc.tween_property(ring, "scale", Vector2(0.02, 0.02), 0.35).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+	await tc.finished
+	p.emitting = false
+	_flash(Color(1, 0.97, 0.9), 1.0)
+	Sfx.play("flash", 0.7)
+	UI.burst(self, center, warm, 160, 1200, 0.9, 1.6, 0)
+	UI.shake(self, 26, 0.6)
+	var big := UI.label("SINGULARITÉ", 84, warm, "title", 700, HORIZONTAL_ALIGNMENT_CENTER)
+	UI.outline(big, 18, Color(0.08, 0.04, 0.0))
+	big.position = Vector2(0, size.y / 2 - 140)
+	big.size = Vector2(size.x, 140)
+	big.pivot_offset = big.size / 2
+	big.scale = Vector2(2.2, 2.2)
+	big.modulate.a = 0
+	add_child(big)
+	var sub := UI.label("Une carte tirée à seulement 10 exemplaires", 26, Color(1, 0.95, 0.85), "body", 800, HORIZONTAL_ALIGNMENT_CENTER)
+	UI.outline(sub, 6)
+	sub.position = Vector2(0, size.y / 2 + 10)
+	sub.size = Vector2(size.x, 50)
+	sub.modulate.a = 0
+	add_child(sub)
+	var tb := create_tween().set_parallel(true)
+	tb.tween_property(big, "scale", Vector2.ONE, 0.6).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tb.tween_property(big, "modulate:a", 1.0, 0.3)
+	tb.tween_property(sub, "modulate:a", 1.0, 0.5).set_delay(0.4)
+	tb.tween_property(veil, "color:a", 0.75, 0.8)
+	await get_tree().create_timer(2.2).timeout
+	var t2 := create_tween().set_parallel(true)
+	for n in [big, sub, ring, hole]:
+		t2.tween_property(n, "modulate:a", 0.0, 0.5)
+	t2.tween_property(veil, "color:a", 0.0, 0.9)
+	await t2.finished
+	for n in [big, sub, ring, hole, veil, p]:
+		n.queue_free()
 
 ## Révélation Symbiot : l'écran devient noir, un cœur bat, des tentacules vertes envahissent l'écran.
 func _symbiot_sequence() -> void:

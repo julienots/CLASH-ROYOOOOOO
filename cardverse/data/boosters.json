@@ -239,6 +239,23 @@
    "gen": 14
   },
   {
+   "id": "neocite",
+   "name": "Booster Néo-Cité 2099 · Gén. 15",
+   "desc": "Set 15 : hackers, drones, cyborgs et IA. Mécanique Surcharge. Contient la rareté SINGULARITÉ, tirée à 10 exemplaires.",
+   "price": {
+    "coins": 210
+   },
+   "cards": 5,
+   "sets": [
+    "neocite"
+   ],
+   "focus": {},
+   "luck": 1.4,
+   "color": "#3cf0ff",
+   "group": "gen",
+   "gen": 15
+  },
+  {
    "id": "multiverse",
    "name": "Booster Multivers",
    "desc": "Toutes les générations mélangées. Idéal pour compléter l'album.",
@@ -562,7 +579,8 @@
     "givre",
     "carnaval",
     "symbiote",
-    "chaos"
+    "chaos",
+    "neocite"
    ],
    "focus": {},
    "luck": 1.6,
@@ -585,7 +603,7 @@
   {
    "id": "apex",
    "name": "Booster APEX",
-   "desc": "Édition ultime : 6 cartes des Gén. 13 et 14, les 3 dernières Rare ou mieux, raretés supérieures x12. La meilleure chance d'obtenir une SYMBIOT ou une CHAOS.",
+   "desc": "Édition ultime : 6 cartes des Gén. 13 à 15, les 3 dernières Rare ou mieux, raretés supérieures x12. La meilleure chance d'obtenir une SYMBIOT, une CHAOS, voire une SINGULARITÉ.",
    "price": {
     "crystals": 250
    },
@@ -594,7 +612,8 @@
    "guaranteed_variant": true,
    "sets": [
     "symbiote",
-    "chaos"
+    "chaos",
+    "neocite"
    ],
    "focus": {},
    "luck": 12.0,

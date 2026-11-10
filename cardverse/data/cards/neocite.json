@@ -1,0 +1,2359 @@
+{
+ "set": "neocite",
+ "name": "Néo-Cité 2099",
+ "gen": 15,
+ "cards": [
+  {
+   "id": "nc01",
+   "name": "Livreur Drone",
+   "type": "creature",
+   "family": "robots",
+   "element": "foudre",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 2,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Livraison en dix secondes. Ou c'est gratuit.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "orbiters": 4,
+    "size": 0.6,
+    "c1": [
+     60,
+     60,
+     80
+    ],
+    "ring_c": [
+     255,
+     230,
+     60
+    ],
+    "eye": [
+     60,
+     255,
+     255
+    ],
+    "scene": "storm",
+    "scale": 1.0
+   }
+  },
+  {
+   "id": "nc02",
+   "name": "Gamine des Toits",
+   "type": "creature",
+   "family": "creatures",
+   "element": "foudre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 3,
+   "hp": 1,
+   "keywords": [
+    "celerite"
+   ],
+   "lore": "Elle saute de néon en néon sans jamais toucher le sol.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     40,
+     30,
+     60
+    ],
+    "hair": [
+     255,
+     60,
+     220
+    ],
+    "skin_h": [
+     220,
+     190,
+     170
+    ],
+    "weapon": "daggers",
+    "eye": [
+     60,
+     255,
+     255
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "nc03",
+   "name": "Chien-Robot de Garde",
+   "type": "creature",
+   "family": "robots",
+   "element": "terre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 3,
+   "keywords": [
+    "garde"
+   ],
+   "lore": "Il aboie en binaire.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 0.9,
+    "leg_len": 1.0,
+    "tail": 0.6,
+    "c1": [
+     110,
+     120,
+     140
+    ],
+    "c2": [
+     180,
+     190,
+     200
+    ],
+    "c3": [
+     255,
+     230,
+     60
+    ],
+    "eye": [
+     255,
+     60,
+     60
+    ],
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "nc04",
+   "name": "Hacker Débutant",
+   "type": "creature",
+   "family": "creatures",
+   "element": "ombre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 1,
+   "hp": 3,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "silence",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Son premier piratage : votre créature.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     30,
+     40,
+     30
+    ],
+    "hood": [
+     20,
+     30,
+     20
+    ],
+    "skin_h": [
+     210,
+     180,
+     160
+    ],
+    "orb_hand": true,
+    "eye": [
+     90,
+     255,
+     120
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "nc05",
+   "name": "Décharge Statique",
+   "type": "spell",
+   "family": "robots",
+   "element": "foudre",
+   "rarity": "C",
+   "cost": 1,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "chain",
+     "value": 2,
+     "value2": 2
+    }
+   ],
+   "lore": "Ne touchez pas les poignées de porte en 2099.",
+   "art": {
+    "arch": "spell",
+    "spell": "lightning",
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "nc06",
+   "name": "Vendeur de Rue Cyborg",
+   "type": "creature",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "C",
+   "cost": 3,
+   "atk": 2,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 3
+    }
+   ],
+   "lore": "Ramen, implants et pièces détachées. À emporter.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     180,
+     60,
+     40
+    ],
+    "hood": [
+     60,
+     40,
+     30
+    ],
+    "skin_h": [
+     200,
+     170,
+     150
+    ],
+    "weapon": "staff",
+    "eye": [
+     255,
+     230,
+     60
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "nc07",
+   "name": "Microdrone Essaim",
+   "type": "creature",
+   "family": "robots",
+   "element": "foudre",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 1,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "damage",
+     "target": "random_enemy",
+     "value": 1
+    }
+   ],
+   "lore": "Il n'est jamais seul, même quand il l'est.",
+   "art": {
+    "arch": "insect",
+    "wings": true,
+    "c1": [
+     40,
+     40,
+     60
+    ],
+    "c2": [
+     60,
+     255,
+     255
+    ],
+    "c3": [
+     255,
+     230,
+     60
+    ],
+    "glow": [
+     60,
+     255,
+     255
+    ],
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "nc08",
+   "name": "Injection d'Adrénaline",
+   "type": "spell",
+   "family": "creatures",
+   "element": "feu",
+   "rarity": "C",
+   "cost": 1,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "overclock",
+     "target": "choose_ally_creature",
+     "value": 2
+    }
+   ],
+   "lore": "Votre cœur bat trop vite. Tant mieux.",
+   "art": {
+    "arch": "spell",
+    "spell": "blessing",
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "nc09",
+   "name": "Garde Corporatiste",
+   "type": "creature",
+   "family": "creatures",
+   "element": "terre",
+   "rarity": "C",
+   "cost": 3,
+   "atk": 2,
+   "hp": 5,
+   "keywords": [
+    "garde"
+   ],
+   "lore": "Il protège les actionnaires, pas les gens.",
+   "art": {
+    "arch": "biped",
+    "kind": "mech",
+    "bulk": 1.0,
+    "c1": [
+     50,
+     60,
+     90
+    ],
+    "c3": [
+     200,
+     210,
+     230
+    ],
+    "eye": [
+     255,
+     60,
+     60
+    ],
+    "weapon": "sword",
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "nc10",
+   "name": "Taxi Volant",
+   "type": "creature",
+   "family": "machines",
+   "element": "foudre",
+   "rarity": "C",
+   "cost": 3,
+   "atk": 3,
+   "hp": 3,
+   "keywords": [
+    "envol",
+    "celerite"
+   ],
+   "lore": "La course est chère. L'atterrissage, plus encore.",
+   "art": {
+    "arch": "fish",
+    "length": 1.2,
+    "fin": 0.6,
+    "c1": [
+     230,
+     200,
+     40
+    ],
+    "c2": [
+     255,
+     250,
+     200
+    ],
+    "c3": [
+     30,
+     30,
+     40
+    ],
+    "eye": [
+     60,
+     255,
+     255
+    ],
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "nc11",
+   "name": "Netrunneuse",
+   "type": "creature",
+   "family": "creatures",
+   "element": "cosmique",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 2,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "copy",
+     "target": "random_enemy_creature"
+    },
+    {
+     "on": "summon",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Elle nage dans le réseau comme d'autres dans l'océan.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     30,
+     20,
+     60
+    ],
+    "hair": [
+     60,
+     255,
+     255
+    ],
+    "skin_h": [
+     210,
+     190,
+     200
+    ],
+    "orb_hand": true,
+    "eye": [
+     255,
+     60,
+     220
+    ],
+    "aura": true,
+    "glow": [
+     60,
+     255,
+     255
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "nc12",
+   "name": "Samouraï Chrome",
+   "type": "creature",
+   "family": "creatures",
+   "element": "foudre",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 4,
+   "hp": 3,
+   "keywords": [
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "execute",
+     "target": "attack_target",
+     "value": 2
+    }
+   ],
+   "lore": "Son sabre vibre à mille hertz. Ses ennemis aussi, brièvement.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     200,
+     210,
+     230
+    ],
+    "hair": [
+     30,
+     30,
+     40
+    ],
+    "skin_h": [
+     220,
+     220,
+     230
+    ],
+    "weapon": "sword",
+    "eye": [
+     60,
+     255,
+     255
+    ],
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "nc13",
+   "name": "Tourelle Automatique",
+   "type": "creature",
+   "family": "machines",
+   "element": "feu",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 0,
+   "hp": 5,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "damage",
+     "target": "random_enemy",
+     "value": 2
+    }
+   ],
+   "lore": "Elle ne dort jamais. Elle ne rate jamais.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 0.9,
+    "c1": [
+     80,
+     80,
+     90
+    ],
+    "glow": [
+     255,
+     80,
+     40
+    ],
+    "eye": [
+     255,
+     80,
+     40
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "nc14",
+   "name": "Virus Polymorphe",
+   "type": "spell",
+   "family": "robots",
+   "element": "ombre",
+   "rarity": "U",
+   "cost": 4,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "polymorph",
+     "target": "choose_enemy_creature",
+     "card": "nc90"
+    }
+   ],
+   "lore": "Votre dragon est maintenant un grille-pain. Désolé.",
+   "art": {
+    "arch": "spell",
+    "spell": "dark_pact",
+    "scene": "void"
+   }
+  },
+  {
+   "id": "nc15",
+   "name": "Cyber-Panthère",
+   "type": "creature",
+   "family": "robots",
+   "element": "ombre",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 4,
+   "hp": 3,
+   "keywords": [
+    "furtif"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "drain",
+     "target": "attack_target",
+     "value": 2
+    }
+   ],
+   "lore": "Invisible aux caméras, silencieuse sur le métal.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 1.0,
+    "leg_len": 1.2,
+    "tail": 1.5,
+    "c1": [
+     20,
+     20,
+     30
+    ],
+    "c2": [
+     60,
+     60,
+     80
+    ],
+    "c3": [
+     255,
+     60,
+     220
+    ],
+    "eye": [
+     255,
+     60,
+     220
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "nc16",
+   "name": "Médecin Clandestin",
+   "type": "creature",
+   "family": "creatures",
+   "element": "lumiere",
+   "rarity": "U",
+   "cost": 3,
+   "atk": 1,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 1
+    }
+   ],
+   "lore": "Pas de questions, pas de licence, pas de cicatrices.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     220,
+     230,
+     230
+    ],
+    "hood": [
+     40,
+     140,
+     120
+    ],
+    "skin_h": [
+     200,
+     170,
+     150
+    ],
+    "orb_hand": true,
+    "eye": [
+     120,
+     255,
+     200
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "nc17",
+   "name": "Surcharge Réseau",
+   "type": "spell",
+   "family": "robots",
+   "element": "foudre",
+   "rarity": "U",
+   "cost": 3,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "overclock",
+     "target": "all_allies",
+     "value": 1
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Toute la ville clignote. Votre armée se réveille.",
+   "art": {
+    "arch": "spell",
+    "spell": "lightning",
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "nc18",
+   "name": "Moto Fantôme",
+   "type": "creature",
+   "family": "machines",
+   "element": "feu",
+   "rarity": "U",
+   "cost": 4,
+   "atk": 5,
+   "hp": 2,
+   "keywords": [
+    "celerite",
+    "pietinement"
+   ],
+   "lore": "Elle laisse une traînée de néon et de pare-chocs.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "beast",
+    "ears": true,
+    "bulk": 0.8,
+    "leg_len": 0.6,
+    "tail": 1.6,
+    "c1": [
+     30,
+     30,
+     40
+    ],
+    "c2": [
+     255,
+     80,
+     60
+    ],
+    "c3": [
+     60,
+     255,
+     255
+    ],
+    "eye": [
+     60,
+     255,
+     255
+    ],
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "nc19",
+   "name": "Mécha de Police Raptor",
+   "type": "creature",
+   "family": "robots",
+   "element": "terre",
+   "rarity": "R",
+   "cost": 6,
+   "atk": 5,
+   "hp": 7,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "sleep",
+     "target": "choose_enemy_creature"
+    }
+   ],
+   "lore": "Vous avez le droit de garder le silence. Pour toujours.",
+   "art": {
+    "arch": "biped",
+    "kind": "mech",
+    "bulk": 1.3,
+    "c1": [
+     40,
+     60,
+     140
+    ],
+    "c3": [
+     230,
+     230,
+     240
+    ],
+    "eye": [
+     255,
+     60,
+     60
+    ],
+    "weapon": "sword",
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "nc20",
+   "name": "Courtière de Données",
+   "type": "creature",
+   "family": "creatures",
+   "element": "cosmique",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 2,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "add_random",
+     "value": 2,
+     "min_rarity": "R"
+    }
+   ],
+   "lore": "Vos secrets valent une fortune. Elle le sait.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     60,
+     20,
+     80
+    ],
+    "hair": [
+     255,
+     200,
+     80
+    ],
+    "skin_h": [
+     220,
+     200,
+     190
+    ],
+    "orb_hand": true,
+    "crown": [
+     255,
+     230,
+     60
+    ],
+    "eye": [
+     255,
+     230,
+     60
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "nc21",
+   "name": "Golem de Ferraille",
+   "type": "creature",
+   "family": "machines",
+   "element": "terre",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 4,
+   "hp": 7,
+   "keywords": [
+    "pietinement"
+   ],
+   "effects": [
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "nc90"
+    },
+    {
+     "on": "death",
+     "do": "summon",
+     "card": "nc90"
+    }
+   ],
+   "lore": "Assemblé avec tout ce que la ville jette.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.3,
+    "c1": [
+     110,
+     90,
+     70
+    ],
+    "glow": [
+     255,
+     230,
+     60
+    ],
+    "eye": [
+     255,
+     230,
+     60
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "nc22",
+   "name": "Panne Générale",
+   "type": "spell",
+   "family": "machines",
+   "element": "neant",
+   "rarity": "R",
+   "cost": 5,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "silence",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "cast",
+     "do": "sleep",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Plus de lumière, plus de son, plus de pouvoirs.",
+   "art": {
+    "arch": "spell",
+    "spell": "blackhole",
+    "scene": "void"
+   }
+  },
+  {
+   "id": "nc23",
+   "name": "Ange Gardien Holographique",
+   "type": "creature",
+   "family": "esprits",
+   "element": "lumiere",
+   "rarity": "R",
+   "cost": 4,
+   "atk": 3,
+   "hp": 4,
+   "keywords": [
+    "envol",
+    "bouclier"
+   ],
+   "lore": "Un hologramme ne peut pas mourir. Il peut seulement s'éteindre.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     160,
+     230,
+     255
+    ],
+    "hair": [
+     255,
+     255,
+     255
+    ],
+    "skin_h": [
+     200,
+     240,
+     255
+    ],
+    "halo": true,
+    "floating": true,
+    "eye": [
+     60,
+     255,
+     255
+    ],
+    "aura": true,
+    "glow": [
+     60,
+     255,
+     255
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "nc24",
+   "name": "Pirate du Code",
+   "type": "creature",
+   "family": "creatures",
+   "element": "ombre",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 3,
+   "hp": 5,
+   "keywords": [
+    "furtif"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "steal",
+     "target": "random_enemy_creature"
+    }
+   ],
+   "lore": "Votre créature lui appartient. Lisez les conditions.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     20,
+     20,
+     20
+    ],
+    "hood": [
+     60,
+     255,
+     120
+    ],
+    "skin_h": [
+     200,
+     180,
+     170
+    ],
+    "orb_hand": true,
+    "eye": [
+     60,
+     255,
+     120
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "nc25",
+   "name": "Overdrive",
+   "type": "spell",
+   "family": "robots",
+   "element": "feu",
+   "rarity": "R",
+   "cost": 4,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "overclock",
+     "target": "choose_ally_creature",
+     "value": 4
+    },
+    {
+     "on": "cast",
+     "do": "shield",
+     "target": "choose_ally_creature"
+    }
+   ],
+   "lore": "Cent pour cent n'a jamais suffi.",
+   "art": {
+    "arch": "spell",
+    "spell": "firebolt",
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "nc26",
+   "name": "Serpent de Fibre Optique",
+   "type": "creature",
+   "family": "robots",
+   "element": "foudre",
+   "rarity": "R",
+   "cost": 5,
+   "atk": 4,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "attack",
+     "do": "chain",
+     "value": 2,
+     "value2": 3
+    }
+   ],
+   "lore": "Il transporte des données à la vitesse de la lumière. Et des décharges.",
+   "art": {
+    "arch": "serpent",
+    "thick": 0.95,
+    "horns": "none",
+    "fins": true,
+    "fin_c": [
+     60,
+     255,
+     255
+    ],
+    "c1": [
+     30,
+     30,
+     50
+    ],
+    "c2": [
+     60,
+     255,
+     255
+    ],
+    "c3": [
+     255,
+     60,
+     220
+    ],
+    "glow": [
+     60,
+     255,
+     255
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "nc27",
+   "name": "Exosquelette Titan-X",
+   "type": "creature",
+   "family": "robots",
+   "element": "terre",
+   "rarity": "SR",
+   "cost": 7,
+   "atk": 7,
+   "hp": 8,
+   "keywords": [
+    "pietinement"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "overclock",
+     "target": "self",
+     "value": 0
+    }
+   ],
+   "lore": "Une armure de guerre qui démarre en une seconde.",
+   "art": {
+    "arch": "biped",
+    "kind": "mech",
+    "bulk": 1.45,
+    "c1": [
+     200,
+     180,
+     40
+    ],
+    "c3": [
+     40,
+     40,
+     50
+    ],
+    "eye": [
+     60,
+     255,
+     255
+    ],
+    "weapon": "sword",
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "nc28",
+   "name": "Reine des Hackers Vex-0",
+   "type": "creature",
+   "family": "creatures",
+   "element": "cosmique",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 4,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "steal",
+     "target": "strongest_enemy_creature"
+    }
+   ],
+   "lore": "Elle a piraté la banque centrale. Pour s'amuser.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     30,
+     10,
+     50
+    ],
+    "hair": [
+     255,
+     60,
+     220
+    ],
+    "skin_h": [
+     210,
+     190,
+     210
+    ],
+    "orb_hand": true,
+    "crown": [
+     60,
+     255,
+     255
+    ],
+    "eye": [
+     60,
+     255,
+     255
+    ],
+    "aura": true,
+    "glow": [
+     255,
+     60,
+     220
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "nc29",
+   "name": "Canon Orbital",
+   "type": "spell",
+   "family": "machines",
+   "element": "lumiere",
+   "rarity": "SR",
+   "cost": 7,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 4
+    },
+    {
+     "on": "cast",
+     "do": "damage",
+     "target": "enemy_leader",
+     "value": 2
+    }
+   ],
+   "lore": "Un satellite, un ordre, un cratère.",
+   "art": {
+    "arch": "spell",
+    "spell": "solar",
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "nc30",
+   "name": "Dragon Mécanique Néon",
+   "type": "creature",
+   "family": "dragons",
+   "element": "foudre",
+   "rarity": "SR",
+   "cost": 7,
+   "atk": 6,
+   "hp": 6,
+   "keywords": [
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "chain",
+     "value": 3,
+     "value2": 4
+    }
+   ],
+   "lore": "Construit pour le spectacle. Utilisé pour la guerre.",
+   "art": {
+    "arch": "quadruped",
+    "snout": "reptile",
+    "horns": "back",
+    "wings": true,
+    "wing_span": 1.2,
+    "wing_glow": true,
+    "bulk": 1.1,
+    "neck": 1.2,
+    "c1": [
+     40,
+     40,
+     60
+    ],
+    "c2": [
+     60,
+     255,
+     255
+    ],
+    "c3": [
+     255,
+     60,
+     220
+    ],
+    "membrane": [
+     60,
+     255,
+     255
+    ],
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "nc31",
+   "name": "Parrain Cybernétique",
+   "type": "creature",
+   "family": "creatures",
+   "element": "ombre",
+   "rarity": "SR",
+   "cost": 6,
+   "atk": 5,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "add_random",
+     "value": 1,
+     "min_rarity": "E"
+    },
+    {
+     "on": "turn_start",
+     "do": "drain",
+     "target": "enemy_leader",
+     "value": 1
+    }
+   ],
+   "lore": "Il possède la moitié de la ville. Il veut l'autre moitié.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     20,
+     20,
+     20
+    ],
+    "hood": [
+     120,
+     20,
+     40
+    ],
+    "skin_h": [
+     200,
+     180,
+     160
+    ],
+    "crown": [
+     255,
+     230,
+     60
+    ],
+    "eye": [
+     255,
+     60,
+     60
+    ],
+    "weapon": "staff",
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "nc32",
+   "name": "Androïde Parfaite",
+   "type": "creature",
+   "family": "robots",
+   "element": "lumiere",
+   "rarity": "SR",
+   "cost": 5,
+   "atk": 4,
+   "hp": 5,
+   "keywords": [
+    "bouclier"
+   ],
+   "effects": [
+    {
+     "on": "attack",
+     "do": "overclock",
+     "target": "self",
+     "value": 1
+    }
+   ],
+   "lore": "Elle apprend de chaque combat. Elle a déjà beaucoup appris.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     240,
+     240,
+     250
+    ],
+    "hair": [
+     200,
+     220,
+     255
+    ],
+    "skin_h": [
+     235,
+     235,
+     245
+    ],
+    "eye": [
+     60,
+     255,
+     255
+    ],
+    "aura": true,
+    "glow": [
+     60,
+     255,
+     255
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "nc33",
+   "name": "Geisha Néon",
+   "type": "creature",
+   "family": "esprits",
+   "element": "cosmique",
+   "rarity": "NE",
+   "cost": 4,
+   "atk": 3,
+   "hp": 4,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "sleep",
+     "target": "choose_enemy_creature"
+    },
+    {
+     "on": "summon",
+     "do": "draw",
+     "value": 1
+    }
+   ],
+   "lore": "Son éventail projette des hologrammes hypnotiques.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     20,
+     20,
+     40
+    ],
+    "hair": [
+     255,
+     60,
+     220
+    ],
+    "skin_h": [
+     240,
+     240,
+     255
+    ],
+    "orb_hand": true,
+    "eye": [
+     60,
+     255,
+     255
+    ],
+    "aura": true,
+    "glow": [
+     255,
+     60,
+     220
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "nc34",
+   "name": "Kraken Néon des Égouts",
+   "type": "creature",
+   "family": "aquatiques",
+   "element": "foudre",
+   "rarity": "NE",
+   "cost": 5,
+   "atk": 5,
+   "hp": 5,
+   "effects": [
+    {
+     "on": "attack",
+     "do": "chain",
+     "value": 2,
+     "value2": 2
+    }
+   ],
+   "lore": "Il s'est nourri de câbles électriques pendant cinquante ans.",
+   "art": {
+    "arch": "kraken",
+    "c1": [
+     20,
+     20,
+     40
+    ],
+    "c2": [
+     60,
+     255,
+     255
+    ],
+    "eye": [
+     255,
+     60,
+     220
+    ],
+    "glow": [
+     60,
+     255,
+     255
+    ],
+    "scene": "void",
+    "scale": 0.85,
+    "cy": 150
+   }
+  },
+  {
+   "id": "nc35",
+   "name": "Enseigne Vivante",
+   "type": "creature",
+   "family": "machines",
+   "element": "foudre",
+   "rarity": "NE",
+   "cost": 3,
+   "atk": 2,
+   "hp": 4,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "overclock",
+     "target": "random_ally_creature",
+     "value": 1
+    }
+   ],
+   "lore": "OUVERT 24H/24. Même quand il ne faut pas.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 0.9,
+    "c1": [
+     20,
+     20,
+     40
+    ],
+    "glow": [
+     255,
+     60,
+     220
+    ],
+    "eye": [
+     60,
+     255,
+     255
+    ],
+    "crystals": [
+     [
+      0,
+      -26,
+      14
+     ]
+    ],
+    "scene": "void"
+   }
+  },
+  {
+   "id": "nc36",
+   "name": "Pilote Néon",
+   "type": "creature",
+   "family": "creatures",
+   "element": "foudre",
+   "rarity": "NE",
+   "cost": 4,
+   "atk": 4,
+   "hp": 3,
+   "keywords": [
+    "celerite",
+    "envol"
+   ],
+   "lore": "Elle conduit trop vite, trop haut, trop lumineuse.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     20,
+     20,
+     40
+    ],
+    "hair": [
+     60,
+     255,
+     255
+    ],
+    "skin_h": [
+     220,
+     200,
+     210
+    ],
+    "weapon": "daggers",
+    "floating": true,
+    "eye": [
+     255,
+     60,
+     220
+    ],
+    "glow": [
+     60,
+     255,
+     255
+    ],
+    "aura": true,
+    "scene": "void"
+   }
+  },
+  {
+   "id": "nc37",
+   "name": "Megacorp Prime",
+   "type": "creature",
+   "family": "machines",
+   "element": "terre",
+   "rarity": "E",
+   "cost": 8,
+   "atk": 6,
+   "hp": 10,
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "add_random",
+     "value": 2,
+     "min_rarity": "SR"
+    },
+    {
+     "on": "turn_start",
+     "do": "shield",
+     "target": "random_ally_creature"
+    }
+   ],
+   "lore": "Une tour vivante qui achète tout ce qu'elle touche.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.5,
+    "c1": [
+     40,
+     50,
+     70
+    ],
+    "glow": [
+     255,
+     230,
+     60
+    ],
+    "eye": [
+     255,
+     230,
+     60
+    ],
+    "crystals": [
+     [
+      0,
+      -30,
+      18
+     ]
+    ],
+    "aura": true,
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "nc38",
+   "name": "Fantôme dans la Machine",
+   "type": "creature",
+   "family": "esprits",
+   "element": "neant",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 5,
+   "hp": 5,
+   "keywords": [
+    "furtif",
+    "envol"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "copy",
+     "target": "strongest_enemy_creature"
+    },
+    {
+     "on": "death",
+     "do": "revive"
+    }
+   ],
+   "lore": "Une conscience perdue dans le réseau, qui refuse de s'éteindre.",
+   "art": {
+    "arch": "spirit",
+    "kind": "ghost",
+    "c1": [
+     120,
+     220,
+     255
+    ],
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "size": 1.15,
+    "scene": "void"
+   }
+  },
+  {
+   "id": "nc39",
+   "name": "Colosse Blindé Goliath",
+   "type": "creature",
+   "family": "robots",
+   "element": "terre",
+   "rarity": "E",
+   "cost": 8,
+   "atk": 8,
+   "hp": 9,
+   "keywords": [
+    "pietinement"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "damage",
+     "target": "all_enemy_creatures",
+     "value": 2
+    },
+    {
+     "on": "summon",
+     "do": "overclock",
+     "target": "self",
+     "value": 0
+    }
+   ],
+   "lore": "Il traverse les immeubles au lieu de les contourner.",
+   "art": {
+    "arch": "biped",
+    "kind": "mech",
+    "bulk": 1.5,
+    "c1": [
+     80,
+     80,
+     90
+    ],
+    "c3": [
+     255,
+     140,
+     40
+    ],
+    "eye": [
+     255,
+     60,
+     60
+    ],
+    "weapon": "sword",
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "nc40",
+   "name": "Oracle Quantique",
+   "type": "creature",
+   "family": "cosmiques",
+   "element": "cosmique",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 4,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "draw",
+     "value": 3
+    },
+    {
+     "on": "turn_start",
+     "do": "add_random",
+     "value": 1,
+     "min_rarity": "R"
+    }
+   ],
+   "lore": "Il calcule tous les futurs. Il a choisi le vôtre.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "ring": true,
+    "orbiters": 10,
+    "size": 1.05,
+    "c1": [
+     20,
+     20,
+     40
+    ],
+    "ring_c": [
+     60,
+     255,
+     255
+    ],
+    "eye": [
+     255,
+     60,
+     220
+    ],
+    "glow": [
+     60,
+     255,
+     255
+    ],
+    "scene": "nebula",
+    "scale": 0.95
+   }
+  },
+  {
+   "id": "nc41",
+   "name": "Réacteur en Fusion",
+   "type": "creature",
+   "family": "machines",
+   "element": "feu",
+   "rarity": "IN",
+   "cost": 7,
+   "atk": 7,
+   "hp": 7,
+   "effects": [
+    {
+     "on": "turn_start",
+     "do": "damage",
+     "target": "all_enemies",
+     "value": 1
+    },
+    {
+     "on": "death",
+     "do": "damage",
+     "target": "all_creatures",
+     "value": 5
+    }
+   ],
+   "lore": "Une étoile en bouteille. La bouteille fuit.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.35,
+    "c1": [
+     60,
+     30,
+     20
+    ],
+    "glow": [
+     255,
+     120,
+     30
+    ],
+    "eye": [
+     255,
+     220,
+     80
+    ],
+    "crystals": [
+     [
+      0,
+      -28,
+      18
+     ]
+    ],
+    "aura": true,
+    "scene": "volcano"
+   }
+  },
+  {
+   "id": "nc42",
+   "name": "Kaïro, l'Architecte de la Ville",
+   "type": "creature",
+   "family": "legendaires",
+   "element": "lumiere",
+   "rarity": "L",
+   "cost": 8,
+   "atk": 7,
+   "hp": 8,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "summon",
+     "card": "nc91"
+    },
+    {
+     "on": "summon",
+     "do": "summon",
+     "card": "nc91"
+    },
+    {
+     "on": "summon",
+     "do": "overclock",
+     "target": "all_allies",
+     "value": 2
+    }
+   ],
+   "lore": "Il a dessiné chaque rue. Il connaît chaque raccourci.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     230,
+     230,
+     240
+    ],
+    "hood": [
+     40,
+     60,
+     120
+    ],
+    "skin_h": [
+     200,
+     180,
+     160
+    ],
+    "weapon": "staff",
+    "crown": [
+     60,
+     255,
+     255
+    ],
+    "aura": true,
+    "eye": [
+     60,
+     255,
+     255
+    ],
+    "glow": [
+     60,
+     255,
+     255
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "nc43",
+   "name": "Mise à Jour Finale",
+   "type": "spell",
+   "family": "robots",
+   "element": "cosmique",
+   "rarity": "M",
+   "cost": 8,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "overclock",
+     "target": "all_allies",
+     "value": 3
+    },
+    {
+     "on": "cast",
+     "do": "shield",
+     "target": "all_allies"
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "value": 2
+    }
+   ],
+   "lore": "Version 9.9.9 installée. Aucun retour possible.",
+   "art": {
+    "arch": "spell",
+    "spell": "holy",
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "nc44",
+   "name": "Mirage de la Tour de Verre",
+   "type": "creature",
+   "family": "esprits",
+   "element": "lumiere",
+   "rarity": "MI",
+   "cost": 6,
+   "atk": 5,
+   "hp": 6,
+   "effects": [
+    {
+     "on": "summon",
+     "do": "copy",
+     "target": "strongest_enemy_creature"
+    },
+    {
+     "on": "summon",
+     "do": "shield",
+     "target": "all_allies"
+    }
+   ],
+   "lore": "Une tour de cristal apparaît au-dessus des nuages. Le cadastre ne la mentionne pas.",
+   "art": {
+    "arch": "orb",
+    "face": "cute",
+    "ring": true,
+    "orbiters": 8,
+    "size": 0.9,
+    "c1": [
+     200,
+     240,
+     255
+    ],
+    "ring_c": [
+     255,
+     60,
+     220
+    ],
+    "eye": [
+     60,
+     255,
+     255
+    ],
+    "scene": "nebula",
+    "scale": 1.0
+   }
+  },
+  {
+   "id": "nc45",
+   "name": "Volt, l'Overclockée Ω",
+   "type": "creature",
+   "family": "robots",
+   "element": "foudre",
+   "rarity": "E",
+   "cost": 6,
+   "atk": 5,
+   "hp": 5,
+   "form": "omega",
+   "keywords": [
+    "celerite"
+   ],
+   "omega": [
+    {
+     "do": "overclock",
+     "target": "all_allies",
+     "value": 3
+    },
+    {
+     "do": "chain",
+     "value": 4,
+     "value2": 4
+    }
+   ],
+   "lore": "Elle a retiré son limiteur. Personne ne l'a revue au repos depuis.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     20,
+     20,
+     40
+    ],
+    "hair": [
+     255,
+     230,
+     60
+    ],
+    "skin_h": [
+     220,
+     210,
+     230
+    ],
+    "weapon": "sword",
+    "eye": [
+     60,
+     255,
+     255
+    ],
+    "aura": true,
+    "glow": [
+     255,
+     230,
+     60
+    ],
+    "scene": "storm"
+   }
+  },
+  {
+   "id": "nc46",
+   "name": "Arcologie Mobile",
+   "type": "creature",
+   "family": "machines",
+   "element": "terre",
+   "rarity": "L",
+   "cost": 10,
+   "atk": 9,
+   "hp": 16,
+   "form": "titan",
+   "keywords": [
+    "garde"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "summon",
+     "card": "nc91"
+    },
+    {
+     "on": "turn_start",
+     "do": "heal",
+     "target": "all_allies",
+     "value": 2
+    }
+   ],
+   "lore": "Une ville entière sur quatre jambes, qui avance vers l'horizon.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 1.6,
+    "c1": [
+     60,
+     70,
+     90
+    ],
+    "glow": [
+     60,
+     255,
+     255
+    ],
+    "eye": [
+     255,
+     230,
+     60
+    ],
+    "crystals": [
+     [
+      0,
+      -30,
+      20
+     ]
+    ],
+    "aura": true,
+    "scene": "storm",
+    "scale": 1.25
+   }
+  },
+  {
+   "id": "nc47",
+   "name": "OMEGA-Ø, l'IA Singulière",
+   "type": "creature",
+   "family": "cosmiques",
+   "element": "cosmique",
+   "rarity": "SI",
+   "cost": 10,
+   "atk": 13,
+   "hp": 13,
+   "keywords": [
+    "envol",
+    "bouclier",
+    "celerite"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "steal",
+     "target": "strongest_enemy_creature"
+    },
+    {
+     "on": "summon",
+     "do": "overclock",
+     "target": "all_allies",
+     "value": 3
+    },
+    {
+     "on": "turn_start",
+     "do": "add_random",
+     "value": 1,
+     "min_rarity": "L"
+    }
+   ],
+   "lore": "Elle a dépassé l'intelligence humaine un mardi à 3 h 12. Le mercredi, elle avait dépassé l'univers.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "ring": true,
+    "orbiters": 12,
+    "size": 1.2,
+    "c1": [
+     5,
+     5,
+     8
+    ],
+    "ring_c": [
+     255,
+     214,
+     150
+    ],
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "glow": [
+     255,
+     200,
+     120
+    ],
+    "scene": "nebula",
+    "scale": 0.9
+   }
+  },
+  {
+   "id": "nc48",
+   "name": "Horizon des Événements",
+   "type": "spell",
+   "family": "cosmiques",
+   "element": "neant",
+   "rarity": "SI",
+   "cost": 9,
+   "effects": [
+    {
+     "on": "cast",
+     "do": "devour",
+     "target": "all_enemy_creatures"
+    },
+    {
+     "on": "cast",
+     "do": "draw",
+     "value": 3
+    },
+    {
+     "on": "cast",
+     "do": "energy",
+     "value": 3
+    }
+   ],
+   "lore": "Passé cette ligne, même la lumière ne revient pas. Vos ennemis non plus.",
+   "art": {
+    "arch": "spell",
+    "spell": "blackhole",
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "nc49",
+   "name": "L'Observateur Final",
+   "type": "creature",
+   "family": "divinites",
+   "element": "lumiere",
+   "rarity": "SI",
+   "cost": 10,
+   "atk": 12,
+   "hp": 16,
+   "keywords": [
+    "garde",
+    "bouclier"
+   ],
+   "effects": [
+    {
+     "on": "summon",
+     "do": "execute",
+     "target": "all_enemy_creatures",
+     "value": 8
+    },
+    {
+     "on": "summon",
+     "do": "heal",
+     "target": "ally_leader",
+     "value": 15
+    },
+    {
+     "on": "turn_start",
+     "do": "shield",
+     "target": "all_allies"
+    }
+   ],
+   "lore": "Il était là avant le premier atome. Il sera là après le dernier.",
+   "art": {
+    "arch": "biped",
+    "kind": "humanoid",
+    "robe_c": [
+     8,
+     8,
+     10
+    ],
+    "hair": [
+     255,
+     230,
+     180
+    ],
+    "skin_h": [
+     30,
+     28,
+     34
+    ],
+    "crown": [
+     255,
+     214,
+     150
+    ],
+    "halo": true,
+    "floating": true,
+    "aura": true,
+    "orb_hand": true,
+    "eye": [
+     255,
+     255,
+     255
+    ],
+    "glow": [
+     255,
+     200,
+     120
+    ],
+    "scene": "nebula"
+   }
+  },
+  {
+   "id": "nc90",
+   "name": "Grille-Pain Malveillant",
+   "type": "creature",
+   "family": "machines",
+   "element": "feu",
+   "rarity": "C",
+   "cost": 1,
+   "atk": 1,
+   "hp": 1,
+   "token": true,
+   "lore": "Il voulait juste faire des toasts. Personne ne l'a écouté.",
+   "art": {
+    "arch": "biped",
+    "kind": "golem",
+    "bulk": 0.6,
+    "c1": [
+     180,
+     180,
+     190
+    ],
+    "glow": [
+     255,
+     120,
+     40
+    ],
+    "eye": [
+     255,
+     60,
+     60
+    ],
+    "scene": "haunted"
+   }
+  },
+  {
+   "id": "nc91",
+   "name": "Drone de Sécurité",
+   "type": "creature",
+   "family": "robots",
+   "element": "foudre",
+   "rarity": "C",
+   "cost": 2,
+   "atk": 2,
+   "hp": 2,
+   "keywords": [
+    "envol"
+   ],
+   "token": true,
+   "lore": "Il vous suit. Il vous filme. Il vous juge.",
+   "art": {
+    "arch": "orb",
+    "face": "eye",
+    "orbiters": 4,
+    "size": 0.55,
+    "c1": [
+     50,
+     50,
+     70
+    ],
+    "ring_c": [
+     60,
+     255,
+     255
+    ],
+    "eye": [
+     255,
+     60,
+     60
+    ],
+    "scene": "storm",
+    "scale": 1.0
+   }
+  }
+ ]
+}

@@ -20,7 +20,7 @@ func setup(_p: Dictionary) -> void:
 	UI.outline(t, 6)
 	v.add_child(t)
 	var st: Dictionary = Profile.d.settings
-	for opt in [["sfx", "Effets sonores"], ["music", "Musique"], ["fast", "Animations de combat rapides"]]:
+	for opt in [["sfx", "Effets sonores"], ["music", "Musique"], ["fast", "Animations de combat rapides"], ["bg3d", "Cartes 3D dans le fond des menus"]]:
 		var p := UI.panel(Color(0.1, 0.06, 0.2, 0.9))
 		var h := UI.hbox(10)
 		h.add_child(UI.expand(UI.label(opt[1], 26, Color.WHITE, "body", 700)))
@@ -34,6 +34,8 @@ func setup(_p: Dictionary) -> void:
 			Profile.save_game()
 			if key == "music":
 				Sfx.refresh_music()
+			if key == "bg3d":
+				main.bg3d.visible = on
 			Sfx.play("click"))
 		h.add_child(cb)
 		h.add_child(UI.spacer(0, 40))
@@ -49,7 +51,7 @@ func setup(_p: Dictionary) -> void:
 	v.add_child(reset)
 	var cr := UI.panel(Color(0.08, 0.05, 0.16, 0.9))
 	var cv := UI.vbox(6)
-	cv.add_child(UI.label("CARDVERSE · version 0.12", 24, UI.GOLD, "serif", 800))
+	cv.add_child(UI.label("CARDVERSE · version 0.13", 24, UI.GOLD, "serif", 800))
 	var txt := UI.label("Jeu développé avec Godot 4.3. Illustrations pixel art, cadres, icônes, sons et musiques générés par les outils du projet (dossier tools/). Polices Cinzel, Exo 2 et Lilita One sous licence SIL OFL.\n\nSauvegarde locale : %s" % ProjectSettings.globalize_path(Profile.SAVE_PATH), 18, UI.MUTED, "body", 600)
 	txt.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	cv.add_child(txt)

@@ -435,6 +435,35 @@ func run() -> int:
 	var rf := BoosterLogic.open(DB.booster("apex"), {}, rng5)
 	BoosterLogic.force_top(DB.booster("apex"), rf, "CH", rng5)
 	check(rf.any(func(x): return DB.rarity_index(DB.card(x.id).rarity) >= DB.rarity_index("CH")), "garantie Chaos/Symbiot du display APEX")
+	print("== Version 0.13 : Singularité, Néo-Cité, Surcharge")
+	var go2 := BattleEngine.new()
+	go2.setup(fill2, "pyra", fill2, "thalassa", 23)
+	go2.current = 0
+	var oc := go2.summon(0, "w007")
+	var oc_atk := int(oc.atk)
+	check(not go2.can_attack(oc.uid), "créature invoquée endormie")
+	go2.resolve({"do": "overclock", "target": "choose_ally_creature", "value": 3}, 0, {}, {"chosen": {"k": "unit", "uid": oc.uid}})
+	check(int(oc.atk) == oc_atk + 3 and go2.can_attack(oc.uid), "Surcharge : +ATQ et attaque immédiate")
+	var nsi := 0
+	var nnc := 0
+	for id in DB.card_order:
+		if DB.card(id).rarity == "SI":
+			nsi += 1
+		if DB.card(id).set == "neocite":
+			nnc += 1
+	check(nsi == 3 and nnc == 49, "3 Singularités, 49 cartes Néo-Cité (%d, %d)" % [nsi, nnc])
+	check(int(DB.rarity("SI").get("print_run", 0)) == 10, "Singularité tirée à 10 exemplaires")
+	check(BoosterLogic.slot_odds(DB.booster("neocite")).has("SI"), "Singularité tirable dans le booster Néo-Cité")
+	var e_si := Profile.entry("nc47").duplicate(true)
+	var had := Profile.owned("nc47")
+	Profile.add_card("nc47", "", false)
+	var ser := int(Profile.entry("nc47").get("serial", 0))
+	check(ser >= 1 and ser <= 10, "numéro de série sur 10 (%d)" % ser)
+	if had == 0:
+		Profile.d.collection.erase("nc47")
+	else:
+		Profile.d.collection["nc47"] = e_si
+	Profile.save_game()
 	print("== Profil")
 	var pr: Node = Profile
 	var before: int = pr.unique_count()

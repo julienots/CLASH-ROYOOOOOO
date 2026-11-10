@@ -10,6 +10,7 @@ const TABS := [
 	["battle_select", "Combat", "ui_battle"], ["decks", "Decks", "ui_deck"]]
 
 var bg: ColorRect
+var bg3d: MenuBg3D
 var top: Control
 var content: Control
 var nav: Control
@@ -51,10 +52,14 @@ func _ready() -> void:
 func _build() -> void:
 	bg = ColorRect.new()
 	var m := ShaderMaterial.new()
-	m.shader = load("res://shaders/menu_bg.gdshader")
+	m.shader = load("res://shaders/menu_bg2.gdshader")
 	bg.material = m
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)
+	# cartes 3D qui flottent dans le fond (désactivable dans les Paramètres)
+	bg3d = MenuBg3D.new()
+	bg3d.visible = Profile.d.get("settings", {}).get("bg3d", true)
+	add_child(bg3d)
 	content = Control.new()
 	content.clip_contents = true
 	add_child(content)
@@ -72,6 +77,7 @@ func _layout() -> void:
 	size = s
 	bg.size = s
 	bg.material.set_shader_parameter("res", s)
+	bg3d.size = s
 	top.size = Vector2(s.x, TOP_H)
 	content.position = Vector2(0, TOP_H)
 	content.size = Vector2(s.x, s.y - TOP_H - NAV_H)
