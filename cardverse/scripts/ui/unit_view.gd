@@ -40,6 +40,18 @@ func _ready() -> void:
 	_target_glow.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_target_glow.visible = false
 	add_child(_target_glow)
+	# ombre portée sous la créature (posée sur le plateau)
+	var shd := Panel.new()
+	shd.size = SZ
+	shd.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color(0, 0, 0, 0.3)
+	sb.set_corner_radius_all(14)
+	sb.shadow_color = Color(0, 0, 0, 0.5)
+	sb.shadow_size = 12
+	sb.shadow_offset = Vector2(4, 9)
+	shd.add_theme_stylebox_override("panel", sb)
+	add_child(shd)
 	var clip := Panel.new()
 	clip.size = SZ
 	clip.clip_contents = true
@@ -59,6 +71,15 @@ func _ready() -> void:
 	_ice.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_ice.visible = false
 	clip.add_child(_ice)
+	# vernis (grain, reflet, biseau) comme sur les cartes
+	var gl := ColorRect.new()
+	gl.size = SZ
+	gl.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var gm := ShaderMaterial.new()
+	gm.shader = load("res://shaders/card_gloss.gdshader")
+	gm.set_shader_parameter("card_size", SZ)
+	gl.material = gm
+	clip.add_child(gl)
 	_border = Panel.new()
 	_border.size = SZ
 	_border.mouse_filter = Control.MOUSE_FILTER_IGNORE

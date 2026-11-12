@@ -448,3 +448,27 @@ Un nouveau style de carte, en deux formes (champ `form` d'une carte), dans l'ext
 - Cadeau de mise à jour : 3 boosters Néo-Cité et 1 booster APEX.
 - **Tests** : Surcharge (ATQ et attaque immédiate), 3 Singularités et 49 cartes Néo-Cité, tirage à 10 exemplaires, Singularité tirable, numéro de série entre 1 et 10.
 - Total : **697 cartes collectionnables** sur 15 générations, 24 raretés.
+
+## 22. Version 0.14 : détails et réalisme poussés
+
+- **Matériaux procéduraux** (`tools/art/gen_materials.py`, sortie dans `assets/ui/materials/`) :
+  - planches de bois verni (fibres longues, nœuds, joints, teinte propre à chaque planche) ;
+  - carton kraft cannelé ;
+  - film plastique rétractable (plis et reflets étirés).
+- **Display** :
+  - la caisse est posée sur une **table en bois verni** qui se fond dans l'obscurité (masque de fondu sur le `SubViewportContainer`, brume) ;
+  - **ombres temps réel** du soleil, plus une ombre de contact douce sous la caisse ;
+  - parois, fond et dessous du couvercle en **carton kraft** ;
+  - la caisse fermée est emballée dans un **film rétractable** transparent qui se déchire et s'envole à l'ouverture (éclats de plastique), et un **scellé doré** sur le rabat saute ;
+  - lumières adoucies (moins de reflets brûlés).
+- **Boosters** :
+  - **masque de foil** propre à chaque booster (`packs/<id>_foil.png`). Le logo, les liserés, l'anneau du médaillon et le texte du ruban sont estampés (métal brillant et irisé). L'illustration et le ruban sont imprimés mats. Le fond métallisé porte un **motif losange gravé** qui accroche la lumière comme un foil holographique.
+  - Géométrie plus fine (40 x 56) : **sertissage plissé** modélisé (plis réguliers des soudures à chaud) et **soudure verticale en relief au dos**.
+- **Cartes** :
+  - **Finition haute résolution des cadres** (`hires_finish`, appliquée aux 24 cadres, aux cadres Titan et au dos de carte) :
+    - relief embossé calculé depuis une carte de hauteur (biseaux éclairés, reflets spéculaires) ;
+    - micro-texture de métal brossé ;
+    - liserés lisses anti-crénelés autour de l'illustration et du texte ;
+    - rinceaux gravés sur les bords et frise perlée (à partir de Rare).
+  - Noms en relief (ombre portée), en **dorure à chaud** à partir de Légendaire.
+  - **En combat** : les créatures ont aussi une ombre portée et le vernis (grain, reflet, biseau).

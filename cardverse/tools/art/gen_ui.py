@@ -284,7 +284,7 @@ def frame(rar):
     gem(arr, alpha, 75, 193, 5, gemc)
     out = np.dstack([np.clip(arr, 0, 1), alpha])
     im = Image.fromarray((out * 255).astype(np.uint8), "RGBA")
-    return im.resize((GW * SC, GH * SC), Image.NEAREST)
+    return hires_finish(im.resize((GW * SC, GH * SC), Image.NEAREST), rar)
 
 
 def card_back():
@@ -320,7 +320,7 @@ def card_back():
         q = ((x < Rr) if ccx == Rr else (x > W - 1 - Rr)) & ((y < Rr) if ccy == Rr else (y > H - 1 - Rr))
         alpha[q & ((x - ccx) ** 2 + (y - ccy) ** 2 > Rr * Rr)] = 0
     out = np.dstack([np.clip(arr, 0, 1), alpha])
-    return Image.fromarray((out * 255).astype(np.uint8), "RGBA").resize((W * SC, H * SC), Image.NEAREST)
+    return hires_finish(Image.fromarray((out * 255).astype(np.uint8), "RGBA").resize((W * SC, H * SC), Image.NEAREST), "CO", True)
 
 
 PACKS = {
@@ -401,6 +401,44 @@ def pack(key):
         out.paste(crop, ((W - 76) // 2, 55), m)
     big = out.resize((W * 3, H * 3), Image.NEAREST)
     return _pack_text(big, key, c1, c2)
+
+
+def pack_foil_mask(key):
+    """Masque de foil du booster (blanc = métal très brillant, noir = encre mate) :
+    logo et liserés estampés, médaillon imprimé mat, fond métallisé avec motif losange gravé,
+    zones serties en métal brut."""
+    from PIL import ImageFont
+    Wb, Hb = 330, 510
+    m = Image.new("L", (Wb, Hb), 120)
+    d = ImageDraw.Draw(m)
+    # motif losange gravé dans le fond métallisé
+    for k in range(-Hb, Wb + Hb, 18):
+        d.line([(k, 0), (k + Hb, Hb)], fill=190, width=1)
+        d.line([(k, Hb), (k + Hb, 0)], fill=190, width=1)
+    # zones serties (haut et bas) : métal brut
+    d.rectangle([0, 0, Wb, 30], fill=230)
+    d.rectangle([0, Hb - 30, Wb, Hb], fill=230)
+    # médaillon : illustration mate, anneau estampé
+    cx, cy = Wb // 2, 256
+    d.ellipse([cx - 123, cy - 114, cx + 123, cy + 114], fill=255)
+    d.ellipse([cx - 114, cy - 105, cx + 114, cy + 105], fill=30)
+    # logo estampé
+    _outlined(d, (Wb // 2, 52), "CARDVERSE", _font("CinzelDecorative-Bold.ttf", 34), 255, 255, 4)
+    d.line([(40, 76), (Wb - 40, 76)], fill=255, width=3)
+    # ruban : fond mat, liserés et texte estampés
+    rib_y = Hb - 150
+    d.polygon([(14, rib_y), (Wb - 14, rib_y), (Wb - 2, rib_y + 42), (Wb - 14, rib_y + 83), (14, rib_y + 83), (2, rib_y + 42)], fill=50)
+    d.line([(14, rib_y + 2), (Wb - 14, rib_y + 2)], fill=255, width=3)
+    d.line([(14, rib_y + 81), (Wb - 14, rib_y + 81)], fill=255, width=3)
+    b = _booster_info(key)
+    short = b.get("name", key).replace("Booster ", "").split("·")[0].strip().upper()
+    fs = 30
+    f = _font("Cinzel.ttf", fs)
+    while f.getlength(short) > Wb - 50 and fs > 14:
+        fs -= 1
+        f = _font("Cinzel.ttf", fs)
+    _outlined(d, (Wb // 2, rib_y + 30), short, f, 255, 200, 2)
+    return m.filter(ImageFilter.GaussianBlur(0.6))
 
 
 def _booster_info(key):
@@ -580,6 +618,68 @@ def icons():
     return {k: v.resize((S * 3, S * 3), Image.NEAREST) for k, v in res.items()}
 
 
+# ---------------------------------------------------------------- finition haute résolution des cadres
+def hires_finish(im, rar, titan=False):
+    """Passe de détail à pleine résolution (450 x 630) sur un cadre pixel art agrandi :
+    relief embossé (biseaux éclairés calculés depuis une carte de hauteur), micro-texture de métal brossé,
+    ornements gravés le long des bords et liserés lisses autour de l'illustration et du texte."""
+    base, light, dark, gemc, pattern = FRAMES[rar]
+    a = np.asarray(im).astype(np.float32) / 255
+    rgb = a[..., :3].copy()
+    alpha = a[..., 3]
+    Hh, Ww = alpha.shape
+    body = alpha > 0.95
+    # carte de hauteur : métal plein = 1, zones vitrées (texte) = 0.35, fenêtre = 0
+    hm = np.where(body, 1.0, np.where(alpha > 0.5, 0.35, 0.0)).astype(np.float32)
+    hmi = Image.fromarray((hm * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(3.2))
+    h = np.asarray(hmi, np.float32) / 255
+    gy, gx = np.gradient(h)
+    nz = np.ones_like(h) * 0.22
+    nrm = np.dstack([-gx, -gy, nz])
+    nrm /= np.linalg.norm(nrm, axis=2, keepdims=True)
+    ldir = np.array([-0.55, -0.65, 0.52], np.float32)
+    ldir /= np.linalg.norm(ldir)
+    diff = np.clip((nrm * ldir).sum(2), 0, 1)
+    flat = ldir[2]
+    shade = 0.84 + 0.9 * (diff - flat)
+    hv = ldir + np.array([0, 0, 1], np.float32)
+    hv /= np.linalg.norm(hv)
+    spec = np.clip((nrm * hv).sum(2), 0, 1) ** 40
+    metal = body[..., None]
+    rgb = np.where(metal, np.clip(rgb * shade[..., None] + spec[..., None] * 0.7, 0, 1), rgb)
+    # métal brossé : fines stries diagonales
+    yy, xx = np.mgrid[0:Hh, 0:Ww].astype(np.float32)
+    rs = np.random.default_rng(abs(hash(rar)) % 9999)
+    streak = rs.random(Ww + Hh).astype(np.float32)
+    brushed = streak[(xx + yy * 0.35).astype(np.int32) % (Ww + Hh)]
+    rgb = np.where(metal, np.clip(rgb * (0.96 + 0.08 * brushed[..., None]), 0, 1), rgb)
+    out = Image.fromarray((np.dstack([rgb, alpha]) * 255).astype(np.uint8), "RGBA")
+    d = ImageDraw.Draw(out)
+    S = SC
+    lc = tuple(int(c) for c in light) + (255,)
+    dc = tuple(max(0, int(c * 0.35)) for c in dark) + (255,)
+    if not titan:
+        # liserés lisses (anti-crénelés) autour de la fenêtre d'illustration et de la zone de texte
+        for box in (WIN, TEXT):
+            x0, y0, x1, y1 = box[0] * S - 3, box[1] * S - 3, box[2] * S + 2, box[3] * S + 2
+            d.rounded_rectangle([x0 - 1, y0 - 1, x1 + 1, y1 + 1], radius=6, outline=dc, width=2)
+            d.rounded_rectangle([x0, y0, x1, y1], radius=5, outline=lc, width=1)
+        # ornements gravés le long des bords latéraux (rinceaux) pour les raretés à partir de Rare
+        if rar not in ("C", "U"):
+            for side in (0, 1):
+                xs = 11 if side == 0 else Ww - 12
+                for k in range(60, Hh - 70, 26):
+                    r = 6
+                    bb = [xs - r, k, xs + r, k + 2 * r]
+                    d.arc(bb, 200 if side == 0 else -20, 520 if side == 0 else 300, fill=dc, width=2)
+                    d.arc([bb[0] + 1, bb[1] - 1, bb[2] + 1, bb[3] - 1], 200 if side == 0 else -20, 520 if side == 0 else 300, fill=lc, width=1)
+            # frise en haut et en bas
+            for k in range(70, Ww - 70, 16):
+                d.ellipse([k - 2, 6, k + 2, 10], fill=lc)
+                d.ellipse([k - 2, Hh - 11, k + 2, Hh - 7], fill=lc)
+    return out
+
+
 # ---------------------------------------------------------------- forme TITAN : illustration grand format
 # L'illustration occupe toute la carte ; le cadre n'est qu'un liseré, un bandeau de nom
 # et une zone de texte vitrée plus basse et plus petite.
@@ -637,7 +737,7 @@ def titan_frame(rar):
     gem(arr, alpha, 75, 196, 5, gemc)
     out = np.dstack([np.clip(arr, 0, 1), alpha])
     im = Image.fromarray((out * 255).astype(np.uint8), "RGBA")
-    return im.resize((GW * SC, GH * SC), Image.NEAREST)
+    return hires_finish(im.resize((GW * SC, GH * SC), Image.NEAREST), rar, True)
 
 
 def badge(kind):
@@ -705,6 +805,7 @@ def main():
     type_packs()
     for k in PACKS:
         pack(k).save(os.path.join(out, "packs", k + ".png"), optimize=True)
+        pack_foil_mask(k).save(os.path.join(out, "packs", k + "_foil.png"), optimize=True)
     pack_back().save(os.path.join(out, "packs", "_back.png"), optimize=True)
     for k, im in icons().items():
         im.save(os.path.join(out, "icons", k + ".png"), optimize=True)

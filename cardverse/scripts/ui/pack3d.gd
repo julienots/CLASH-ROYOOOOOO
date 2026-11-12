@@ -108,6 +108,9 @@ static func pack_node(bid: String) -> Node3D:
 	var front_m := ShaderMaterial.new()
 	front_m.shader = sh
 	front_m.set_shader_parameter("tex", tex)
+	var fmask_path := "res://assets/ui/packs/%s_foil.png" % bid
+	if ResourceLoader.exists(fmask_path):
+		front_m.set_shader_parameter("foil_mask", DB.tex(fmask_path))
 	front_m.set_shader_parameter("foil", 1.0)
 	front_m.set_shader_parameter("seed", float(hash(bid) % 97))
 	var back_m := ShaderMaterial.new()
@@ -138,8 +141,8 @@ static func _pillow(v0: float, v1: float) -> ArrayMesh:
 	if _mesh_cache.has(key):
 		return _mesh_cache[key]
 	var am := ArrayMesh.new()
-	var nx := 18
-	var ny := maxi(4, int(round(28 * (v1 - v0))))
+	var nx := 40
+	var ny := maxi(6, int(round(56 * (v1 - v0))))
 	for side in 2:
 		var st := SurfaceTool.new()
 		st.begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -172,4 +175,11 @@ static func _pt(u: float, v: float, sgn: float) -> Vector3:
 	var z := 0.085 * bx * by * sgn
 	# légers plis horizontaux du film plastique
 	z += 0.004 * sin(v * 40.0) * bx * by * sgn
+	# sertissage : plissé fin et régulier, comme une vraie soudure à chaud
+	if v < crimp or v > 1.0 - crimp:
+		z += 0.004 * sin(u * PI * 64.0) * sgn
+	# soudure verticale au dos (bande en relief au centre)
+	if sgn < 0.0:
+		var seam := 1.0 - smoothstep(0.02, 0.045, absf(u - 0.5))
+		z -= 0.012 * seam * by
 	return Vector3(x, y, z)

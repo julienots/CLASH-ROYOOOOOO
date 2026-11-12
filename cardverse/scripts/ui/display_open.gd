@@ -23,6 +23,8 @@ var cam: Camera3D
 var rig: Node3D
 var lid_pivot: Node3D
 var inner_light: OmniLight3D
+var wrap_node: Node3D
+var seal: MeshInstance3D
 var packs: Array = []
 var _yaw := 0.0
 var _yaw_target := -0.25
@@ -58,6 +60,12 @@ func _ready() -> void:
 	vpc.position = Vector2(0, 150)
 	vpc.size = Vector2(size.x, 820)
 	vpc.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	# la table se fond dans l'obscurité en haut et en bas (pas de bord net)
+	var fade := ShaderMaterial.new()
+	var fs := Shader.new()
+	fs.code = "shader_type canvas_item;\nvoid fragment() {\n\tvec4 c = texture(TEXTURE, UV);\n\tc.a *= smoothstep(0.0, 0.2, UV.y) * smoothstep(1.0, 0.86, UV.y);\n\tCOLOR = c;\n}\n"
+	fade.shader = fs
+	vpc.material = fade
 	add_child(vpc)
 	vp = SubViewport.new()
 	vp.own_world_3d = true
@@ -147,13 +155,33 @@ func _build_scene() -> void:
 	e.ambient_light_energy = 0.55
 	env.environment = e
 	vp.add_child(env)
+	e.fog_enabled = true
+	e.fog_light_color = Color(0.05, 0.03, 0.08)
+	e.fog_density = 0.07
 	var sun := DirectionalLight3D.new()
-	sun.rotation = Vector3(deg_to_rad(-50), deg_to_rad(25), 0)
-	sun.light_energy = 1.2
+	sun.rotation = Vector3(deg_to_rad(-55), deg_to_rad(28), 0)
+	sun.light_energy = 1.25
+	sun.shadow_enabled = true
+	sun.shadow_blur = 2.5
+	sun.directional_shadow_max_distance = 9.0
 	vp.add_child(sun)
+	# table en bois verni sous la caisse (fixe : la caisse tourne dessus)
+	var table := MeshInstance3D.new()
+	var pm := PlaneMesh.new()
+	pm.size = Vector2(16, 16)
+	table.mesh = pm
+	var tm := StandardMaterial3D.new()
+	tm.albedo_texture = DB.tex("res://assets/ui/materials/wood.png")
+	tm.uv1_scale = Vector3(4, 4, 1)
+	tm.roughness = 0.5
+	tm.metallic_specular = 0.35
+	tm.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC
+	table.material_override = tm
+	vp.add_child(table)
 	var rim := DirectionalLight3D.new()
 	rim.rotation = Vector3(deg_to_rad(-20), deg_to_rad(200), 0)
-	rim.light_energy = 0.6
+	rim.light_energy = 0.35
+	rim.light_specular = 0.3
 	rim.light_color = col.lightened(0.4)
 	vp.add_child(rim)
 	cam = Camera3D.new()
@@ -166,8 +194,27 @@ func _build_scene() -> void:
 	var tex_front := DB.tex("res://assets/ui/display3d/%s_front.png" % dd.id)
 	var tex_side := DB.tex("res://assets/ui/display3d/%s_side.png" % dd.id)
 	var tex_lid := DB.tex("res://assets/ui/display3d/%s_lid.png" % dd.id)
-	var wall := _mat(null, col.darkened(0.35))
-	var inside := _mat(null, col.darkened(0.7))
+	# ombre de contact douce sous la caisse
+	var blob := MeshInstance3D.new()
+	var bpm := PlaneMesh.new()
+	bpm.size = Vector2(BW + 0.9, BD + 0.9)
+	blob.mesh = bpm
+	var bmt := StandardMaterial3D.new()
+	bmt.shading_mode = BaseMaterial3D.SHADING_MODE_UNSHADED
+	bmt.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	bmt.albedo_texture = Card3D._shadow_tex()
+	bmt.albedo_color = Color(0, 0, 0, 0.75)
+	blob.material_override = bmt
+	blob.position = Vector3(0.05, 0.003, 0.05)
+	rig.add_child(blob)
+	# carton kraft : parois, fond et dessous du couvercle (les faces imprimées sont collées dessus)
+	var kraft := DB.tex("res://assets/ui/materials/kraft.png")
+	var wall := _mat(kraft, Color(1, 1, 1).lerp(col, 0.15))
+	wall.uv1_scale = Vector3(2, 2, 1)
+	wall.roughness = 0.85
+	var inside := _mat(kraft, Color(0.78, 0.74, 0.7))
+	inside.uv1_scale = Vector3(3, 3, 1)
+	inside.roughness = 0.9
 	# fond et parois
 	_box(Vector3(BW, WT, BD), Vector3(0, WT / 2, 0), inside, rig)
 	_box(Vector3(BW, BH, WT), Vector3(0, BH / 2, BD / 2), wall, rig)
@@ -186,8 +233,28 @@ func _build_scene() -> void:
 	_box(Vector3(BW + 0.06, WT, BD + 0.06), Vector3(0, WT / 2, BD / 2), wall, lid_pivot)
 	_quad(Vector2(BW + 0.06, BD + 0.06), Vector3(0, WT + 0.003, BD / 2), Vector3(-PI / 2, 0, 0), _mat(tex_lid), lid_pivot)
 	_box(Vector3(BW + 0.06, 0.12, WT), Vector3(0, -0.05, BD + 0.03), wall, lid_pivot)
+	# scellé doré sur le rabat avant
+	var sm := StandardMaterial3D.new()
+	sm.albedo_color = Color(1.0, 0.8, 0.3)
+	sm.metallic = 0.9
+	sm.roughness = 0.2
+	seal = _box(Vector3(0.26, 0.11, 0.006), Vector3(0, BH - 0.03, BD / 2 + WT / 2 + 0.035), sm, rig)
+	# film rétractable transparent qui emballe la caisse fermée
+	wrap_node = Node3D.new()
+	rig.add_child(wrap_node)
+	var wm := StandardMaterial3D.new()
+	wm.albedo_texture = DB.tex("res://assets/ui/materials/wrap.png")
+	wm.albedo_color = Color(1, 1, 1, 0.9)
+	wm.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+	wm.roughness = 0.04
+	wm.metallic_specular = 1.0
+	wm.cull_mode = BaseMaterial3D.CULL_DISABLED
+	wm.uv1_scale = Vector3(1.5, 1.5, 1)
+	_box(Vector3(BW + 0.12, BH + 0.1, BD + 0.12), Vector3(0, (BH + 0.1) / 2, 0.03), wm, wrap_node)
 	if dsp.get("lid", false):
 		lid_pivot.rotation.x = deg_to_rad(-112)
+		wrap_node.visible = false
+		seal.visible = false
 	# lumière intérieure (s'allume à l'ouverture)
 	inner_light = OmniLight3D.new()
 	inner_light.position = Vector3(0, 0.9, 0.2)
@@ -271,6 +338,18 @@ func _open_lid() -> void:
 		return
 	busy = true
 	Sfx.play("tear")
+	# le film plastique se déchire et s'envole, le scellé saute
+	if wrap_node and wrap_node.visible:
+		var sp0 := vpc.position + cam.unproject_position(rig.global_position + Vector3(0, BH, 0.3))
+		UI.burst(self, sp0, Color(0.95, 0.97, 1.0), 70, 650, 0.45, 1.2, 600)
+		var tw := create_tween().set_parallel(true)
+		tw.tween_property(wrap_node, "scale", Vector3(1.25, 1.4, 1.25), 0.45).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		tw.tween_property(wrap_node, "position:y", 0.6, 0.45)
+		tw.chain().tween_callback(func(): wrap_node.visible = false)
+		await get_tree().create_timer(0.3).timeout
+		Sfx.play("tear", 0.8)
+	if seal:
+		seal.visible = false
 	for i in 3:
 		var t0 := create_tween()
 		t0.tween_property(rig, "rotation:z", 0.04, 0.05)

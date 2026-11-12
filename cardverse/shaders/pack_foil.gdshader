@@ -4,6 +4,7 @@ shader_type spatial;
 render_mode cull_back;
 
 uniform sampler2D tex : source_color, filter_linear_mipmap;
+uniform sampler2D foil_mask : hint_default_white, filter_linear_mipmap;
 uniform vec4 tint : source_color = vec4(1.0);
 uniform float foil = 1.0;
 uniform float seed = 0.0;
@@ -30,10 +31,12 @@ void fragment() {
 	float fres = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), 2.0);
 	// foil : plus brillant sur les zones claires de l'impression
 	float lum = dot(c.rgb, vec3(0.3, 0.59, 0.11));
-	METALLIC = foil * (0.25 + 0.4 * lum);
-	ROUGHNESS = 0.32 - foil * 0.12 + fine * 0.15;
-	SPECULAR = 0.6;
-	// irisation arc-en-ciel qui change avec l'angle et les plis
+	// masque : estampage foil (logo, liserés, motif losange) très brillant, encre mate ailleurs
+	float fm = texture(foil_mask, UV).r * foil;
+	METALLIC = 0.05 + fm * 0.38;
+	ROUGHNESS = mix(0.55, 0.12, fm) + fine * 0.12;
+	SPECULAR = mix(0.3, 1.0, fm);
+	// irisation arc-en-ciel qui change avec l'angle et les plis (seulement sur le foil)
 	vec3 iri = hue(fract(dot(NORMAL, VIEW) * 1.6 + UV.y * 0.8 + nx * 0.6));
-	EMISSION = iri * foil * (0.06 + fres * 0.35) * (0.4 + lum);
+	EMISSION = iri * fm * (0.05 + fres * 0.4) * (0.4 + lum);
 }

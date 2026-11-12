@@ -213,8 +213,13 @@ func build() -> void:
 	var nm2: Array = lay.name
 	var name_txt: String = c.name if not missing else "? ? ?"
 	var fs := 30
-	var nl := UI.label(name_txt, fs, Color("fff7e6"), "serif", 800)
+	# nom en relief ; dorure à chaud (foil doré) à partir de Légendaire
+	var foil_name := DB.rarity_index(rar) >= DB.rarity_index("L") and not missing
+	var nl := UI.label(name_txt, fs, Color("ffe7a6") if foil_name else Color("fff7e6"), "serif", 800)
 	UI.outline(nl, 5)
+	nl.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.55))
+	nl.add_theme_constant_override("shadow_offset_x", 2)
+	nl.add_theme_constant_override("shadow_offset_y", 3)
 	nl.position = Vector2(nm2[0] * sc + 4, nm2[1] * sc)
 	nl.size = Vector2((nm2[2] - nm2[0]) * sc - 8, (nm2[3] - nm2[1]) * sc)
 	nl.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
